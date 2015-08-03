@@ -1,0 +1,10 @@
+{* Latte template *}
+
+{block content}
+
+<div class="posts">
+    <article n:foreach="$posts as $post">
+        <h3>$post->title</h3>
+        <p>$post->content</p>
+    </article>
+</div>
