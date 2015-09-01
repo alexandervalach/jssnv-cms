@@ -10,7 +10,22 @@ body, html {
     color: #000000;
 }
 
-footer {
+div#primary > main#content > div.row {
+    background: yellow;
+    padding: 15px;
+}
+
+div#primary > aside {
+    background: yellow;
+    padding: 15px;
+}
+
+body > header {
+    height: 140px;
+    background: url('../images/header.jpg') no-repeat top center;
+}
+
+body > footer {
     height: 50px;
     line-height: 50px;
     text-align: center;
