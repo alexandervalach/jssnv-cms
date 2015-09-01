@@ -1,3 +1,9 @@
 <aside id="menu">
-    
+    <ul>
+        {foreach $sections as $section}
+            <li>
+                <a n:href="Post:show, $section->id">{$section->name}</a>
+            </li>
+        {/foreach}
+    </ul>
 </aside>
