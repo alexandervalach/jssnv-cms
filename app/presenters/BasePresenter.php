@@ -35,7 +35,7 @@ abstract class BasePresenter extends Presenter {
 
     protected function userIsLogged() {
         if (!$this->user->isLoggedIn()) {
-            $this->redirect('Sign:in#nav');
+            $this->redirect('Sign:in');
         }
     }
 
