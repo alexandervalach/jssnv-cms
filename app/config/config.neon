@@ -23,4 +23,6 @@ services:
 	- App\Model\UserManager
 	- App\Forms\SignFormFactory
 	- App\Model\PostRepository
+	- App\Model\SectionRepository
+	- App\Model\BannerRepository
 	router: App\RouterFactory::createRouter
