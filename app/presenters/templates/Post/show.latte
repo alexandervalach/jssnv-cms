@@ -2,9 +2,9 @@
 
 {block content}
 
-<div class="posts">
-    <article n:foreach="$posts as $post">
-        <h3>$post->title</h3>
-        <p>$post->content</p>
+<div class="row">
+    <article>
+        <h2>{$section->name}</h2>
+        <p n:if="$post != null">{$post->content}</p>
     </article>
 </div>
