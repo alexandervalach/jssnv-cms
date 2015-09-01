@@ -11,7 +11,7 @@
         <meta name="robots" content="{$robots}" n:ifset="$robots">
 
         <title>{ifset title}{include title|striptags} | {/ifset}Jazykovka</title>
-        
+
         <link rel="stylesheet" href="{$basePath}/css/custom.css">
         <link rel="stylesheet" href="{$basePath}/css/style.css">
         <link rel="stylesheet" href="{$basePath}/bootstrap/css/bootstrap.min.css">
@@ -21,18 +21,20 @@
     </head>
 
     <body>
-        {include 'header.latte'}
-        
-        <div class="row" id="primary">
-            {include 'navigation.latte'}
+        <div id="page">
+            {include 'header.latte'}
 
-            <main id="content" class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-                {include 'flashMessage.latte'}
-                {include content}
-            </main>
+            <div class="row" id="primary">
+                {include 'navigation.latte'}
+
+                <main id="content" class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+                    {include 'flashMessage.latte'}
+                    {include content}
+                </main>
+            </div>
+
+            {include 'footer.latte'}
         </div>
-
-        {include 'footer.latte'}
 
         {block scripts}
         <script src="{$basePath}/js/jquery.js"></script>

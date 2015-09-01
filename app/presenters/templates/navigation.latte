@@ -1,9 +1,21 @@
 <aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-    <ul>
-        {foreach $sections as $section}
-            <li>
-                <a n:href="Post:show, $section->id">{$section->name}</a>
-            </li>
+    <ul class="nav nav-pills nav-stacked">
+        {foreach $sections as $section}  
+            {if $section->related('subsection')->count() > 0}
+                {var $subSections = $section->related('subsection')}
+                <li>
+                    <a href="#">{$section->name}<span class="caret"></span></a>
+                    <ul>
+                        {foreach $subSections as $subSection}
+                            <li><a n:href="Post:show, $subSection->id">{$subSection->name}</a></li>
+                        {/foreach}
+                    </ul>
+                </li>
+            {else}
+                <li>
+                    <a n:href="Post:show, $section->id">{$section->name}</a>
+                </li>
+            {/if}
         {/foreach}
     </ul>
 </aside>
