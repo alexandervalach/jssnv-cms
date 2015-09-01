@@ -4,15 +4,20 @@ namespace App\Presenters;
 
 use Nette\Database\Table\ActiveRow;
 
-class PostsPresenter extends BasePresenter{
+class PostPresenter extends BasePresenter{
     /** @var ActiveRow */
     private $postRow;
     
-    public function actionShow() {
-        $this->postRow = $this->postRepository->findAll();
+    /** @var ActiveRow */
+    private $sectionRow;
+            
+    public function actionShow($id) {
+        $this->sectionRow = $this->sectionRepository->findById($id);
+        $this->postRow = $this->sectionRow->post;
     }
     
     public function renderShow() {
-        $this->template->posts = $this->postRow;
+        $this->template->section = $this->sectionRow;
+        $this->template->post = $this->postRow;
     }
 }
