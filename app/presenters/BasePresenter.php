@@ -15,10 +15,10 @@ abstract class BasePresenter extends Presenter {
 
     /** @var PostRepository */
     protected $postRepository;
-    
+
     /** @var SectionRepository */
     protected $sectionRepository;
-    
+
     /** @var BannerRepository */
     protected $bannerRepository;
 
@@ -28,9 +28,15 @@ abstract class BasePresenter extends Presenter {
         $this->sectionRepository = $sectionRepository;
         $this->bannerRepository = $bannerRepository;
     }
-    
+
     public function beforeRender() {
         $this->template->sections = $this->sectionRepository->findAll();
+    }
+
+    protected function userIsLogged() {
+        if (!$this->user->isLoggedIn()) {
+            $this->redirect('Sign:in#nav');
+        }
     }
 
     protected function createComponentModalDialog() {
