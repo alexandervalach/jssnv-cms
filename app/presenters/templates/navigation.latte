@@ -19,8 +19,14 @@
                     <a href="#">{$section->name}<span class="caret"></span></a>
                     <ul>
                         {foreach $subSections as $subSection}
-                            <li><a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a></li>
-                            {/foreach}
+                            <li>
+                                {if empty($section->link) || $section->link == ' ' || $section->link == null}
+                                    <a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a>
+                                {else}
+                                    <a href="{$subSection->link}" target="_blank">{$subSection->name}</a>
+                                {/if}
+                            </li>
+                        {/foreach}
                     </ul>
                 </li>
             {else}
