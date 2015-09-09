@@ -6,6 +6,7 @@ use App\Components\ModalDialog;
 use App\Model\PostRepository;
 use App\Model\SectionRepository;
 use App\Model\BannerRepository;
+use App\Model\SubPostRepository;
 use Nette\Application\UI\Presenter;
 
 /**
