@@ -10,25 +10,24 @@ div#page {
     border: 10px solid #CCC;
 }
 
-div#primary > main#content {
+div#primary.row {
     border-top: 10px solid #CCC;
     border-bottom: 10px solid #CCC;
-    margin-left: 15px;
+    margin: 0;
 }
 
 div#primary > main#content > div.row {
     background: rgba(255,255,255,0.9);
     padding: 15px;
-    min-height: 400px;
+    min-height: 500px;
 }
 
 div#primary > aside {
     background: #ffffff; 
+    min-height: 500px;
     height: 100%;
     padding: 14px;
-    margin-left: 15px;
-    border: 10px solid #CCC;
-    border-left: none;
+    border-right: 10px solid #CCC;
 }
 
 div#primary > aside > ul > li > a {
