@@ -16,6 +16,10 @@ div#primary.row {
     margin: 0;
 }
 
+div#rpiamry > main#content > div.row {
+    border-left: 10px solid #CCC;
+}
+
 div#primary > main#content > div.row {
     background: rgba(255,255,255,0.9);
     padding: 15px;
@@ -27,7 +31,6 @@ div#primary > aside {
     min-height: 500px;
     height: 100%;
     padding: 14px;
-    border-right: 10px solid #CCC;
 }
 
 div#primary > aside > ul > li > a {
@@ -84,7 +87,7 @@ div#page > footer {
     height: 50px;
     line-height: 50px;
     text-align: center;
-    background: #80CD27;
+    background: green;
     color: #ffffff;
     font-weight: bold;
     border: none;
