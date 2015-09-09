@@ -5,6 +5,11 @@
 <div class="row">
     <article>
         <h2>{$section->name}</h2>
-        <p n:if="$post != null">{$post->content}</p>
+        <a n:if="$user->loggedIn" n:href="edit, $section->id">
+            (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
+        </a>
+        {if $post != null}
+            <p n:if="$post != null">{$post->content|noescape}</p>
+        {/if}
     </article>
 </div>
