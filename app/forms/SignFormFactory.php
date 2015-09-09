@@ -21,15 +21,15 @@ class SignFormFactory extends Nette\Object {
      */
     public function create() {
         $form = new Form;
-        $form->addText('username', 'Username:')
+        $form->addText('username', 'Užívateľské meno:')
                 ->setRequired('Zadaj, prosím, užívateľské meno.');
 
-        $form->addPassword('password', 'Password:')
+        $form->addPassword('password', 'Heslo:')
                 ->setRequired('Zadaj, prosím, heslo.');
 
         $form->addCheckbox('remember', 'Trvalé prihlásenie');
 
-        $form->addSubmit('send', 'Sign in');
+        $form->addSubmit('send', 'Prihlásiť');
 
         $form->onSuccess[] = array($this, 'formSucceeded');
         FormHelper::setBootstrapRenderer($form);
