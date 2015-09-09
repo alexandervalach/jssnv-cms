@@ -5,6 +5,13 @@
             {else}<a n:href="Sign:out"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
             {/if}
         </li>
+        <li n:if="$user->loggedIn">
+            <a href="#">Pridať</a>
+            <ul>
+                <li><a n:href="Section:add">Sekciu</a></li>
+                <li><a n:href="SubSection:add">Podsekciu</a></li>
+            </ul>
+        </li>
         {foreach $sections as $section}  
             {if $section->related('subsection')->count() > 0}
                 {var $subSections = $section->related('subsection')}
@@ -13,12 +20,16 @@
                     <ul>
                         {foreach $subSections as $subSection}
                             <li><a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a></li>
-                        {/foreach}
+                            {/foreach}
                     </ul>
                 </li>
             {else}
                 <li>
-                    <a n:href="Post:show, $section->id">{$section->name}</a>
+                    {if empty($section->link) || $section->link == ' ' || $section->link == null}
+                        <a n:href="Post:show, $section->id">{$section->name}</a>
+                    {else}
+                        <a href="{$section->link}" target="_blank">{$section->name}</a>
+                    {/if}
                 </li>
             {/if}
         {/foreach}
