@@ -1,5 +1,10 @@
 <aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
     <ul class="nav nav-pills nav-stacked">
+        <li>
+            {if !$user->loggedIn}<a n:href="Sign:in">Administrácia</a>
+            {else}<a n:href="Sign:out"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
+            {/if}
+        </li>
         {foreach $sections as $section}  
             {if $section->related('subsection')->count() > 0}
                 {var $subSections = $section->related('subsection')}
@@ -7,7 +12,7 @@
                     <a href="#">{$section->name}<span class="caret"></span></a>
                     <ul>
                         {foreach $subSections as $subSection}
-                            <li><a n:href="Post:show, $subSection->id">{$subSection->name}</a></li>
+                            <li><a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a></li>
                         {/foreach}
                     </ul>
                 </li>
