@@ -39,6 +39,9 @@ class PostPresenter extends BasePresenter {
         if (!$this->sectionRow) {
             throw new BadRequestException($this->error);
         }
+        if (!$this->postRow) {
+            throw new BadRequestException($this->error);
+        }
         $this->template->post = $this->postRow;
         $this->template->section = $this->sectionRow;
         $this->getComponent('editForm')->setDefaults($this->postRow);
@@ -64,10 +67,10 @@ class PostPresenter extends BasePresenter {
         $this->postRow->update($values);
         $this->redirect('show', $this->postRow->id);
     }
-    /*
-    public function formCancelled() {
-        $this->redirect('Homepage:');
-    }
-     */
 
+    /*
+      public function formCancelled() {
+      $this->redirect('Homepage:');
+      }
+     */
 }
