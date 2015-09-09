@@ -67,10 +67,4 @@ class PostPresenter extends BasePresenter {
         $this->postRow->update($values);
         $this->redirect('show', $this->postRow->id);
     }
-
-    /*
-      public function formCancelled() {
-      $this->redirect('Homepage:');
-      }
-     */
 }
