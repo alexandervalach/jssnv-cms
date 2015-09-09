@@ -21,12 +21,16 @@ abstract class BasePresenter extends Presenter {
 
     /** @var BannerRepository */
     protected $bannerRepository;
+    
+    /** @var subPostRepository */
+    protected $subPostRepository;
 
-    public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository) {
+    public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, subPostRepository $subPostRepository) {
         parent::__construct();
         $this->postRepository = $postRepository;
         $this->sectionRepository = $sectionRepository;
         $this->bannerRepository = $bannerRepository;
+        $this->subPostRepository = $subPostRepository;
     }
 
     public function beforeRender() {

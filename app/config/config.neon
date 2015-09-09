@@ -25,4 +25,5 @@ services:
 	- App\Model\PostRepository
 	- App\Model\SectionRepository
 	- App\Model\BannerRepository
+	- App\Model\SubPostRepository
 	router: App\RouterFactory::createRouter
