@@ -1,0 +1,24 @@
+{block content}
+
+<div class="row">
+    <article>
+        <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="pull-left">
+                <h2>{$subSection->name}</h2>
+            </div>
+            <div class="pull-right">
+                <p class="text-danger">
+                    <a href="#">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </p>
+            </div>
+        </header>
+        <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a n:if="$user->loggedIn" n:href="edit, $subSection->id">
+                (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
+            </a>
+            <p n:if="$subPost != null">{$subPost->content|noescape}</p>
+        </main>
+    </article>
+</div>
