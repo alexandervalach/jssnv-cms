@@ -5,6 +5,15 @@ div#page {
     width: 80%;
     min-height: 600px;
     max-width: 984px;
+    position: relative;
+    margin-top: 35px;
+    border: 10px solid #CCC;
+}
+
+div#primary > main#content {
+    border-top: 10px solid #CCC;
+    border-bottom: 10px solid #CCC;
+    margin-left: 15px;
 }
 
 div#primary > main#content > div.row {
@@ -14,25 +23,62 @@ div#primary > main#content > div.row {
 }
 
 div#primary > aside {
-    background: rgba(128,205,39,0.95); // #80CD27
+    background: #ffffff; 
     height: 100%;
+    padding: 14px;
+    margin-left: 15px;
+    border: 10px solid #CCC;
+    border-left: none;
 }
 
 div#primary > aside > ul > li > a {
-    color: black;
+    background: green;
+    color: #fff;
     margin: 0px;
 }
 
 div#primary > aside > ul > li > a:hover,
 div#primary > aside > ul > li > a:focus {
     background: #FFA500;
-    color: white;
+    color: #000;
 }
 
+div#primary > aside > ul > li > ul {
+    margin: 0;
+    padding: 0;
+}
+
+div#primary > aside > ul > li > ul > li {
+    list-style: none;
+}
+
+div#primary > aside > ul > li > ul > li > a {
+    color: black;
+    padding: 0 5px;
+    margin: 2px;
+    height: 35px;
+    line-height: 35px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    background: rgba(128,205,39,0.95); // #80CD27
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+div#primary > aside > ul > li > ul > li > a:focus,
+div#primary > aside > ul > li > ul > li > a:hover{
+    background: #FFA500;
+    color: #000;
+}
 
 div#page > header {
-    margin-top: 35px;
     height: 140px;
+    background-image: url('../images/header.jpg');
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-position:center;
 }
 
 div#page > footer {
@@ -42,5 +88,6 @@ div#page > footer {
     background: #80CD27;
     color: #ffffff;
     font-weight: bold;
+    border: none;
 }
 
