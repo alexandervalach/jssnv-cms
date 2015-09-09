@@ -86,9 +86,4 @@ class SectionPresenter extends BasePresenter {
     public function submittedDeleteForm() {
         
     }
-
-    public function formCancelled() {
-        $this->redirect('Homepage:');
-    }
-
 }
