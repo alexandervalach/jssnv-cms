@@ -74,8 +74,4 @@ class SubSectionPresenter extends BasePresenter {
         $this->redirect('SubPost:show', $this->subSectionRow->id);
     }
 
-    public function submittedDeleteForm() {
-        
-    }
-
 }
