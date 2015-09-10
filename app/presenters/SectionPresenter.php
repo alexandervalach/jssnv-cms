@@ -11,16 +11,16 @@ class SectionPresenter extends BasePresenter {
 
     /** @var ActiveRow */
     private $sectionRow;
-    
+
     /** @var string */
     private $error = "Section not found!";
-    
+
     public function actionEdit($id) {
-       $this->sectionRow = $this->sectionRepository->findById($id); 
+        $this->sectionRow = $this->sectionRepository->findById($id);
     }
 
     public function renderEdit($id) {
-        if(!$this->sectionRow) {
+        if (!$this->sectionRow) {
             throw new BadRequestException($this->error);
         }
         $this->template->section = $this->sectionRow;
@@ -53,9 +53,10 @@ class SectionPresenter extends BasePresenter {
         $values = $form->getValues();
         $id = $this->sectionRepository->insert($values);
 
-        if ($values['link'] != '') {
+        if (empty($values['link'])) {
             $postData = array(
                 'section_id' => $id,
+                'name' => $values['name']
             );
             $this->postRepository->insert($postData);
             $this->redirect('Post:show', $id);
@@ -86,4 +87,5 @@ class SectionPresenter extends BasePresenter {
     public function submittedDeleteForm() {
         
     }
+
 }
