@@ -44,7 +44,7 @@ class PostPresenter extends BasePresenter {
         $form = new Form;
         $form->addText('name', 'Názov');
         $form->addTextArea('content', 'Obsah:')
-                ->setAttribute('class', 'form-jqte');
+                ->setAttribute('id', 'ckeditor');
         $form->addSubmit('save', 'Uložiť');
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);

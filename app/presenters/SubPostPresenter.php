@@ -14,7 +14,7 @@ class SubPostPresenter extends BasePresenter {
 
     /** @var ActiveRow */
     private $subSectionRow;
-    
+
     /** @var string */
     private $error = "Post not found!";
 
@@ -44,7 +44,7 @@ class SubPostPresenter extends BasePresenter {
         $form = new Form;
         $form->addText('name', 'Názov');
         $form->addTextArea('content', 'Obsah:')
-                ->setAttribute('class', 'form-jqte');
+                ->setAttribute('id', 'ckeditor');
         $form->addSubmit('save', 'Uložiť');
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
