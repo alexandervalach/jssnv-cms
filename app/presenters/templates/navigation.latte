@@ -1,5 +1,6 @@
 <aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
     <ul class="nav nav-pills nav-stacked">
+        <!-- Prednastavené sekcie -->
         <li>
             {if !$user->loggedIn}<a n:href="Sign:in">Administrácia</a>
             {else}<a n:href="Sign:out"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
@@ -21,6 +22,8 @@
                 <li><a n:href="Post:all"> :: Príspevkov 2. úrovne</a></li>
             </ul>
         </li>
+        
+        <!-- Užívateľom generované sekcie -->
         {foreach $sections as $section}  
             {if $section->related('subsection')->count() > 0}
                 {var $subSections = $section->related('subsection')}
@@ -32,7 +35,7 @@
                                 {if empty($section->link) || $section->link == ' ' || $section->link == null}
                                     <a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a>
                                 {else}
-                                    <a href="{$subSection->link}" target="_blank">{$subSection->name}</a>
+                                    <a href="{$subSection->link}" target="_blank">  :: {$subSection->name}</a>
                                 {/if}
                             </li>
                         {/foreach}
