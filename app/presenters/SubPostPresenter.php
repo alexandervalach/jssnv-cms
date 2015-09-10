@@ -12,6 +12,9 @@ class SubPostPresenter extends BasePresenter {
     /** @var ActiveRow */
     private $subPostRow;
 
+    /** @var ActiveRow */
+    private $subSectionRow;
+    
     /** @var string */
     private $error = "Post not found!";
 
@@ -26,6 +29,7 @@ class SubPostPresenter extends BasePresenter {
     public function actionEdit($id) {
         $this->userIsLogged();
         $this->subPostRow = $this->subPostRepository->findById($id);
+        $this->subSectionRow = $this->subPostRow->ref('subsection_id');
     }
 
     public function renderEdit($id) {
@@ -50,6 +54,9 @@ class SubPostPresenter extends BasePresenter {
     public function submittedEditForm(Form $form) {
         $this->userIsLogged();
         $values = $form->getValues();
+        if ($this->subSectionRow->name != $values['name']) {
+            $this->subSectionRow->update(array('name' => $values['name']));
+        }
         $this->subPostRow->update($values);
         $this->redirect('show', $this->subPostRow->subsection_id);
     }

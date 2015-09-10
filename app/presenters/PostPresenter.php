@@ -29,6 +29,7 @@ class PostPresenter extends BasePresenter {
     public function actionEdit($id) {
         $this->userIsLogged();
         $this->postRow = $this->postRepository->findById($id);
+        $this->sectionRow = $this->postRow->ref('section_id');
     }
 
     public function renderEdit($id) {
@@ -54,6 +55,9 @@ class PostPresenter extends BasePresenter {
         $this->userIsLogged();
         $values = $form->getValues();
         $this->postRow->update($values);
+        if ($this->sectionRow->name != $values['name']) {
+            $this->sectionRow->update( array( 'name' => $values['name'] ) );
+        }
         $this->redirect('show', $this->postRow->section_id);
     }
 
