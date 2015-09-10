@@ -12,9 +12,6 @@ class SubPostPresenter extends BasePresenter {
     /** @var ActiveRow */
     private $subPostRow;
 
-    /** @var ActiveRow */
-    private $subSectionRow;
-
     /** @var string */
     private $error = "Post not found!";
 
@@ -41,13 +38,10 @@ class SubPostPresenter extends BasePresenter {
 
     protected function createComponentEditForm() {
         $form = new Form;
-
         $form->addText('name', 'Názov');
         $form->addTextArea('content', 'Obsah:')
-                ->setAttribute('class', 'form-jqte')
-                ->setRequired("Obsah príspevku je povinné pole.");
+                ->setAttribute('class', 'form-jqte');
         $form->addSubmit('save', 'Uložiť');
-
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
@@ -57,7 +51,7 @@ class SubPostPresenter extends BasePresenter {
         $this->userIsLogged();
         $values = $form->getValues();
         $this->subPostRow->update($values);
-        $this->redirect('show', $this->subPostRow->id);
+        $this->redirect('show', $this->subPostRow->subsection_id);
     }
 
     protected function createComponentRemoveForm() {
@@ -70,8 +64,8 @@ class SubPostPresenter extends BasePresenter {
     }
 
     public function submittedRemoveForm(Form $form) {
-        $this->subSectionRow = $this->subPostRow->ref('subsection', 'subsection_id');
-        $this->subSectionRow->delete();
+        $subSectionRow = $this->subPostRow->ref('subsection', 'subsection_id');
+        $subSectionRow->delete();
         $this->subPostRow->delete();
         $this->flashMessage('Sekcia bola odstránená', 'alert-success');
         $this->redirect('Homepage:');
