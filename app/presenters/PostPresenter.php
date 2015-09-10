@@ -19,43 +19,32 @@ class PostPresenter extends BasePresenter {
     private $error = "Post not found!";
 
     public function actionShow($id) {
-        $this->sectionRow = $this->sectionRepository->findById($id);
-        $this->postRow = $this->sectionRow->related('post')->fetch();
+        $this->postRow = $this->postRepository->findByValue('section_id', $id)->fetch();
     }
 
     public function renderShow() {
-        $this->template->section = $this->sectionRow;
         $this->template->post = $this->postRow;
     }
 
     public function actionEdit($id) {
         $this->userIsLogged();
-        $this->sectionRow = $this->sectionRepository->findById($id);
-        $this->postRow = $this->sectionRow->related('post')->fetch();
+        $this->postRow = $this->postRepository->findById($id);
     }
 
     public function renderEdit($id) {
-        $this->sectionRow;
-        if (!$this->sectionRow) {
-            throw new BadRequestException($this->error);
-        }
         if (!$this->postRow) {
             throw new BadRequestException($this->error);
         }
         $this->template->post = $this->postRow;
-        $this->template->section = $this->sectionRow;
         $this->getComponent('editForm')->setDefaults($this->postRow);
     }
 
     protected function createComponentEditForm() {
         $form = new Form;
-
+        $form->addText('name', 'Názov');
         $form->addTextArea('content', 'Obsah:')
-                ->setAttribute('class', 'form-jqte')
-                ->setRequired("Obsah príspevku je povinné pole.");
-
+                ->setAttribute('class', 'form-jqte');
         $form->addSubmit('save', 'Uložiť');
-
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
@@ -65,7 +54,7 @@ class PostPresenter extends BasePresenter {
         $this->userIsLogged();
         $values = $form->getValues();
         $this->postRow->update($values);
-        $this->redirect('show', $this->postRow->id);
+        $this->redirect('show', $this->postRow->section_id);
     }
 
     protected function createComponentRemoveForm() {
@@ -78,7 +67,8 @@ class PostPresenter extends BasePresenter {
     }
 
     public function submittedRemoveForm(Form $form) {
-        $this->sectionRow->delete();
+        $subSectionRow = $this->postRow->ref('section', 'section_id');
+        $subSectionRow->delete();
         $this->postRow->delete();
         $this->flashMessage('Sekcia bola odstránená', 'alert-success');
         $this->redirect('Homepage:');
