@@ -24,6 +24,7 @@ class SubSectionPresenter extends BasePresenter {
     }
 
     public function actionAdd() {
+        
     }
 
     public function renderAdd() {
@@ -32,9 +33,11 @@ class SubSectionPresenter extends BasePresenter {
 
     protected function createComponentAddForm() {
         $form = new Form;
+        $sections = $this->sectionRepository->getSections();
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
+        $form->addSelect('section_id', 'Vyberte sekciu', $sections);
         $form->addText('link', 'Link')
                 ->addRule(Form::MAX_LENGTH, 'Link môže mať maximálne 255 znakov', 255);
         $form->addSubmit('save', 'Zapísať');
@@ -48,9 +51,10 @@ class SubSectionPresenter extends BasePresenter {
         $values = $form->getValues();
         $id = $this->subSectionRepository->insert($values);
 
-        if ($values['link'] != '') {
+        if (empty($values['link'])) {
             $postData = array(
-                'section_id' => $id,
+                'subsection_id' => $id,
+                'name' => $values['name']
             );
             $this->subPostRepository->insert($postData);
             $this->redirect('SubPost:show', $id);
@@ -81,4 +85,5 @@ class SubSectionPresenter extends BasePresenter {
     public function submittedDeleteForm() {
         
     }
+
 }
