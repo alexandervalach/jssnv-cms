@@ -1,5 +1,0 @@
-$(function(){
-    $('.form-jqte').jqte();
-})
-
-
