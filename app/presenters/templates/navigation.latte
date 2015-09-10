@@ -22,7 +22,7 @@
                 <li><a n:href="Post:all"> :: Príspevkov 2. úrovne</a></li>
             </ul>
         </li>
-        
+
         <!-- Užívateľom generované sekcie -->
         {foreach $sections as $section}  
             {if $section->related('subsection')->count() > 0}
@@ -32,22 +32,14 @@
                     <ul>
                         {foreach $subSections as $subSection}
                             <li>
-                                {if empty($section->link) || $section->link == ' ' || $section->link == null}
-                                    <a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a>
-                                {else}
-                                    <a href="{$subSection->link}" target="_blank">  :: {$subSection->name}</a>
-                                {/if}
+                                <a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a>
                             </li>
                         {/foreach}
                     </ul>
                 </li>
             {else}
                 <li>
-                    {if empty($section->link) || $section->link == ' ' || $section->link == null}
-                        <a n:href="Post:show, $section->id">{$section->name}</a>
-                    {else}
-                        <a href="{$section->link}" target="_blank">{$section->name}</a>
-                    {/if}
+                    <a n:href="Post:show, $section->id">{$section->name}</a>
                 </li>
             {/if}
         {/foreach}
