@@ -1,14 +1,14 @@
 {block content}
 
 {control modalDialog 'remove', 'Odstrániť sekciu',
-    "Naozaj chcete odstrániť sekciu <span class=\"text-danger text-uppercase\">$subSection->name</span> ?",
+    "Naozaj chcete odstrániť sekciu <span class=\"text-danger text-uppercase\">$subPost->name</span> ?",
     'danger', 'Odstrániť', 'remove'}
 
 <div class="row">
     <article>
         <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="pull-left">
-                <h2>{$subSection->name}</h2>
+                <h2>{$subPost->name}</h2>
             </div>
             <div class="pull-right">
                 <p class="text-danger">
@@ -20,7 +20,7 @@
             </div>
         </header>
         <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a n:if="$user->loggedIn" n:href="edit, $subSection->id">
+            <a n:if="$user->loggedIn" n:href="edit, $subPost->id">
                 (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
             </a>
             <p n:if="$subPost != null">{$subPost->content|noescape}</p>

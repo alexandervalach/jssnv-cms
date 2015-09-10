@@ -19,39 +19,33 @@ class SubPostPresenter extends BasePresenter {
     private $error = "Post not found!";
 
     public function actionShow($id) {
-        $this->subSectionRow = $this->subSectionRepository->findById($id);
         $this->subPostRow = $this->subPostRepository->findByValue('subsection_id', $id)->fetch();
     }
 
     public function renderShow($id) {
-        $this->template->subSection = $this->subSectionRow;
         $this->template->subPost = $this->subPostRow;
     }
 
     public function actionEdit($id) {
         $this->userIsLogged();
-        $this->subSectionRow = $this->subSectionRepository->findById($id);
-        $this->subPostRow = $this->subSectionRow->related('subpost')->fetch();
+        $this->subPostRow = $this->subPostRepository->findById($id);
     }
 
     public function renderEdit($id) {
-        $this->subSectionRow;
-        if (!$this->subSectionRow) {
-            throw new BadRequestException($this->error);
-        }
         if (!$this->subPostRow) {
             throw new BadRequestException($this->error);
         }
         $this->template->subPost = $this->subPostRow;
-        $this->template->subSection = $this->subSectionRow;
         $this->getComponent('editForm')->setDefaults($this->subPostRow);
     }
 
     protected function createComponentEditForm() {
         $form = new Form;
 
-        $form->addTextArea('content', 'Obsah:')->setAttribute('class', 'form-jqte')->setRequired("Obsah príspevku je povinné pole.");
-
+        $form->addText('name', 'Názov');
+        $form->addTextArea('content', 'Obsah:')
+                ->setAttribute('class', 'form-jqte')
+                ->setRequired("Obsah príspevku je povinné pole.");
         $form->addSubmit('save', 'Uložiť');
 
         $form->onSuccess[] = $this->submittedEditForm;
@@ -76,6 +70,7 @@ class SubPostPresenter extends BasePresenter {
     }
 
     public function submittedRemoveForm(Form $form) {
+        $this->subSectionRow = $this->subPostRow->ref('subsection', 'subsection_id');
         $this->subSectionRow->delete();
         $this->subPostRow->delete();
         $this->flashMessage('Sekcia bola odstránená', 'alert-success');
