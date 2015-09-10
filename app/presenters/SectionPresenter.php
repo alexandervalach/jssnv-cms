@@ -40,8 +40,6 @@ class SectionPresenter extends BasePresenter {
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-        $form->addText('link', 'Link')
-                ->addRule(Form::MAX_LENGTH, 'Link môže mať maximálne 255 znakov', 255);
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedAddForm;
@@ -52,16 +50,12 @@ class SectionPresenter extends BasePresenter {
     public function submittedAddForm(Form $form) {
         $values = $form->getValues();
         $id = $this->sectionRepository->insert($values);
-
-        if (empty($values['link'])) {
-            $postData = array(
-                'section_id' => $id,
-                'name' => $values['name']
-            );
-            $this->postRepository->insert($postData);
-            $this->redirect('Post:show', $id);
-        }
-        $this->redirect('Homepage:');
+        $postData = array(
+            'section_id' => $id,
+            'name' => $values['name']
+        );
+        $this->postRepository->insert($postData);
+        $this->redirect('Post:show', $id);
     }
 
     protected function createComponentEditForm() {
@@ -69,8 +63,6 @@ class SectionPresenter extends BasePresenter {
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-        $form->addText('link', 'Link')
-                ->addRule(Form::MAX_LENGTH, 'Link môže mať maximálne 255 znakov', 255);
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedEditForm;

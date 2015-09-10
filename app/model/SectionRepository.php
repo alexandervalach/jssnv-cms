@@ -5,7 +5,7 @@ namespace App\Model;
 class SectionRepository extends Repository {
 
     public function getSections() {
-        $sections = $this->findAll()->where('link = ?', ' ');
+        $sections = $this->findAll();
 
         if (!$sections) {
             return null;
