@@ -37,11 +37,15 @@
         </div>
 
         {block scripts}
-        <script src="{$basePath}/js/jquery.js"></script>
-        <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-        <script src="{$basePath}/js/main.js"></script>
-        <script src="{$basePath}/js/jqte.js"></script>
-        <script src="{$basePath}/bootstrap/js/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+        <script type="text/javascript" src="//nette.github.io/resources/js/netteForms.min.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/main.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript">
+            // Replace the <textarea id="editor1"> with a CKEditor
+            // instance, using default configuration.
+            CKEDITOR.replace('ckeditor');
+        </script>
         {/block}
     </body>
 </html>
