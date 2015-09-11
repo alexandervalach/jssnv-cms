@@ -3,12 +3,13 @@
 namespace App\Presenters;
 
 use App\Components\ModalDialog;
+use App\Model\BannerRepository;
+use App\Model\NoticeRepository;
 use App\Model\PostRepository;
 use App\Model\SectionRepository;
-use App\Model\BannerRepository;
 use App\Model\SubPostRepository;
 use App\Model\SubSectionRepository;
-use App\Model\NoticeRepository;
+use App\Model\UserRepository;
 use Nette\Application\UI\Presenter;
 
 /**
@@ -18,7 +19,7 @@ abstract class BasePresenter extends Presenter {
 
     /** @var BannerRepository */
     protected $bannerRepository;
-    
+
     /** @var NoticeRepository */
     protected $noticeRepository;
 
@@ -28,13 +29,16 @@ abstract class BasePresenter extends Presenter {
     /** @var SectionRepository */
     protected $sectionRepository;
 
-    /** @var subPostRepository */
+    /** @var SubPostRepository */
     protected $subPostRepository;
 
-    /** @var $subSectionRepository */
+    /** @var SubSectionRepository */
     protected $subSectionRepository;
 
-    public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository) {
+    /** @var UserRepository */
+    protected $userRepository;
+    
+    public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
         parent::__construct();
         $this->postRepository = $postRepository;
         $this->sectionRepository = $sectionRepository;
@@ -42,6 +46,7 @@ abstract class BasePresenter extends Presenter {
         $this->subPostRepository = $subPostRepository;
         $this->subSectionRepository = $subSectionRepository;
         $this->noticeRepository = $noticeRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function beforeRender() {
