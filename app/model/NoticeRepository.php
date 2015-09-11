@@ -5,8 +5,8 @@ namespace App\Model;
 class NoticeRepository extends Repository {
 
     public static $flag = array(
-        'info' => 'informácia',
-        'success' => 'obyčajný oznam',
+        'success' => 'obyčajný',
+        'info' => 'nová informácia',
         'warning' => 'upozornenie',
         'danger' => 'dôležité'
     );
