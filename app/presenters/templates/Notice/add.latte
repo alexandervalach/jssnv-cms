@@ -3,20 +3,3 @@
 <h2>Pridať oznam</h2>
 
 {control addForm}
-{*form addForm}
-    <div class="form-group">
-        {label type /}   
-        <select name="type" class="form-control text-uppercase">
-            {foreach $flag as $key => $flag}
-                <option class="text-{$key}" value="{$key}">{$flag}</option>
-            {/foreach}
-        </select>
-    </div>  
-    <div class="form-group">
-        {label content /}
-        <textarea name="content" id="ckeditor"></textarea>
-    </div>
-    <div class="form-group">
-        {input save}
-    </div>
-{/form*}
