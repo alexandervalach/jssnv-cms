@@ -8,6 +8,7 @@ use App\Model\SectionRepository;
 use App\Model\BannerRepository;
 use App\Model\SubPostRepository;
 use App\Model\SubSectionRepository;
+use App\Model\NoticeRepository;
 use Nette\Application\UI\Presenter;
 
 /**
@@ -15,28 +16,32 @@ use Nette\Application\UI\Presenter;
  */
 abstract class BasePresenter extends Presenter {
 
+    /** @var BannerRepository */
+    protected $bannerRepository;
+    
+    /** @var NoticeRepository */
+    protected $noticeRepository;
+
     /** @var PostRepository */
     protected $postRepository;
 
     /** @var SectionRepository */
     protected $sectionRepository;
 
-    /** @var BannerRepository */
-    protected $bannerRepository;
-    
     /** @var subPostRepository */
     protected $subPostRepository;
-    
+
     /** @var $subSectionRepository */
     protected $subSectionRepository;
 
-    public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, subPostRepository $subPostRepository, subSectionRepository $subSectionRepository) {
+    public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository) {
         parent::__construct();
         $this->postRepository = $postRepository;
         $this->sectionRepository = $sectionRepository;
         $this->bannerRepository = $bannerRepository;
         $this->subPostRepository = $subPostRepository;
         $this->subSectionRepository = $subSectionRepository;
+        $this->noticeRepository = $noticeRepository;
     }
 
     public function beforeRender() {

@@ -27,4 +27,5 @@ services:
 	- App\Model\BannerRepository
 	- App\Model\SubPostRepository
 	- App\Model\SubSectionRepository
+	- App\Model\NoticeRepository
 	router: App\RouterFactory::createRouter
