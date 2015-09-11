@@ -25,7 +25,6 @@ class NoticePresenter extends BasePresenter {
     }
 
     public function renderAdd() {
-        $this->template->flag = NoticeRepository::$flag;
         $this->getComponent('addForm');
     }
 
@@ -42,8 +41,9 @@ class NoticePresenter extends BasePresenter {
     protected function createComponentAddForm() {
         $form = new Form;
         $form->addSelect('type', 'Typ', NoticeRepository::$flag);
-        $form->addText('content', 'Text')
-                ->setRequired('Text musí byť vyplnený.')
+        $form->addText('name', 'Názov')
+                ->setRequired("Názov musí byť vyplnený");
+        $form->addTextArea('content', 'Text')
                 ->setAttribute('id', 'ckeditor');
         $form->addSubmit('save', 'Zapísať');
         $form->onSuccess[] = $this->submittedAddForm;
@@ -54,8 +54,9 @@ class NoticePresenter extends BasePresenter {
     protected function createComponentEditForm() {
         $form = new Form;
         $form->addSelect('type', 'Typ', NoticeRepository::$flag);
-        $form->addText('content', 'Text')
-                ->setRequired('Text musí byť vyplnený.')
+        $form->addText('name', 'Názov')
+                ->setRequired("Názov musí byť vyplnený");
+        $form->addTextArea('content', 'Text')
                 ->setAttribute('id', 'ckeditor');
         $form->addSubmit('save', 'Zapísať');
         $form->onSuccess[] = $this->submittedEditForm;
