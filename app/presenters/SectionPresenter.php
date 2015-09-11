@@ -40,6 +40,8 @@ class SectionPresenter extends BasePresenter {
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
+        $form->addText('order', 'Poradie')
+                ->addRule(Form::PATTERN, 'Poradie môže byť len hodnota 0 - 9', '[0-9]*');
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedAddForm;
@@ -63,6 +65,8 @@ class SectionPresenter extends BasePresenter {
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
+        $form->addText('order', 'Poradie')
+                ->addRule(Form::PATTERN, 'Poradie môže byť len hodnota 0 - 9', '[0-9]*');
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedEditForm;
