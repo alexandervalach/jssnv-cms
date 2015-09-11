@@ -93,3 +93,8 @@ div#page > footer {
     border: none;
 }
 
+div.alert > header {
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
