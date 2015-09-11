@@ -1,0 +1,36 @@
+{block content}
+
+<h2>Zoznam užívateľov</h2>
+
+<section id="users">
+    <p class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+    <table class="table table-condensed table-responsive">
+        <thead>
+            <tr>
+                <th>Užívateľ</th>
+                <th>Rola</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $users as $user}
+                <tr>
+                    <td>{$user->username}</td>
+                    <td>{$user->role}</td>
+                    <td>
+                        <a n:href="edit, $user->id" class="text-success">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a n:href="changePassword, $user->id" class="text-success">
+                            <span class="glyphicon glyphicon-lock"></span>
+                        </a>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</p>
+</section>
