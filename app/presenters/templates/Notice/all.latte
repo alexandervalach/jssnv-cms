@@ -7,7 +7,7 @@
         <div class="alert alert-dismissible alert-{$notice->type}">
             <header>{$notice->name}</header>
             <main>{$notice->content|noescape}</main>
-            <footer>
+            <footer n:if="$user->loggedIn">
                 <a n:href="edit, $notice->id" class="text-success">
                     <span class="glyphicon glyphicon-pencil"></span> Upraviť
                 </a>
