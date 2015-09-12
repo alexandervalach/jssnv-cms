@@ -3,7 +3,6 @@
 namespace App\Presenters;
 
 use App\FormHelper;
-use App\Model\UserRepository;
 use Nette\Application\UI\Form;
 use Nette\Application\BadRequestException;
 use Nette\Database\Table\ActiveRow;
@@ -62,7 +61,7 @@ class UserPresenter extends BasePresenter {
         $form->addText('username', 'Užívateľské meno')
                 ->addRule(Form::FILLED, 'Užívateľské meno musí byť vyplnené.')
                 ->addRule(Form::MAX_LENGTH, 'Užívateľské meno môže mať maximálne 50 znakov.', 50);
-        $form->addSelect('role', 'úloha', UserRepository::$ROLES);
+        //$form->addSelect('role', 'úloha', UserRepository::$ROLES);
         $form->addSubmit('save', 'Zapísať');
         $form->onSuccess[] = $this->submittedAddForm;
         FormHelper::setBootstrapRenderer($form);
@@ -101,7 +100,10 @@ class UserPresenter extends BasePresenter {
                 ->addRule(Form::FILLED, 'Heslo znovu musí byť vyplnené.')
                 ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 100 znakov.', 100)
                 ->addRule(Form::EQUAL, 'Heslá sa nezhodujú.', $form['password']);
-        $form->addSubmit('save', 'Zapísať');
+
+        $form->addSubmit('save', 'Nastaviť');
+        $form->addProtection('Vypršal časový limit, odošli formulár znovu.');
+
         $form->onSuccess[] = $this->submittedChangePasswordForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
@@ -109,8 +111,7 @@ class UserPresenter extends BasePresenter {
 
     public function submittedChangePasswordForm(Form $form) {
         $values = $form->getValues();
-        $values->password = md5($values->password);
-        $this->userRow->update(array('password' => $values->password));
+        $this->userRow->update(array('password' => md5($values['password'])));
         $this->redirect('all');
     }
 
