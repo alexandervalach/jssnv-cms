@@ -37,7 +37,7 @@ abstract class BasePresenter extends Presenter {
 
     /** @var UserRepository */
     protected $userRepository;
-    
+
     public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
         parent::__construct();
         $this->postRepository = $postRepository;

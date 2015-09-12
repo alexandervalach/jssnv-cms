@@ -23,7 +23,6 @@ div#rpiamry > main#content > div.row {
 div#primary > main#content > div.row {
     background: rgba(255,255,255,0.9);
     padding: 15px;
-    min-height: 500px;
 }
 
 div#primary > aside {
