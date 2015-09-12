@@ -1,0 +1,28 @@
+{block content}
+
+<section id="listOfSections" class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+    <h2>Zoznam sekcii</h2>
+
+    <table class="table table-condensed table-responsive">
+        <thead>
+            <tr>
+                <th>Názov sekcie</th>
+                <th>Poradie</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $sections as $section}
+                <tr>
+                    <td>{$section->name}</td>
+                    <td>{$section->order}</td>
+                    <td>
+                        <a n:href="edit, $section->id" class="text-success">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</section>

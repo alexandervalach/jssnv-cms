@@ -14,6 +14,14 @@ class SectionPresenter extends BasePresenter {
 
     /** @var string */
     private $error = "Section not found!";
+    
+    public function actionAll() {
+        $this->userIsLogged();
+    }
+    
+    public function renderAll() {
+        $this->template->sections = $this->sectionRepository->findAll()->order("order DESC");
+    }
 
     public function actionEdit($id) {
         $this->sectionRow = $this->sectionRepository->findById($id);
