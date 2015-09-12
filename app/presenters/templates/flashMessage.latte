@@ -1,6 +1,8 @@
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$flashes">
-    <div n:foreach="$flashes as $flash" class="alert alert-dismissible {$flash->type === 'info' ? 'alert-success' : $flash->type}">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        {$flash->message}
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$flashes">
+        <div n:foreach="$flashes as $flash" class="alert alert-dismissible {$flash->type === 'info' ? 'alert-success' : $flash->type}">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            {$flash->message}
+        </div>
     </div>
 </div>

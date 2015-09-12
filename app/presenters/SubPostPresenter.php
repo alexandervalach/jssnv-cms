@@ -74,7 +74,7 @@ class SubPostPresenter extends BasePresenter {
         $subSectionRow = $this->subPostRow->ref('subsection', 'subsection_id');
         $subSectionRow->delete();
         $this->subPostRow->delete();
-        $this->flashMessage('Sekcia bola odstránená', 'alert-success');
+        $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
         $this->redirect('Homepage:');
     }
 

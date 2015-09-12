@@ -12,10 +12,10 @@
                 <li><a n:href="Section:add"> :: Sekciu</a></li>
                 <li><a n:href="SubSection:add"> :: Podsekciu</a></li>
                 <li><a n:href="Notice:add"> :: Oznam</a></li>
-                <li><a n:href="User:add"> :: Užívateľ</a></li>
+                <li><a n:href="User:add"> :: Užívateľa</a></li>
             </ul>
         </li>
-        <li>
+        <li n:if="$user->loggedIn">
             <a href="#">Zoznam</a>
             <ul>
                 <li>
