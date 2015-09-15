@@ -49,6 +49,7 @@ class SectionPresenter extends BasePresenter {
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
         $form->addText('order', 'Poradie')
+                ->setDefaultValue(0)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
         $form->addSubmit('save', 'Zapísať');
 
