@@ -34,7 +34,7 @@ class BannerPresenter extends BasePresenter {
                 ->addRule(Form::MAX_LENGTH, 'Maximálna dĺžka textu je 250 znakov.', 250);
         $form->addText('link', 'Odkaz:')
                 ->addRule(Form::MAX_LENGTH, 'Maximálna dĺžka odkazu je 250 znakov.', 250);
-        $form->addSubmit('save', 'Uložiť');
+        $form->addSubmit('save', 'Zapísať');
         
         $form->onSuccess[] =  $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
