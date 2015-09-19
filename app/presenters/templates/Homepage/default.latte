@@ -1,1 +1,45 @@
 {block content}
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+        {foreach $bannerItems as $banner}
+            <div class="item {if $iterator->first}active{/if}">
+                <img src="{$basePath}{$imgFolder}{$banner->img}" alt="Jazyková škola">
+
+                <!-- Links to edit -->
+                <div class="customize-carousel">
+                    <a n:href="Banner:edit, $banner->id">
+                        <span class="glyphicon glyphicon-pencil"></span> Upraviť
+                    </a>
+                </div>
+
+                <!-- Banner description -->
+                <a n:tag-if="$banner->link" href="{$banner->link}">
+                    <div class="carousel-message" n:if="$banner->message">
+                        {$banner->message}
+                    </div>
+                </a>
+            </div>
+        {/foreach}
+    </div>
+
+    <!-- Indicators -->
+    <!--
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    -->
+
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
