@@ -45,6 +45,7 @@ class SubPostPresenter extends BasePresenter {
         $form->addText('name', 'Názov');
         $form->addTextArea('content', 'Obsah:')
                 ->setAttribute('id', 'ckeditor');
+        $form->addCheckbox('onHomepage', ' Na domovskej stránke');
         $form->addSubmit('save', 'Uložiť');
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
