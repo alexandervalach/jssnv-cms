@@ -38,6 +38,9 @@ abstract class BasePresenter extends Presenter {
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var */
+    protected $imgFolder = "/images/";
+
     public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
         parent::__construct();
         $this->postRepository = $postRepository;
@@ -51,6 +54,7 @@ abstract class BasePresenter extends Presenter {
 
     public function beforeRender() {
         $this->template->sections = $this->sectionRepository->findAll()->order("order DESC");
+        $this->template->imgFolder = $this->imgFolder;
     }
 
     protected function userIsLogged() {
