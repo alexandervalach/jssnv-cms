@@ -92,3 +92,7 @@ div.carousel.slide > .carousel-indicators{
     left: 207px;
     line-height: 50px;
 }
+
+section#posts > article.row {
+    margin: 50px 0 25px 0;
+}
