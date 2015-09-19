@@ -1,6 +1,13 @@
 {block content}
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
         {foreach $bannerItems as $banner}
@@ -8,7 +15,7 @@
                 <img src="{$basePath}{$imgFolder}{$banner->img}" alt="Jazyková škola">
 
                 <!-- Links to edit -->
-                <div class="customize-carousel">
+                <div class="customize-carousel" n:if="$user->loggedIn">
                     <a n:href="Banner:edit, $banner->id">
                         <span class="glyphicon glyphicon-pencil"></span> Upraviť
                     </a>
@@ -23,15 +30,6 @@
             </div>
         {/foreach}
     </div>
-
-    <!-- Indicators -->
-    <!--
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    -->
 
     <!-- Left and right controls -->
     <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
