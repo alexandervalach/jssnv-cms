@@ -49,5 +49,19 @@
                 </li>
             {/if}
         {/foreach}
+
+        <!-- Album v rámci fotogalérie -->
+        <li>
+            <a href="#">Fotogaléria <span class="caret"></span></a>
+            <ul>
+                {if $albums != null}
+                    {foreach $albums as $album}
+                        <li>
+                            <a n:href="Gallery:view#primary, $album->id"> &#58;&#58; {$album->name}</a>
+                        </li>
+                    {/foreach}
+                {/if}
+            </ul>
+        </li>
     </ul>
 </aside>
