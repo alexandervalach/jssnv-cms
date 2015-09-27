@@ -3,7 +3,10 @@
 namespace App\Presenters;
 
 use App\Components\ModalDialog;
+use App\Model\AlbumRepository;
 use App\Model\BannerRepository;
+use App\Model\GalleryRepository;
+use App\Model\ImagesRepository;
 use App\Model\NoticeRepository;
 use App\Model\PostRepository;
 use App\Model\SectionRepository;
@@ -17,8 +20,17 @@ use Nette\Application\UI\Presenter;
  */
 abstract class BasePresenter extends Presenter {
 
+    /** @var AlbumRepository */
+    protected $albumRepository;
+
     /** @var BannerRepository */
     protected $bannerRepository;
+
+    /** @var GalleryRepository */
+    protected $galleryRepository;
+
+    /** @var ImagesRepository */
+    protected $imagesRepository;
 
     /** @var NoticeRepository */
     protected $noticeRepository;
@@ -41,11 +53,14 @@ abstract class BasePresenter extends Presenter {
     /** @var */
     protected $imgFolder = "/images/";
 
-    public function __construct(PostRepository $postRepository, SectionRepository $sectionRepository, BannerRepository $bannerRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
+    public function __construct(AlbumRepository $albumRepository, BannerRepository $bannerRepository, GalleryRepository $galleryRepository, ImagesRepository $imageRepository, PostRepository $postRepository, SectionRepository $sectionRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
         parent::__construct();
+        $this->albumRepository = $albumRepository;
+        $this->bannerRepository = $bannerRepository;
+        $this->galleryRepository = $galleryRepository;
+        $this->imagesRepository = $imageRepository;
         $this->postRepository = $postRepository;
         $this->sectionRepository = $sectionRepository;
-        $this->bannerRepository = $bannerRepository;
         $this->subPostRepository = $subPostRepository;
         $this->subSectionRepository = $subSectionRepository;
         $this->noticeRepository = $noticeRepository;

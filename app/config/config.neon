@@ -29,4 +29,7 @@ services:
 	- App\Model\SubSectionRepository
 	- App\Model\NoticeRepository
 	- App\Model\UserRepository
+	- App\Model\AlbumRepository
+	- App\Model\GalleryRepository
+	- App\Model\ImagesRepository
 	router: App\RouterFactory::createRouter
