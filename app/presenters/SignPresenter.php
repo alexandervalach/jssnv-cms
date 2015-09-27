@@ -20,7 +20,7 @@ class SignPresenter extends BasePresenter {
     protected function createComponentSignInForm() {
         $form = $this->factory->create();
         $form->onSuccess[] = function ($form) {
-            $form->getPresenter()->redirect('Homepage:');
+            $form->getPresenter()->redirect('Homepage:#primary');
         };
         return $form;
     }
@@ -28,7 +28,7 @@ class SignPresenter extends BasePresenter {
     public function actionOut() {
         $this->getUser()->logout();
         $this->flashMessage('Boli ste úspešne odhlásený.');
-        $this->redirect('Homepage:');
+        $this->redirect('Homepage:#primary');
     }
 
 }

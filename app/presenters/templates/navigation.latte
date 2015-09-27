@@ -2,30 +2,31 @@
     <ul class="nav nav-pills nav-stacked">
         <!-- Prednastavené sekcie -->
         <li>
-            {if !$user->loggedIn}<a n:href="Sign:in">Administrácia</a>
-            {else}<a n:href="Sign:out"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
+            {if !$user->loggedIn}<a n:href="Sign:in#primary">Administrácia</a>
+            {else}<a n:href="Sign:out#primary"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
             {/if}
         </li>
         <li n:if="$user->loggedIn">
             <a href="#">Pridať</a>
             <ul>
-                <li><a n:href="Section:add"> :: Sekciu</a></li>
-                <li><a n:href="SubSection:add"> :: Podsekciu</a></li>
-                <li><a n:href="Notice:add"> :: Oznam</a></li>
-                <li><a n:href="User:add"> :: Užívateľa</a></li>
+                <li><a n:href="Section:add#primary"> &#58;&#58; Sekciu</a></li>
+                <li><a n:href="SubSection:add#primary"> &#58;&#58; Podsekciu</a></li>
+                <li><a n:href="Notice:add#primary"> &#58;&#58; Oznam</a></li>
+                <li><a n:href="User:add#primary"> &#58;&#58; Užívateľa</a></li>
+                <li><a n:href="Album:add#primary"> &#58;&#58; Album</a></li> 
             </ul>
         </li>
         <li n:if="$user->loggedIn">
             <a href="#">Zoznam</a>
             <ul>
                 <li>
-                    <a n:href="Section:all"> :: Sekcii</a>
-                    <a n:href="User:all"> :: Užívateľov</a>
+                    <a n:href="Section:all#primary"> &#58;&#58; Sekcii</a>
+                    <a n:href="User:all#primary"> &#58;&#58; Užívateľov</a>
                 </li>
             </ul>
         </li>
         <li>
-            <a n:href="Notice:all">Oznamy</a>
+            <a n:href="Notice:all#primary">Oznamy</a>
         </li>
 
         <!-- Užívateľom generované sekcie -->
@@ -37,14 +38,14 @@
                     <ul>
                         {foreach $subSections as $subSection}
                             <li>
-                                <a n:href="SubPost:show, $subSection->id"> :: {$subSection->name}</a>
+                                <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
                             </li>
                         {/foreach}
                     </ul>
                 </li>
             {else}
                 <li>
-                    <a n:href="Post:show, $section->id">{$section->name}</a>
+                    <a n:href="Post:show#primary, $section->id">{$section->name}</a>
                 </li>
             {/if}
         {/foreach}
