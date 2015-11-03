@@ -29,7 +29,7 @@ abstract class Repository extends Nette\Object {
         } else {
             // název tabulky odvodíme z názvu třídy
             preg_match('#(\w+)Repository$#', get_class($this), $m);
-            return $this->database->table(lcfirst($m[1]));
+            return $this->database->table(strtolower($m[1]));
         }
     }
     

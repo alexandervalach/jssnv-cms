@@ -1,3 +1,9 @@
 {block content}
 
-<h2>Galéria</h2>
+<h2>{$album->name}</h2>
+
+{if $user->loggedIn}
+    <div id="upload">
+        {control uploadImagesForm}
+    </div>
+{/if}
