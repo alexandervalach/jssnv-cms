@@ -14,7 +14,7 @@ class GalleryPresenter extends BasePresenter {
 
     /** @var string */
     private $storage = 'images/';
-    
+
     /** @var ActiveRow */
     private $albumRow;
 
@@ -23,7 +23,7 @@ class GalleryPresenter extends BasePresenter {
     }
 
     public function renderView($id) {
-        if(!$this->albumRow) {
+        if (!$this->albumRow) {
             throw new BadRequestException("Album not found!");
         }
         $this->template->images = $this->galleryRepository->findByValue('album_id', $id);
@@ -32,6 +32,20 @@ class GalleryPresenter extends BasePresenter {
         $this->getComponent('uploadImagesForm');
     }
 
+    public function actionAdd($id) {
+        $this->albumRow = $this->albumRepository->findById($id);
+    }
+
+    public function renderAdd($id) {
+        if (!$this->albumRow) {
+            throw new BadRequestException("Album not found!");
+        }
+        $this->template->images = $this->galleryRepository->findByValue('album_id', $id);
+        $this->template->imgFolder = $this->imgFolder;
+        $this->template->album = $this->albumRow;
+        $this->getComponent('uploadImagesForm');
+    }
+    
     protected function createComponentUploadImagesForm() {
         $form = new Form;
         $form->addUpload('images', 'Vyber obrázky', true);
@@ -57,6 +71,21 @@ class GalleryPresenter extends BasePresenter {
             $this->galleryRepository->insert($imgData);
         }
         $this->redirect('view#primary', $this->albumRow);
+    }
+
+    public function submittedRemoveForm() {
+        $albumRow = $this->albumRow;
+        $gallerySelection = $this->albumRow->related('gallery');
+
+        if ($gallerySelection != NULL) {
+            foreach ($gallerySelection as $gallery) {
+                $gallery->delete();
+            }
+        }
+
+        $albumRow->delete();
+        $this->flashMessage('Album bol odstránený.');
+        $this->redirect('Homepage:');
     }
 
 }

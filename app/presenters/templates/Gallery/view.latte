@@ -1,9 +1,26 @@
 {block content}
 
-<h2>{$album->name}</h2>
+{control modalDialog 'remove', 'Odstrániť príspevok',
+    "Naozaj chcete odstrániť album <span class=\"text-danger text-uppercase\">$album->name</span> ?",
+    'danger', 'Odstrániť', 'remove'}
 
-{if $user->loggedIn}
-    <div id="upload">
-        {control uploadImagesForm}
-    </div>
-{/if}
+<div class="row">
+    <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-left">
+            <h2>{$album->name}</h2>
+        </div>
+        <div class="pull-right">
+            <p class="text-danger">
+                <a n:if="$user->loggedIn" data-toggle="modal" data-target="#removeModal" 
+                   class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </p>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <a n:if="$user->loggedIn" n:href="Gallery:add, $album->id">
+                (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
+            </a>
+        </div>
+    </header>
+</div>
