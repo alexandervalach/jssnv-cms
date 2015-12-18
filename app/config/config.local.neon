@@ -4,6 +4,6 @@ parameters:
 database:
 	dsn: 'mysql:host=127.0.0.1;dbname=jazykovka'
 	user: 'root'
-	password: 'root'
+	password: ''
 	options:
 		lazy: yes
