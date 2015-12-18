@@ -62,15 +62,6 @@ class PostPresenter extends BasePresenter {
         $this->redirect('show', $this->postRow->section_id);
     }
 
-    protected function createComponentRemoveForm() {
-        $form = new Form();
-        $form->addSubmit('remove', 'Odstrániť')
-                        ->getControlPrototype()->class = "btn btn-danger";
-        $form->onSuccess[] = $this->submittedRemoveForm;
-        FormHelper::setBootstrapRenderer($form);
-        return $form;
-    }
-
     public function submittedRemoveForm(Form $form) {
         $subSectionRow = $this->postRow->ref('section', 'section_id');
         $subSectionRow->delete();
