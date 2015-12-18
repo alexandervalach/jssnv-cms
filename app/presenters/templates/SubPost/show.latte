@@ -27,3 +27,9 @@
         </main>
     </article>
 </div>
+
+<div class="row">
+    <figure n:if="$user->loggedIn">
+        {control uploadFilesForm}
+    </figure>
+</div>

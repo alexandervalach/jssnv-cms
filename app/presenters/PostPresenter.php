@@ -57,7 +57,7 @@ class PostPresenter extends BasePresenter {
         $values = $form->getValues();
         $this->postRow->update($values);
         if ($this->sectionRow->name != $values['name']) {
-            $this->sectionRow->update( array( 'name' => $values['name'] ) );
+            $this->sectionRow->update(array('name' => $values['name']));
         }
         $this->redirect('show', $this->postRow->section_id);
     }
@@ -68,6 +68,33 @@ class PostPresenter extends BasePresenter {
         $this->postRow->delete();
         $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
         $this->redirect('Homepage:');
+    }
+
+    protected function createComponentUploadFilesForm() {
+        $form = new Form;
+        $form->addUpload('files', 'Vyber súbory', true);
+        $form->addSubmit('upload', 'Nahraj');
+        $form->onSuccess[] = $this->submittedUploadFilesForm;
+        FormHelper::setBootstrapRenderer($form);
+        return $form;
+    }
+
+    public function submittedUploadFilesForm(Form $form) {
+        $this->userIsLogged();
+        $values = $form->getValues();
+        $fileData = array();
+        foreach ($values['files'] as $file) {
+            $name = strtolower($file->getSanitizedName());
+
+            if ($file->isOk()) {
+                $file->move($file->storage . $name);
+
+                $fileData['name'] = $name;
+                $fileData['post_id'] = $this->postRow;
+                $this->fileRepository->insert($fileData);
+            }
+        }
+        $this->redirect('view#primary', $this->postRow);
     }
 
 }

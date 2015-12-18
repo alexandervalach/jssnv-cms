@@ -79,4 +79,31 @@ class SubPostPresenter extends BasePresenter {
         $this->redirect('Homepage:');
     }
 
+    protected function createComponentUploadFilesForm() {
+        $form = new Form;
+        $form->addUpload('files', 'Vyber súbory', true);
+        $form->addSubmit('upload', 'Nahraj');
+        $form->onSuccess[] = $this->submittedUploadFilesForm;
+        FormHelper::setBootstrapRenderer($form);
+        return $form;
+    }
+
+    public function submittedUploadFilesForm(Form $form) {
+        $this->userIsLogged();
+        $values = $form->getValues();
+        $fileData = array();
+        foreach ($values['files'] as $file) {
+            $name = strtolower($file->getSanitizedName());
+
+            if ($file->isOk()) {
+                $file->move($file->storage . $name);
+
+                $fileData['name'] = $name;
+                $fileData['post_id'] = $this->postRow;
+                $this->fileRepository->insert($fileData);
+            }
+        }
+        $this->redirect('view#primary', $this->postRow);
+    }
+
 }
