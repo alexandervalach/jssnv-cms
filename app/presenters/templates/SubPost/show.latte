@@ -26,6 +26,15 @@
             <p n:if="$subPost != null">{$subPost->content|noescape}</p>
         </main>
     </article>
+    <footer class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <ul style="list-style: none">
+            {foreach $files as $file}
+                <li>
+                    <a href="{$basePath}/{$fileFolder}{$file->name}">{$file->name}</a>
+                </li>
+            {/foreach}
+        </ul>
+    </footer>
 </div>
 
 <div class="row">

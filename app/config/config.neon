@@ -32,4 +32,6 @@ services:
 	- App\Model\AlbumRepository
 	- App\Model\GalleryRepository
 	- App\Model\ImagesRepository
+	- App\Model\FilesRepository
+	- App\Model\SubFilesRepository
 	router: App\RouterFactory::createRouter

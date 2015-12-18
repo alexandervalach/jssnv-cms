@@ -5,6 +5,8 @@ namespace App\Presenters;
 use App\Components\ModalDialog;
 use App\Model\AlbumRepository;
 use App\Model\BannerRepository;
+use App\Model\FilesRepository;
+use App\Model\SubFilesRepository;
 use App\Model\GalleryRepository;
 use App\Model\ImagesRepository;
 use App\Model\NoticeRepository;
@@ -28,6 +30,9 @@ abstract class BasePresenter extends Presenter {
     /** @var BannerRepository */
     protected $bannerRepository;
 
+    /** @var FilesRepository */
+    protected $filesRepository;
+
     /** @var GalleryRepository */
     protected $galleryRepository;
 
@@ -43,6 +48,9 @@ abstract class BasePresenter extends Presenter {
     /** @var SectionRepository */
     protected $sectionRepository;
 
+    /** @var SubFilesRepository */
+    protected $subFilesRepository;
+    
     /** @var SubPostRepository */
     protected $subPostRepository;
 
@@ -54,18 +62,20 @@ abstract class BasePresenter extends Presenter {
 
     /** @var string */
     protected $imgFolder = "images/";
-    
+
     /** @var string */
     protected $fileFolder = "files/";
 
-    public function __construct(AlbumRepository $albumRepository, BannerRepository $bannerRepository, GalleryRepository $galleryRepository, ImagesRepository $imageRepository, PostRepository $postRepository, SectionRepository $sectionRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
+    public function __construct(AlbumRepository $albumRepository, BannerRepository $bannerRepository, FilesRepository $filesRepository, GalleryRepository $galleryRepository, ImagesRepository $imageRepository, PostRepository $postRepository, SectionRepository $sectionRepository, SubFilesRepository $subFilesRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
         parent::__construct();
         $this->albumRepository = $albumRepository;
         $this->bannerRepository = $bannerRepository;
+        $this->filesRepository = $filesRepository;
         $this->galleryRepository = $galleryRepository;
         $this->imagesRepository = $imageRepository;
         $this->postRepository = $postRepository;
         $this->sectionRepository = $sectionRepository;
+        $this->subFilesRepository = $subFilesRepository;
         $this->subPostRepository = $subPostRepository;
         $this->subSectionRepository = $subSectionRepository;
         $this->noticeRepository = $noticeRepository;

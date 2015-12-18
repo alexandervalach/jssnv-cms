@@ -27,6 +27,8 @@ class SubPostPresenter extends BasePresenter {
 
     public function renderShow($id) {
         $this->template->subPost = $this->subPostRow;
+        $this->template->files = $this->subFilesRepository->findByValue('subpost_id', $this->subPostRow);
+        $this->template->fileFolder = $this->storage;
     }
 
     public function actionEdit($id) {
@@ -99,14 +101,14 @@ class SubPostPresenter extends BasePresenter {
             $name = strtolower($file->getSanitizedName());
 
             if ($file->isOk()) {
-                $file->move($file->storage . $name);
+                $file->move($this->storage . $name);
 
                 $fileData['name'] = $name;
-                $fileData['post_id'] = $this->postRow;
-                $this->fileRepository->insert($fileData);
+                $fileData['subpost_id'] = $this->subPostRow;
+                $this->subFilesRepository->insert($fileData);
             }
         }
-        $this->redirect('view#primary', $this->postRow);
+        $this->redirect('show#primary', $this->subPostRow);
     }
 
 }
