@@ -3,9 +3,10 @@
 namespace App\Presenters;
 
 use App\FormHelper;
-use Nette\Database\Table\ActiveRow;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Database\Table\ActiveRow;
+use Nette\Utils\FileSystem;
 
 class GalleryPresenter extends BasePresenter {
 
@@ -45,7 +46,7 @@ class GalleryPresenter extends BasePresenter {
         $this->template->album = $this->albumRow;
         $this->getComponent('uploadImagesForm');
     }
-    
+
     protected function createComponentUploadImagesForm() {
         $form = new Form;
         $form->addUpload('images', 'Vyber obrázky', true);
@@ -64,11 +65,11 @@ class GalleryPresenter extends BasePresenter {
 
             if ($img->isOk() AND $img->isImage()) {
                 $img->move($this->storage . $name);
-            }
 
-            $imgData['name'] = $name;
-            $imgData['album_id'] = $this->albumRow;
-            $this->galleryRepository->insert($imgData);
+                $imgData['name'] = $name;
+                $imgData['album_id'] = $this->albumRow;
+                $this->galleryRepository->insert($imgData);
+            }
         }
         $this->redirect('view#primary', $this->albumRow);
     }
@@ -79,6 +80,8 @@ class GalleryPresenter extends BasePresenter {
 
         if ($gallerySelection != NULL) {
             foreach ($gallerySelection as $gallery) {
+                $img = new FileSystem;
+                $img->delete($this->imgFolder . $gallery->name);
                 $gallery->delete();
             }
         }

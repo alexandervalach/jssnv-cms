@@ -18,9 +18,21 @@
             </p>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a n:if="$user->loggedIn" n:href="Gallery:add, $album->id">
-                (<span class="glyphicon glyphicon-plus"></span> pridaj obrázky)
+            <a class="btn btn-warning" n:if="$user->loggedIn" n:href="Gallery:add, $album->id">
+                <span class="glyphicon glyphicon-picture"></span> Pridaj obrázky
+            </a>
+            <a class="btn btn-success" n:if="$user->loggedIn" n:href="Album:edit, $album->id">
+                &hellip;<span class="glyphicon glyphicon-pencil"></span>
             </a>
         </div>
     </header>
+    <main>
+        {foreach $images as $img} 
+            <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin:10px 0 10px 0">
+                <a href="{$basePath}/{$imgFolder}{$img->name}">
+                    <img src="{$basePath}/{$imgFolder}{$img->name}" alt="{$img->name}" class="img-responsive"/>
+                </a>
+            </figure>
+        {/foreach}
+    </main>
 </div>
