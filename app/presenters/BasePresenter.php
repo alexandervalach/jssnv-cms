@@ -52,8 +52,11 @@ abstract class BasePresenter extends Presenter {
     /** @var UserRepository */
     protected $userRepository;
 
-    /** @var */
+    /** @var string */
     protected $imgFolder = "images/";
+    
+    /** @var string */
+    protected $fileFolder = "files/";
 
     public function __construct(AlbumRepository $albumRepository, BannerRepository $bannerRepository, GalleryRepository $galleryRepository, ImagesRepository $imageRepository, PostRepository $postRepository, SectionRepository $sectionRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
         parent::__construct();

@@ -14,10 +14,13 @@ class SubPostPresenter extends BasePresenter {
 
     /** @var ActiveRow */
     private $subSectionRow;
+    
+    /** @var string */
+    private $storage = 'files/';
 
     /** @var string */
     private $error = "Post not found!";
-
+    
     public function actionShow($id) {
         $this->subPostRow = $this->subPostRepository->findByValue('subsection_id', $id)->fetch();
     }

@@ -16,6 +16,9 @@ class PostPresenter extends BasePresenter {
     private $sectionRow;
 
     /** @var string */
+    protected $fileFolder = "files/";
+
+    /** @var string */
     private $error = "Post not found!";
 
     public function actionShow($id) {
