@@ -74,7 +74,7 @@ div#primary > aside > ul > li > ul > li > a:hover{
     color: #000;
 }
 
-div#page > header {
+div#page > a > header#banner {
     height: 140px;
     background-image: url('../images/header.jpg');
     background-repeat:no-repeat;
