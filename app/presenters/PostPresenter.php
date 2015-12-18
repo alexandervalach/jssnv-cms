@@ -16,7 +16,7 @@ class PostPresenter extends BasePresenter {
     private $sectionRow;
 
     /** @var string */
-    protected $fileFolder = "files/";
+    protected $storage = "files/";
 
     /** @var string */
     private $error = "Post not found!";
@@ -27,6 +27,8 @@ class PostPresenter extends BasePresenter {
 
     public function renderShow() {
         $this->template->post = $this->postRow;
+        $this->template->files = $this->filesRepository->findByValue('post_id', $this->postRow);
+        $this->template->fileFolder = $this->storage;
     }
 
     public function actionEdit($id) {
@@ -90,14 +92,14 @@ class PostPresenter extends BasePresenter {
             $name = strtolower($file->getSanitizedName());
 
             if ($file->isOk()) {
-                $file->move($file->storage . $name);
+                $file->move($this->storage . $name);
 
                 $fileData['name'] = $name;
                 $fileData['post_id'] = $this->postRow;
-                $this->fileRepository->insert($fileData);
+                $this->filesRepository->insert($fileData);
             }
         }
-        $this->redirect('view#primary', $this->postRow);
+        $this->redirect('show#primary', $this->postRow);
     }
 
 }
