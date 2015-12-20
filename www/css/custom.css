@@ -7,17 +7,15 @@ div#page {
     max-width: 984px;
     position: relative;
     margin-top: 35px;
-    border: 10px solid #CCC;
+    background: #fff;
 }
 
 div#primary.row {
-    border-top: 10px solid #CCC;
-    border-bottom: 10px solid #CCC;
     margin: 0;
 }
 
-div#rpiamry > main#content > div.row {
-    border-left: 10px solid #CCC;
+div#primary > main#content {
+    background: #fff;
 }
 
 div#primary > main#content > div.row {
