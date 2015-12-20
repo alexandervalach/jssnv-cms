@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Model\UserRepository;
 use Nette\Application\UI\Form;
 use Nette\Application\BadRequestException;
 use Nette\Database\Table\ActiveRow;
@@ -44,16 +45,16 @@ class UserPresenter extends BasePresenter {
         $this->getComponent('editForm')->setDefaults($this->userRow);
     }
 
-    public function actionChangePasssword($id) {
+    public function actionPasswd($id) {
         $this->userIsLogged();
         $this->userRow = $this->userRepository->findById($id);
     }
 
-    public function renderChangePassword($id) {
+    public function renderPasswd($id) {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
-        $this->getComponent('changePasswordForm');
+        $this->getComponent('passwdForm');
     }
 
     protected function createComponentAddForm() {
@@ -61,7 +62,7 @@ class UserPresenter extends BasePresenter {
         $form->addText('username', 'Užívateľské meno')
                 ->addRule(Form::FILLED, 'Užívateľské meno musí byť vyplnené.')
                 ->addRule(Form::MAX_LENGTH, 'Užívateľské meno môže mať maximálne 50 znakov.', 50);
-        //$form->addSelect('role', 'úloha', UserRepository::$ROLES);
+        $form->addSelect('role', 'Úloha', UserRepository::$ROLES);
         $form->addSubmit('save', 'Zapísať');
         $form->onSuccess[] = $this->submittedAddForm;
         FormHelper::setBootstrapRenderer($form);
@@ -91,25 +92,25 @@ class UserPresenter extends BasePresenter {
         $this->redirect('all');
     }
 
-    protected function createComponentChangePasswordForm() {
+    protected function createComponentPasswdForm() {
         $form = new Form;
         $form->addPassword('password', 'Heslo')
                 ->addRule(Form::FILLED, 'Heslo musí byť vyplnené.')
-                ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 100 znakov.', 100);
+                ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 100 znakov.', 100)
+                ->addRule(Form::MIN_LENGTH, 'Heslo musí mať minimálne 5 znakov.', 5);
         $form->addPassword('password_again', 'Heslo znovu')
                 ->addRule(Form::FILLED, 'Heslo znovu musí byť vyplnené.')
-                ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 100 znakov.', 100)
                 ->addRule(Form::EQUAL, 'Heslá sa nezhodujú.', $form['password']);
 
         $form->addSubmit('save', 'Nastaviť');
         $form->addProtection('Vypršal časový limit, odošli formulár znovu.');
 
-        $form->onSuccess[] = $this->submittedChangePasswordForm;
+        $form->onSuccess[] = $this->submittedPasswdForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedChangePasswordForm(Form $form) {
+    public function submittedPasswdForm(Form $form) {
         $values = $form->getValues();
         $this->userRow->update(array('password' => md5($values['password'])));
         $this->redirect('all');
