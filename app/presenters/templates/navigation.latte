@@ -34,15 +34,17 @@
         {foreach $sections as $section}  
             {if $section->related('subsection')->count() > 0}
                 {var $subSections = $section->related('subsection')}
-                <li>
+                {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
+                    
                     <a href="#">{$section->name}<span class="caret"></span></a>
-                    <ul>
-                        {foreach $subSections as $subSection}
-                            <li>
-                                <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
-                            </li>
-                        {/foreach}
-                    </ul>
+                    
+                    {if $section->sliding}<ul style="display: none;">{else}<ul>{/if}
+                            {foreach $subSections as $subSection}
+                                <li>
+                                    <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
+                                </li>
+                            {/foreach}
+                        </ul>
                 </li>
             {else}
                 <li>
