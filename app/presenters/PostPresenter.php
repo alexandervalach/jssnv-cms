@@ -70,11 +70,19 @@ class PostPresenter extends BasePresenter {
     }
 
     public function submittedRemoveForm() {
-        $subSectionRow = $this->postRow->ref('section', 'section_id');
-        $subSectionRow->delete();
+        $sectionRow = $this->postRow->ref('section', 'section_id');
+        $subSection = $sectionRow->related('subsection');
+
+        foreach ($subSection as $section) {
+            $subPost = $this->subPostRepository->findByValue('subsection_id', $section)->fetch();
+            $subPost->delete();
+            $section->delete();
+        }
+
+        $sectionRow->delete();
         $this->postRow->delete();
         $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
-        $this->redirect('Homepage:#primary');
+        $this->redirect('Section:all#primary');
     }
 
     protected function createComponentUploadFilesForm() {

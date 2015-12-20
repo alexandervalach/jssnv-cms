@@ -15,7 +15,9 @@
         <tbody>
             {foreach $sections as $section}
                 <tr>
-                    <td>{$section->name}</td>
+                    <td>
+                        <a n:href="Post:show#primary, $section->id">{$section->name}</a>  
+                    </td>
                     <td>{$section->order}</td>
                     <td>{if $section->sliding}ÁNO{else}NIE{/if}</td>
                     <td>
