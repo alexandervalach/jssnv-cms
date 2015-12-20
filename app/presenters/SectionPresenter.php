@@ -14,11 +14,11 @@ class SectionPresenter extends BasePresenter {
 
     /** @var string */
     private $error = "Section not found!";
-    
+
     public function actionAll() {
         $this->userIsLogged();
     }
-    
+
     public function renderAll() {
         $this->template->sections = $this->sectionRepository->findAll()->order("order DESC");
     }
@@ -51,6 +51,7 @@ class SectionPresenter extends BasePresenter {
         $form->addText('order', 'Poradie')
                 ->setDefaultValue(0)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
+        $form->addCheckbox('sliding', ' Rolovacie menu');
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedAddForm;
@@ -66,7 +67,7 @@ class SectionPresenter extends BasePresenter {
             'name' => $values['name']
         );
         $this->postRepository->insert($postData);
-        $this->redirect('Post:show', $id);
+        $this->redirect('Post:show#primary', $id);
     }
 
     protected function createComponentEditForm() {
@@ -76,6 +77,7 @@ class SectionPresenter extends BasePresenter {
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
         $form->addText('order', 'Poradie')
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
+        $form->addCheckbox('sliding', 'Rolovacie menu');
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedEditForm;
@@ -86,7 +88,7 @@ class SectionPresenter extends BasePresenter {
     public function submittedEditForm(Form $form) {
         $values = $form->getValues();
         $this->sectionRow->update($values);
-        $this->redirect('Post:show', $this->sectionRow->id);
+        $this->redirect('Post:show#primary', $this->sectionRow->id);
     }
 
 }
