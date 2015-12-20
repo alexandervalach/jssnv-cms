@@ -6,6 +6,7 @@ use App\FormHelper;
 use Nette\Database\Table\ActiveRow;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Forms\Controls\SubmitButton;
 
 class PostPresenter extends BasePresenter {
 
@@ -51,28 +52,29 @@ class PostPresenter extends BasePresenter {
         $form->addTextArea('content', 'Obsah:')
                 ->setAttribute('id', 'ckeditor');
         $form->addCheckbox('onHomepage', ' Na domovskej stránke');
-        $form->addSubmit('save', 'Uložiť');
-        $form->onSuccess[] = $this->submittedEditForm;
+        $form->addSubmit('save', 'Uložiť')
+                ->onClick[] = $this->submittedEditForm;
+        $form->addSubmit('cancel', 'Zrušiť')->setAttribute('class', 'btn btn-warning')->onClick[] = $this->formCancelled;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedEditForm(Form $form) {
+    public function submittedEditForm(SubmitButton $btn) {
         $this->userIsLogged();
-        $values = $form->getValues();
+        $values = $btn->form->getValues();
         $this->postRow->update($values);
         if ($this->sectionRow->name != $values['name']) {
             $this->sectionRow->update(array('name' => $values['name']));
         }
-        $this->redirect('show', $this->postRow->section_id);
+        $this->redirect('show#primary', $this->postRow->section_id);
     }
 
-    public function submittedRemoveForm(Form $form) {
+    public function submittedRemoveForm() {
         $subSectionRow = $this->postRow->ref('section', 'section_id');
         $subSectionRow->delete();
         $this->postRow->delete();
         $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
-        $this->redirect('Homepage:');
+        $this->redirect('Homepage:#primary');
     }
 
     protected function createComponentUploadFilesForm() {
@@ -99,6 +101,10 @@ class PostPresenter extends BasePresenter {
                 $this->filesRepository->insert($fileData);
             }
         }
+        $this->redirect('show#primary', $this->postRow);
+    }
+
+    public function formCancelled() {
         $this->redirect('show#primary', $this->postRow);
     }
 
