@@ -2,12 +2,12 @@
 
 //$('.slideToggle').find('ul').slideUp();
 
-$('.slideToggle').bind('click', function(e){
-    e.preventDefault();
-    $(this).find('ul').slideToggle();
+$(document).ready(function(){
+    $('li.slideToggle').bind('click', function(){
+        $(this).find('ul').slideToggle();
+        return false;
+    });
+    $('li.slideToggle ul').bind('click', function(e){
+        e.stopPropagation();
+    });
 });
-
-
-
-
-

@@ -1,6 +1,6 @@
 {block content}
 
-<section id="listOfSections" class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+<section id="listOfSections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <h2>Zoznam sekcii</h2>
 
     <table class="table table-condensed table-responsive">
@@ -8,6 +8,7 @@
             <tr>
                 <th>Názov sekcie</th>
                 <th>Poradie</th>
+                <th>Rolovacie menu</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -16,6 +17,7 @@
                 <tr>
                     <td>{$section->name}</td>
                     <td>{$section->order}</td>
+                    <td>{if $section->sliding}ÁNO{else}NIE{/if}</td>
                     <td>
                         <a n:href="edit, $section->id" class="text-success">
                             <span class="glyphicon glyphicon-pencil"></span>
