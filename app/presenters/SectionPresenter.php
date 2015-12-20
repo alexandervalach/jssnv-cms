@@ -88,7 +88,7 @@ class SectionPresenter extends BasePresenter {
     public function submittedEditForm(Form $form) {
         $values = $form->getValues();
         $this->sectionRow->update($values);
-        $this->redirect('Post:show#primary', $this->sectionRow->id);
+        $this->redirect('Section:all#primary');
     }
 
 }
