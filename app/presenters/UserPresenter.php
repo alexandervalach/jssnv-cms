@@ -57,6 +57,18 @@ class UserPresenter extends BasePresenter {
         $this->getComponent('passwdForm');
     }
 
+    public function actionShow($id) {
+        $this->userIsLogged();
+        $this->userRow = $this->userRepository->findById($id);
+    }
+
+    public function renderShow($id) {
+        if (!$this->userRow) {
+            throw new BadRequestException($this->error);
+        }
+        $this->template->users = $this->userRow;
+    }
+
     protected function createComponentAddForm() {
         $form = new Form;
         $form->addText('username', 'Užívateľské meno')
@@ -114,6 +126,12 @@ class UserPresenter extends BasePresenter {
         $values = $form->getValues();
         $this->userRow->update(array('password' => md5($values['password'])));
         $this->redirect('all');
+    }
+    
+    public function submittedRemoveForm() {
+        $this->userIsLogged();
+        $this->userRow->delete();
+        $this->redirect('all#primary');
     }
 
 }

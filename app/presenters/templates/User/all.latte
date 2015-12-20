@@ -15,7 +15,9 @@
         <tbody>
             {foreach $users as $user}
                 <tr>
-                    <td>{$user->username}</td>
+                    <td>
+                        <a n:href="show#primary, $user->id">{$user->username}</a>
+                    </td>
                     <td>{$user->role}</td>
                     <td>
                         <a n:href="edit, $user->id" class="text-success">

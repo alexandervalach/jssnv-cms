@@ -1,0 +1,20 @@
+{block content}
+
+{control modalDialog, 'remove', 'Odstrániť užívateľa',
+    "Noazaj chcete odstrániť užívateľa <span class=\"text-danger text-uppercase\">$users->username</span> ?",
+    'danger', 'Odstrániť', 'remove'}
+
+<div class="row">
+    <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-left">
+            <h2>{$users->username}</h2>
+        </div>
+        <div class="pull-right">
+            <p class="text-danger">
+                <a href="#" data-toggle="modal" data-target="#removeModal" class="btn btn-default">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </p>
+        </div>
+    </header>
+</div>
