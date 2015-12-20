@@ -6,6 +6,7 @@ use App\FormHelper;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
+use Nette\Forms\Controls\SubmitButton;
 
 class SubPostPresenter extends BasePresenter {
 
@@ -14,13 +15,13 @@ class SubPostPresenter extends BasePresenter {
 
     /** @var ActiveRow */
     private $subSectionRow;
-    
+
     /** @var string */
     private $storage = 'files/';
 
     /** @var string */
     private $error = "Post not found!";
-    
+
     public function actionShow($id) {
         $this->subPostRow = $this->subPostRepository->findByValue('subsection_id', $id)->fetch();
     }
@@ -51,15 +52,17 @@ class SubPostPresenter extends BasePresenter {
         $form->addTextArea('content', 'Obsah:')
                 ->setAttribute('id', 'ckeditor');
         $form->addCheckbox('onHomepage', ' Na domovskej stránke');
-        $form->addSubmit('save', 'Uložiť');
-        $form->onSuccess[] = $this->submittedEditForm;
+        $form->addSubmit('save', 'Uložiť')
+                ->onClick[] = $this->submittedEditForm;
+        $form->addSubmit('cancel', 'Zrušiť')->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedEditForm(Form $form) {
+    public function submittedEditForm(SubmitButton $btn) {
         $this->userIsLogged();
-        $values = $form->getValues();
+        $values = $btn->form->getValues();
         if ($this->subSectionRow->name != $values['name']) {
             $this->subSectionRow->update(array('name' => $values['name']));
         }
@@ -111,4 +114,7 @@ class SubPostPresenter extends BasePresenter {
         $this->redirect('show#primary', $this->subPostRow);
     }
 
+    public function formCancelled() {
+        $this->redirect('show#primary', $this->subPostRow);
+    }
 }
