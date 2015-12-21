@@ -21,6 +21,7 @@
                 <th>Názov sekcie</th>
                 <th>Poradie</th>
                 <th>Rolovacie menu</th>
+                <th>Viditeľné</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -28,10 +29,15 @@
             {foreach $sections as $section}
                 <tr>
                     <td>
-                        <a n:href="Post:show#primary, $section->id">{$section->name}</a>  
+                        {if $section->url == null}
+                            <a n:href="Post:show#primary, $section->id">{$section->name}</a> 
+                        {else}
+                            <a class="text-danger" href="{$section->url}" target="_blank">{$section->name}</a> 
+                        {/if}
                     </td>
                     <td>{$section->order}</td>
                     <td>{if $section->sliding}ÁNO{else}NIE{/if}</td>
+                    <td>{if $section->visible}ÁNO{else}NIE{/if}</td>
                     <td>
                         <a n:href="edit, $section->id" class="text-success">
                             <span class="glyphicon glyphicon-pencil"></span>

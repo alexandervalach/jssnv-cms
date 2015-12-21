@@ -48,9 +48,13 @@ class SectionPresenter extends BasePresenter {
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
+        $form->addText('url', 'URL adresa')
+                ->addRule(Form::MAX_LENGTH, 'URL môže mať maximálne 200 znakov.', 200);
         $form->addText('order', 'Poradie')
                 ->setDefaultValue(0)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
+        $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
+                ->setDefaultValue(1);
         $form->addCheckbox('sliding', ' Rolovacie menu');
         $form->addSubmit('save', 'Zapísať');
 
@@ -75,8 +79,12 @@ class SectionPresenter extends BasePresenter {
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
+        $form->addText('url', 'URL adresa')
+                ->addRule(Form::MAX_LENGTH, 'URL môže mať maximálne 200 znakov.', 200);
         $form->addText('order', 'Poradie')
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
+        $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
+                ->setDefaultValue(1);
         $form->addCheckbox('sliding', 'Rolovacie menu');
         $form->addSubmit('save', 'Zapísať');
 
