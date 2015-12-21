@@ -48,11 +48,11 @@ class SubSectionPresenter extends BasePresenter {
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
         $form->addText('url', 'URL adresa')
                 ->addRule(Form::MAX_LENGTH, 'URL môže mať maximálne 200 znakov.', 200);
+        $form->addCheckbox('homeUrl', ' URL na tejto stránke')
+                ->setDefaultValue(0);
         $form->addText('order', 'Poradie')
                 ->setDefaultValue(5)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
-        $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
-                ->setDefaultValue(1);
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedAddForm;
@@ -78,11 +78,11 @@ class SubSectionPresenter extends BasePresenter {
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
         $form->addText('url', 'URL adresa')
                 ->addRule(Form::MAX_LENGTH, 'URL môže mať maximálne 200 znakov.', 200);
+        $form->addCheckbox('homeUrl', ' URL na tejto stránke')
+                ->setDefaultValue(0);
         $form->addText('order', 'Poradie')
                 ->setDefaultValue(5)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
-        $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
-                ->setDefaultValue(1);
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedEditForm;

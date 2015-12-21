@@ -27,9 +27,6 @@
                 </li>
             </ul>
         </li>
-        <li>
-            <a n:href="Notice:all#primary">Oznamy</a>
-        </li>
 
         <!-- Užívateľom generované sekcie -->
         {foreach $sections as $section}  
@@ -37,15 +34,23 @@
                 {var $subSections = $section->related('subsection')}
                 {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
 
-                    <a href="#">{$section->name}<span class="caret"></span></a>
+                    {if $section->url == null}
+                        <a href="#">{$section->name}<span class="caret"></span></a>
+                    {else}
+                        <a href="{$section->url}">{$section->name}</a>
+                    {/if}
 
                     {if $section->sliding}<ul style="display: none;">{else}<ul>{/if}
                             {foreach $subSections as $subSection}
                                 <li>
                                     {if $subSection->url == NULL}
-                                        <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
+                                        <a n:href="SubPost:show#primary, $subSection->id"> 
+                                            &#58;&#58; {$subSection->name}
+                                        </a>
                                     {else}
-                                        <a href="{$subSection->url}" target="_blank"> &#58;&#58; {$subSection->name}</a>
+                                        <a href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}> 
+                                            &#58;&#58; {$subSection->name}
+                                        </a>
                                     {/if}
                                 </li>
                             {/foreach}
@@ -56,7 +61,7 @@
                     {if $section->url == NULL}
                         <a n:href="Post:show#primary, $section->id">{$section->name}</a>
                     {else}
-                        <a href="{$section->url}" target="_blank">{$section->name}</a>
+                        <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
                     {/if}
                 </li>
             {/if}
