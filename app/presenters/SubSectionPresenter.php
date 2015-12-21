@@ -11,6 +11,14 @@ class SubSectionPresenter extends BasePresenter {
     /** @var ActiveRow */
     private $subSectionRow;
 
+    public function actionAll() {
+        $this->userIsLogged();
+    }
+    
+    public function renderAll() {
+        $this->template->listOfSubSections = $this->subSectionRepository->findAll()->order('section_id DESC');
+    }
+    
     public function actionEdit($id) {
         $this->subSectionRow = $this->subSectionRepository->findById($id);
     }

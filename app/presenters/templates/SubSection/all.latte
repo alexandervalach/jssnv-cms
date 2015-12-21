@@ -1,14 +1,14 @@
 {block content}
 
-<section id="listOfSections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<section id="listOfSubSections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <header style="margin-top: 20px">
         <div class="pull-left">
-            <h2>Zoznam sekcií</h2>
+            <h2>Zoznam sekcií 2. úrovne</h2>
         </div>
 
         <div class="pull-right">
-            <a href="add#primary" class="btn btn-success" title="pridať novú sekciu">
-                <span class="glyphicon glyphicon-plus"></span> Pridať sekciu
+            <a href="add#primary" class="btn btn-success" title="pridať sekciu 2. úrovne">
+                <span class="glyphicon glyphicon-plus"></span> Pridať sekciu 2. úrovne
             </a>
         </div>
     </header>
@@ -18,23 +18,28 @@
             <tr>
                 <th>Názov sekcie</th>
                 <th>Poradie</th>
-                <th>Rolovacie menu</th>
                 <th>Viditeľné</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
-            {foreach $listOfSections as $section}
+            {var $oldSubSection = null}
+            {foreach $listOfSubSections as $section}
+                {var $subSectionName = $section->ref('section', 'section_id')->name}
+                <tr n:if="$subSectionName != $oldSubSection" class="success">
+                    <td colspan="4">
+                        {$subSectionName}
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         {if $section->url == null}
-                            <a n:href="Post:show#primary, $section->id">{$section->name}</a> 
+                            <a n:href="SubPost:show#primary, $section->id">{$section->name}</a> 
                         {else}
                             <a class="text-danger" href="{$section->url}" target="_blank">{$section->name}</a> 
                         {/if}
                     </td>
                     <td>{$section->order}</td>
-                    <td>{if $section->sliding}ÁNO{else}NIE{/if}</td>
                     <td>{if $section->visible}ÁNO{else}NIE{/if}</td>
                     <td>
                         <a n:href="edit, $section->id" class="text-success">
@@ -42,6 +47,7 @@
                         </a>
                     </td>
                 </tr>
+                {var $oldSubSection = $subSectionName}
             {/foreach}
         </tbody>
     </table>
