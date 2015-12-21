@@ -15,6 +15,14 @@ class AlbumPresenter extends BasePresenter {
     /** @var string */
     private $error = "Album not found!";
 
+    public function actionAll() {
+    } 
+    
+    public function renderAll() {
+        $this->template->listOfAlbums = $this->albumRepository->findAll();
+        $this->template->imgFolder = $this->imgFolder;
+    }
+    
     public function actionEdit($id) {
         $this->albumRow = $this->albumRepository->findById($id);
     }

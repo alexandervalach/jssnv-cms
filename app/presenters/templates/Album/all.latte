@@ -1,0 +1,22 @@
+{block content} 
+
+<div class="row">
+    <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-left">
+            <h2>Fotogaléria</h2>
+        </div>
+    </header>
+    <main id="albums" class="row">
+        {foreach $listOfAlbums as $album}
+            {var $thumbnail = $album->related('gallery')->fetch()}
+            <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin:10px 0 10px 0">
+                <a n:href="Gallery:view#primary, $album->id">
+                    <img src="{$basePath}/{$imgFolder}{$thumbnail->name}" alt="{$thumbnail->name}" class="img-responsive"/>
+                </a>
+                <figcaption class="text-center">
+                    <span>{$album->name}</span>
+                </figcaption>
+            </figure>
+        {/foreach}
+    </main>
+</div>

@@ -101,6 +101,13 @@ section#posts > article.row {
     margin: 50px 0 25px 0;
 }
 
-main#imgs > figure > figcaption > a{
+main#imgs > figure > figcaption,
+main#albums > figure > figcaption{
     margin: 10px;
+}
+
+main#albums > figure > a > img{
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-moz-radius: 5px;
 }

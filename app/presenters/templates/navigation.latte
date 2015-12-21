@@ -30,56 +30,60 @@
 
         <!-- Užívateľom generované sekcie -->
         {foreach $sections as $section}  
-            {if $section->related('subsection')->count() > 0}
-                {var $subSections = $section->related('subsection')}
-                {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
-
-                    {if $section->url == null}
-                        <a href="#">{$section->name}<span class="caret"></span></a>
-                    {else}
-                        <a href="{$section->url}">{$section->name}</a>
-                    {/if}
-
-                    {if $section->sliding}<ul style="display: none;">{else}<ul>{/if}
-                            {foreach $subSections as $subSection}
+            {if $section->name == "Fotogaléria"}
+                <!-- Album v rámci fotogalérie -->
+                <li>
+                    <a href="{$section->url}">{$section->name} <span class="caret"></span></a>
+                    <ul>
+                        {if $albums != null}
+                            {foreach $albums as $album}
                                 <li>
-                                    {if $subSection->url == NULL}
-                                        <a n:href="SubPost:show#primary, $subSection->id"> 
-                                            &#58;&#58; {$subSection->name}
-                                        </a>
-                                    {else}
-                                        <a href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}> 
-                                            &#58;&#58; {$subSection->name}
-                                        </a>
-                                    {/if}
+                                    <a n:href="Gallery:view#primary, $album->id"> &#58;&#58; {$album->name}</a>
                                 </li>
                             {/foreach}
-                        </ul>
+                        {/if}
+                    </ul>
                 </li>
             {else}
-                <li>
-                    {if $section->url == NULL}
-                        <a n:href="Post:show#primary, $section->id">{$section->name}</a>
-                    {else}
-                        <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
-                    {/if}
-                </li>
+
+                {if $section->related('subsection')->count() > 0}
+                    {var $subSections = $section->related('subsection')}
+                    {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
+
+                        {if $section->url == null}
+                            <a href="#">{$section->name}<span class="caret"></span></a>
+                            {else}
+                            <a href="{$section->url}">{$section->name}</a>
+                        {/if}
+
+                        {if $section->sliding}<ul style="display: none;">{else}<ul>{/if}
+                                {foreach $subSections as $subSection}
+                                    <li>
+                                        {if $subSection->url == NULL}
+                                            <a n:href="SubPost:show#primary, $subSection->id"> 
+                                                &#58;&#58; {$subSection->name}
+                                            </a>
+                                        {else}
+                                            <a href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}> 
+                                                &#58;&#58; {$subSection->name}
+                                            </a>
+                                        {/if}
+                                    </li>
+                                {/foreach}
+                            </ul>
+                    </li>
+                {else}
+                    <li>
+                        {if $section->url == NULL}
+                            <a n:href="Post:show#primary, $section->id">{$section->name}</a>
+                        {else}
+                            <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
+                        {/if}
+                    </li>
+                {/if}
             {/if}
         {/foreach}
 
-        <!-- Album v rámci fotogalérie -->
-        <li>
-            <a href="#">Fotogaléria <span class="caret"></span></a>
-            <ul>
-                {if $albums != null}
-                    {foreach $albums as $album}
-                        <li>
-                            <a n:href="Gallery:view#primary, $album->id"> &#58;&#58; {$album->name}</a>
-                        </li>
-                    {/foreach}
-                {/if}
-            </ul>
-        </li>
         <li n:if="!$user->loggedIn">
             <a n:href="Sign:in#primary">
                 <span class="glyphicon glyphicon-user"></span> Administrácia
