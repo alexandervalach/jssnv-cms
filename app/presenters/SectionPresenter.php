@@ -20,7 +20,7 @@ class SectionPresenter extends BasePresenter {
     }
 
     public function renderAll() {
-        $this->template->sections = $this->sectionRepository->findAll()->order("order DESC");
+        $this->template->listOfSections = $this->sectionRepository->findAll()->order("order DESC");
     }
 
     public function actionEdit($id) {
@@ -85,7 +85,7 @@ class SectionPresenter extends BasePresenter {
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
         $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
                 ->setDefaultValue(1);
-        $form->addCheckbox('sliding', 'Rolovacie menu');
+        $form->addCheckbox('sliding', ' Rolovacie menu');
         $form->addSubmit('save', 'Zapísať');
 
         $form->onSuccess[] = $this->submittedEditForm;
