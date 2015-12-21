@@ -42,14 +42,18 @@
                     {if $section->sliding}<ul style="display: none;">{else}<ul>{/if}
                             {foreach $subSections as $subSection}
                                 <li>
-                                    <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
+                                    {if $subSection->url == NULL}
+                                        <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
+                                    {else}
+                                        <a href="{$subSection->url}" target="_blank"> &#58;&#58; {$subSection->name}</a>
+                                    {/if}
                                 </li>
                             {/foreach}
                         </ul>
                 </li>
             {else}
                 <li>
-                    {if $section->url == null}
+                    {if $section->url == NULL}
                         <a n:href="Post:show#primary, $section->id">{$section->name}</a>
                     {else}
                         <a href="{$section->url}" target="_blank">{$section->name}</a>
