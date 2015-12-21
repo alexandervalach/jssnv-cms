@@ -3,12 +3,12 @@
 <section id="listOfSubSections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <header style="margin-top: 20px">
         <div class="pull-left">
-            <h2>Zoznam sekcií 2. úrovne</h2>
+            <h2>Zoznam podsekcií</h2>
         </div>
 
         <div class="pull-right">
             <a href="add#primary" class="btn btn-success" title="pridať sekciu 2. úrovne">
-                <span class="glyphicon glyphicon-plus"></span> Pridať sekciu 2. úrovne
+                <span class="glyphicon glyphicon-plus"></span> Pridať podsekciu
             </a>
         </div>
     </header>
@@ -42,7 +42,7 @@
                     <td>{$section->order}</td>
                     <td>{if $section->visible}ÁNO{else}NIE{/if}</td>
                     <td>
-                        <a n:href="edit, $section->id" class="text-success">
+                        <a n:href="edit#primary, $section->id" class="text-success">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </td>
