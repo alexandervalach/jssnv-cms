@@ -7,6 +7,7 @@ use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Utils\FileSystem;
+use Nette\Utils\Image;
 
 class GalleryPresenter extends BasePresenter {
 
@@ -27,7 +28,7 @@ class GalleryPresenter extends BasePresenter {
         if (!$this->albumRow) {
             throw new BadRequestException("Album not found!");
         }
-        $this->template->images = $this->galleryRepository->findByValue('album_id', $id);
+        $this->template->images = $this->galleryRepository->findByValue('album_id', $id)->order('height ASC');
         $this->template->imgFolder = $this->imgFolder;
         $this->template->album = $this->albumRow;
         $this->getComponent('uploadImagesForm');
@@ -66,8 +67,14 @@ class GalleryPresenter extends BasePresenter {
             if ($img->isOk() AND $img->isImage()) {
                 $img->move($this->storage . $name);
 
+                $image = Image::fromFile('images/' . $name);
+                $height = $image->getHeight();
+                $width = $image->getWidth();
+
                 $imgData['name'] = $name;
                 $imgData['album_id'] = $this->albumRow;
+                $imgData['width'] = $width;
+                $imgData['height'] = $height;
                 $this->galleryRepository->insert($imgData);
             }
         }

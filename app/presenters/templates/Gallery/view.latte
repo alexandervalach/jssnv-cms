@@ -27,7 +27,12 @@
         </div>
     </header>
     <main id="imgs">
-        {foreach $images as $img} 
+        {var $oldHeight = 0}
+        {foreach $images as $img}  
+            {var $height = $img->height}
+            {if $height != $oldHeight}
+                <div style="clear: both"><!-- --></div>
+            {/if}
             <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin:10px 0 10px 0">
                 <a href="{$basePath}/{$imgFolder}{$img->name}">
                     <img src="{$basePath}/{$imgFolder}{$img->name}" alt="{$img->name}" class="img-responsive"/>
@@ -38,6 +43,7 @@
                     </a>-->
                 </figcaption>
             </figure>
+            {var $oldHeight = $img->height}
         {/foreach}
     </main>
 </div>
