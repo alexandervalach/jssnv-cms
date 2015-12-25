@@ -2,7 +2,7 @@
 
 {control modalDialog 'remove', 'Odstrániť príspevok',
     "Naozaj chcete odstrániť album <span class=\"text-danger text-uppercase\">$album->name</span> ?",
-    'danger', 'Odstrániť', 'remove'}
+    'danger', 'Odstrániť', 'remove'}  
 
 <div class="row">
     <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -37,10 +37,10 @@
                 <a href="{$basePath}/{$imgFolder}{$img->name}">
                     <img src="{$basePath}/{$imgFolder}{$img->name}" alt="{$img->name}" class="img-responsive"/>
                 </a>
-                <figcaption>
-                    <!--<a href="#" class="btn btn-danger" n:if="$user->loggedIn">
-                        <span class="glyphicon glyphicon-remove"></span> Odstrániť
-                    </a>-->
+                <figcaption n:if='$user->loggedIn' style='margin: 5px 0 10px 0'>
+                    <a n:href='remove#primary, $img->id' class='btn btn-danger'>
+                        <span class='glyphicon glyphicon-remove'></span> Odstrániť
+                    </a>
                 </figcaption>
             </figure>
             {var $oldHeight = $img->height}

@@ -12,13 +12,16 @@ use Nette\Utils\Image;
 class GalleryPresenter extends BasePresenter {
 
     /** @var string */
-    private $error = "Gallery not found!";
+    private $error = "Image not found!";
 
     /** @var string */
     private $storage = 'images/';
 
     /** @var ActiveRow */
     private $albumRow;
+
+    /** @var ActiveRow */
+    private $galleryRow;
 
     public function actionView($id) {
         $this->albumRow = $this->albumRepository->findById($id);
@@ -32,6 +35,7 @@ class GalleryPresenter extends BasePresenter {
         $this->template->imgFolder = $this->imgFolder;
         $this->template->album = $this->albumRow;
         $this->getComponent('uploadImagesForm');
+        $this->getComponent('removeForm');
     }
 
     public function actionAdd($id) {
@@ -48,11 +52,36 @@ class GalleryPresenter extends BasePresenter {
         $this->getComponent('uploadImagesForm');
     }
 
+    public function actionRemove($id) {
+        $this->userIsLogged();
+        $this->galleryRow = $this->galleryRepository->findById($id);
+    }
+
+    public function renderRemove($id) {
+        if (!$this->galleryRow) {
+            throw new BadRequestException($this->error);
+        }
+        $this->template->img = $this->galleryRow;
+        $this->getComponent('removeImageForm');
+    }
+
     protected function createComponentUploadImagesForm() {
         $form = new Form;
         $form->addUpload('images', 'Vyber obrázky', true);
         $form->addSubmit('upload', 'Nahraj');
         $form->onSuccess[] = $this->submittedUploadImagesForm;
+        FormHelper::setBootstrapRenderer($form);
+        return $form;
+    }
+
+    protected function createComponentRemoveImageForm() {
+        $form = new Form;
+        $form->addSubmit('remove', 'Odstrániť')
+                ->setAttribute('class', 'btn btn-danger')
+                ->onClick[] = $this->submittedRemoveImageForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
@@ -96,6 +125,20 @@ class GalleryPresenter extends BasePresenter {
         $albumRow->delete();
         $this->flashMessage('Album bol odstránený.');
         $this->redirect('Homepage:');
+    }
+
+    public function submittedRemoveImageForm() {
+        $this->userIsLogged();
+        $img = $this->galleryRow;
+        $id = $img->ref('album', 'album_id');
+        $imgFile = new FileSystem;
+        $imgFile->delete($this->imgFolder . $img->name);
+        $img->delete();
+        $this->redirect('view#primary', $id);
+    }
+
+    public function formCancelled() {
+        $this->redirect('view#primary', $this->galleryRow->ref('album', 'album_id'));
     }
 
 }
