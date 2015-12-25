@@ -82,7 +82,6 @@ class GalleryPresenter extends BasePresenter {
         $form->addSubmit('cancel', 'Zrušiť')
                 ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
-        FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
