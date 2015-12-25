@@ -31,7 +31,9 @@
             {foreach $files as $file}
                 <li>
                     <a href="{$basePath}/{$fileFolder}{$file->name}" class="text-success">{$file->name}</a>
-                    <a n:if="$user->loggedIn" href="#" class="text-danger"><span class="glyphicon glyphicon-remove"></a>
+                    <a n:if="$user->loggedIn" n:href="SubFiles:remove#primary, $file->id" class="text-danger">
+                        <span class="glyphicon glyphicon-remove">
+                    </a>
                 </li>
             {/foreach}
         </ul>
