@@ -95,3 +95,7 @@ div.alert > header {
     font-size: 1.1em;
 }
 
+p#decision{
+    margin: 25px 15px 25px 0;
+}
+
