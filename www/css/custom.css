@@ -99,3 +99,8 @@ p#decision{
     margin: 25px 15px 25px 0;
 }
 
+section#listOfSections > header,
+section#listOfUsers > header{
+    margin-top: 20px;
+}
+
