@@ -30,7 +30,8 @@
                         {if $section->url == null}
                             <a n:href="Post:show#primary, $section->id">{$section->name}</a> 
                         {else}
-                            <a class="text-danger" href="{$section->url}" target="_blank">{$section->name}</a> 
+                            <a class="text-danger" href="{$section->url}{if $section->homeUrl}#primary{/if}" 
+                               {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a> 
                         {/if}
                     </td>
                     <td>{$section->order}</td>

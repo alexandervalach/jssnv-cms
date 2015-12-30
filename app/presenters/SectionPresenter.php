@@ -6,6 +6,7 @@ use App\FormHelper;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
+use Nette\Forms\Controls\SubmitButton;
 
 class SectionPresenter extends BasePresenter {
 
@@ -96,13 +97,12 @@ class SectionPresenter extends BasePresenter {
                 ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
 
-        $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedEditForm(Form $form) {
-        $values = $form->getValues();
+    public function submittedEditForm(SubmitButton $btn) {
+        $values = $btn->form->getValues();
         $this->sectionRow->update($values);
         $this->redirect('Section:all#primary');
     }

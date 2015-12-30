@@ -50,16 +50,18 @@
                     {var $subSections = $section->related('subsection')}
                     {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
 
-                        {if $section->url == null}
+                        {if !isset($section->url)}
                             <a href="#">{$section->name}<span class="caret"></span></a>
-                            {else}
-                            <a href="{$section->url}">{$section->name}</a>
+                        {else}
+                            <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>
+                                {$section->name}
+                            </a>
                         {/if}
 
                         {if $section->sliding}<ul style="display: none;">{else}<ul>{/if}
                                 {foreach $subSections as $subSection}
                                     <li>
-                                        {if $subSection->url == NULL}
+                                        {if !isset($subSection->url)}
                                             <a n:href="SubPost:show#primary, $subSection->id"> 
                                                 &#58;&#58; {$subSection->name}
                                             </a>
@@ -74,10 +76,12 @@
                     </li>
                 {else}
                     <li>
-                        {if $section->url == NULL}
+                        {if !isset($section->url)}
                             <a n:href="Post:show#primary, $section->id">{$section->name}</a>
                         {else}
-                            <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
+                            <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>
+                                {$section->name}
+                            </a>
                         {/if}
                     </li>
                 {/if}
