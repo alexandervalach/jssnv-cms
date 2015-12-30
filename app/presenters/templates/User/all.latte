@@ -28,7 +28,11 @@
                     <td>
                         <a n:href="show#primary, $user->id">{$user->username}</a>
                     </td>
-                    <td>{$user->role}</td>
+                    <td>
+                        {if $user->role == "admin"}root
+                        {elseif $user->role == "powerUser"}administrátor
+                        {else}užívateľ
+                        {/if}</td>
                     <td>
                         <a n:href="edit, $user->id" class="text-success">
                             <span class="glyphicon glyphicon-pencil"></span>
