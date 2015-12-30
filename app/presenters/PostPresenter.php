@@ -88,15 +88,18 @@ class PostPresenter extends BasePresenter {
     protected function createComponentUploadFilesForm() {
         $form = new Form;
         $form->addUpload('files', 'Vyber súbory', true);
-        $form->addSubmit('upload', 'Nahraj');
-        $form->onSuccess[] = $this->submittedUploadFilesForm;
+        $form->addSubmit('upload', 'Nahraj')
+                ->onClick[] = $this->submittedUploadFilesForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                        ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedUploadFilesForm(Form $form) {
+    public function submittedUploadFilesForm(SubmitButton $btn) {
         $this->userIsLogged();
-        $values = $form->getValues();
+        $values = $btn->form->getValues();
         $fileData = array();
         foreach ($values['files'] as $file) {
             $name = strtolower($file->getSanitizedName());
