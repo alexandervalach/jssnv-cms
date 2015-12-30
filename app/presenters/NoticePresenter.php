@@ -6,6 +6,7 @@ use App\FormHelper;
 use App\Model\NoticeRepository;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
+use Nette\Forms\Controls\SubmitButton;
 
 class NoticePresenter extends BasePresenter {
 
@@ -60,7 +61,8 @@ class NoticePresenter extends BasePresenter {
                 ->setAttribute('id', 'ckeditor');
         $form->addSubmit('save', 'Zapísať')
                 ->onClick[] = $this->submittedEditForm;
-        $form->addSubmit('', '')
+        $form->addSubmit('cancel', 'Zrušiť')
+                ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
         FormHelper::setBootstrapRenderer($form);
         return $form;
@@ -73,14 +75,18 @@ class NoticePresenter extends BasePresenter {
         $this->redirect('all');
     }
 
-    public function submittedEditForm(Form $form) {
-        $values = $form->getValues();
+    public function submittedEditForm(SubmitButton $btn) {
+        $values = $btn->form->getValues();
         $this->noticeRow->update($values);
         $this->redirect('all');
     }
 
     public function submittedDeleteForm() {
         
+    }
+    
+    public function formCancelled() {
+        $this->redirect('all#primary');
     }
 
 }
