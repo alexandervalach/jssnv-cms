@@ -8,6 +8,7 @@ use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Image;
+use Nette\Forms\Controls\SubmitButton;
 
 class GalleryPresenter extends BasePresenter {
 
@@ -68,8 +69,11 @@ class GalleryPresenter extends BasePresenter {
     protected function createComponentUploadImagesForm() {
         $form = new Form;
         $form->addUpload('images', 'Vyber obrázky', true);
-        $form->addSubmit('upload', 'Nahraj');
-        $form->onSuccess[] = $this->submittedUploadImagesForm;
+        $form->addSubmit('upload', 'Nahraj')
+                ->onClick[] = $this->submittedUploadImagesForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formReturnToGallery;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
@@ -85,9 +89,9 @@ class GalleryPresenter extends BasePresenter {
         return $form;
     }
 
-    public function submittedUploadImagesForm(Form $form) {
+    public function submittedUploadImagesForm(SubmitButton $btn) {
         $this->userIsLogged();
-        $values = $form->getValues();
+        $values = $btn->form->getValues();
         $imgData = array();
         foreach ($values['images'] as $img) {
             $name = strtolower($img->getSanitizedName());
@@ -138,6 +142,10 @@ class GalleryPresenter extends BasePresenter {
 
     public function formCancelled() {
         $this->redirect('view#primary', $this->galleryRow->ref('album', 'album_id'));
+    }
+    
+    public function formReturnToGallery() {
+        $this->redirect('view#primary', $this->albumRow);
     }
 
 }

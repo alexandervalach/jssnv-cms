@@ -6,6 +6,7 @@ use App\FormHelper;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
+use Nette\Forms\Controls\SubmitButton;
 
 class AlbumPresenter extends BasePresenter {
 
@@ -16,14 +17,16 @@ class AlbumPresenter extends BasePresenter {
     private $error = "Album not found!";
 
     public function actionAll() {
-    } 
-    
+        
+    }
+
     public function renderAll() {
         $this->template->listOfAlbums = $this->albumRepository->findAll();
         $this->template->imgFolder = $this->imgFolder;
     }
-    
+
     public function actionEdit($id) {
+        $this->userIsLogged();
         $this->albumRow = $this->albumRepository->findById($id);
     }
 
@@ -66,17 +69,25 @@ class AlbumPresenter extends BasePresenter {
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-        $form->addSubmit('save', 'Zapísať');
+        $form->addSubmit('save', 'Zapísať')
+                ->onClick[] = $this->submittedEditForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
 
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedEditForm(Form $form) {
-        $values = $form->getValues();
+    public function submittedEditForm(SubmitButton $btn) {
+        $values = $btn->form->getValues();
         $this->albumRow->update($values);
         $this->redirect('Gallery:view', $this->albumRow->id);
+    }
+
+    public function formCancelled() {
+        $this->redirect('Gallery:view#primary', $this->albumRow);
     }
 
 }
