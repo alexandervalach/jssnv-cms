@@ -1,5 +1,16 @@
 {block content}
 
-<h2>Pridať oznam</h2>
+<div class="row">
+    <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-left">
+            <h2>Pridať oznam</h2>
+        </div>
+        <div class="pull-right">
+            {control formCancelled 'all#primary', 'Oznamy', 'btn btn-warning', 'arrow-left'}
+        </div>
+    </header>
 
-{control addForm}
+    <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {control addForm}
+    </main>
+</div>

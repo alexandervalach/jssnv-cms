@@ -55,6 +55,7 @@ class UserPresenter extends BasePresenter {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
+        $this->template->shownUser = $this->userRow;
         $this->getComponent('passwdForm');
     }
 

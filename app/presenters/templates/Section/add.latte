@@ -1,15 +1,23 @@
 {block content}
 
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<div class="row">
+    <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="pull-left">
+            <h2>Pridať sekciu</h2>
+        </div>
+        <div class="pull-right">
+            {control formCancelled 'all#primary', 'Sekcie', 'btn btn-warning', 'arrow-left'}
+        </div>
+    </header>
 
-    <h2>Pridať sekciu</h2>
+    <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h4>Tip</h4>
+            Sekcia s vyššou prioritou sa zobrazí skôr ako sekcia s nižšou prioritou.
+        </div>
 
-    <div class="alert alert-dismissible alert-info">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h4>Tip</h4>
-        Sekcia s vyššou prioritou sa zobrazí skôr ako sekcia s nižšou prioritou.
-    </div>
-
-    {control addForm}
+        {control addForm}
+    </main>
 
 </div>
