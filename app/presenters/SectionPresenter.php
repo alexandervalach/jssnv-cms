@@ -90,7 +90,11 @@ class SectionPresenter extends BasePresenter {
         $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
                 ->setDefaultValue(1);
         $form->addCheckbox('sliding', ' Rolovacie menu');
-        $form->addSubmit('save', 'Zapísať');
+        $form->addSubmit('save', 'Zapísať')
+                ->onClick[] = $this->submittedEditForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
 
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
@@ -101,6 +105,10 @@ class SectionPresenter extends BasePresenter {
         $values = $form->getValues();
         $this->sectionRow->update($values);
         $this->redirect('Section:all#primary');
+    }
+    
+    public function formCancelled() {
+        $this->redirect('all#primary');
     }
 
 }
