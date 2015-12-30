@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Components\ModalDialog;
+use App\Components\FormCancelled;
 use App\Model\AlbumRepository;
 use App\Model\BannerRepository;
 use App\Model\FilesRepository;
@@ -50,7 +51,7 @@ abstract class BasePresenter extends Presenter {
 
     /** @var SubFilesRepository */
     protected $subFilesRepository;
-    
+
     /** @var SubPostRepository */
     protected $subPostRepository;
 
@@ -105,6 +106,10 @@ abstract class BasePresenter extends Presenter {
         $form->onSuccess[] = $this->submittedRemoveForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
+    }
+
+    protected function createComponentFormCancelled() {
+        return new FormCancelled();
     }
 
 }
