@@ -83,7 +83,11 @@ class SubSectionPresenter extends BasePresenter {
         $form->addText('order', 'Poradie')
                 ->setDefaultValue(5)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
-        $form->addSubmit('save', 'Zapísať');
+        $form->addSubmit('save', 'Zapísať')
+                ->onClick[] = $this->submittedEditForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
 
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
@@ -96,4 +100,7 @@ class SubSectionPresenter extends BasePresenter {
         $this->redirect('SubPost:show', $this->subSectionRow->id);
     }
 
+    public function formCancelled() {
+        $this->redirect('all#primary');
+    }
 }
