@@ -51,11 +51,14 @@
                 </div>
             </header>
             <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <a n:if="$user->loggedIn" n:href="Post:edit, $post->id">
+                    (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
+                </a>
                 <p>{$post->content|noescape}</p>
             </main>
         </article>
     {/foreach}
-    
+
     {foreach $subPosts as $post}
         <article class="row">
             <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -64,6 +67,9 @@
                 </div>
             </header>
             <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <a n:if="$user->loggedIn" n:href="SubPost:edit, $post->id">
+                    (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
+                </a>
                 <p>{$post->content|noescape}</p>
             </main>
         </article>
