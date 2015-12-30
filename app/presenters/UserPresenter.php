@@ -4,8 +4,8 @@ namespace App\Presenters;
 
 use App\FormHelper;
 use App\Model\UserRepository;
-use Nette\Application\UI\Form;
 use Nette\Application\BadRequestException;
+use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Forms\Controls\SubmitButton;
 
@@ -16,6 +16,12 @@ class UserPresenter extends BasePresenter {
 
     /** @var string */
     private $error = "User not found!";
+
+    /** @var string */
+    private $forbidden = "Action not allowed!";
+
+    /** @var string */
+    private $root = "admin";
 
     public function actionAll() {
         $this->userIsLogged();
@@ -42,6 +48,7 @@ class UserPresenter extends BasePresenter {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
+        $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $this->template->users = $this->userRow;
         $this->getComponent('editForm')->setDefaults($this->userRow);
     }
@@ -55,6 +62,7 @@ class UserPresenter extends BasePresenter {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
+        $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $this->template->shownUser = $this->userRow;
         $this->getComponent('passwdForm');
     }

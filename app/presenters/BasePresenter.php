@@ -16,6 +16,7 @@ use App\Model\SectionRepository;
 use App\Model\SubPostRepository;
 use App\Model\SubSectionRepository;
 use App\Model\UserRepository;
+use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Form;
 use App\FormHelper;
@@ -110,6 +111,14 @@ abstract class BasePresenter extends Presenter {
 
     protected function createComponentFormCancelled() {
         return new FormCancelled();
+    }
+
+    protected function userIsAllowed($id, $userRole, $root, $errorMessage) {
+        if ($userRole != $root) {
+            if ($this->user->id != $id) {
+                throw new ForbiddenRequestException($errorMessage);
+            }
+        }
     }
 
 }
