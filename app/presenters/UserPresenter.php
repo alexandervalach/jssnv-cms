@@ -7,6 +7,7 @@ use App\Model\UserRepository;
 use Nette\Application\UI\Form;
 use Nette\Application\BadRequestException;
 use Nette\Database\Table\ActiveRow;
+use Nette\Forms\Controls\SubmitButton;
 
 class UserPresenter extends BasePresenter {
 
@@ -76,7 +77,7 @@ class UserPresenter extends BasePresenter {
                 ->addRule(Form::MAX_LENGTH, 'Užívateľské meno môže mať maximálne 50 znakov.', 50);
         $form->addSelect('role', 'Úloha', UserRepository::$ROLES);
         $form->addSubmit('save', 'Zapísať');
-        $form->onSuccess[] = $this->submittedAddForm;
+        $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
@@ -86,14 +87,17 @@ class UserPresenter extends BasePresenter {
         $form->addText('username', 'Užívateľské meno')
                 ->addRule(Form::FILLED, 'Užívateľské meno musí byť vyplnené.')
                 ->addRule(Form::MAX_LENGTH, 'Užívateľské meno môže mať maximálne 50 znakov.', 50);
-        $form->addSubmit('save', 'Zapísať');
-        $form->onSuccess[] = $this->submittedEditForm;
+        $form->addSubmit('save', 'Zapísať')
+                ->onClick[] = $this->submittedEditForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                        ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedEditForm(Form $form) {
-        $values = $form->getValues();
+    public function submittedEditForm(SubmitButton $btn) {
+        $values = $btn->form->getValues();
         $this->userRow->update($values);
         $this->redirect('all');
     }
@@ -127,10 +131,14 @@ class UserPresenter extends BasePresenter {
         $this->userRow->update(array('password' => md5($values['password'])));
         $this->redirect('all');
     }
-    
+
     public function submittedRemoveForm() {
         $this->userIsLogged();
         $this->userRow->delete();
+        $this->redirect('all#primary');
+    }
+
+    public function formCancelled() {
         $this->redirect('all#primary');
     }
 
