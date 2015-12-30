@@ -4,9 +4,6 @@
         <li n:if="$user->loggedIn">
             <a n:href="Sign:out#primary"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
         </li>
-        <li>
-            <a n:href="Homepage:default#primary">Úvod</a>
-        </li>
         <li n:if="$user->loggedIn">
             <a href="#">Pridať</a>
             <ul>
@@ -29,6 +26,9 @@
         </li>
 
         <!-- Užívateľom generované sekcie -->
+        <li>
+            <a n:href="Homepage:default#primary">Úvod</a>
+        </li>
         {foreach $sections as $section}  
             {if $section->name == "Fotogaléria"}
                 <!-- Album v rámci fotogalérie -->
