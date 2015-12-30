@@ -58,8 +58,10 @@ class NoticePresenter extends BasePresenter {
                 ->setRequired("Názov musí byť vyplnený");
         $form->addTextArea('content', 'Text')
                 ->setAttribute('id', 'ckeditor');
-        $form->addSubmit('save', 'Zapísať');
-        $form->onSuccess[] = $this->submittedEditForm;
+        $form->addSubmit('save', 'Zapísať')
+                ->onClick[] = $this->submittedEditForm;
+        $form->addSubmit('', '')
+                ->onClick[] = $this->formCancelled;
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
