@@ -76,6 +76,7 @@ class UserPresenter extends BasePresenter {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
+        $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $this->template->users = $this->userRow;
     }
 
@@ -112,6 +113,7 @@ class UserPresenter extends BasePresenter {
     }
 
     public function submittedAddForm(Form $form) {
+        $this->userIsLogged();
         $values = $form->getValues();
         $this->userRepository->insert($values);
         $this->redirect('all');
@@ -136,6 +138,7 @@ class UserPresenter extends BasePresenter {
     }
 
     public function submittedPasswdForm(Form $form) {
+        $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $values = $form->getValues();
         $this->userRow->update(array('password' => md5($values['password'])));
         $this->redirect('all');
@@ -143,6 +146,7 @@ class UserPresenter extends BasePresenter {
 
     public function submittedRemoveForm() {
         $this->userIsLogged();
+        $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $this->userRow->delete();
         $this->redirect('all#primary');
     }
