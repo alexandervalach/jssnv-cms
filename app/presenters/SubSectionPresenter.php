@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use App\FormHelper;
 use Nette\Application\UI\Form;
+use Nette\Forms\Controls\SubmitButton;
 use Nette\Database\Table\ActiveRow;
 
 class SubSectionPresenter extends BasePresenter {
@@ -94,10 +95,10 @@ class SubSectionPresenter extends BasePresenter {
         return $form;
     }
 
-    public function submittedEditForm(Form $form) {
-        $values = $form->getValues();
+    public function submittedEditForm(SubmitButton $btn) {
+        $values = $btn->form->getValues();
         $this->subSectionRow->update($values);
-        $this->redirect('SubPost:show', $this->subSectionRow->id);
+        $this->redirect('SubPost:show', $this->subSectionRow);
     }
 
     public function formCancelled() {
