@@ -5,7 +5,7 @@ namespace App\Model;
 class SectionRepository extends Repository {
 
     public function getSections() {
-        $sections = $this->findAll();
+        $sections = $this->findAll()->order('name ASC');
 
         if (!$sections) {
             return null;
