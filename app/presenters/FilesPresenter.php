@@ -13,6 +13,16 @@ class FilesPresenter extends BasePresenter {
 
     /** @var string */
     private $error = "File not found!";
+    
+    public function actionAll() {
+        
+    }
+
+    public function renderAll() {
+        $this->template->files = $this->filesRepository->findAll()->order('name ASC');
+        $this->template->subFiles = $this->subFilesRepository->findAll()->order('name ASC');
+        $this->template->fileFolder = $this->fileFolder;
+    }
 
     public function actionRemove($id) {
         $this->fileRow = $this->filesRepository->findById($id);
@@ -31,15 +41,15 @@ class FilesPresenter extends BasePresenter {
                         ->setAttribute('class', 'btn btn-danger')
                 ->onClick[] = $this->submittedFileRemoveForm;
         $form->addSubmit('cancel', 'Zrušiť')
-                ->setAttribute('class', 'btn btn-warning')
+                        ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
         return $form;
     }
-    
+
     public function formCancelled() {
         $this->redirect('Post:show#primary', $this->fileRow->ref('post', 'post_id'));
     }
-    
+
     public function submittedFileRemoveForm() {
         $file = $this->fileRow;
         $fileFile = new FileSystem;

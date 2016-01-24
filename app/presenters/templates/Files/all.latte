@@ -1,0 +1,35 @@
+{block content}
+
+<section id="listOfFiles">
+    <header>
+        <div class="pull-left">
+            <h2>Zoznam súborov</h2>
+        </div>
+    </header>
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>Názov</th>
+                <th>Adresa</th>
+                <th n:if="$user->loggedIn">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $files as $file}
+                <tr>
+                    <td>
+                        <a href="{$baseUrl}/{$fileFolder}{$file->name}">{$file->name}</a>
+                    </td>
+                    <td>
+                        {$baseUrl}/{$fileFolder}{$file->name}
+                    </td>
+                    <td n:if="$user->loggedIn" class="text-center">
+                        <a n:href="remove, $file->id" class="text-danger">
+                            <span class="glyphicon glyphicon-remove">
+                        </a>
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+</section>
