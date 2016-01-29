@@ -3,6 +3,8 @@
 //$('.slideToggle').find('ul').slideUp();
 
 $(document).ready(function(){
+    // $('li.slideToggle').bind('click', function);
+    
     $('li.slideToggle').bind('click', function(){
         $(this).find('ul').slideToggle();
         return false;

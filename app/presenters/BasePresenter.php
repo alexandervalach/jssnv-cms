@@ -85,8 +85,8 @@ abstract class BasePresenter extends Presenter {
     }
 
     public function beforeRender() {
-        $this->template->sections = $this->sectionRepository->findByValue('visible', 1)->order("order DESC");
-        $this->template->albums = $this->albumRepository->findAll();
+        $this->template->menuSections = $this->sectionRepository->findByValue('visible', 1)->order("order DESC");
+        $this->template->menuAlbums = $this->albumRepository->findAll();
         $this->template->imgFolder = $this->imgFolder;
     }
 

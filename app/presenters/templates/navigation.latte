@@ -30,14 +30,14 @@
         <li>
             <a n:href="Homepage:default#primary">Úvod</a>
         </li>
-        {foreach $sections as $section}  
+        {foreach $menuSections as $section}  
             {if $section->name == "Fotogaléria"}
                 <!-- Album v rámci fotogalérie -->
-                <li>
-                    <a href="{$section->url}">{$section->name} <span class="caret"></span></a>
+                {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
+                    <a href="{$section->url}">{$section->name} {if $section->sliding}<span class="caret"></span>{/if}</a>
                     <ul>
-                        {if $albums != null}
-                            {foreach $albums as $album}
+                        {if $menuAlbums != null}
+                            {foreach $menuAlbums as $album}
                                 <li>
                                     <a n:href="Gallery:view#primary, $album->id"> &#58;&#58; {$album->name}</a>
                                 </li>
@@ -50,10 +50,9 @@
                 {if $section->related('subsection')->count() > 0}
                     {var $subSections = $section->related('subsection')}
                     {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
-
-                        {if !isset($section->url)}
+                        {if $section->sliding}
                             <a href="#">{$section->name}<span class="caret"></span></a>
-                        {else}
+                            {elseif !isset($section->url)}
                             <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>
                                 {$section->name}
                             </a>
