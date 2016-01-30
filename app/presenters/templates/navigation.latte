@@ -1,8 +1,10 @@
 <aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
     <ul class="nav nav-pills nav-stacked">
         <!-- Prednastavené sekcie -->
-        <li n:if="$user->loggedIn">
-            <a n:href="Sign:out#primary"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
+        <li>
+            {if !$user->loggedIn}<a n:href="Sign:in#primary">Administrácia</a>
+            {else}<a n:href="Sign:out#primary"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
+            {/if}
         </li>
         <li n:if="$user->loggedIn">
             <a href="#">Pridať</a>
@@ -18,80 +20,58 @@
             <a href="#">Zoznam</a>
             <ul>
                 <li>
-                    <a n:href="Section:all#primary"> &#58;&#58; Sekcií</a>
-                    <a n:href="SubSection:all#primary"> &#58;&#58; Podsekcií </a>
+                    <a n:href="Section:all#primary"> &#58;&#58; Sekcii</a>
+                    <a n:href="SubSection:all#primary"> &#58;&#58; Podsekcii</a>
                     <a n:href="User:all#primary"> &#58;&#58; Užívateľov</a>
                     <a n:href="Files:all#primary"> &#58;&#58; Súborov</a>
                 </li>
             </ul>
         </li>
+        <li>
+            <a n:href="Notice:all#primary">Oznamy</a>
+        </li>
 
         <!-- Užívateľom generované sekcie -->
-        <li>
-            <a n:href="Homepage:default#primary">Úvod</a>
-        </li>
-        {foreach $menuSections as $section}  
+        {foreach $menuSections as $section} 
             {if $section->name == "Fotogaléria"}
-                <!-- Album v rámci fotogalérie -->
-                {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
-                    <a href="{$section->url}">{$section->name} {if $section->sliding}<span class="caret"></span>{/if}</a>
-                    <ul>
+                {if $section->sliding}
+                    <li class="slideToggle">
+                        <a href="#">Fotogaléria <span class="caret"></span></a>
+                        {else}
+                    <li>
+                        <a n:href="Album:all#primary">Fotogaléria</a>{/if}
                         {if $menuAlbums != null}
-                            {foreach $menuAlbums as $album}
-                                <li>
-                                    <a n:href="Gallery:view#primary, $album->id"> &#58;&#58; {$album->name}</a>
-                                </li>
-                            {/foreach}
-                        {/if}
-                    </ul>
-                </li>
-            {else}
-
-                {if $section->related('subsection')->count() > 0}
-                    {var $subSections = $section->related('subsection')}
-                    {if $section->sliding}<li class="slideToggle">{else}<li>{/if}
-                        {if $section->sliding}
-                            <a href="#">{$section->name}<span class="caret"></span></a>
-                            {elseif !isset($section->url)}
-                            <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>
-                                {$section->name}
-                            </a>
-                        {/if}
-
-                        {if $section->sliding}<ul style="display: none;">{else}<ul>{/if}
-                                {foreach $subSections as $subSection}
+                            <ul>
+                                {foreach $menuAlbums as $album}
                                     <li>
-                                        {if !isset($subSection->url)}
-                                            <a n:href="SubPost:show#primary, $subSection->id"> 
-                                                &#58;&#58; {$subSection->name}
-                                            </a>
-                                        {else}
-                                            <a href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}> 
-                                                &#58;&#58; {$subSection->name}
-                                            </a>
-                                        {/if}
+                                        <a n:href="Gallery:view#primary, $album->id"> &#58;&#58; {$album->name}</a>
                                     </li>
                                 {/foreach}
                             </ul>
+                        {/if}
+                    </li>
+                {elseif $section->related('subsection')->count() > 0}
+                    {var $subSections = $section->related('subsection')}
+                    {if $section->sliding}
+                        <li class="slideToggle">
+                            <a href="#">{$section->name}<span class="caret"></span></a>
+                            {else}
+                        <li>
+                            <a href="{$section->url}" {if $section->homeUrl}target="_blank"{/if}>{$section->name}</a>
+                        {/if}
+                        <ul>
+                            {foreach $subSections as $subSection}
+                                <li>
+                                    <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
+                                </li>
+                            {/foreach}
+                        </ul>
                     </li>
                 {else}
                     <li>
-                        {if !isset($section->url)}
-                            <a n:href="Post:show#primary, $section->id">{$section->name}</a>
-                        {else}
-                            <a href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>
-                                {$section->name}
-                            </a>
-                        {/if}
+                        <a n:href="Post:show#primary, $section->id">{$section->name}</a>
                     </li>
                 {/if}
-            {/if}
-        {/foreach}
-
-        <li n:if="!$user->loggedIn">
-            <a n:href="Sign:in#primary">
-                <span class="glyphicon glyphicon-user"></span> Administrácia
-            </a>
-        </li>
-    </ul>
-</aside>
+                {/foreach}
+                </ul>
+            </aside>
