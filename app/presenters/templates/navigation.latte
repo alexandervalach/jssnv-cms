@@ -5,7 +5,7 @@
             <a n:href="Sign:out#primary"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
         </li>
         <li n:if="$user->loggedIn">
-            <a href="#">Pridať</a>
+            <a href="#primary">Pridať</a>
             <ul>
                 <li><a n:href="Section:add#primary"> &#58;&#58; Sekciu</a></li>
                 <li><a n:href="SubSection:add#primary"> &#58;&#58; Podsekciu</a></li>
@@ -15,7 +15,7 @@
             </ul>
         </li>
         <li n:if="$user->loggedIn">
-            <a href="#">Zoznam</a>
+            <a href="#primary">Zoznam</a>
             <ul>
                 <li>
                     <a n:href="Section:all#primary"> &#58;&#58; Sekcii</a>
@@ -31,7 +31,7 @@
             {if $section->name == "Fotogaléria"}
                 {if $section->sliding}
                     <li class="slideToggle">
-                        <a href="#">Fotogaléria <span class="caret"></span></a>
+                        <a href="#primary">Fotogaléria <span class="caret"></span></a>
                         {else}
                     <li>
                         <a n:href="Album:all#primary">Fotogaléria</a>{/if}
@@ -49,10 +49,10 @@
                     {var $subSections = $section->related('subsection')}
                     {if $section->sliding}
                         <li class="slideToggle">
-                            <a href="#">{$section->name}<span class="caret"></span></a>
+                            <a href="#primary">{$section->name}<span class="caret"></span></a>
                             {else}
                         <li>
-                            <a href="#">{$section->name}</a>
+                            <a href="#primary">{$section->name}</a>
                         {/if}
                         <ul>
                             {foreach $subSections as $subSection}
