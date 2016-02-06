@@ -1,10 +1,8 @@
 <aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
     <ul class="nav nav-pills nav-stacked">
         <!-- Prednastavené sekcie -->
-        <li>
-            {if !$user->loggedIn}<a n:href="Sign:in#primary">Administrácia</a>
-            {else}<a n:href="Sign:out#primary"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
-            {/if}
+        <li n:if="$user->loggedIn">
+            <a n:href="Sign:out#primary"><span class="glyphicon glyphicon-log-out"> Odhlásiť</a>
         </li>
         <li n:if="$user->loggedIn">
             <a href="#">Pridať</a>
@@ -26,9 +24,6 @@
                     <a n:href="Files:all#primary"> &#58;&#58; Súborov</a>
                 </li>
             </ul>
-        </li>
-        <li>
-            <a n:href="Notice:all#primary">Oznamy</a>
         </li>
 
         <!-- Užívateľom generované sekcie -->
@@ -57,19 +52,29 @@
                             <a href="#">{$section->name}<span class="caret"></span></a>
                             {else}
                         <li>
-                            <a href="{$section->url}" {if $section->homeUrl}target="_blank"{/if}>{$section->name}</a>
+                            <a href="#">{$section->name}</a>
                         {/if}
                         <ul>
                             {foreach $subSections as $subSection}
                                 <li>
-                                    <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
+                                    {if $subSection->url == NULL || $subSection->url == ""}
+                                        <a n:href="SubPost:show#primary, $subSection->id"> &#58;&#58; {$subSection->name}</a>
+                                    {else}
+                                        <a href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}>
+                                            &#58;&#58; {$subSection->name}</a>
+                                        {/if}
                                 </li>
                             {/foreach}
                         </ul>
                     </li>
                 {else}
                     <li>
-                        <a n:href="Post:show#primary, $section->id">{$section->name}</a>
+                        {if $section->url == NULL || $section->url == ""}
+                            <a n:href="Post:show#primary, $section->id">{$section->name}</a>
+                        {else}
+                            <a href="{$section->url}#primary" {if !$section->homeUrl}target="_blank"{/if}>
+                                {$section->name}</a>
+                        {/if}
                     </li>
                 {/if}
                 {/foreach}

@@ -69,12 +69,17 @@ class SectionPresenter extends BasePresenter {
     public function submittedAddForm(Form $form) {
         $values = $form->getValues();
         $id = $this->sectionRepository->insert($values);
-        $postData = array(
-            'section_id' => $id,
-            'name' => $values['name']
-        );
-        $this->postRepository->insert($postData);
-        $this->redirect('Post:show#primary', $id);
+
+        if (empty($values->url)) {
+            $postData = array(
+                'section_id' => $id,
+                'name' => $values['name']
+            );
+            $this->postRepository->insert($postData);
+            $this->redirect('Post:show#primary', $id);
+        } else {
+            $this->redirect('Homepage:#primary');
+        }
     }
 
     protected function createComponentEditForm() {
@@ -94,7 +99,7 @@ class SectionPresenter extends BasePresenter {
         $form->addSubmit('save', 'Zapísať')
                 ->onClick[] = $this->submittedEditForm;
         $form->addSubmit('cancel', 'Zrušiť')
-                ->setAttribute('class', 'btn btn-warning')
+                        ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
 
         FormHelper::setBootstrapRenderer($form);
@@ -106,7 +111,7 @@ class SectionPresenter extends BasePresenter {
         $this->sectionRow->update($values);
         $this->redirect('Section:all#primary');
     }
-    
+
     public function formCancelled() {
         $this->redirect('all#primary');
     }
