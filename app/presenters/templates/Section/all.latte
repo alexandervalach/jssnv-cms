@@ -21,6 +21,7 @@
                 <th>Rolovacie menu</th>
                 <th>Viditeľné</th>
                 <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -37,9 +38,14 @@
                     <td>{$section->order}</td>
                     <td>{if $section->sliding}ÁNO{else}NIE{/if}</td>
                     <td>{if $section->visible}ÁNO{else}NIE{/if}</td>
-                    <td>
+                    <td class="text-center">
                         <a n:href="edit#primary, $section->id" class="text-success">
                             <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a n:href="remove#primary, $section->id" class="text-danger">
+                            <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
                 </tr>

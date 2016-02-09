@@ -44,6 +44,19 @@ class SectionPresenter extends BasePresenter {
         $this->getComponent('addForm');
     }
 
+    public function actionRemove($id) {
+        $this->userIsLogged();
+        $this->sectionRow = $this->sectionRepository->findById($id);
+    }
+
+    public function renderRemove($id) {
+        if (!$this->sectionRow) {
+            throw new BadRequestException($this->error);
+        }
+        $this->template->section = $this->sectionRow;
+        $this->getComponent('removeForm');
+    }
+
     protected function createComponentAddForm() {
         $form = new Form;
         $form->addText('name', 'Názov')
@@ -64,22 +77,6 @@ class SectionPresenter extends BasePresenter {
         $form->onSuccess[] = $this->submittedAddForm;
         FormHelper::setBootstrapRenderer($form);
         return $form;
-    }
-
-    public function submittedAddForm(Form $form) {
-        $values = $form->getValues();
-        $id = $this->sectionRepository->insert($values);
-
-        if (empty($values->url)) {
-            $postData = array(
-                'section_id' => $id,
-                'name' => $values['name']
-            );
-            $this->postRepository->insert($postData);
-            $this->redirect('Post:show#primary', $id);
-        } else {
-            $this->redirect('Homepage:#primary');
-        }
     }
 
     protected function createComponentEditForm() {
@@ -106,10 +103,46 @@ class SectionPresenter extends BasePresenter {
         return $form;
     }
 
+    protected function createComponentRemoveForm() {
+        $form = new Form;
+        $form->addSubmit('remove', 'Odstrániť')
+                        ->setAttribute('class', 'btn btn-danger')
+                ->onClick[] = $this->submittedRemoveForm;
+        $form->addSubmit('cancel', 'Zrušiť')
+                        ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
+        return $form;
+    }
+
+    public function submittedAddForm(Form $form) {
+        $values = $form->getValues();
+        $id = $this->sectionRepository->insert($values);
+
+        if (empty($values->url)) {
+            $postData = array(
+                'section_id' => $id,
+                'name' => $values['name']
+            );
+            $this->postRepository->insert($postData);
+            $this->redirect('Post:show#primary', $id);
+        } else {
+            $this->redirect('Homepage:#primary');
+        }
+    }
+
     public function submittedEditForm(SubmitButton $btn) {
         $values = $btn->form->getValues();
         $this->sectionRow->update($values);
         $this->redirect('Section:all#primary');
+    }
+
+    public function submittedRemoveForm() {
+        if ($this->sectionRow->url == NULL || $this->sectionRow->url == "") {
+            $post = $this->sectionRow->related('post')->fetch();
+            $post->delete();
+        }
+        $this->sectionRow->delete();
+        $this->redirect('all#primary');
     }
 
     public function formCancelled() {
