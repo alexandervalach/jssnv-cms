@@ -76,20 +76,6 @@ class SubSectionPresenter extends BasePresenter {
         return $form;
     }
 
-    public function submittedAddForm(Form $form) {
-        $values = $form->getValues();
-        $id = $this->subSectionRepository->insert($values);
-        if (empty($values->url)) {
-            $postData = array(
-                'subsection_id' => $id,
-                'name' => $values['name']
-            );
-            $this->subPostRepository->insert($postData);
-            $this->redirect('SubPost:show', $id);
-        }
-        $this->redirect('all#primary');
-    }
-
     protected function createComponentEditForm() {
         $form = new Form;
         $form->addText('name', 'Názov')
@@ -122,10 +108,24 @@ class SubSectionPresenter extends BasePresenter {
         return $form;
     }
 
+    public function submittedAddForm(Form $form) {
+        $values = $form->getValues();
+        $id = $this->subSectionRepository->insert($values);
+        if (empty($values->url)) {
+            $postData = array(
+                'subsection_id' => $id,
+                'name' => $values['name']
+            );
+            $this->subPostRepository->insert($postData);
+            $this->redirect('SubPost:show', $id);
+        }
+        $this->redirect('all#primary');
+    }
+
     public function submittedEditForm(SubmitButton $btn) {
         $values = $btn->form->getValues();
         $this->subSectionRow->update($values);
-        $this->redirect('SubPost:show', $this->subSectionRow);
+        $this->redirect('all#primary');
     }
 
     public function submittedRemoveForm() {

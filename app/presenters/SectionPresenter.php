@@ -105,12 +105,12 @@ class SectionPresenter extends BasePresenter {
 
     protected function createComponentRemoveForm() {
         $form = new Form;
-        $form->addSubmit('remove', 'Odstrániť')
-                        ->setAttribute('class', 'btn btn-danger')
-                ->onClick[] = $this->submittedRemoveForm;
         $form->addSubmit('cancel', 'Zrušiť')
                         ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
+        $form->addSubmit('remove', 'Odstrániť')
+                        ->setAttribute('class', 'btn btn-danger')
+                ->onClick[] = $this->submittedRemoveForm;
         return $form;
     }
 
@@ -126,14 +126,14 @@ class SectionPresenter extends BasePresenter {
             $this->postRepository->insert($postData);
             $this->redirect('Post:show#primary', $id);
         } else {
-            $this->redirect('Homepage:#primary');
+            $this->redirect('all#primary');
         }
     }
 
     public function submittedEditForm(SubmitButton $btn) {
         $values = $btn->form->getValues();
         $this->sectionRow->update($values);
-        $this->redirect('Section:all#primary');
+        $this->redirect('all#primary');
     }
 
     public function submittedRemoveForm() {
