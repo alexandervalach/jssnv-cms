@@ -27,12 +27,12 @@ class SubFilesPresenter extends BasePresenter {
 
     protected function createComponentRemoveFileForm() {
         $form = new Form;
-        $form->addSubmit('remove', 'Odstrániť')
-                        ->setAttribute('class', 'btn btn-danger')
-                ->onClick[] = $this->submittedFileRemoveForm;
         $form->addSubmit('cancel', 'Zrušiť')
                         ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
+        $form->addSubmit('remove', 'Odstrániť')
+                        ->setAttribute('class', 'btn btn-danger')
+                ->onClick[] = $this->submittedFileRemoveForm;
         return $form;
     }
 

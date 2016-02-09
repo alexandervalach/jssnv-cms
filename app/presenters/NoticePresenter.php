@@ -87,12 +87,12 @@ class NoticePresenter extends BasePresenter {
 
     protected function createComponentRemoveForm() {
         $form = new Form;
-        $form->addSubmit('remove', 'Odstrániť')
-                        ->setAttribute('class', 'btn btn-danger')
-                ->onClick[] = $this->submittedRemoveForm;
         $form->addSubmit('cancel', 'Zrušiť')
                         ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
+        $form->addSubmit('remove', 'Odstrániť')
+                        ->setAttribute('class', 'btn btn-danger')
+                ->onClick[] = $this->submittedRemoveForm;
         return $form;
     }
 
