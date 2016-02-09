@@ -19,6 +19,7 @@
                 <th>Názov sekcie</th>
                 <th>Poradie</th>
                 <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -42,6 +43,11 @@
                     <td>
                         <a n:href="edit#primary, $section->id" class="text-success">
                             <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a n:href="remove#primary, $section->id" class="text-danger">
+                            <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
                 </tr>

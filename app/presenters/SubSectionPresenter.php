@@ -12,6 +12,9 @@ class SubSectionPresenter extends BasePresenter {
     /** @var ActiveRow */
     private $subSectionRow;
 
+    /** @var string */
+    private $error = "Subsection not found!";
+
     public function actionAll() {
         $this->userIsLogged();
     }
@@ -40,6 +43,19 @@ class SubSectionPresenter extends BasePresenter {
         $this->getComponent('addForm');
     }
 
+    public function actionRemove($id) {
+        $this->userIsLogged();
+        $this->subSectionRow = $this->subSectionRepository->findById($id);
+    }
+
+    public function renderRemove($id) {
+        if (!$this->subSectionRow) {
+            throw new BadRequestException($this->error);
+        }
+        $this->template->subSection = $this->subSectionRow;
+        $this->getComponent('removeForm');
+    }
+
     protected function createComponentAddForm() {
         $form = new Form;
         $sections = $this->sectionRepository->getSections();
@@ -49,8 +65,7 @@ class SubSectionPresenter extends BasePresenter {
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
         $form->addText('url', 'URL adresa')
                 ->addRule(Form::MAX_LENGTH, 'URL môže mať maximálne 200 znakov.', 200);
-        $form->addCheckbox('homeUrl', ' URL na tejto stránke')
-                ->setDefaultValue(1);
+        $form->addCheckbox('homeUrl', ' URL na tejto stránke');
         $form->addText('order', 'Poradie')
                 ->setDefaultValue(5)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
@@ -64,12 +79,15 @@ class SubSectionPresenter extends BasePresenter {
     public function submittedAddForm(Form $form) {
         $values = $form->getValues();
         $id = $this->subSectionRepository->insert($values);
-        $postData = array(
-            'subsection_id' => $id,
-            'name' => $values['name']
-        );
-        $this->subPostRepository->insert($postData);
-        $this->redirect('SubPost:show', $id);
+        if (empty($values->url)) {
+            $postData = array(
+                'subsection_id' => $id,
+                'name' => $values['name']
+            );
+            $this->subPostRepository->insert($postData);
+            $this->redirect('SubPost:show', $id);
+        }
+        $this->redirect('all#primary');
     }
 
     protected function createComponentEditForm() {
@@ -85,11 +103,22 @@ class SubSectionPresenter extends BasePresenter {
         $form->addSubmit('save', 'Zapísať')
                 ->onClick[] = $this->submittedEditForm;
         $form->addSubmit('cancel', 'Zrušiť')
-                ->setAttribute('class', 'btn btn-warning')
+                        ->setAttribute('class', 'btn btn-warning')
                 ->onClick[] = $this->formCancelled;
 
         $form->onSuccess[] = $this->submittedEditForm;
         FormHelper::setBootstrapRenderer($form);
+        return $form;
+    }
+
+    protected function createComponentRemoveForm() {
+        $form = new Form;
+        $form->addSubmit('cancel', 'Zrušiť')
+                        ->setAttribute('class', 'btn btn-warning')
+                ->onClick[] = $this->formCancelled;
+        $form->addSubmit('remove', 'Odstrániť')
+                        ->setAttribute('class', 'btn btn-danger')
+                ->onClick[] = $this->submittedRemoveForm;
         return $form;
     }
 
@@ -99,7 +128,17 @@ class SubSectionPresenter extends BasePresenter {
         $this->redirect('SubPost:show', $this->subSectionRow);
     }
 
+    public function submittedRemoveForm() {
+        if ($this->subSectionRow->url == NULL || $this->subSectionRow->url == "") {
+            $subPost = $this->subSectionRow->related('post')->fetch();
+            $subPost->delete();
+        }
+        $this->subSectionRow->delete();
+        $this->redirect('all#primary');
+    }
+
     public function formCancelled() {
         $this->redirect('all#primary');
     }
+
 }
