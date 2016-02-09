@@ -90,9 +90,13 @@ div#page > footer {
     border: none;
 }
 
-div.alert > header {
+div.alert > header > div.pull-left {
     font-weight: bold;
     font-size: 1.1em;
+}
+
+div.alert > main{
+    clear: both;
 }
 
 p#decision{

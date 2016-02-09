@@ -5,18 +5,20 @@
 
     {foreach $notices as $notice}
         <div class="alert alert-{$notice->type}">
-            <div class="pull-left">
-                <header>{$notice->name}</header>
-            </div>
+            <header>
+                <div class="pull-left">
+                    {$notice->name}
+                </div>
 
-            <div class="pull-right" n:if="$user->loggedIn">
-                <a n:href="edit#primary, $notice->id" class="text-{$notice->type}">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                </a>&nbsp;&nbsp;
-                <a n:href="remove#primary, $notice->id" class="text-{$notice->type}">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </a>
-            </div>
+                <div class="pull-right" n:if="$user->loggedIn">
+                    <a n:href="edit#primary, $notice->id" class="text-{$notice->type}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </a>&nbsp;&nbsp;
+                    <a n:href="remove#primary, $notice->id" class="text-{$notice->type}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </div>
+            </header>
 
             <main>{$notice->content|noescape}</main>
         </div>
