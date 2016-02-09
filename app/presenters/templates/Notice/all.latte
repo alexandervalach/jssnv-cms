@@ -4,15 +4,21 @@
     <h2>Oznamy</h2>
 
     {foreach $notices as $notice}
-        <div class="alert alert-dismissible alert-{$notice->type}">
-            <header>{$notice->name}</header>
-            <main>{$notice->content|noescape}</main>
-            <footer n:if="$user->loggedIn">
-                <a n:href="edit, $notice->id" class="text-success">
-                    <span class="glyphicon glyphicon-pencil"></span> Upraviť
+        <div class="alert alert-{$notice->type}">
+            <div class="pull-left">
+                <header>{$notice->name}</header>
+            </div>
+
+            <div class="pull-right" n:if="$user->loggedIn">
+                <a n:href="edit#primary, $notice->id" class="text-{$notice->type}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>&nbsp;&nbsp;
+                <a n:href="remove#primary, $notice->id" class="text-{$notice->type}">
+                    <span class="glyphicon glyphicon-remove"></span>
                 </a>
-                <a href="#" data-toggle="modal"></a>
-            </footer>
+            </div>
+
+            <main>{$notice->content|noescape}</main>
         </div>
     {/foreach}
 </section>
