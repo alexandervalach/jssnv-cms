@@ -7,24 +7,20 @@ div#page {
     max-width: 984px;
     position: relative;
     margin-top: 35px;
-    background: #fff;
+    background: rgba(255,255,255,0.95);
+    border-radius: 10px;
+    border-radius: 10px;
 }
 
 div#primary.row {
     margin: 0;
 }
 
-div#primary > main#content {
-    background: #fff;
-}
-
 div#primary > main#content > div.row {
-    background: rgba(255,255,255,0.9);
     padding: 15px;
 }
 
 div#primary > aside {
-    background: #ffffff; 
     min-height: 500px;
     height: 100%;
     padding: 14px;
@@ -72,12 +68,19 @@ div#primary > aside > ul > li > ul > li > a:hover{
     color: #000;
 }
 
-div#page > a > header#banner {
-    height: 140px;
-    background-image: url('../images/header.jpg');
+div#page > header#banner{
+    height: 180px;
+    background: rgba(34,139,34,.7);
     background-repeat:no-repeat;
     background-size:contain;
     background-position:center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+div#page > header#banner > a > img.img-responsive{
+    margin-top: 20px;
+    display: inline;
 }
 
 div#page > footer {
@@ -88,6 +91,8 @@ div#page > footer {
     color: #ffffff;
     font-weight: bold;
     border: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 div.alert > header > div.pull-left {
