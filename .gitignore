@@ -2,5 +2,4 @@
 /log/
 /temp/
 /app/config/config.local.neon
-/composer.phar
 /www/images/
