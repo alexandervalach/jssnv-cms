@@ -9,15 +9,13 @@
         <meta charset="utf-8">
         <meta name="description" content="">
         <meta name="robots" content="{$robots}" n:ifset="$robots">
+        <meta name="viewport" content="width=device-width">
 
         <title>{ifset title}{include title|striptags} | {/ifset}Jazykovka</title>
 
-        <link rel="stylesheet" href="{$basePath}/css/custom.css">
-        <link rel="stylesheet" href="{$basePath}/css/style.css">
+        <link rel="stylesheet" href="{$basePath}/css/style.css?v=1.0.0">
         <link rel="stylesheet" href="{$basePath}/bootstrap/css/bootstrap.min.css">
         <link rel="shortcut icon" href="{$basePath}/favicon.ico">
-        <meta name="viewport" content="width=device-width">
-        {block head}{/block}
     </head>
 
     <body>
