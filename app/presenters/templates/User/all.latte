@@ -3,12 +3,12 @@
 <section id="listOfUsers" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <header>
         <div class="pull-left">
-            <h2>Zoznam užívateľov</h2>
+            <h2>Zoznam používateľov</h2>
         </div>
 
         <div class="pull-right">
-            <a href="add#primary" class="btn btn-success" title="pridať nového užívateľa">
-                <span class="glyphicon glyphicon-plus"></span> Pridať užívateľa
+            <a href="add#primary" class="btn btn-success" title="pridať nového používateľa">
+                <span class="glyphicon glyphicon-plus"></span> Pridať používateľa
             </a>
         </div>
     </header>
@@ -16,30 +16,31 @@
     <table class="table table-condensed table-responsive">
         <thead>
             <tr>
-                <th>Užívateľ</th>
+                <th>Používateľ</th>
                 <th>Rola</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
         <tbody>
-            {foreach $users as $user}
+            {foreach $users as $admin}
                 <tr>
                     <td>
-                        <a n:href="show#primary, $user->id">{$user->username}</a>
+                        <a n:href="show#primary, $user->id">{$admin->username}</a>
                     </td>
                     <td>
-                        {if $user->role == "admin"}root
-                        {elseif $user->role == "powerUser"}administrátor
-                        {else}užívateľ
-                        {/if}</td>
+                        {if $admin->role == "admin"}root
+                        {elseif $admin->role == "powerUser"}administrátor
+                        {else}používateľ
+                        {/if}
+                    </td>
                     <td>
-                        <a n:href="edit, $user->id" class="text-success">
+                        <a n:href="edit, $admin" class="text-success">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </td>
                     <td>
-                        <a n:href="passwd, $user->id" class="text-success">
+                        <a n:href="passwd, $admin" class="text-success">
                             <span class="glyphicon glyphicon-lock"></span>
                         </a>
                     </td>
