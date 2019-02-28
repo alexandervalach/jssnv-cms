@@ -35,19 +35,16 @@ class UserPresenter extends BasePresenter {
         $this->userIsLogged();
     }
 
-    public function renderAdd() {
-        $this->getComponent('addForm');
-    }
-
     public function actionEdit($id) {
         $this->userIsLogged();
         $this->userRow = $this->userRepository->findById($id);
-    }
 
-    public function renderEdit($id) {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
+    }
+
+    public function renderEdit($id) {
         $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $this->template->users = $this->userRow;
         $this->getComponent('editForm')->setDefaults($this->userRow);
@@ -82,26 +79,36 @@ class UserPresenter extends BasePresenter {
 
     protected function createComponentAddForm() {
         $form = new Form;
-        $form->addText('username', 'Užívateľské meno')
-                ->addRule(Form::FILLED, 'Užívateľské meno musí byť vyplnené.')
-                ->addRule(Form::MAX_LENGTH, 'Užívateľské meno môže mať maximálne 50 znakov.', 50);
-        $form->addSelect('role', 'Úloha', UserRepository::$ROLES);
-        $form->addSubmit('save', 'Zapísať');
-        $form->onSuccess[] = $this->submittedEditForm;
+        
+        $form->addText('username', 'Používateľské meno')
+             ->addRule(Form::FILLED, 'Používateľské meno musí byť vyplnené.')
+             ->addRule(Form::MAX_LENGTH, 'Používateľské meno môže mať maximálne 50 znakov.', 50);
+        
+        $form->addPassword('password', 'Heslo')
+             ->addRule(Form::FILLED, 'Heslo musí byť vyplnené.')
+             ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 50 znakov.', 50);
+        
+        $form->addSubmit('save', 'Uložiť');
+        $form->onSuccess[] = [$this, 'submittedAddForm'];
+        
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
     protected function createComponentEditForm() {
         $form = new Form;
-        $form->addText('username', 'Užívateľské meno')
-                ->addRule(Form::FILLED, 'Užívateľské meno musí byť vyplnené.')
-                ->addRule(Form::MAX_LENGTH, 'Užívateľské meno môže mať maximálne 50 znakov.', 50);
-        $form->addSubmit('save', 'Zapísať')
-                ->onClick[] = $this->submittedEditForm;
+        
+        $form->addText('username', 'Používateľské meno')
+             ->addRule(Form::FILLED, 'Meno musí byť vyplnené.')
+             ->addRule(Form::MAX_LENGTH, 'Meno môže mať maximálne 50 znakov.', 50);
+        
+        $form->addSubmit('save', 'Uložiť')
+             ->onClick[] = [$this, 'submittedEditForm'];
+
         $form->addSubmit('cancel', 'Zrušiť')
-                        ->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = $this->formCancelled;
+             ->setAttribute('class', 'btn btn-warning')
+             ->onClick[] = [$this, 'formCancelled'];
+        
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
@@ -125,6 +132,7 @@ class UserPresenter extends BasePresenter {
                 ->addRule(Form::FILLED, 'Heslo musí byť vyplnené.')
                 ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 100 znakov.', 100)
                 ->addRule(Form::MIN_LENGTH, 'Heslo musí mať minimálne 5 znakov.', 5);
+
         $form->addPassword('password_again', 'Heslo znovu')
                 ->addRule(Form::FILLED, 'Heslo znovu musí byť vyplnené.')
                 ->addRule(Form::EQUAL, 'Heslá sa nezhodujú.', $form['password']);
@@ -132,7 +140,7 @@ class UserPresenter extends BasePresenter {
         $form->addSubmit('save', 'Nastaviť');
         $form->addProtection('Vypršal časový limit, odošli formulár znovu.');
 
-        $form->onSuccess[] = $this->submittedPasswdForm;
+        $form->onSuccess[] = [$this, 'submittedPasswdForm'];
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }

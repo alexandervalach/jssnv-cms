@@ -25,6 +25,12 @@ class SignPresenter extends BasePresenter {
         return $form;
     }
 
+    public function actionIn() {
+        if ($this->user->isLoggedIn()) {
+            $this->redirect('Homepage:#primary');
+        }
+    }
+
     public function actionOut() {
         $this->getUser()->logout();
         $this->flashMessage('Boli ste úspešne odhlásený.');

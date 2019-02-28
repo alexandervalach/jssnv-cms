@@ -7,7 +7,7 @@ use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 
-class SignFormFactory extends Nette\Object {
+class SignFormFactory {
 
     /** @var User */
     private $user;
@@ -21,13 +21,13 @@ class SignFormFactory extends Nette\Object {
      */
     public function create() {
         $form = new Form;
-        $form->addText('username', 'Užívateľské meno:')
-                ->setRequired('Zadaj, prosím, užívateľské meno.');
+        $form->addText('username', 'Používateľské meno:')
+                ->setRequired('Ešte chýba používateľské meno.');
 
         $form->addPassword('password', 'Heslo:')
-                ->setRequired('Zadaj, prosím, heslo.');
+                ->setRequired('Ešte chýba heslo.');
 
-        $form->addCheckbox('remember', 'Trvalé prihlásenie');
+        $form->addCheckbox('remember', ' Zapamätať si ma na 14 dní');
 
         $form->addSubmit('send', 'Prihlásiť');
 
