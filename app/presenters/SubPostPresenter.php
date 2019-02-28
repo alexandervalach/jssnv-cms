@@ -36,12 +36,13 @@ class SubPostPresenter extends BasePresenter {
         $this->userIsLogged();
         $this->subPostRow = $this->subPostRepository->findById($id);
         $this->subSectionRow = $this->subPostRow->ref('subsection_id');
-    }
 
-    public function renderEdit($id) {
         if (!$this->subPostRow) {
             throw new BadRequestException($this->error);
         }
+    }
+
+    public function renderEdit($id) {
         $this->template->subPost = $this->subPostRow;
         $this->getComponent('editForm')->setDefaults($this->subPostRow);
     }
@@ -53,9 +54,10 @@ class SubPostPresenter extends BasePresenter {
                 ->setAttribute('id', 'ckeditor');
         $form->addCheckbox('onHomepage', ' Na domovskej stránke');
         $form->addSubmit('save', 'Uložiť')
-                ->onClick[] = $this->submittedEditForm;
-        $form->addSubmit('cancel', 'Zrušiť')->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = $this->formCancelled;
+             ->onClick[] = [$this, 'submittedEditForm'];
+        $form->addSubmit('cancel', 'Zrušiť')
+             ->setAttribute('class', 'btn btn-warning')
+             ->onClick[] = [$this, 'formCancelled'];
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
@@ -91,16 +93,17 @@ class SubPostPresenter extends BasePresenter {
         $form = new Form;
         $form->addUpload('files', 'Vyber súbory', true);
         $form->addSubmit('upload', 'Nahraj')
-                ->onClick[] = $this->submittedUploadFilesForm;
+             ->onClick[] = [$this, 'submittedUploadFilesForm'];
         $form->addSubmit('cancel', 'Zrušiť')
-                        ->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = $this->formCancelled;
+             ->setAttribute('class', 'btn btn-warning')
+             ->onClick[] = [$this, 'formCancelled'];
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
     public function submittedUploadFilesForm(SubmitButton $btn) {
         $this->userIsLogged();
+        
         $values = $btn->form->getValues();
         $fileData = array();
         foreach ($values['files'] as $file) {
