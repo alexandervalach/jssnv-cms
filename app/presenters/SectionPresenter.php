@@ -26,13 +26,15 @@ class SectionPresenter extends BasePresenter {
 
     public function actionEdit($id) {
         $this->sectionRow = $this->sectionRepository->findById($id);
-    }
 
-    public function renderEdit($id) {
         if (!$this->sectionRow) {
             throw new BadRequestException($this->error);
         }
-        $this->template->section = $this->sectionRow;
+    }
+
+    public function renderEdit($id) {
+        $this->template->mainSection = $this->sectionRow;
+
         $this->getComponent('editForm')->setDefaults($this->sectionRow);
     }
 
@@ -47,57 +49,71 @@ class SectionPresenter extends BasePresenter {
     public function actionRemove($id) {
         $this->userIsLogged();
         $this->sectionRow = $this->sectionRepository->findById($id);
-    }
 
-    public function renderRemove($id) {
         if (!$this->sectionRow) {
             throw new BadRequestException($this->error);
         }
-        $this->template->section = $this->sectionRow;
+    }
+
+    public function renderRemove($id) {
+        $this->template->mainSection = $this->sectionRow;
         $this->getComponent('removeForm');
     }
 
     protected function createComponentAddForm() {
         $form = new Form;
+        
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-        $form->addText('url', 'URL adresa')
-                ->addRule(Form::MAX_LENGTH, 'URL môže mať maximálne 200 znakov.', 200);
+        
+        $form->addText('url', 'URL adresa');
+        
         $form->addCheckbox('homeUrl', ' URL na tejto stránke')
                 ->setDefaultValue(0);
+        
         $form->addText('order', 'Poradie')
-                ->setDefaultValue(0)
+                ->setRequired(true)
+                ->setDefaultValue(50)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
+        
         $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
                 ->setDefaultValue(1);
+
         $form->addCheckbox('sliding', ' Rolovacie menu');
+
         $form->addSubmit('save', 'Zapísať');
 
-        $form->onSuccess[] = $this->submittedAddForm;
+        $form->onSuccess[] = [$this, 'submittedAddForm'];
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
     protected function createComponentEditForm() {
         $form = new Form;
+        
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-        $form->addText('url', 'URL adresa')
-                ->addRule(Form::MAX_LENGTH, 'URL môže mať maximálne 200 znakov.', 200);
-        $form->addCheckbox('homeUrl', ' URL na tejto stránke')
-                ->setDefaultValue(0);
+        
+        $form->addText('url', 'URL adresa');
+        
+        $form->addCheckbox('homeUrl', ' URL na tejto stránke');
+        
         $form->addText('order', 'Poradie')
+                ->setRequired('Poradie musí byť vyplnené')
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
-        $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
-                ->setDefaultValue(1);
+        
+        $form->addCheckbox('visible', ' Viditeľné v bočnom menu');
+        
         $form->addCheckbox('sliding', ' Rolovacie menu');
+
         $form->addSubmit('save', 'Zapísať')
-                ->onClick[] = $this->submittedEditForm;
+                ->onClick[] = [$this, 'submittedEditForm'];
+        
         $form->addSubmit('cancel', 'Zrušiť')
                         ->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = $this->formCancelled;
+                ->onClick[] = [$this, 'formCancelled'];
 
         FormHelper::setBootstrapRenderer($form);
         return $form;
@@ -105,43 +121,62 @@ class SectionPresenter extends BasePresenter {
 
     protected function createComponentRemoveForm() {
         $form = new Form;
+        
         $form->addSubmit('cancel', 'Zrušiť')
                         ->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = $this->formCancelled;
+                ->onClick[] = [$this, 'formCancelled'];
+        
         $form->addSubmit('remove', 'Odstrániť')
                         ->setAttribute('class', 'btn btn-danger')
-                ->onClick[] = $this->submittedRemoveForm;
+                ->onClick[] = [$this, 'submittedRemoveForm'];
+
+        FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
     public function submittedAddForm(Form $form) {
+        $this->userIsLogged();
+
         $values = $form->getValues();
         $id = $this->sectionRepository->insert($values);
 
         if (empty($values->url)) {
+            
             $postData = array(
                 'section_id' => $id,
                 'name' => $values['name']
             );
             $this->postRepository->insert($postData);
+            $this->flashMessage('Sekcia bola pridaná');
             $this->redirect('Post:show#primary', $id);
+
         } else {
+            
+            $this->flashMessage('Sekcia bola pridaná');
             $this->redirect('all#primary');
+        
         }
     }
 
     public function submittedEditForm(SubmitButton $btn) {
+        $this->userIsLogged();
+
         $values = $btn->form->getValues();
         $this->sectionRow->update($values);
+        $this->flashMessage('Sekcia bola upravená');
         $this->redirect('all#primary');
     }
 
     public function submittedRemoveForm() {
+        $this->userIsLogged();
+
         if ($this->sectionRow->url == NULL || $this->sectionRow->url == "") {
             $post = $this->sectionRow->related('post')->fetch();
             $post->delete();
         }
+
         $this->sectionRow->delete();
+        $this->flashMessage('Sekcia bola odstránená');
         $this->redirect('all#primary');
     }
 
