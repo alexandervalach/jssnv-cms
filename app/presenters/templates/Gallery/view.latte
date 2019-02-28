@@ -1,13 +1,14 @@
 {block content}
 
 {control modalDialog 'remove', 'Odstrániť príspevok',
-    "Naozaj chcete odstrániť album <span class=\"text-danger text-uppercase\">$album->name</span> ?",
+    "Naozaj chcete odstrániť album <span class=\"text-danger text-uppercase\">$mainAlbum->name</span> ?",
     'danger', 'Odstrániť', 'remove'}  
 
 <div class="row">
+    
     <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div class="pull-left">
-            <h2>{$album->name}</h2>
+            <h2>{$mainAlbum->name}</h2>
         </div>
         <div class="pull-right">
             <p>
@@ -17,15 +18,17 @@
                 </a>
             </p>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <a class="btn btn-warning" n:if="$user->loggedIn" n:href="Gallery:add, $album->id">
-                <span class="glyphicon glyphicon-picture"></span> Pridaj obrázky
-            </a>
-            <a class="btn btn-success" n:if="$user->loggedIn" n:href="Album:edit, $album->id">
-                &hellip;<span class="glyphicon glyphicon-pencil"></span>
-            </a>
-        </div>
     </header>
+    
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <a class="btn btn-warning" n:if="$user->loggedIn" n:href="Gallery:add, $mainAlbum->id">
+            <span class="glyphicon glyphicon-picture"></span> Pridaj obrázky
+        </a>
+        <a class="btn btn-success" n:if="$user->loggedIn" n:href="Album:edit, $mainAlbum->id">
+            &hellip;<span class="glyphicon glyphicon-pencil"></span>
+        </a>
+    </div>
+
     <main id="imgs">
         {var $oldHeight = 0}
         {foreach $images as $img}  
@@ -46,4 +49,5 @@
             {var $oldHeight = $img->height}
         {/foreach}
     </main>
+    
 </div>

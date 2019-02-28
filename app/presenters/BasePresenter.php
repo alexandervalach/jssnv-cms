@@ -102,9 +102,12 @@ abstract class BasePresenter extends Presenter {
 
     protected function createComponentRemoveForm() {
         $form = new Form();
+        
         $form->addSubmit('remove', 'Odstrániť')
                         ->getControlPrototype()->class = "btn btn-danger";
-        $form->onSuccess[] = $this->submittedRemoveForm;
+        
+        $form->onSuccess[] = [$this, 'submittedRemoveForm'];
+
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
