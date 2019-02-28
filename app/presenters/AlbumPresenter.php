@@ -41,6 +41,7 @@ class AlbumPresenter extends BasePresenter {
 
     protected function createComponentAddForm() {
         $form = new Form;
+        
         $form->addText('name', 'Názov')
                 ->setRequired('Názov musí byť vyplnený.')
                 ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);

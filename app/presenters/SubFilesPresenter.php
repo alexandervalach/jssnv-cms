@@ -16,36 +16,39 @@ class SubFilesPresenter extends BasePresenter {
 
     public function actionRemove($id) {
         $this->subFileRow = $this->subFilesRepository->findById($id);
-    }
 
-    public function renderRemove($id) {
         if (!$this->subFileRow) {
             throw new BadRequestException($this->error);
         }
+    }
+
+    public function renderRemove($id) {
         $this->template->file = $this->subFileRow;
     }
 
     protected function createComponentRemoveFileForm() {
         $form = new Form;
+        
         $form->addSubmit('cancel', 'Zrušiť')
                         ->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = $this->formCancelled;
+                ->onClick[] = [$this, 'formCancelled'];
+
         $form->addSubmit('remove', 'Odstrániť')
                         ->setAttribute('class', 'btn btn-danger')
-                ->onClick[] = $this->submittedFileRemoveForm;
+                ->onClick[] = [$this, 'submittedFileRemoveForm'];
+        
         return $form;
     }
 
     public function formCancelled() {
-        $this->redirect('SubPost:show#primary', $this->subFileRow->ref('subpost', 'subpost_id'));
+        $id = $this->subFileRow->ref('subpost', 'subpost_id');
+        $this->redirect('SubPost:show#primary', $id);
     }
 
     public function submittedFileRemoveForm() {
-        $file = $this->subFileRow;
-        $fileFile = new FileSystem;
-        $fileFile->delete($this->fileFolder . $file->name);
-        $id = $file->ref('subpost', 'subpost_id');
-        $file->delete();
+        $this->userIsLogged();
+        $id = $this->subFileRow->ref('subpost', 'subpost_id');
+        $this->subFileRow->delete();
         $this->redirect('SubPost:show#primary', $id);
     }
 

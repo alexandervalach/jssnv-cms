@@ -36,8 +36,6 @@ class GalleryPresenter extends BasePresenter {
         $this->template->images = $this->galleryRepository->findByValue('album_id', $id)->order('height ASC');
         $this->template->imgFolder = $this->imgFolder;
         $this->template->mainAlbum = $this->albumRow;
-        $this->getComponent('uploadImagesForm');
-        $this->getComponent('removeForm');
     }
 
     public function actionAdd($id) {
@@ -52,7 +50,6 @@ class GalleryPresenter extends BasePresenter {
         $this->template->images = $this->galleryRepository->findByValue('album_id', $id);
         $this->template->imgFolder = $this->imgFolder;
         $this->template->mainAlbum = $this->albumRow;
-        $this->getComponent('uploadImagesForm');
     }
 
     public function actionRemove($id) {
@@ -134,8 +131,6 @@ class GalleryPresenter extends BasePresenter {
 
         if ($gallerySelection != NULL) {
             foreach ($gallerySelection as $gallery) {
-                $img = new FileSystem;
-                $img->delete($this->imgFolder . $gallery->name);
                 $gallery->delete();
             }
         }
@@ -148,15 +143,10 @@ class GalleryPresenter extends BasePresenter {
     public function submittedRemoveImageForm() {
         $this->userIsLogged();
 
-        $img = $this->galleryRow;
-        $id = $img->ref('album', 'album_id');
-        /*
-        $imgFile = new FileSystem;
-        $imgFile->delete($this->imgFolder . $img->name);
-        $img->delete();
-        */
-
-        $this->flashMessage('Fotografia momentálne nie je možné odstraňovať');
+        $id = $this->galleryRow->ref('album', 'album_id');
+        $this->galleryRow->delete();
+        
+        $this->flashMessage('Fotografia bola odstránená');
         $this->redirect('view#primary', $id);
     }
 

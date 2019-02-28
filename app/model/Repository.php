@@ -7,7 +7,7 @@ use Nette;
 /**
  * Provádí operace nad databázovou tabulkou.
  */
-abstract class Repository extends Nette\Object {
+abstract class Repository {
 
     /** @var Nette\Database\Context */
     private $database;
@@ -32,7 +32,7 @@ abstract class Repository extends Nette\Object {
             return $this->database->table(strtolower($m[1]));
         }
     }
-    
+
     public function getConnection() {
         return $this->database;
     }
@@ -52,7 +52,7 @@ abstract class Repository extends Nette\Object {
     public function findBy(array $by) {
         return $this->getTable()->where($by);
     }
-    
+
     /**
      * Vracia selection podľa jednej podmienky.
      * @param type $columnName
@@ -63,7 +63,7 @@ abstract class Repository extends Nette\Object {
         $condition = array($columnName => $value);
         return $this->findBy($condition);
     }
-    
+
     /**
      * Vráti riadok podľa ID.
      * @param type $id identifikátor / primárny kľúč
@@ -72,15 +72,15 @@ abstract class Repository extends Nette\Object {
     public function findById($id) {
         return $this->getTable()->get($id);
     }
-    
+
     public function update($id, $data) {
         $this->getTable()->wherePrimary($id)->update($data);
     }
-    
+
     public function insert($data) {
         return $this->getTable()->insert($data);
     }
-    
+
     public function remove($id) {
         $this->getTable()->get($id)->delete();
     }

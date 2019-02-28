@@ -18,12 +18,13 @@
             </thead>
             <tbody>
                 {foreach $files as $file}
+                    {var $post = $file->ref('post', 'post_id')}
                     <tr>
                         <td>
                             <a href="{$baseUrl}/{$fileFolder}{$file->name}">{$file->name}</a>
                         </td>
                         <td>
-                            {$file->ref('post', 'post_id')->name}
+                            {if $post}{$post->name}{else}NEPRIRADENÁ{/if}
                         </td>
                         <td>
                             {$baseUrl}/{$fileFolder}{$file->name}

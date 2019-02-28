@@ -15,7 +15,7 @@ class FilesPresenter extends BasePresenter {
     private $error = "File not found!";
 
     public function actionAll() {
-        
+        $this->userIsLogged();
     }
 
     public function renderAll() {
@@ -25,24 +25,29 @@ class FilesPresenter extends BasePresenter {
     }
 
     public function actionRemove($id) {
+        $this->userIsLogged();
         $this->fileRow = $this->filesRepository->findById($id);
-    }
 
-    public function renderRemove($id) {
         if (!$this->fileRow) {
             throw new BadRequestException($this->error);
         }
+    }
+
+    public function renderRemove($id) {
         $this->template->file = $this->fileRow;
     }
 
     protected function createComponentRemoveFileForm() {
         $form = new Form;
+        
         $form->addSubmit('cancel', 'Zrušiť')
                         ->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = $this->formCancelled;
+                ->onClick[] = [$this, 'formCancelled'];
+
         $form->addSubmit('remove', 'Odstrániť')
                         ->setAttribute('class', 'btn btn-danger')
-                ->onClick[] = $this->submittedFileRemoveForm;
+                ->onClick[] = [$this, 'submittedFileRemoveForm'];
+        
         return $form;
     }
 
@@ -51,10 +56,8 @@ class FilesPresenter extends BasePresenter {
     }
 
     public function submittedFileRemoveForm() {
-        $file = $this->fileRow;
-        $fileFile = new FileSystem;
-        $fileFile->delete($this->fileFolder . $file->name);
-        $id = $file->ref('post', 'post_id');
+        $this->userIsLogged();
+        $id = $this->fileRow->ref('post', 'post_id');
         $file->delete();
         $this->redirect('Post:show#primary', $id);
     }
