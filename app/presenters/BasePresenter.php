@@ -103,9 +103,13 @@ abstract class BasePresenter extends Presenter {
     protected function createComponentRemoveForm() {
         $form = new Form();
         
+        $form->addSubmit('cancel', 'Zrušiť')
+            ->setAttribute('class', 'btn btn-warning')
+            ->setAttribute('data-dismiss', 'modal');
+
         $form->addSubmit('remove', 'Odstrániť')
-                        ->getControlPrototype()->class = "btn btn-danger";
-        
+            ->setAttribute('class', 'btn btn-danger');
+
         $form->onSuccess[] = [$this, 'submittedRemoveForm'];
 
         FormHelper::setBootstrapRenderer($form);

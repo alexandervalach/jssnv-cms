@@ -72,21 +72,12 @@ class SubPostPresenter extends BasePresenter {
         $this->redirect('show', $this->subPostRow->subsection_id);
     }
 
-    protected function createComponentRemoveForm() {
-        $form = new Form();
-        $form->addSubmit('remove', 'Odstrániť')
-                        ->getControlPrototype()->class = "btn btn-danger";
-        $form->onSuccess[] = $this->submittedRemoveForm;
-        FormHelper::setBootstrapRenderer($form);
-        return $form;
-    }
-
     public function submittedRemoveForm(Form $form) {
         $subSectionRow = $this->subPostRow->ref('subsection', 'subsection_id');
         $subSectionRow->delete();
         $this->subPostRow->delete();
         $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
-        $this->redirect('Homepage:');
+        $this->redirect('Section:all#primary');
     }
 
     protected function createComponentUploadFilesForm() {
@@ -103,7 +94,7 @@ class SubPostPresenter extends BasePresenter {
 
     public function submittedUploadFilesForm(SubmitButton $btn) {
         $this->userIsLogged();
-        
+
         $values = $btn->form->getValues();
         $fileData = array();
         foreach ($values['files'] as $file) {
