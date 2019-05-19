@@ -15,6 +15,7 @@ use App\Model\PostRepository;
 use App\Model\SectionRepository;
 use App\Model\SubPostRepository;
 use App\Model\SubSectionRepository;
+use App\Model\TestsRepository;
 use App\Model\UserRepository;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Presenter;
@@ -59,6 +60,9 @@ abstract class BasePresenter extends Presenter {
     /** @var SubSectionRepository */
     protected $subSectionRepository;
 
+    /** @var TestsRepository */
+    protected $testsRepository;
+
     /** @var UserRepository */
     protected $userRepository;
 
@@ -68,7 +72,8 @@ abstract class BasePresenter extends Presenter {
     /** @var string */
     protected $fileFolder = "files/";
 
-    public function __construct(AlbumRepository $albumRepository, BannerRepository $bannerRepository, FilesRepository $filesRepository, GalleryRepository $galleryRepository, ImagesRepository $imageRepository, PostRepository $postRepository, SectionRepository $sectionRepository, SubFilesRepository $subFilesRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, UserRepository $userRepository) {
+    public function __construct(AlbumRepository $albumRepository, BannerRepository $bannerRepository, FilesRepository $filesRepository, GalleryRepository $galleryRepository, ImagesRepository $imageRepository, PostRepository $postRepository, SectionRepository $sectionRepository, SubFilesRepository $subFilesRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, 
+        TestsRepository $testsRepository, UserRepository $userRepository) {
         parent::__construct();
         $this->albumRepository = $albumRepository;
         $this->bannerRepository = $bannerRepository;
@@ -81,6 +86,7 @@ abstract class BasePresenter extends Presenter {
         $this->subPostRepository = $subPostRepository;
         $this->subSectionRepository = $subSectionRepository;
         $this->noticeRepository = $noticeRepository;
+        $this->testsRepository = $testsRepository;
         $this->userRepository = $userRepository;
     }
 

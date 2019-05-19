@@ -34,4 +34,5 @@ services:
 	- App\Model\ImagesRepository
 	- App\Model\FilesRepository
 	- App\Model\SubFilesRepository
+	- App\Model\TestsRepository
 	router: App\RouterFactory::createRouter
