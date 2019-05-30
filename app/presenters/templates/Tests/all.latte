@@ -7,16 +7,26 @@
 	    <table class="table">
 	    	<thead>
 	    		<tr>
-	    			<td>Kód</td>
 	    			<td>Názov</td>
+						<td></td>
 	    		</tr>
 	    	</thead>
 	    	<tbody>
 	    		{foreach $tests as $test}
 	    			<tr>
-	    				<td>{$test->code}</td>
-	    				<td>{$test->name}</td>
-	    			</tr>
+	    				<td>
+								<a n:href="edit, $test">{$test->label}</a>
+							</td>
+	    				<td>
+								<a n:href="view, $test">
+									<span class="glyphicon glyphicon-eye-open"></span>
+								</a>
+								&nbsp;
+								<a n:href="edit, $test" class="text-success">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</a>
+							</td>
+						</tr>
 	    		{/foreach}
 	    	</tbody>
 	    </table>

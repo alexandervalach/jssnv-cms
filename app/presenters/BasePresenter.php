@@ -27,6 +27,8 @@ use App\FormHelper;
  */
 abstract class BasePresenter extends Presenter {
 
+    const TEST_NOT_FOUND = 'Test not found';
+
     /** @var AlbumRepository */
     protected $albumRepository;
 
@@ -72,8 +74,19 @@ abstract class BasePresenter extends Presenter {
     /** @var string */
     protected $fileFolder = "files/";
 
-    public function __construct(AlbumRepository $albumRepository, BannerRepository $bannerRepository, FilesRepository $filesRepository, GalleryRepository $galleryRepository, ImagesRepository $imageRepository, PostRepository $postRepository, SectionRepository $sectionRepository, SubFilesRepository $subFilesRepository, SubPostRepository $subPostRepository, SubSectionRepository $subSectionRepository, NoticeRepository $noticeRepository, 
-        TestsRepository $testsRepository, UserRepository $userRepository) {
+    public function __construct(AlbumRepository $albumRepository,
+        BannerRepository $bannerRepository,
+        FilesRepository $filesRepository,
+        GalleryRepository $galleryRepository,
+        ImagesRepository $imageRepository,
+        PostRepository $postRepository,
+        SectionRepository $sectionRepository,
+        SubFilesRepository $subFilesRepository,
+        SubPostRepository $subPostRepository,
+        SubSectionRepository $subSectionRepository,
+        NoticeRepository $noticeRepository,
+        TestsRepository $testsRepository,
+        UserRepository $userRepository) {
         parent::__construct();
         $this->albumRepository = $albumRepository;
         $this->bannerRepository = $bannerRepository;
@@ -106,9 +119,13 @@ abstract class BasePresenter extends Presenter {
         return new ModalDialog();
     }
 
+    protected function createComponentFormCancelled() {
+        return new FormCancelled();
+    }
+
     protected function createComponentRemoveForm() {
         $form = new Form();
-        
+
         $form->addSubmit('cancel', 'Zrušiť')
             ->setAttribute('class', 'btn btn-warning')
             ->setAttribute('data-dismiss', 'modal');
@@ -120,10 +137,6 @@ abstract class BasePresenter extends Presenter {
 
         FormHelper::setBootstrapRenderer($form);
         return $form;
-    }
-
-    protected function createComponentFormCancelled() {
-        return new FormCancelled();
     }
 
     protected function userIsAllowed($id, $userRole, $root, $errorMessage) {
