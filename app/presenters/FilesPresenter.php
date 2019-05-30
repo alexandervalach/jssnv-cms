@@ -60,7 +60,7 @@ class FilesPresenter extends BasePresenter {
     public function submittedFileRemoveForm() {
         $this->userIsLogged();
         $id = $this->fileRow->ref('post', 'post_id');
-        $file->delete();
+        $this->fileRow->delete();
         $this->redirect('Post:show#primary', $id);
     }
 
