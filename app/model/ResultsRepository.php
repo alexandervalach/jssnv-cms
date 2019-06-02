@@ -2,6 +2,6 @@
 
 namespace App\Model;
 
-class QuestionsRepository extends Repository {
+class ResultsRepository extends Repository {
     //put your code here
 }
