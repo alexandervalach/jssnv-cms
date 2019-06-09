@@ -33,6 +33,9 @@ use App\FormHelper;
 abstract class BasePresenter extends Presenter {
 
     const TEST_NOT_FOUND = 'Test not found';
+    const ITEM_ADD_SUCCESS = 'Položka bola pridaná';
+    const ITEM_EDIT_SUCCESS = 'Položka bola upravená';
+    const QUESTIONS = 'questions';
 
     /** @var AlbumRepository */
     protected $albumRepository;
