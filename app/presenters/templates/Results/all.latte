@@ -1,0 +1,25 @@
+{block content}
+
+<section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="pull-left">
+  	<h2>Výsledky testov</h2>
+  </div>
+  <div class="table-responsive" n:if="$results->count() > 0">
+    <table class="table">
+    	<thead>
+    		<tr>
+    			<td>E-mail</td>
+    			<td>Výsledok</td>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		{foreach $results as $result}
+    			<tr>
+    				<td>{$result->label}</td>
+						<td>{$result->label}</td>
+					</tr>
+    		{/foreach}
+    	</tbody>
+    </table>
+  </div>
+</section>
