@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="robots" content="{$robots}" n:ifset="$robots">
+    <meta name="viewport" content="width=device-width">
+
+    <title>Test Jazyková škola Spišská Nová Ves</title>
+
+    <link rel="stylesheet" href="{$basePath}/bootstrap/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+
+    <style>
+    	body > section.row {
+    		margin: 0 15px;
+    	}
+    </style>
+	</head>
+
+  <body>
+  	<header class="row" style="margin: 0 30px">
+  		<h1>Jazyková škola Spišská Nová Ves</h1>
+  	</header>
+
+		<main class="row" style="margin: 0 15px">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div>
+					<h2>Výsledok testu</h2>
+				</div>
+				<p>Test bol ukončený a výsledok odoslaný na {$result->email}</p>
+				<p>Dosiahli ste skóre: {$result->score}.</p>
+			</div>
+		</main>
+
+	</body>
+</html>
+
+<script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+<script type="text/javascript" src="//nette.github.io/resources/js/netteForms.min.js"></script>
+<script type="text/javascript" src="{$basePath}/bootstrap/js/bootstrap.min.js"></script>
