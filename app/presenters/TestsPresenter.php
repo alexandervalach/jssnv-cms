@@ -102,18 +102,20 @@ class TestsPresenter extends BasePresenter {
   }
 
   protected function evaluateTest ($postData) {
-  	$correctAnswers = 0;
+  	$earnedPoints = 0;
+  	$maxPoints = 0;
 
   	foreach ($this->questions as $question) {
   		$answer[$question->id] = $question->related('answers')->where('correct', 1)->fetch();
+  		$maxPoints += $question->value;
   	}
 
   	foreach ($this->questions as $question) {
-  		if ((int) $postData['question' . $question->id] === (int) $answer[$question->id]->id) {
-  			$correctAnswers += $question->value;
+  		if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
+  			$earnedPoints += $question->value;
   		}
   	}
 
-  	return $correctAnswers;
+  	return round(($earnedPoints / (float) $maxPoints) * 100, 2);
   }
 }
