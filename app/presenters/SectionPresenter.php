@@ -82,7 +82,7 @@ class SectionPresenter extends BasePresenter {
 
         $form->addCheckbox('sliding', ' Rolovacie menu');
 
-        $form->addSubmit('save', 'Zapísať');
+        $form->addSubmit('save', 'Uložiť');
 
         $form->onSuccess[] = [$this, 'submittedAddForm'];
         FormHelper::setBootstrapRenderer($form);
@@ -108,7 +108,7 @@ class SectionPresenter extends BasePresenter {
         
         $form->addCheckbox('sliding', ' Rolovacie menu');
 
-        $form->addSubmit('save', 'Zapísať')
+        $form->addSubmit('save', 'Uložiť')
                 ->onClick[] = [$this, 'submittedEditForm'];
         
         $form->addSubmit('cancel', 'Zrušiť')

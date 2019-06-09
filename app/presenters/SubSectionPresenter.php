@@ -75,7 +75,7 @@ class SubSectionPresenter extends BasePresenter {
                 ->setDefaultValue(5)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
         
-        $form->addSubmit('save', 'Zapísať');
+        $form->addSubmit('save', 'Uložiť');
 
         $form->onSuccess[] = [$this, 'submittedAddForm'];
         FormHelper::setBootstrapRenderer($form);
@@ -97,7 +97,7 @@ class SubSectionPresenter extends BasePresenter {
                 ->setRequired(true)
                 ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
         
-        $form->addSubmit('save', 'Zapísať')
+        $form->addSubmit('save', 'Uložiť')
                 ->onClick[] = [$this, 'submittedEditForm'];
         
         $form->addSubmit('cancel', 'Zrušiť')

@@ -3,7 +3,7 @@
 <section id="listOfSections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <header>
     <div class="pull-left">
-      <h2>Zoznam sekcií</h2>
+      <h2>Sekcie</h2>
     </div>
 
     <div class="pull-right" style="margin-top: 20px">
@@ -13,33 +13,39 @@
     </div>
   </header>
 
-  <table class="table table-responsive">
-    <thead>
-      <tr>
-        <th>Názov</th>
-        <th>Poradie</th>
-        <th>Rolovanie</th>
-        <th>V navgácii</th>
-      </tr>
-    </thead>
-    <tbody>
-      {foreach $listOfSections as $section}
-        <tr>
-          <td>
-            {if $section->url == null}
-              <a n:href="Post:show#primary, $section->id">{$section->name}</a> 
-            {else}
-              <a class="text-danger" href="{$section->url}{if $section->homeUrl}#primary{/if}" 
-                {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a> 
-            {/if}
-          </td>
-          <td>{$section->order}</td>
-          <td>{if $section->sliding}ÁNO{else}NIE{/if}</td>
-          <td>{if $section->visible}ÁNO{else}NIE{/if}</td>
-        </tr>
-      {/foreach}
-    </tbody>
-  </table>
+  {if $listOfSections->count() > 0}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Názov</th>
+            <th>Poradie</th>
+            <th>Rolovanie</th>
+            <th>V navgácii</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach $listOfSections as $section}
+            <tr>
+              <td>
+                {if $section->url == null}
+                  <a n:href="Post:show#primary, $section->id">{$section->name}</a> 
+                {else}
+                  <a class="text-danger" href="{$section->url}{if $section->homeUrl}#primary{/if}" 
+                    {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a> 
+                {/if}
+              </td>
+              <td>{$section->order}</td>
+              <td>{$section->sliding ? 'ÁNO' : 'NIE'}</td>
+              <td>{$section->visible ? 'ÁNO' : 'NIE'}</td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
+    </div>
+  {else}
+    <p>Neboli nájdené žiadne položky.</p>
+  {/if}
 </section>
 
 <div id="add" class="modal fade" role="dialog">

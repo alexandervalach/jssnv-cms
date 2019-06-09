@@ -1,77 +1,88 @@
 {block content}
 
 <section id="listOfFiles">
-    <header>
-        <div class="pull-left">
-            <h2>Zoznam súborov</h2>
-        </div>
-    </header>
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Názov</th>
-                    <th>V sekcii</th>
-                    <th>Adresa</th>
-                    <th n:if="$user->loggedIn">&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                {foreach $files as $file}
-                    {var $post = $file->ref('post', 'post_id')}
-                    <tr>
-                        <td>
-                            <a href="{$baseUrl}/{$fileFolder}{$file->name}">{$file->name}</a>
-                        </td>
-                        <td>
-                            {if $post}{$post->name}{else}NEPRIRADENÁ{/if}
-                        </td>
-                        <td>
-                            {$baseUrl}/{$fileFolder}{$file->name}
-                        </td>
-                        <td n:if="$user->loggedIn" class="text-center">
-                            <a n:href="remove, $file->id" class="text-danger">
-                                <span class="glyphicon glyphicon-remove">
-                            </a>
-                        </td>
-                    </tr>
-                {/foreach}
-            </tbody>
-        </table>
-    </div>
+  <header>
+	  <div class="pull-left">
+	    <h2>Súbory</h2>
+	  </div>
+  </header>
+
+  {if $files->count() > 0}
+  	<div class="table-responsive">
+	    <table class="table">
+	      <thead>
+	        <tr>
+	          <th>Názov</th>
+	          <th>Sekcia</th>
+	          <th>Adresa</th>
+	          <th>Akcia</th>
+	        </tr>
+	      </thead>
+	        <tbody>
+	          {foreach $files as $file}
+	            {var $post = $file->ref('post', 'post_id')}
+	            <tr>
+	              <td>{$file->name}</td>
+	              <td>
+	               	{$post ? $post->name : 'NEPRIRADENÁ' }
+	              </td>
+	              <td>
+	                {$baseUrl}/{$fileFolder}{$file->name}
+	              </td>
+	              <td class="text-center">
+	                <a n:href="remove, $file->id" class="text-danger">
+	                  <span class="glyphicon glyphicon-trash"></span>
+	                </a>
+	              </td>
+	            </tr>
+	          {/foreach}
+	        </tbody>
+	    </table>
+	  </div>
+  {else}
+  	<p>Neboli nájdené žiadne položky.</p>
+  {/if}
 </section>
 
 <section id="listOfSubFiles">
-    <div class="table-responsive">
-        <table class="table table-striped table-bordered">
-            <thead>
-                <tr>
-                    <th>Názov</th>
-                    <th>V podsekcii</th>
-                    <th>Adresa</th>
-                    <th n:if="$user->loggedIn">&nbsp;</th>
-                </tr>
-            </thead>
-            <tbody>
-                {foreach $subFiles as $file}
-                    <tr>
-                        <td>
-                            <a href="{$baseUrl}/{$fileFolder}{$file->name}">{$file->name}</a>
-                        </td>
-                        <td>
-                            {$file->ref('subpost', 'subpost_id')->name}
-                        </td>
-                        <td>
-                            {$baseUrl}/{$fileFolder}{$file->name}
-                        </td>
-                        <td n:if="$user->loggedIn" class="text-center">
-                            <a n:href="SubFiles:remove, $file->id" class="text-danger">
-                                <span class="glyphicon glyphicon-remove">
-                            </a>
-                        </td>
-                    </tr>
-                {/foreach}
-            </tbody>
-        </table>
-    </div>
+  <header>
+	  <div class="pull-left">
+	    <h2>Súbory v podsekciách</h2>
+	  </div>
+  </header>
+
+  {if $subFiles->count() > 0}
+	  <div class="table-responsive">
+	    <table class="table">
+	      <thead>
+	        <tr>
+	          <th>Názov</th>
+	          <th>Podsekcia</th>
+	          <th>Adresa</th>
+	          <th>Akcia</th>
+	        </tr>
+	      </thead>
+	      <tbody>
+	        {foreach $subFiles as $file}
+	          <tr>
+	            <td>{$file->name}</td>
+	            <td>
+	              {$file->ref('subpost', 'subpost_id')->name}
+	            </td>
+	            <td>
+	            	{$baseUrl}/{$fileFolder}{$file->name}
+	            </td>
+	            <td class="text-center">
+	              <a n:href="SubFiles:remove, $file->id" class="text-danger">
+	              	<span class="glyphicon glyphicon-trash"></span>
+	              </a>
+	            </td>
+	          </tr>
+	        {/foreach}
+	      </tbody>
+	    </table>
+		</div>
+	{else}
+		<p>Neboli nájdené žiadne položky.</p>
+	{/if}
 </section>

@@ -1,58 +1,64 @@
 {block content}
 
 <section id="listOfSubSections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <header style="margin-top: 20px">
-        <div class="pull-left">
-            <h2>Zoznam podsekcií</h2>
-        </div>
+  <header style="margin-top: 20px">
+    <div class="pull-left">
+      <h2>Podsekcie</h2>
+    </div>
 
-        <div class="pull-right">
-            <a href="add#primary" class="btn btn-success" title="pridať sekciu 2. úrovne">
-                <span class="glyphicon glyphicon-plus"></span> Pridať podsekciu
-            </a>
-        </div>
-    </header>
+    <div class="pull-right" style="margin-top: 20px">
+      <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
+        <span class="glyphicon glyphicon-plus"></span> Pridať
+      </button>
+    </div>
+  </header>
 
-    <table class="table table-condensed table-responsive">
+  {if $listOfSubSections->count() > 0}
+    <div class="table-responsive">
+      <table class="table">
         <thead>
-            <tr>
-                <th>Názov sekcie</th>
-                <th>Poradie</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-            </tr>
+          <tr>
+            <th>Názov</th>
+            <th>Poradie</th>
+          </tr>
         </thead>
         <tbody>
-            {var $oldSubSection = null}
-            {foreach $listOfSubSections as $section}
-                {var $subSectionName = $section->ref('section', 'section_id')->name}
-                <tr n:if="$subSectionName != $oldSubSection" class="success">
-                    <td colspan="4">
-                        {$subSectionName}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {if $section->url == null}
-                            <a n:href="SubPost:show#primary, $section->id">{$section->name}</a> 
-                        {else}
-                            <a class="text-danger" href="{$section->url}" target="_blank">{$section->name}</a> 
-                        {/if}
-                    </td>
-                    <td>{$section->order}</td>
-                    <td>
-                        <a n:href="edit#primary, $section->id" class="text-success">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                    </td>
-                    <td>
-                        <a n:href="remove#primary, $section->id" class="text-danger">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                    </td>
-                </tr>
-                {var $oldSubSection = $subSectionName}
-            {/foreach}
+          {var $oldSubSection = null}
+          {foreach $listOfSubSections as $section}
+            {var $subSectionName = $section->ref('section', 'section_id')->name}
+            <tr n:if="$subSectionName != $oldSubSection" class="success">
+              <td colspan="4">{$subSectionName}</td>
+            </tr>
+            <tr>
+              <td>
+                {if $section->url == null}
+                  <a n:href="SubPost:show#primary, $section->id">{$section->name}</a> 
+                {else}
+                  <a class="text-danger" href="{$section->url}" target="_blank">{$section->name}</a> 
+                {/if}
+              </td>
+              <td>{$section->order}</td>
+            </tr>
+            {var $oldSubSection = $subSectionName}
+          {/foreach}
         </tbody>
-    </table>
+      </table>
+    </div>
+  {else}
+    <p>Neboli nájdené žiadne položky.</p>
+  {/if}
 </section>
+
+<div id="add" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Pridať podsekciu</h3>
+      </div>
+      <div class="modal-body">
+        {control addForm}
+      </div>
+    </div>
+  </div>
+</div>

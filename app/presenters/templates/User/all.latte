@@ -1,51 +1,50 @@
 {block content}
 
 <section id="listOfUsers" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <header>
-        <div class="pull-left">
-            <h2>Zoznam používateľov</h2>
-        </div>
+  <header>
+		<div class="pull-left">
+		  <h2>Používatelia</h2>
+		</div>
 
-        <div class="pull-right">
-            <a href="add#primary" class="btn btn-success" title="pridať nového používateľa">
-                <span class="glyphicon glyphicon-plus"></span> Pridať používateľa
-            </a>
-        </div>
-    </header>
+    <div class="pull-right" style="margin-top: 20px">
+      <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
+        <span class="glyphicon glyphicon-plus"></span> Pridať
+      </button>
+    </div>
+  </header>
 
-    <table class="table table-condensed table-responsive">
-        <thead>
-            <tr>
-                <th>Používateľ</th>
-                <th>Rola</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
-        <tbody>
-            {foreach $users as $admin}
-                <tr>
-                    <td>
-                        <a n:href="show#primary, $user->id">{$admin->username}</a>
-                    </td>
-                    <td>
-                        {if $admin->role == "admin"}root
-                        {elseif $admin->role == "powerUser"}administrátor
-                        {else}používateľ
-                        {/if}
-                    </td>
-                    <td>
-                        <a n:href="edit, $admin" class="text-success">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
-                    </td>
-                    <td>
-                        <a n:href="passwd, $admin" class="text-success">
-                            <span class="glyphicon glyphicon-lock"></span>
-                        </a>
-                    </td>
-                </tr>
-            {/foreach}
-        </tbody>
-    </table>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+				  <th>Meno</th>
+				  <th>Rola</th>
+				</tr>
+			</thead>
+			<tbody>
+				{foreach $users as $admin}
+				  <tr>
+			      <td>
+			        <a n:href="show, $admin">{$admin->username}</a>
+			      </td>
+			      <td>{$admin->role === "admin" ? "root" : "administrátor"}</td>
+				  </tr>
+				{/foreach}
+			</tbody>
+		</table>
+	</div>
 </section>
+
+<div id="add" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Pridať používateľa</h3>
+      </div>
+      <div class="modal-body">
+        {control addForm}
+      </div>
+    </div>
+  </div>
+</div>
