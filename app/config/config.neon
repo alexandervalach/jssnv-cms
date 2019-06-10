@@ -38,6 +38,5 @@ services:
 	- App\Model\SubPostRepository
 	- App\Model\SubSectionRepository
 	- App\Model\TestsRepository
-	- App\Model\TestsResultsRepository
 	- App\Model\UserRepository
 	router: App\RouterFactory::createRouter

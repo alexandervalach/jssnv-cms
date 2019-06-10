@@ -85,9 +85,6 @@ abstract class BasePresenter extends Presenter {
     /** @var TestsRepository */
     protected $testsRepository;
 
-    /** @var TestsResultsRepository */
-    protected $testsResultsRepository;
-
     /** @var UserRepository */
     protected $userRepository;
 
@@ -113,7 +110,6 @@ abstract class BasePresenter extends Presenter {
         SubPostRepository $subPostRepository,
         SubSectionRepository $subSectionRepository,
         TestsRepository $testsRepository,
-        TestsResultsRepository $testsResultsRepository,
         UserRepository $userRepository) {
         parent::__construct();
         $this->albumRepository = $albumRepository;
@@ -132,7 +128,6 @@ abstract class BasePresenter extends Presenter {
         $this->subSectionRepository = $subSectionRepository;
         $this->noticeRepository = $noticeRepository;
         $this->testsRepository = $testsRepository;
-        $this->testsResultsRepository = $testsResultsRepository;
         $this->userRepository = $userRepository;
     }
 

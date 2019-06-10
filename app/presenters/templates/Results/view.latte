@@ -8,28 +8,55 @@
 
     <title>Test Jazyková škola Spišská Nová Ves</title>
 
-    <link rel="stylesheet" href="{$basePath}/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="shortcut icon" href="{$basePath}/favicon.ico">
 
     <style>
-    	body > section.row {
-    		margin: 0 15px;
-    	}
+      body > section.row {
+        margin: 0 15px;
+      }
+
+      nav.navbar {
+        color: white;
+      }
+
+      main h2 {
+        font-size: 1.5rem;
+      }
+
+      main h3 {
+        font-size: 1.25rem;
+      }
+
+      main h5 {
+        font-size: 1rem;
+      }
+
+      main ol {
+        margin: 0;
+      }
+
+      main * {
+        font-size: 0.85rem;
+      }
     </style>
 	</head>
 
   <body>
-  	<header class="row" style="margin: 0 30px">
-  		<h1>Jazyková škola Spišská Nová Ves</h1>
-  	</header>
+    <nav class="navbar navbar-dark bg-success">
+      <h1>Jazyková škola, Javorová 16, Spišská Nová Ves</h1>
+    </nav>
 
-		<main class="row" style="margin: 0 15px">
+		<main class="row" style="margin: 15px">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div>
-					<h2>Výsledok testu</h2>
+          <h2>{$test->label}</h2>
+					<h3>Výsledok testu: {$result->score}%</h3>
+          <p>
+            <a n:href="Tests:view, $test" class="btn btn-large btn-success">Skúsiť znovu</a>
+            <a n:href="Homepage:" class="btn btn-large btn-warning">Prejsť na stránku jazykovej školy</a>
+          </p>
 				</div>
-				<p>Test bol ukončený a výsledok odoslaný na {$result->email}</p>
-				<p>Dosiahli ste {$result->score}%.</p>
 			</div>
 		</main>
 

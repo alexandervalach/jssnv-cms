@@ -4,19 +4,21 @@
   <div class="pull-left">
   	<h2>Výsledky testov</h2>
   </div>
-  <div class="table-responsive" n:if="$results->count() > 0">
+  <div class="table-responsive" n:if="sizeof($results) > 0">
     <table class="table">
     	<thead>
     		<tr>
-    			<td>E-mail</td>
-    			<td>Výsledok</td>
+    			<th>Test</th>
+          <th>E-mail</th>
+    			<th>Výsledok</th>
     		</tr>
     	</thead>
     	<tbody>
-    		{foreach $results as $result}
+    		{foreach $results as $row}
     			<tr>
-    				<td>{$result->email}</td>
-						<td>{$result->score}</td>
+            <td>{$row['test']->label}</td>
+            <td>{empty($row['result']->email) ? 'anonym' : $row['result']->email}</td>
+            <td>{$row['result']->score}</td>
 					</tr>
     		{/foreach}
     	</tbody>

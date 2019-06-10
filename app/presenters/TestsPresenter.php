@@ -59,21 +59,20 @@ class TestsPresenter extends BasePresenter {
   public function submittedFinishForm ($form, $values) {
   	$postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+    if (isset($postData['url']) && !empty($postData['url'])) {
+      $this->redirect('Homepage:'); 
+    }
+
   	$score = $this->evaluateTest($postData);
+    $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
 
     $data = array(
-      'email' => 'alexander.valach@gmail.com',
+      'test_id' => $this->testRow,
+      'email' => $email,
       'score' => $score
     );
 
     $resultId = $this->resultsRepository->insert($data);
-
-    $relation = array(
-      'test_id' => $this->testRow,
-      'result_id' => $resultId
-    );
-
-    $this->testsResultsRepository->insert($relation);
     $this->redirect('Results:view', $resultId);
   }
 
@@ -99,9 +98,11 @@ class TestsPresenter extends BasePresenter {
 
   protected function createComponentFinishForm () {
     $form = new \Nette\Application\UI\Form;
-    $form->addText('email', 'E-mail');
+    $form->addEmail('email', 'E-mail');
+    $form->addText('url', 'Mňam, mňa, toto vyplní len robot')
+      ->setAttribute('style', 'opacity: 0; display: inline')
+      ->setDefaultValue('');
     $form->addSubmit('finish', 'Ukončiť test');
-    $form->addHidden('test_id', $this->testRow);
     $form->onSuccess[] = [$this, 'submittedFinishForm'];
 
     \App\FormHelper::setBootstrapRenderer($form);

@@ -21,18 +21,29 @@ class ResultsPresenter extends BasePresenter {
     }
 
     public function renderAll () {
-    	$this->template->results = $this->resultsRepository->findAll();
+    	$results = $this->resultsRepository->findAll();
+    	$data = [];
+
+    	foreach ($results as $result) {
+    		$data[] = array(
+    			'result' => $result,
+    			'test' => $result->ref('tests', 'test_id')
+    		);
+    	}
+
+    	$this->template->results = $data;
     }
 
     public function actionView ($id) {
-        $this->resultRow = $this->resultsRepository->findById($id);
-        
-        if (!$this->resultRow) {
-            $this->error(self::ITEM_NOT_FOUND);
-        }
+      $this->resultRow = $this->resultsRepository->findById($id);
+      
+      if (!$this->resultRow) {
+        $this->error(self::ITEM_NOT_FOUND);
+      }
     }
 
     public function renderView ($id) {
-        $this->template->result = $this->resultRow;
+      $this->template->result = $this->resultRow;
+      $this->template->test = $this->resultRow->ref('tests', 'test_id');
     }
 }
