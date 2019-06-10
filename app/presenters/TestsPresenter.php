@@ -66,8 +66,15 @@ class TestsPresenter extends BasePresenter {
       'score' => $score
     );
 
-    $id = $this->resultsRepository->insert($data);
-    $this->redirect('Results:view', $id);
+    $resultId = $this->resultsRepository->insert($data);
+
+    $relation = array(
+      'test_id' => $this->testRow,
+      'result_id' => $resultId
+    );
+
+    $this->testsResultsRepository->insert($relation);
+    $this->redirect('Results:view', $resultId);
   }
 
   protected function createComponentAddForm () {
@@ -111,7 +118,11 @@ class TestsPresenter extends BasePresenter {
   	}
 
   	foreach ($this->questions as $question) {
-  		if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
+      if (!(array_key_exists('question' . $question->id, $postData))) {
+        continue;
+      }
+  		
+      if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
   			$earnedPoints += $question->value;
   		}
   	}

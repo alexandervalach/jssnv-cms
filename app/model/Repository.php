@@ -16,7 +16,7 @@ abstract class Repository {
     protected $tableName;
 
     public function __construct(Nette\Database\Context $database) {
-        $this->database = $database;
+     	$this->database = $database;
     }
 
     /**
@@ -24,17 +24,17 @@ abstract class Repository {
      * @return Nette\Database\Table\Selection
      */
     protected function getTable() {
-        if (isset($this->tableName)) {
-            return $this->database->table($this->tableName);
-        } else {
-            // název tabulky odvodíme z názvu třídy
-            preg_match('#(\w+)Repository$#', get_class($this), $m);
-            return $this->database->table(strtolower($m[1]));
-        }
+      if (isset($this->tableName)) {
+        return $this->database->table($this->tableName);
+      } else {
+        // název tabulky odvodíme z názvu třídy
+        preg_match('#(\w+)Repository$#', get_class($this), $m);
+        return $this->database->table(strtolower($m[1]));
+      }
     }
 
     public function getConnection() {
-        return $this->database;
+    	return $this->database;
     }
 
     /**
@@ -42,7 +42,7 @@ abstract class Repository {
      * @return Nette\Database\Table\Selection
      */
     public function findAll() {
-        return $this->getTable();
+    	return $this->getTable();
     }
 
     /**
@@ -50,7 +50,7 @@ abstract class Repository {
      * @return Nette\Database\Table\Selection
      */
     public function findBy(array $by) {
-        return $this->getTable()->where($by);
+      return $this->getTable()->where($by);
     }
 
     /**
@@ -60,8 +60,8 @@ abstract class Repository {
      * @return Nette\Database\Table\Selection
      */
     public function findByValue($columnName, $value) {
-        $condition = array($columnName => $value);
-        return $this->findBy($condition);
+      $condition = array($columnName => $value);
+      return $this->findBy($condition);
     }
 
     /**
@@ -70,19 +70,19 @@ abstract class Repository {
      * @return Nette\Database\Table\ActiveRow
      */
     public function findById($id) {
-        return $this->getTable()->get($id);
+    	return $this->getTable()->get($id);
     }
 
     public function update($id, $data) {
-        $this->getTable()->wherePrimary($id)->update($data);
+    	$this->getTable()->wherePrimary($id)->update($data);
     }
 
     public function insert($data) {
-        return $this->getTable()->insert($data);
+     	return $this->getTable()->insert($data);
     }
 
     public function remove($id) {
-        $this->getTable()->get($id)->delete();
+     	$this->getTable()->get($id)->delete();
     }
 
 }

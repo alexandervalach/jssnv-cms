@@ -3,5 +3,9 @@
 namespace App\Model;
 
 class QuestionsRepository extends Repository {
-    //put your code here
+
+	public function findQuestionsForTest ($limit, $offset) {
+
+	}
+
 }
