@@ -98,7 +98,8 @@ class TestsPresenter extends BasePresenter {
 
   protected function createComponentFinishForm () {
     $form = new \Nette\Application\UI\Form;
-    $form->addEmail('email', 'E-mail');
+    $form->addText('email', 'E-mail')
+      ->addCondition(\Nette\Application\UI\Form::EMAIL, true);
     $form->addText('url', 'Mňam, mňa, toto vyplní len robot')
       ->setAttribute('style', 'opacity: 0; display: inline')
       ->setDefaultValue('');
