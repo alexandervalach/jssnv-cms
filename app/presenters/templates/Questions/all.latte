@@ -1,0 +1,33 @@
+{block content}
+
+<section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="pull-left">
+  	<h2>Otázky k testu {$test->label}</h2>
+  </div>
+  <div class="pull-right" style="margin-top: 20px">
+		<button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
+		  <span class="glyphicon glyphicon-plus"></span> Pridať
+		</button>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$questions->count() > 0">
+    <ul style="list-style-type: none; padding: 0">
+      {foreach $questions as $question}
+        <li>{$iterator->counter}. {$question->label}</li>
+      {/foreach}
+    </ul>
+  </div>
+</section>
+
+<div id="add" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Pridať otázku</h3>
+            </div>
+            <div class="modal-body">
+              {control addForm}
+            </div>
+        </div>
+    </div>
+</div>
