@@ -13,7 +13,7 @@
     <div class="list-group">
       {foreach $questions as $question}
         {var $answers = $question->related('answers')}
-        <span class="list-group-item">
+        <div id="question{$question}" class="list-group-item">
           <h4 class="list-group-item-heading">{$iterator->counter}. {$question->label}</h4>
           <a n:href="Answers:all, $question" class="text-success">
             &hellip;<span class="glyphicon glyphicon-pencil"></span>
@@ -25,7 +25,7 @@
               {/foreach}
             </ol>
           </p>
-        </span>
+        </div>
       {/foreach}
     </div>
   </div>

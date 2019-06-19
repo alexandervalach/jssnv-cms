@@ -2,10 +2,10 @@
 
 <section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="pull-left">
-  	<h2>Otázka {$question->id}</h2>
+  	<h2>Otázka #{$question->id}</h2>
   </div>
   <div class="pull-right" style="margin: 20px 0 0 5px">
-    <a n:href="Questions:all, $test" class='btn btn-warning'>
+    <a n:href="Questions:all#question{$question->id}, $test" class='btn btn-warning'>
 		  <span class="glyphicon glyphicon-arrow-left"></span> Späť na test
 		</a>
   </div>
