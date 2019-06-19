@@ -40,7 +40,7 @@ class QuestionsPresenter extends BasePresenter {
   public function submittedAddForm ($form, $values) {
     $this->questionsRepository->insert($values);
     $this->flashMessage(self::ITEM_ADD_SUCCESS);
-    $this->redirect('all'); 
+    $this->redirect('all', $this->testRow); 
   }
 
   protected function createComponentAddForm () {
