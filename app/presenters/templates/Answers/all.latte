@@ -4,7 +4,12 @@
   <div class="pull-left">
   	<h2>Otázka {$question->id}</h2>
   </div>
-  <div class="pull-right" style="margin-top: 20px">
+  <div class="pull-right" style="margin: 20px 0 0 5px">
+    <a n:href="Questions:all, $test" class='btn btn-warning'>
+		  <span class="glyphicon glyphicon-arrow-left"></span> Späť na test
+		</a>
+  </div>
+  <div class="pull-right" style="margin: 20px 0 0 5px">
     <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
 		  <span class="glyphicon glyphicon-plus"></span> Pridať
 		</button>
@@ -15,7 +20,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$answers->count() > 0">
     <ol style="list-style-type: upper-alpha">
       {foreach $answers as $answer}
-        <li n:class="$answer->correct ? 'text-success' : 'text-danger'">{$answer->label}</li>
+        <li n:class="$answer->correct ? 'text-success' : 'text-warning'">{$answer->label}</li>
       {/foreach}
     </ol>
   </div>

@@ -16,6 +16,9 @@ class AnswersPresenter extends BasePresenter {
 
   /** @var ActiveRow **/ 
   private $questionRow;
+  
+  /** @var ActiveRow */
+  private $testRow;
 
   /**
    * @param id test id 
@@ -26,6 +29,8 @@ class AnswersPresenter extends BasePresenter {
 
     if (!$this->questionRow) {
       $this->error(self::ITEM_NOT_FOUND);
+    } else {
+      $this->testRow = $this->questionRow->ref('tests', 'test_id');
     }
   }
 
@@ -35,6 +40,7 @@ class AnswersPresenter extends BasePresenter {
   public function renderAll ($id) {
     $this->template->question = $this->questionRow;
     $this->template->answers = $this->questionRow->related('answers');
+    $this->template->test = $this->testRow;
   }
 
   public function submittedAddForm ($form, $values) {
