@@ -1,0 +1,36 @@
+{block content}
+
+<section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="pull-left">
+  	<h2>Otázka {$question->id}</h2>
+  </div>
+  <div class="pull-right" style="margin-top: 20px">
+    <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
+		  <span class="glyphicon glyphicon-plus"></span> Pridať
+		</button>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    {$question->label}
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$answers->count() > 0">
+    <ol style="list-style-type: upper-alpha">
+      {foreach $answers as $answer}
+        <li n:class="$answer->correct ? 'text-success' : 'text-danger'">{$answer->label}</li>
+      {/foreach}
+    </ol>
+  </div>
+</section>
+
+<div id="add" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Pridať odpoveď</h3>
+            </div>
+            <div class="modal-body">
+              {control addForm}
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,11 +10,18 @@
 		</button>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$questions->count() > 0">
-    <ul style="list-style-type: none; padding: 0">
+    <div class="list-group">
       {foreach $questions as $question}
-        <li>{$iterator->counter}. {$question->label}</li>
+        <span class="list-group-item">
+          <h4 class="list-group-item-heading">{$iterator->counter}. {$question->label}</h4>
+          <a n:href="Answers:all, $question" class="text-success">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+          <p class="list-group-item-text">
+          </p>
+        </span>
       {/foreach}
-    </ul>
+    </div>
   </div>
 </section>
 
