@@ -31,17 +31,24 @@
                 </main>
             </div>
 
+            <div>
+              <button type="button" id="scroll-to-top">
+                <span class="sr-only">Späť na vrch stránky</span>
+                <span class="glyphicon glyphicon-chevron-up"></span>
+              </button>
+            </div>
+
             {include 'footer.latte'}
         </div>
 
         {block scripts}
         <script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
         <script type="text/javascript" src="//nette.github.io/resources/js/netteForms.min.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
         <script type="text/javascript" src="{$basePath}/js/main.js"></script>
         <script type="text/javascript" src="{$basePath}/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="{$basePath}/js/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="{$basePath}/js/sliding.js"></script>
-        <!--<script type="text/javascript" src="{$basePath}/js/gallery.js"></script>-->
         <script type="text/javascript">
             // Replace the <textarea id="ckeditor"> with a CKEditor
             // instance, using default configuration.
