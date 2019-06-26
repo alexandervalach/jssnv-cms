@@ -36,7 +36,7 @@ class TestsPresenter extends BasePresenter {
     }
 
     $this['editForm']->setDefaults($this->testRow);
-    $this->questions = $this->testRow->related(self::QUESTIONS);
+    $this->questions = $this->questionsRepository->findQuestions($this->testRow);
   }
 
   public function renderView ($id) {
