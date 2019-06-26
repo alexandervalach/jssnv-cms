@@ -20,9 +20,31 @@
     		color: white;
     	}
 
+      .navbar h1 {
+        font-size: 2rem
+      }
+
+      .navbar p {
+        font-size: 1rem;
+        margin: 10px 0;
+      }
+
+      .navbar a {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        text-decoration: none;
+        color: #ffc107;
+        font-size: 1rem;
+      }
+
     	main h2 {
     		font-size: 1.5rem;
     	}
+
+      main h3 {
+        font-size: 1.25rem;
+      }
 
     	main h5 {
     		font-size: 1rem;
@@ -39,12 +61,7 @@
 	</head>
 
   <body>
-  	<nav class="navbar navbar-dark bg-success">
-  		<h1>Jazyková škola, Javorová 16, Spišská Nová Ves</h1>
-  		<!-- Navbar content -->
-		</nav>
-
-		<main class="row" style="margin: 15px">
+		<main class="row" style="margin: 125px 15px 15px 15px">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div>
 					<h2>{$test->label}</h2>
@@ -113,6 +130,18 @@
 	        			</div>
 		    			</div>
 						</div>
+            <nav class="navbar navbar-dark bg-success fixed-top">
+              <div class="container-fluid">
+                <h1 style="display: inline" >Jazyková škola, Javorová 16, Spišská Nová Ves</h1>
+              </div>
+              <div class="container-fluid">
+                <p>
+                  Test je možné kedykoľvek
+                  <a href="#" data-toggle="modal" data-target="#finish">ukončiť</a>.
+                  Za všetky správne odpovede sa vám započítajú body a dozviete sa výsledok.
+                </p>
+              </div>
+            </nav>
 					{/form}
 				{else}
 					Coming soon ;)
