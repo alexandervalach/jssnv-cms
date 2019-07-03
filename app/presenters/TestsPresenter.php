@@ -63,16 +63,7 @@ class TestsPresenter extends BasePresenter {
       $this->redirect('Homepage:');
     }
 
-  	$score = $this->evaluateTest($postData);
-    $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
-
-    $data = array(
-      'test_id' => $this->testRow,
-      'email' => $email,
-      'score' => $score
-    );
-
-    $resultId = $this->resultsRepository->insert($data);
+  	$resultId = $this->evaluateTest($postData);
     $this->redirect('Results:view', $resultId);
   }
 
@@ -113,21 +104,19 @@ class TestsPresenter extends BasePresenter {
   protected function evaluateTest ($postData) {
     $earnedPoints = array();
     $levels = array();
-    $maxPoints = 0;
-    $earnedPoints['total'] = 0;
+    $highScore = 0;
+    $score = 0;
 
   	foreach ($this->questions as $question) {
-      if (!$levels[$question->level_id]) {
-        $levels[$question->level_id]['maxPoints'] = 0;
+      if (!isset($levels[$question->level_id])) {
+        $levels[$question->level_id]['score'] = 0;
+        $levels[$question->level_id]['high_score'] = 0;
+        $levels[$question->level_id]['level_id'] = $question->level_id;
       }
 
-      if (!$earnedPoints[$question->level_id]) {
-        $earnedPoints[$question->level_id] = 0;
-      }
-
-      $levels[$question->level_id]['maxPoints'] += $question->value;
+      $levels[$question->level_id]['high_score'] += $question->value;
   		$answer[$question->id] = $question->related('answers')->where('correct', 1)->fetch();
-  		$maxPoints += $question->value;
+  		$highScore += $question->value;
   	}
 
   	foreach ($this->questions as $question) {
@@ -136,12 +125,31 @@ class TestsPresenter extends BasePresenter {
       }
 
       if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
-        $earnedPoints[$question->level_id]['points'] += $question->value;
-        $earnedPoints[$question->level_id]['level_id'] += $question->level_id;
-        $earnedPoints['total'] += $question->value;
+        $levels[$question->level_id]['score'] += $question->value;
+        $score += $question->value;
   		}
     }
 
-  	return round(($earnedPoints['total'] / (float) $maxPoints) * 100, 2);
+    $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
+
+    $resultId = $this->resultsRepository->insert(
+      array(
+        'test_id' => $this->testRow->id,
+        'score' => round(($score / (float) $highScore) * 100, 2),
+        'email' => $email
+      )
+    );
+
+    foreach ($levels as $level) {
+      $this->levelsResultsRepository->insert(
+        array(
+          'result_id' => $resultId,
+          'level_id' => $level['level_id'],
+          'score' => round($level['score'] / (float) $levels[$question->level_id]['high_score'] * 100, 2)
+        )
+      );
+    }
+
+    return $resultId;
   }
 }

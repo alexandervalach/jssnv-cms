@@ -40,17 +40,17 @@ class ResultsPresenter extends BasePresenter {
 
     public function actionView ($id) {
       $this->resultRow = $this->resultsRepository->findById($id);
+      $this->levelsResults = array();
 
       if (!$this->resultRow) {
         $this->error(self::ITEM_NOT_FOUND);
       }
 
-      $levelsResults = $this->resultRow->related('levels_results');
+      $levelsResults = $this->levelsResultsRepository->findAll()->where('result_id', $this->resultRow->id);
 
       foreach ($levelsResults as $result) {
-        $this->levelsResults['score'] = $result->score;
-        $level = $result->ref('levels', 'level_id');
-        $this->levelsResults['level'] = $level->label;
+        $this->levelsResults[$result->level_id]['score'] = $result->score;
+        $this->levelsResults[$result->level_id]['label'] = $result->ref('levels', 'level_id')->label;
       }
     }
 

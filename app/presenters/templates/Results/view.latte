@@ -50,12 +50,39 @@
 		<main class="row" style="margin: 15px">
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 				<div>
-          <h2>{$test->label}</h2>
-					<h3>Výsledok testu: {$result->score}%</h3>
-          <p>
-            <a n:href="Tests:view, $test" class="btn btn-large btn-success">Skúsiť znovu</a>
-            <a n:href="Homepage:" class="btn btn-large btn-warning">Prejsť na stránku jazykovej školy</a>
-          </p>
+          <div class="content-header" style="margin: 15px 0">
+            <h2>{$test->label}</h2>
+					  <h3 style="display: inline">Celkový výsledok:</h3>
+            <h3 style="display: inline" class="{if $result->score >= 70}text-success{else}text-danger{/if}">
+              {$result->score}%
+            </h3>
+          </div>
+          <div class="content-body row">
+            <div class="table-responsive col-xs-12 col-sm-12 col-md-6 col-lg-4">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Úroveň</th>
+                    <th>Výsledok</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {foreach $levels as $level}
+                    <tr>
+                      <td>{$level['label']}</td>
+                      <td class="{if $level['score'] >= 70}text-success{else}text-danger{/if}">{$level['score']}%</td>
+                    </tr>
+                  {/foreach}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="content-footer">
+            <p>
+              <a n:href="Tests:view, $test" class="btn btn-large btn-success">Skúsiť znovu</a>
+              <a n:href="Homepage:" class="btn btn-large btn-warning">Prejsť na stránku jazykovej školy</a>
+            </p>
+          </div>
 				</div>
 			</div>
 		</main>
