@@ -11,15 +11,23 @@
     			<th>Test</th>
           <th>E-mail</th>
     			<th>Výsledok</th>
+          <th>Akcia</th>
     		</tr>
     	</thead>
     	<tbody>
-    		{foreach $results as $row}
+    		{foreach $results as $result}
     			<tr>
-            <td>{$row['test']->label}</td>
-            <td>{empty($row['result']->email) ? 'anonym' : $row['result']->email}</td>
-            <td>{$row['result']->score}</td>
-					</tr>
+            <td>
+              <a n:href="Questions:all, $result['test']">{$result['test']->label}</a>
+            </td>
+            <td>{empty($result['data']->email) ? 'anonym' : $result['data']->email}</td>
+            <td>{$result['data']->score}</td>
+            <td>
+              <a n:href="Results:view, $result['data']->id">
+                <span class="glyphicon glyphicon-eye-open"></span>
+              </a>
+            </td>
+			    </tr>
     		{/foreach}
     	</tbody>
     </table>

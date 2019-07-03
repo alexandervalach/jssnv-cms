@@ -10,6 +10,7 @@ use App\Model\BannerRepository;
 use App\Model\FilesRepository;
 use App\Model\GalleryRepository;
 use App\Model\ImagesRepository;
+use App\Model\LevelsResultsRepository;
 use App\Model\LevelsRepository;
 use App\Model\NoticeRepository;
 use App\Model\PostRepository;
@@ -56,6 +57,9 @@ abstract class BasePresenter extends Presenter {
     /** @var ImagesRepository */
     protected $imagesRepository;
 
+    /** @var LevelsResultsRepository */
+    protected $levelsResultsRepository;
+
     /** @var LevelsRepository */
     protected $levelsRepository;
 
@@ -101,6 +105,7 @@ abstract class BasePresenter extends Presenter {
         FilesRepository $filesRepository,
         GalleryRepository $galleryRepository,
         ImagesRepository $imageRepository,
+        LevelsResultsRepository $levelsResultsRepository,
         LevelsRepository $levelsRepository,
         NoticeRepository $noticeRepository,
         PostRepository $postRepository,
@@ -119,6 +124,7 @@ abstract class BasePresenter extends Presenter {
         $this->filesRepository = $filesRepository;
         $this->galleryRepository = $galleryRepository;
         $this->imagesRepository = $imageRepository;
+        $this->levelsResultsRepository = $levelsResultsRepository;
         $this->levelsRepository = $levelsRepository;
         $this->postRepository = $postRepository;
         $this->questionsRepository = $questionsRepository;

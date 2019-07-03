@@ -11,6 +11,9 @@ namespace App\Presenters;
 
 class ResultsPresenter extends BasePresenter {
 
+    /** @var array */
+    private $levelsResults;
+
     /** @var ActiveRow */
     private $resultRow;
 
@@ -26,7 +29,8 @@ class ResultsPresenter extends BasePresenter {
 
     	foreach ($results as $result) {
     		$data[] = array(
-    			'result' => $result,
+          'data' => $result,
+    			'levels' => $result->related('levels_results'),
     			'test' => $result->ref('tests', 'test_id')
     		);
     	}
@@ -36,14 +40,23 @@ class ResultsPresenter extends BasePresenter {
 
     public function actionView ($id) {
       $this->resultRow = $this->resultsRepository->findById($id);
-      
+
       if (!$this->resultRow) {
         $this->error(self::ITEM_NOT_FOUND);
+      }
+
+      $levelsResults = $this->resultRow->related('levels_results');
+
+      foreach ($levelsResults as $result) {
+        $this->levelsResults['score'] = $result->score;
+        $level = $result->ref('levels', 'level_id');
+        $this->levelsResults['level'] = $level->label;
       }
     }
 
     public function renderView ($id) {
       $this->template->result = $this->resultRow;
+      $this->template->levels = $this->levelsResults;
       $this->template->test = $this->resultRow->ref('tests', 'test_id');
     }
 }

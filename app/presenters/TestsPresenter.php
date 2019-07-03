@@ -15,7 +15,7 @@ class TestsPresenter extends BasePresenter {
   /** @var ActiveRow */
   private $testRow;
 
-  /** @var Selection **/ 
+  /** @var Selection **/
   private $questions;
 
   public function actionAll () {
@@ -30,9 +30,9 @@ class TestsPresenter extends BasePresenter {
 
   public function actionView ($id) {
     $this->testRow = $this->testsRepository->findById($id);
-    
+
     if (!$this->testRow) {
-        $this->error(self::TEST_NOT_FOUND);
+      $this->error(self::TEST_NOT_FOUND);
     }
 
     $this['editForm']->setDefaults($this->testRow);
@@ -47,20 +47,20 @@ class TestsPresenter extends BasePresenter {
   public function submittedAddForm ($form, $values) {
     $this->testsRepository->insert($values);
     $this->flashMessage(self::ITEM_ADD_SUCCESS);
-    $this->redirect('all'); 
+    $this->redirect('all');
   }
 
   public function submittedEditForm ($form, $values) {
     $this->testRow->update($values);
     $this->flashMessage(self::ITEM_EDIT_SUCCESS);
-    $this->redirect('all'); 
+    $this->redirect('all');
   }
 
   public function submittedFinishForm ($form, $values) {
   	$postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
     if (isset($postData['url']) && !empty($postData['url'])) {
-      $this->redirect('Homepage:'); 
+      $this->redirect('Homepage:');
     }
 
   	$score = $this->evaluateTest($postData);
@@ -111,10 +111,21 @@ class TestsPresenter extends BasePresenter {
   }
 
   protected function evaluateTest ($postData) {
-  	$earnedPoints = 0;
-  	$maxPoints = 0;
+    $earnedPoints = array();
+    $levels = array();
+    $maxPoints = 0;
+    $earnedPoints['total'] = 0;
 
   	foreach ($this->questions as $question) {
+      if (!$levels[$question->level_id]) {
+        $levels[$question->level_id]['maxPoints'] = 0;
+      }
+
+      if (!$earnedPoints[$question->level_id]) {
+        $earnedPoints[$question->level_id] = 0;
+      }
+
+      $levels[$question->level_id]['maxPoints'] += $question->value;
   		$answer[$question->id] = $question->related('answers')->where('correct', 1)->fetch();
   		$maxPoints += $question->value;
   	}
@@ -123,12 +134,14 @@ class TestsPresenter extends BasePresenter {
       if (!(array_key_exists('question' . $question->id, $postData))) {
         continue;
       }
-  		
-      if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
-  			$earnedPoints += $question->value;
-  		}
-  	}
 
-  	return round(($earnedPoints / (float) $maxPoints) * 100, 2);
+      if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
+        $earnedPoints[$question->level_id]['points'] += $question->value;
+        $earnedPoints[$question->level_id]['level_id'] += $question->level_id;
+        $earnedPoints['total'] += $question->value;
+  		}
+    }
+
+  	return round(($earnedPoints['total'] / (float) $maxPoints) * 100, 2);
   }
 }
