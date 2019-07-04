@@ -92,9 +92,7 @@ abstract class Repository {
   }
 
   public function remove($id) {
-    $this->getTable()->get($id)->update(
-      array('is_present', 0)
-    );
+    $this->findById($id)->update( array(self::IS_PRESENT => 0) );
   }
 
 }
