@@ -33,153 +33,155 @@ use App\FormHelper;
  */
 abstract class BasePresenter extends Presenter {
 
-    const TEST_NOT_FOUND = 'Test not found';
-    const ITEM_NOT_FOUND = 'Item not found';
-    const ITEM_ADD_SUCCESS = 'Položka bola pridaná';
-    const ITEM_EDIT_SUCCESS = 'Položka bola upravená';
-    const QUESTIONS = 'questions';
+  const TEST_NOT_FOUND = 'Test not found';
+  const ITEM_NOT_FOUND = 'Item not found';
+  const ITEM_ADD_SUCCESS = 'Položka bola pridaná';
+  const ITEM_EDIT_SUCCESS = 'Položka bola upravená';
+  const QUESTIONS = 'questions';
+  const SUCCESS = 'success';
 
-    /** @var AlbumRepository */
-    protected $albumRepository;
+  /** @var AlbumRepository */
+  protected $albumRepository;
 
-    /** @var AnswersRepository */
-    protected $answersRepository;
+  /** @var AnswersRepository */
+  protected $answersRepository;
 
-    /** @var BannerRepository */
-    protected $bannerRepository;
+  /** @var BannerRepository */
+  protected $bannerRepository;
 
-    /** @var FilesRepository */
-    protected $filesRepository;
+  /** @var FilesRepository */
+  protected $filesRepository;
 
-    /** @var GalleryRepository */
-    protected $galleryRepository;
+  /** @var GalleryRepository */
+  protected $galleryRepository;
 
-    /** @var ImagesRepository */
-    protected $imagesRepository;
+  /** @var ImagesRepository */
+  protected $imagesRepository;
 
-    /** @var LevelsResultsRepository */
-    protected $levelsResultsRepository;
+  /** @var LevelsResultsRepository */
+  protected $levelsResultsRepository;
 
-    /** @var LevelsRepository */
-    protected $levelsRepository;
+  /** @var LevelsRepository */
+  protected $levelsRepository;
 
-    /** @var NoticesRepository */
-    protected $noticesRepository;
+  /** @var NoticesRepository */
+  protected $noticesRepository;
 
-    /** @var PostRepository */
-    protected $postRepository;
+  /** @var PostRepository */
+  protected $postRepository;
 
-    /** @var QuestionsRepository */
-    protected $questionsRepository;
+  /** @var QuestionsRepository */
+  protected $questionsRepository;
 
-    /** @var ResultsRepository */
-    protected $resultsRepository;
+  /** @var ResultsRepository */
+  protected $resultsRepository;
 
-    /** @var SectionRepository */
-    protected $sectionRepository;
+  /** @var SectionRepository */
+  protected $sectionRepository;
 
-    /** @var SubFilesRepository */
-    protected $subFilesRepository;
+  /** @var SubFilesRepository */
+  protected $subFilesRepository;
 
-    /** @var SubPostRepository */
-    protected $subPostRepository;
+  /** @var SubPostRepository */
+  protected $subPostRepository;
 
-    /** @var SubSectionRepository */
-    protected $subSectionRepository;
+  /** @var SubSectionRepository */
+  protected $subSectionRepository;
 
-    /** @var TestsRepository */
-    protected $testsRepository;
+  /** @var TestsRepository */
+  protected $testsRepository;
 
-    /** @var UserRepository */
-    protected $userRepository;
+  /** @var UserRepository */
+  protected $userRepository;
 
-    /** @var string */
-    protected $imgFolder = "images/";
+  /** @var string */
+  protected $imgFolder = "images/";
 
-    /** @var string */
-    protected $fileFolder = "files/";
+  /** @var string */
+  protected $fileFolder = "files/";
 
-    public function __construct(AlbumRepository $albumRepository,
-        AnswersRepository $answersRepository,
-        BannerRepository $bannerRepository,
-        FilesRepository $filesRepository,
-        GalleryRepository $galleryRepository,
-        ImagesRepository $imageRepository,
-        LevelsResultsRepository $levelsResultsRepository,
-        LevelsRepository $levelsRepository,
-        NoticesRepository $noticesRepository,
-        PostRepository $postRepository,
-        QuestionsRepository $questionsRepository,
-        ResultsRepository $resultsRepository,
-        SectionRepository $sectionRepository,
-        SubFilesRepository $subFilesRepository,
-        SubPostRepository $subPostRepository,
-        SubSectionRepository $subSectionRepository,
-        TestsRepository $testsRepository,
-        UserRepository $userRepository) {
-        parent::__construct();
-        $this->albumRepository = $albumRepository;
-        $this->answersRepository = $answersRepository;
-        $this->bannerRepository = $bannerRepository;
-        $this->filesRepository = $filesRepository;
-        $this->galleryRepository = $galleryRepository;
-        $this->imagesRepository = $imageRepository;
-        $this->levelsResultsRepository = $levelsResultsRepository;
-        $this->levelsRepository = $levelsRepository;
-        $this->postRepository = $postRepository;
-        $this->questionsRepository = $questionsRepository;
-        $this->resultsRepository = $resultsRepository;
-        $this->sectionRepository = $sectionRepository;
-        $this->subFilesRepository = $subFilesRepository;
-        $this->subPostRepository = $subPostRepository;
-        $this->subSectionRepository = $subSectionRepository;
-        $this->noticesRepository = $noticesRepository;
-        $this->testsRepository = $testsRepository;
-        $this->userRepository = $userRepository;
+  public function __construct(AlbumRepository $albumRepository,
+    AnswersRepository $answersRepository,
+    BannerRepository $bannerRepository,
+    FilesRepository $filesRepository,
+    GalleryRepository $galleryRepository,
+    ImagesRepository $imageRepository,
+    LevelsResultsRepository $levelsResultsRepository,
+    LevelsRepository $levelsRepository,
+    NoticesRepository $noticesRepository,
+    PostRepository $postRepository,
+    QuestionsRepository $questionsRepository,
+    ResultsRepository $resultsRepository,
+    SectionRepository $sectionRepository,
+    SubFilesRepository $subFilesRepository,
+    SubPostRepository $subPostRepository,
+    SubSectionRepository $subSectionRepository,
+    TestsRepository $testsRepository,
+    UserRepository $userRepository) {
+    parent::__construct();
+    $this->albumRepository = $albumRepository;
+    $this->answersRepository = $answersRepository;
+    $this->bannerRepository = $bannerRepository;
+    $this->filesRepository = $filesRepository;
+    $this->galleryRepository = $galleryRepository;
+    $this->imagesRepository = $imageRepository;
+    $this->levelsResultsRepository = $levelsResultsRepository;
+    $this->levelsRepository = $levelsRepository;
+    $this->postRepository = $postRepository;
+    $this->questionsRepository = $questionsRepository;
+    $this->resultsRepository = $resultsRepository;
+    $this->sectionRepository = $sectionRepository;
+    $this->subFilesRepository = $subFilesRepository;
+    $this->subPostRepository = $subPostRepository;
+    $this->subSectionRepository = $subSectionRepository;
+    $this->noticesRepository = $noticesRepository;
+    $this->testsRepository = $testsRepository;
+    $this->userRepository = $userRepository;
+  }
+
+  public function beforeRender() {
+    $this->template->menuSections = $this->sectionRepository->findByValue('visible', 1)->order("order DESC");
+    $this->template->menuAlbums = $this->albumRepository->findAll();
+    $this->template->imgFolder = $this->imgFolder;
+  }
+
+  protected function userIsLogged() {
+    if (!$this->user->isLoggedIn()) {
+      $this->redirect('Sign:in');
     }
+  }
 
-    public function beforeRender() {
-        $this->template->menuSections = $this->sectionRepository->findByValue('visible', 1)->order("order DESC");
-        $this->template->menuAlbums = $this->albumRepository->findAll();
-        $this->template->imgFolder = $this->imgFolder;
+  protected function createComponentModalDialog() {
+    return new ModalDialog();
+  }
+
+  protected function createComponentFormCancelled() {
+    return new FormCancelled();
+  }
+
+  protected function createComponentRemoveForm() {
+    $form = new Form();
+
+    $form->addSubmit('remove', 'Odstrániť')
+        ->setAttribute('class', 'btn btn-danger');
+
+
+    $form->addSubmit('cancel', 'Zrušiť')
+        ->setAttribute('class', 'btn btn-warning')
+        ->setAttribute('data-dismiss', 'modal');
+
+    $form->onSuccess[] = [$this, 'submittedRemoveForm'];
+
+    FormHelper::setBootstrapRenderer($form);
+    return $form;
+  }
+
+  protected function userIsAllowed($id, $userRole, $root, $errorMessage) {
+    if ($userRole != $root) {
+      if ($this->user->id != $id) {
+          throw new ForbiddenRequestException($errorMessage);
+      }
     }
-
-    protected function userIsLogged() {
-        if (!$this->user->isLoggedIn()) {
-            $this->redirect('Sign:in');
-        }
-    }
-
-    protected function createComponentModalDialog() {
-        return new ModalDialog();
-    }
-
-    protected function createComponentFormCancelled() {
-        return new FormCancelled();
-    }
-
-    protected function createComponentRemoveForm() {
-        $form = new Form();
-
-        $form->addSubmit('cancel', 'Zrušiť')
-            ->setAttribute('class', 'btn btn-warning')
-            ->setAttribute('data-dismiss', 'modal');
-
-        $form->addSubmit('remove', 'Odstrániť')
-            ->setAttribute('class', 'btn btn-danger');
-
-        $form->onSuccess[] = [$this, 'submittedRemoveForm'];
-
-        FormHelper::setBootstrapRenderer($form);
-        return $form;
-    }
-
-    protected function userIsAllowed($id, $userRole, $root, $errorMessage) {
-        if ($userRole != $root) {
-            if ($this->user->id != $id) {
-                throw new ForbiddenRequestException($errorMessage);
-            }
-        }
-    }
+  }
 
 }
