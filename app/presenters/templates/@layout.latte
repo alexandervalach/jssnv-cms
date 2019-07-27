@@ -1,59 +1,59 @@
 {**
- * @param string   $basePath web base path
- * @param array    $flashes  flash messages
+* @param string   $basePath web base path
+* @param array    $flashes  flash messages
 *}
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="description" content="">
-        <meta name="robots" content="{$robots}" n:ifset="$robots">
-        <meta name="viewport" content="width=device-width">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="robots" content="{$robots}" n:ifset="$robots">
+    <meta name="viewport" content="width=device-width">
 
-        <title>{ifset title}{include title|striptags} | {/ifset}Jazykovka</title>
+    <title>{ifset title}{include title|striptags} | {/ifset}Jazykovka</title>
 
-        <link rel="stylesheet" href="{$basePath}/css/style.css?v=1.0.2">
-        <link rel="stylesheet" href="{$basePath}/bootstrap/css/bootstrap.min.css">
-        <link rel="shortcut icon" href="{$basePath}/favicon.ico">
-    </head>
+    <link rel="stylesheet" href="{$basePath}/css/style.css?v=1.0.3">
+    <link rel="stylesheet" href="{$basePath}/bootstrap/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+  </head>
 
-    <body>
-        <div id="page">
-            {include 'header.latte'}
+  <body>
+    <div id="page">
+      {include 'header.latte'}
 
-            <div class="row" id="primary">
-                {include 'navigation.latte'}
+      <div class="row" id="primary">
+          {include 'navigation.latte'}
 
-                <main id="content" class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-                    {include 'flashMessage.latte'}
-                    {include content}
-                </main>
-            </div>
+          <main id="content" class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
+            {include 'flashMessage.latte'}
+            {include content}
+          </main>
+      </div>
 
-            <div>
-              <button type="button" id="scroll-to-top">
-                <span class="sr-only">Späť na vrch stránky</span>
-                <span class="glyphicon glyphicon-chevron-up"></span>
-              </button>
-            </div>
+      <div>
+        <button type="button" id="scroll-to-top">
+          <span class="sr-only">Späť na vrch stránky</span>
+          <span class="glyphicon glyphicon-chevron-up"></span>
+        </button>
+      </div>
 
-            {include 'footer.latte'}
-        </div>
+      {include 'footer.latte'}
+    </div>
 
-        {block scripts}
-        <script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
-        <script type="text/javascript" src="//nette.github.io/resources/js/netteForms.min.js"></script>
-        <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
-        <script type="text/javascript" src="{$basePath}/js/main.js"></script>
-        <script type="text/javascript" src="{$basePath}/bootstrap/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="{$basePath}/js/ckeditor/ckeditor.js"></script>
-        <script type="text/javascript" src="{$basePath}/js/sliding.js"></script>
-        <script type="text/javascript">
-            // Replace the <textarea id="ckeditor"> with a CKEditor
-            // instance, using default configuration.
-            CKEDITOR.replace('ckeditor');
-        </script>
-        {/block}
-    </body>
+    {block scripts}
+    <script type="text/javascript" src="{$basePath}/js/jquery.js"></script>
+    <script type="text/javascript" src="//nette.github.io/resources/js/netteForms.min.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/main.js"></script>
+    <script type="text/javascript" src="{$basePath}/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/sliding.js"></script>
+    <script type="text/javascript">
+      // Replace the <textarea id="ckeditor"> with a CKEditor
+      // instance, using default configuration.
+      CKEDITOR.replace('ckeditor');
+    </script>
+    {/block}
+  </body>
 </html>

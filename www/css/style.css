@@ -1,274 +1,258 @@
 html > body {
-    font-size: 16px;
-    line-height: 27px;
-    color: #333;
-    background: rgb(150,150,150) /*rgb(128,205,39)*/;
+  font-size: 16px;
+  line-height: 27px;
+  color: #333;
+  background: rgb(150,150,150) /*rgb(128,205,39)*/;
 }
 
 h1 {
-    color: #3484D2;
+  color: #3484D2;
 }
 
 #ajax-spinner {
-    margin: 15px 0 0 15px;
-    padding: 13px;
-    background: white url('../images/spinner.gif') no-repeat 50% 50%;
-    font-size: 0;
-    z-index: 123456;
-    display: none;
+  margin: 15px 0 0 15px;
+  padding: 13px;
+  background: white url('../images/spinner.gif') no-repeat 50% 50%;
+  font-size: 0;
+  z-index: 123456;
+  display: none;
 }
 
 div.flash {
-    color: black;
-    background: #FFF9D7;
-    border: 1px solid #E2C822;
-    padding: 1em;
-    margin: 1em 0;
+  color: black;
+  background: #FFF9D7;
+  border: 1px solid #E2C822;
+  padding: 1em;
+  margin: 1em 0;
 }
 
 a[href^="#error:"] {
-    background: red;
-    color: white;
+  background: red;
+  color: white;
 }
 
 form th, form td {
-    vertical-align: top;
-    font-weight: normal;
+  vertical-align: top;
+  font-weight: normal;
 }
 
 form th {
-    text-align: right;
+  text-align: right;
 }
 
 form .required label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 form .error {
-    color: #D00;
-    font-weight: bold;
+  color: #D00;
+  font-weight: bold;
 }
 
 /* CSS style for carousel */
 
 .carousel-message {
-    background: rgba(1,1,1,0.5);
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    box-sizing: border-box;
-    padding: 15px 50px;
-    text-align: center;
-    color: #fff;
-    font-size: 20px;
+  background: rgba(1,1,1,0.5);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 15px 50px;
+  text-align: center;
+  color: #fff;
+  font-size: 20px;
 }
 
 .customize-carousel {
-    background: rgba(0,0,0,0.5);
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 5px 10px;
-    z-index: 999;
+  background: rgba(0,0,0,0.5);
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px 10px;
+  z-index: 999;
 }
 
-.customize-carousel > a{
-    padding: 0 10px;
-    color: #ffffff;
+.customize-carousel > a {
+  padding: 0 10px;
+  color: #ffffff;
 }
 
 .customize-carousel > a:focus,
-.customize-carousel > a:hover{
-    color: rgb(200,200,200);
-    text-decoration: none;
+.customize-carousel > a:hover {
+  color: rgb(200,200,200);
+  text-decoration: none;
 }
 
-div.carousel.slide > .carousel-indicators{
-    background: rgba(150,150,150,0.8);
-    width: 100%;
-    height: 50px;
-    top: 240px;
-    left: 213px;
-    line-height: 50px;
+div.carousel.slide > .carousel-indicators {
+  background: rgba(150,150,150,0.8);
+  width: 100%;
+  height: 50px;
+  top: 240px;
+  left: 213px;
+  line-height: 50px;
 }
 
 div#myCarousel {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 section#posts > article.row {
-    margin: 50px 0 25px 0;
+  margin: 50px 0 25px 0;
 }
 
 main#imgs > figure > figcaption,
-main#albums > figure > figcaption{
-    margin: 10px;
+main#albums > figure > figcaption {
+  margin: 10px;
 }
 
-main#albums > figure > a > img{
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-moz-radius: 5px;
+main#albums > figure > a > img {
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-moz-radius: 5px;
 }
 
 table {
-    width: 100%;
-    margin-bottom: 1rem;
-    background-color: transparent;
+  width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
 }
 
 table th,
 table td {
-    padding: 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
 }
 
 table thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6;
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
 }
 
 table tbody + tbody {
-    border-top: 2px solid #dee2e6;
-}
-
-table table {
-    background-color: #fff;
+  border-top: 2px solid #dee2e6;
 }
 
 div#page {
-    margin: 0 auto;
-    width: 80%;
-    min-height: 600px;
-    max-width: 984px;
-    position: relative;
-    margin-top: 35px;
-    background: rgba(255,255,255,0.95);
-    border-radius: 10px;
-    border-radius: 10px;
+  margin: 0 auto;
+  width: 80%;
+  min-height: 600px;
+  max-width: 984px;
+  position: relative;
+  background: rgb(255, 255, 255);
 }
 
 div#primary.row {
-    margin: 0;
+  margin: 0;
 }
 
 div#primary > main#content > div.row {
-    padding: 15px;
+  padding: 15px;
 }
 
 div#primary > aside {
-    min-height: 500px;
-    height: 100%;
-    padding: 14px;
+  min-height: 500px;
+  height: 100%;
+  padding: 14px;
 }
 
 div#primary > aside > ul > li > a {
-    background: green;
-    color: #fff;
-    margin: 0px;
+  background: green;
+  color: #fff;
+  margin: 0px;
 }
 
 div#primary > aside > ul > li > a:hover,
 div#primary > aside > ul > li > a:focus {
-    background: #FFA500;
-    color: #000;
+  background: #FFA500;
+  color: #000;
 }
 
 div#primary > aside > ul > li > ul {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 div#primary > aside > ul > li > ul > li {
-    list-style: none;
+  list-style: none;
 }
 
 div#primary > aside > ul > li > ul > li > a {
-    color: black;
-    padding: 0 5px;
-    margin: 2px 0px 2px 0;
-    height: 35px;
-    line-height: 35px;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-    background: rgba(128, 205, 39, 0.95); /* #80CD27 */
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+  color: black;
+  padding: 0 5px;
+  margin: 2px 0px 2px 0;
+  height: 35px;
+  line-height: 35px;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  background: rgba(128, 205, 39, 0.95); /* #80CD27 */
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 
 div#primary > aside > ul > li > ul > li > a:focus,
-div#primary > aside > ul > li > ul > li > a:hover{
-    background: #FFA500;
-    color: #000;
+div#primary > aside > ul > li > ul > li > a:hover {
+  background: #FFA500;
+  color: #000;
 }
 
 div#page > header#banner{
-    height: 180px;
-    background: rgba(34,139,34,.7);
-    background-repeat:no-repeat;
-    background-size:contain;
-    background-position:center;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
-
-div#page > header#banner > a > img.img-responsive{
-    margin-top: 20px;
-    display: inline;
+  height: 140px;
+  background: rgba(34,139,34,.7);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 div#page > footer {
-    height: 50px;
-    line-height: 50px;
-    text-align: center;
-    background: green;
-    color: #ffffff;
-    font-weight: bold;
-    border: none;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  background: green;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
 }
 
 div.alert > header > div.pull-left {
-    font-weight: bold;
-    font-size: 1.1em;
+  font-weight: bold;
+  font-size: 1.1em;
 }
 
-div.alert > main{
-    clear: both;
+div.alert > main {
+  clear: both;
 }
 
-p#decision{
-    margin: 25px 15px 25px 0;
+p#decision {
+  margin: 25px 15px 25px 0;
 }
 
 section#listOfSections > header,
-section#listOfUsers > header{
-    margin-top: 20px;
+section#listOfUsers > header {
+  margin-top: 20px;
 }
 
-main#albums > figure > figcaption{
-    text-align: center;
-    font-weight: bold;
+main#albums > figure > figcaption {
+  text-align: center;
+  font-weight: bold;
 }
 
 #scroll-to-top {
-    width: 50px;
-    height: 50px;
-    display: none;
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 999;
-    border: 1px solid green;
-    outline: none;
-    background-color: #FFFFFF;
-    color: green;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 50px;
+  width: 50px;
+  height: 50px;
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 999;
+  border: 1px solid green;
+  outline: none;
+  background-color: #FFFFFF;
+  color: green;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50px;
 }
