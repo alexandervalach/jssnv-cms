@@ -10,21 +10,21 @@
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-        {foreach $bannerItems as $banner}
+        {foreach $slides as $slide}
             <div class="item {if $iterator->first}active{/if}">
-                <img src="{$basePath}/{$imgFolder}{$banner->img}" alt="Jazyková škola">
+                <img src="{$basePath}/{$imgFolder}{$slide->img}" alt="Jazyková škola">
 
                 <!-- Links to edit -->
                 <div class="customize-carousel" n:if="$user->loggedIn">
-                    <a n:href="Banner:edit, $banner->id">
+                    <a n:href="Slides:edit, $slide->id">
                         <span class="glyphicon glyphicon-pencil"></span> Upraviť
                     </a>
                 </div>
 
-                <!-- Banner description -->
-                <a n:tag-if="$banner->link" href="{$banner->link}">
-                    <div class="carousel-message" n:if="$banner->message">
-                        {$banner->message}
+                <!-- Slides description -->
+                <a n:tag-if="$slide->link" href="{$slide->link}">
+                    <div class="carousel-message" n:if="$slide->message">
+                        {$slide->message}
                     </div>
                 </a>
             </div>
@@ -51,28 +51,11 @@
                 </div>
             </header>
             <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <a n:if="$user->loggedIn" n:href="Post:edit, $post->id">
+                <a n:if="$user->loggedIn" n:href="Posts:edit, $post->id">
                     (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
                 </a>
                 <p>{$post->content|noescape}</p>
             </main>
         </article>
     {/foreach}
-
-    {foreach $subPosts as $post}
-        <article class="row">
-            <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="pull-left">
-                    <h2>{$post->name}</h2>
-                </div>
-            </header>
-            <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <a n:if="$user->loggedIn" n:href="SubPost:edit, $post->id">
-                    (&hellip;<span class="glyphicon glyphicon-pencil"></span>)
-                </a>
-                <p>{$post->content|noescape}</p>
-            </main>
-        </article>
-    {/foreach}
-
 </section>

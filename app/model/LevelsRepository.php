@@ -2,9 +2,16 @@
 
 namespace App\Model;
 
+/**
+ * Class LevelsRepository
+ * @package App\Model
+ */
 class LevelsRepository extends Repository {
-    
-    public function getLevels() {
+
+  /**
+   * @return array|null
+   */
+  public function getLevels() {
       $levels = $this->findAll()->order('label ASC');
 
       if (!$levels) {

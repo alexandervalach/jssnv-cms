@@ -3,9 +3,9 @@
 namespace App\Model;
 
 /**
- * Class SubFilesRepository
+ * Class SlidesRepository
  * @package App\Model
  */
-class SubFilesRepository extends Repository{
+class SlidesRepository extends Repository{
     //put your code here
 }

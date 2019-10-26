@@ -3,13 +3,17 @@
 namespace App\Presenters;
 
 use App\FormHelper;
-use App\Model\UserRepository;
+use App\Model\UsersRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Forms\Controls\SubmitButton;
 
-class UserPresenter extends BasePresenter {
+/**
+ * Class UserPresenter
+ * @package App\Presenters
+ */
+class UsersPresenter extends BasePresenter {
 
     /** @var ActiveRow */
     private $userRow;
@@ -23,39 +27,66 @@ class UserPresenter extends BasePresenter {
     /** @var string */
     private $root = "admin";
 
-    public function actionAll() {
+  /**
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionAll() {
         $this->userIsLogged();
     }
 
-    public function renderAll() {
-        $this->template->users = $this->userRepository->findAll();
+  /**
+   *
+   */
+  public function renderAll() {
+        $this->template->users = $this->usersRepository->findAll();
     }
 
-    public function actionAdd() {
+  /**
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionAdd() {
         $this->userIsLogged();
     }
 
-    public function actionEdit($id) {
+  /**
+   * @param $id
+   * @throws BadRequestException
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionEdit($id) {
         $this->userIsLogged();
-        $this->userRow = $this->userRepository->findById($id);
+        $this->userRow = $this->usersRepository->findById($id);
 
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
     }
 
-    public function renderEdit($id) {
+  /**
+   * @param $id
+   * @throws \Nette\Application\ForbiddenRequestException
+   */
+  public function renderEdit($id) {
         $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $this->template->users = $this->userRow;
         $this->getComponent('editForm')->setDefaults($this->userRow);
     }
 
-    public function actionPasswd($id) {
+  /**
+   * @param $id
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionPasswd($id) {
         $this->userIsLogged();
-        $this->userRow = $this->userRepository->findById($id);
+        $this->userRow = $this->usersRepository->findById($id);
     }
 
-    public function renderPasswd($id) {
+  /**
+   * @param $id
+   * @throws BadRequestException
+   * @throws \Nette\Application\ForbiddenRequestException
+   */
+  public function renderPasswd($id) {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
@@ -64,12 +95,21 @@ class UserPresenter extends BasePresenter {
         $this->getComponent('passwdForm');
     }
 
-    public function actionShow($id) {
+  /**
+   * @param $id
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionShow($id) {
         $this->userIsLogged();
-        $this->userRow = $this->userRepository->findById($id);
+        $this->userRow = $this->usersRepository->findById($id);
     }
 
-    public function renderShow($id) {
+  /**
+   * @param $id
+   * @throws BadRequestException
+   * @throws \Nette\Application\ForbiddenRequestException
+   */
+  public function renderShow($id) {
         if (!$this->userRow) {
             throw new BadRequestException($this->error);
         }
@@ -77,7 +117,10 @@ class UserPresenter extends BasePresenter {
         $this->template->users = $this->userRow;
     }
 
-    protected function createComponentAddForm() {
+  /**
+   * @return Form
+   */
+  protected function createComponentAddForm() {
         $form = new Form;
         
         $form->addText('username', 'Používateľské meno')
@@ -95,7 +138,10 @@ class UserPresenter extends BasePresenter {
         return $form;
     }
 
-    protected function createComponentEditForm() {
+  /**
+   * @return Form
+   */
+  protected function createComponentEditForm() {
         $form = new Form;
         
         $form->addText('username', 'Používateľské meno')
@@ -106,27 +152,38 @@ class UserPresenter extends BasePresenter {
              ->onClick[] = [$this, 'submittedEditForm'];
 
         $form->addSubmit('cancel', 'Zrušiť')
-             ->setAttribute('class', 'btn btn-warning')
+             ->setHtmlAttribute('class', 'btn btn-warning')
              ->onClick[] = [$this, 'formCancelled'];
         
         FormHelper::setBootstrapRenderer($form);
         return $form;
     }
 
-    public function submittedEditForm(SubmitButton $btn) {
+  /**
+   * @param SubmitButton $btn
+   * @throws \Nette\Application\AbortException
+   */
+  public function submittedEditForm(SubmitButton $btn) {
         $values = $btn->form->getValues();
         $this->userRow->update($values);
         $this->redirect('all');
     }
 
-    public function submittedAddForm(Form $form) {
+  /**
+   * @param Form $form
+   * @throws \Nette\Application\AbortException
+   */
+  public function submittedAddForm(Form $form) {
         $this->userIsLogged();
         $values = $form->getValues();
-        $this->userRepository->insert($values);
+        $this->usersRepository->insert($values);
         $this->redirect('all');
     }
 
-    protected function createComponentPasswdForm() {
+  /**
+   * @return Form
+   */
+  protected function createComponentPasswdForm() {
         $form = new Form;
         $form->addPassword('password', 'Heslo')
                 ->addRule(Form::FILLED, 'Heslo musí byť vyplnené.')
@@ -145,21 +202,33 @@ class UserPresenter extends BasePresenter {
         return $form;
     }
 
-    public function submittedPasswdForm(Form $form) {
+  /**
+   * @param Form $form
+   * @throws \Nette\Application\AbortException
+   * @throws \Nette\Application\ForbiddenRequestException
+   */
+  public function submittedPasswdForm(Form $form) {
         $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $values = $form->getValues();
         $this->userRow->update(array('password' => md5($values['password'])));
         $this->redirect('all');
     }
 
-    public function submittedRemoveForm() {
+  /**
+   * @throws \Nette\Application\AbortException
+   * @throws \Nette\Application\ForbiddenRequestException
+   */
+  public function submittedRemoveForm() {
         $this->userIsLogged();
         $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
         $this->userRow->delete();
         $this->redirect('all#primary');
     }
 
-    public function formCancelled() {
+  /**
+   * @throws \Nette\Application\AbortException
+   */
+  public function formCancelled() {
         $this->redirect('all#primary');
     }
 

@@ -18,7 +18,7 @@
     		{foreach $results as $result}
     			<tr>
             <td>
-              <a n:href="Questions:all, $result['test']">{$result['test']->label}</a>
+              <a n:href="Questions:all, $result['test']->id">{$result['test']->label}</a>
             </td>
             <td>{empty($result['data']->email) ? 'anonym' : $result['data']->email}</td>
             <td>{$result['data']->score}</td>

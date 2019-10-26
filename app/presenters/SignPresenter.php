@@ -25,13 +25,19 @@ class SignPresenter extends BasePresenter {
         return $form;
     }
 
-    public function actionIn() {
+  /**
+   * @throws Nette\Application\AbortException
+   */
+  public function actionIn() {
         if ($this->user->isLoggedIn()) {
             $this->redirect('Homepage:#primary');
         }
     }
 
-    public function actionOut() {
+  /**
+   * @throws Nette\Application\AbortException
+   */
+  public function actionOut() {
         $this->getUser()->logout();
         $this->flashMessage('Boli ste odhlásený.');
         $this->redirect('Homepage:#primary');

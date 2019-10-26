@@ -9,7 +9,11 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\ArrayHash;
 
-class PostPresenter extends BasePresenter {
+/**
+ * Class PostsPresenter
+ * @package App\Presenters
+ */
+class PostsPresenter extends BasePresenter {
 
   /** @var ActiveRow */
   private $postRow;
@@ -23,8 +27,12 @@ class PostPresenter extends BasePresenter {
   /** @var string */
   private $error = "Post not found!";
 
-  public function actionShow($id) {
-    $this->postRow = $this->postRepository->findByValue('section_id', $id)->fetch();
+  /**
+   * @param $id
+   * @throws BadRequestException
+   */
+  public function actionShow ($id) {
+    $this->postRow = $this->postsRepository->findByValue('section_id', $id)->fetch();
 
     if (!$this->postRow) {
       throw new BadRequestException($this->error);
@@ -34,27 +42,52 @@ class PostPresenter extends BasePresenter {
     $this['editForm']->setDefaults($this->postRow);
   }
 
-  public function renderShow() {
+  /**
+   *
+   */
+  public function renderShow () {
     $this->template->post = $this->postRow;
     $this->template->files = $this->filesRepository->findByValue('post_id', $this->postRow);
     $this->template->fileFolder = $this->storage;
   }
 
+  /**
+   * @param $id
+   */
+  public function actionEdit ($id) {
+
+  }
+
+  /**
+   * @param sahl $id
+   */
+  public function renderEdit ($id) {
+
+  }
+
+  /**
+   * @return Form
+   */
   protected function createComponentEditForm() {
     $form = new Form;
     $form->addText('name', 'Názov');
     $form->addTextArea('content', 'Obsah:')
-          ->setAttribute('id', 'ckeditor');
+          ->setHtmlAttribute('id', 'ckeditor');
     $form->addCheckbox('onHomepage', ' Na domovskej stránke');
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
-          ->setAttribute('data-dismiss', 'modal')
-          ->setAttribute('class', 'btn btn-large btn-warning');
+          ->setHtmlAttribute('data-dismiss', 'modal')
+          ->setHtmlAttribute('class', 'btn btn-large btn-warning');
     $form->onSuccess[] = [$this, 'submittedEditForm'];
     FormHelper::setBootstrapRenderer($form);
     return $form;
   }
 
+  /**
+   * @param Form $form
+   * @param ArrayHash $values
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedEditForm(Form $form, ArrayHash $values) {
     $this->userIsLogged();
     $this->postRow->update($values);
@@ -67,37 +100,38 @@ class PostPresenter extends BasePresenter {
     $this->redirect('show', $this->postRow->section_id);
   }
 
+  /**
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedRemoveForm() {
     $this->userIsLogged();
-
-    $sectionRow = $this->postRow->ref('section', 'section_id');
-    $subSections = $sectionRow->related('subsection');
-
-    foreach ($subSections as $subSection) {
-      $subPost = $this->subPostRepository->findByValue('subsection_id', $subSection)->fetch();
-      $subPost->delete();
-      $subSection->delete();
-    }
-
-    $sectionRow->delete();
-    $this->postRow->delete();
-
+    $sectionRow = $this->postRow->ref('sections', 'section_id');
+    $this->sectionsRepository->softDelete($sectionRow->id);
+    $this->postsRepository->softDelete($this->postRow->id);
     $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
-    $this->redirect('Section:all');
+    $this->redirect('Sections:all');
   }
 
+  /**
+   * @return Form
+   */
   protected function createComponentUploadFilesForm() {
     $form = new Form;
-    $form->addUpload('files', 'Vyber súbory', true);
+    $form->addMultiUpload('files', 'Vyber súbory');
     $form->addSubmit('upload', 'Nahraj')
           ->onClick[] = [$this, 'submittedUploadFilesForm'];
     $form->addSubmit('cancel', 'Zrušiť')
-          ->setAttribute('class', 'btn btn-warning')
+          ->setHtmlAttribute('class', 'btn btn-warning')
           ->onClick[] = [$this, 'formCancelled'];
     FormHelper::setBootstrapRenderer($form);
     return $form;
   }
 
+  /**
+   * @param SubmitButton $btn
+   * @param ArrayHash $values
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedUploadFilesForm(SubmitButton $btn, ArrayHash $values) {
     $this->userIsLogged();
     $fileData = array();
@@ -118,6 +152,9 @@ class PostPresenter extends BasePresenter {
     $this->redirect('show', $this->postRow);
   }
 
+  /**
+   * @throws \Nette\Application\AbortException
+   */
   public function formCancelled() {
     $this->redirect('show', $this->postRow);
   }

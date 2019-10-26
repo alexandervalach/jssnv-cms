@@ -2,6 +2,10 @@
 
 namespace App\Model;
 
-class SubSectionRepository extends Repository{
+/**
+ * Class SubSectionRepository
+ * @package App\Model
+ */
+class SubSectionRepository extends Repository {
     
 }

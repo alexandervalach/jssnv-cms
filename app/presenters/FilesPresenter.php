@@ -7,61 +7,87 @@ use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Utils\FileSystem;
 
+/**
+ * Class FilesPresenter
+ * @package App\Presenters
+ */
 class FilesPresenter extends BasePresenter {
 
-    /** @var ActiveRow */
-    private $fileRow;
+  /** @var ActiveRow */
+  private $fileRow;
 
-    /** @var string */
-    private $error = "File not found!";
+  /** @var string */
+  private $error = "File not found!";
 
-    public function actionAll() {
-        $this->userIsLogged();
+  /**
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionAll() {
+    $this->userIsLogged();
+  }
+
+  /**
+   *
+   */
+  public function renderAll() {
+    $this->template->files = $this->filesRepository->findAll()->order('name ASC');
+    $this->template->fileFolder = $this->fileFolder;
+  }
+
+  /**
+   * @param $id
+   * @throws BadRequestException
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionRemove($id) {
+    $this->userIsLogged();
+    $this->fileRow = $this->filesRepository->findById($id);
+
+    if (!$this->fileRow) {
+      throw new BadRequestException($this->error);
     }
+  }
 
-    public function renderAll() {
-        $this->template->files = $this->filesRepository->findAll()->order('name ASC');
-        $this->template->subFiles = $this->subFilesRepository->findAll()->order('name ASC');
-        $this->template->fileFolder = $this->fileFolder;
-    }
+  /**
+   * @param $id
+   */
+  public function renderRemove($id) {
+    $this->template->file = $this->fileRow;
+  }
 
-    public function actionRemove($id) {
-        $this->userIsLogged();
-        $this->fileRow = $this->filesRepository->findById($id);
+  /**
+   * @return Form
+   */
+  protected function createComponentRemoveFileForm() {
+    $form = new Form;
 
-        if (!$this->fileRow) {
-            throw new BadRequestException($this->error);
-        }
-    }
+    $form->addSubmit('cancel', 'Zrušiť')
+        ->setHtmlAttribute('class', 'btn btn-warning')
+        ->onClick[] = [$this, 'formCancelled'];
 
-    public function renderRemove($id) {
-        $this->template->file = $this->fileRow;
-    }
+    $form->addSubmit('remove', 'Odstrániť')
+        ->setHtmlAttribute('class', 'btn btn-danger')
+        ->onClick[] = [$this, 'submittedFileRemoveForm'];
 
-    protected function createComponentRemoveFileForm() {
-        $form = new Form;
-        
-        $form->addSubmit('cancel', 'Zrušiť')
-                        ->setAttribute('class', 'btn btn-warning')
-                ->onClick[] = [$this, 'formCancelled'];
+    FormHelper::setBootstrapRenderer($form);
+    return $form;
+  }
 
-        $form->addSubmit('remove', 'Odstrániť')
-                        ->setAttribute('class', 'btn btn-danger')
-                ->onClick[] = [$this, 'submittedFileRemoveForm'];
+  /**
+   * @throws \Nette\Application\AbortException
+   */
+  public function formCancelled() {
+    $this->redirect('Posts:show#primary', $this->fileRow->ref('posts', 'post_id'));
+  }
 
-        FormHelper::setBootstrapRenderer($form);
-        return $form;
-    }
-
-    public function formCancelled() {
-        $this->redirect('Post:show#primary', $this->fileRow->ref('post', 'post_id'));
-    }
-
-    public function submittedFileRemoveForm() {
-        $this->userIsLogged();
-        $id = $this->fileRow->ref('post', 'post_id');
-        $this->fileRow->delete();
-        $this->redirect('Post:show#primary', $id);
-    }
+  /**
+   * @throws \Nette\Application\AbortException
+   */
+  public function submittedFileRemoveForm() {
+    $this->userIsLogged();
+    $id = $this->fileRow->ref('posts', 'post_id');
+    $this->filesRepository->softDelete($this->fileRow->id);
+    $this->redirect('Posts:show#primary', $id);
+  }
 
 }

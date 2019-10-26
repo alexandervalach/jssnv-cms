@@ -21,10 +21,10 @@
     		{foreach $tests as $test}
     			<tr>
     				<td>
-							<a n:href="view, $test" target="_blank">{$test->label}</a>
+							<a n:href="view, $test->id" target="_blank">{$test->label}</a>
 						</td>
             <td>
-              <a n:href="Questions:all, $test" class="text-success">
+              <a n:href="Questions:all, $test->id" class="text-success">
                 <span class="glyphicon glyphicon-pencil"></span>
               </a>
             </td>

@@ -10,9 +10,16 @@ use Nette\Forms\Controls\TextArea;
 use Nette\Forms\Controls\TextInput;
 use Nette\Utils\Strings;
 
+/**
+ * Class FormHelper
+ * @package App
+ */
 class FormHelper {
 
-    public static function setBootstrapRenderer(Form $form) {
+  /**
+   * @param Form $form
+   */
+  public static function setBootstrapRenderer(Form $form) {
         $renderer = $form->getRenderer();
         $renderer->wrappers['controls']['container'] = NULL;
         $renderer->wrappers['form']['container'] = NULL;
@@ -38,8 +45,13 @@ class FormHelper {
             }
         }
     }
-    
-    public static function getEditFormLogNotice(Form $form, ActiveRow $row) {
+
+  /**
+   * @param Form $form
+   * @param ActiveRow $row
+   * @return string
+   */
+  public static function getEditFormLogNotice(Form $form, ActiveRow $row) {
         $newFormValues = $form->getValues();
         $changedData = array();
         

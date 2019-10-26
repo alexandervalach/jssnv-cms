@@ -9,6 +9,10 @@ use Nette\Database\Table\Selection;
 
 namespace App\Presenters;
 
+/**
+ * Class QuestionsPresenter
+ * @package App\Presenters
+ */
 class QuestionsPresenter extends BasePresenter {
 
   /** @var ActiveRow */
@@ -37,12 +41,20 @@ class QuestionsPresenter extends BasePresenter {
     $this->template->questions = $this->testRow->related('questions');
   }
 
+  /**
+   * @param $form
+   * @param $values
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedAddForm ($form, $values) {
     $this->questionsRepository->insert($values);
     $this->flashMessage(self::ITEM_ADD_SUCCESS);
     $this->redirect('all', $this->testRow); 
   }
 
+  /**
+   * @return \Nette\Application\UI\Form
+   */
   protected function createComponentAddForm () {
     $form = new \Nette\Application\UI\Form;
     $levels = $this->levelsRepository->getLevels();

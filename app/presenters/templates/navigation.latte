@@ -1,78 +1,74 @@
 <aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-    <ul class="nav nav-pills nav-stacked">
-        <!-- Prednastavené sekcie -->
-        {if $user->loggedIn}
+  <ul class="nav nav-pills nav-stacked">
+    <!-- Prednastavené sekcie -->
+    {if $user->loggedIn}
+      <li>
+        <a n:href="Sign:out">
+          <span class="glyphicon glyphicon-off"> Odhlásiť
+        </a>
+      </li>
+      <li>
+        <a href="#">Admin</a>
+        <ul>
           <li>
-            <a n:href="Sign:out">
-              <span class="glyphicon glyphicon-off"> Odhlásiť
-            </a>
+            <a n:href="Sections:all"> &#58;&#58; Sekcie</a>
+            <a n:href="Files:all"> &#58;&#58; Súbory</a>
+            <a n:href="Tests:all"> &#58;&#58; Testy</a>
+            <a n:href="Results:all"> &#58;&#58; Výsledky testov</a>
+            <a n:href="Users:all"> &#58;&#58; Používatelia</a>
           </li>
-          <li>
-            <a href="#">Admin</a>
-            <ul>
+        </ul>
+      </li>
+    {/if}
+    <!-- Používateľom generované sekcie -->
+    {foreach $menuSections as $menuSection}
+      {if $menuSection->name == "Fotogaléria"}
+          {if $menuSection->sliding}
+              <li class="slideToggle">
+                  <a href="#primary">Fotogaléria <span class="caret"></span></a>
+                  {else}
               <li>
-                <a n:href="Section:all"> &#58;&#58; Sekcie</a>
-                <a n:href="SubSection:all"> &#58;&#58; Podsekcie</a>
-                <a n:href="User:all"> &#58;&#58; Používatelia</a>
-                <a n:href="Files:all"> &#58;&#58; Súbory</a>
-                <a n:href="Tests:all"> &#58;&#58; Testy</a>
-                <a n:href="Results:all"> &#58;&#58; Výsledky testov</a>
+                  <a n:href="Album:all#primary">Fotogaléria</a>{/if}
+                  {if $menuAlbums != null}
+                      <ul>
+                          {foreach $menuAlbums as $menuAlbum}
+                              <li>
+                                  <a n:href="Gallery:view#primary, $menuAlbum->id"> &#58;&#58; {$menuAlbum->name}</a>
+                              </li>
+                          {/foreach}
+                      </ul>
+                  {/if}
               </li>
-            </ul>
-          </li>
-        {/if}
-
-        <!-- Používateľom generované sekcie -->
-        {foreach $menuSections as $menuSection}
-            {if $menuSection->name == "Fotogaléria"}
-                {if $menuSection->sliding}
-                    <li class="slideToggle">
-                        <a href="#primary">Fotogaléria <span class="caret"></span></a>
-                        {else}
-                    <li>
-                        <a n:href="Album:all#primary">Fotogaléria</a>{/if}
-                        {if $menuAlbums != null}
-                            <ul>
-                                {foreach $menuAlbums as $menuAlbum}
-                                    <li>
-                                        <a n:href="Gallery:view#primary, $menuAlbum"> &#58;&#58; {$menuAlbum->name}</a>
-                                    </li>
-                                {/foreach}
-                            </ul>
-                        {/if}
-                    </li>
-                {elseif $menuSection->related('subsection')->count() > 0}
-                    {var $menuSubSections = $menuSection->related('subsection')}
-                    {if $menuSection->sliding}
-                        <li class="slideToggle">
-                            <a href="#primary">{$menuSection->name}<span class="caret"></span></a>
-                            {else}
-                        <li>
-                            <a href="#primary">{$menuSection->name}</a>
-                        {/if}
-                        <ul>
-                            {foreach $menuSubSections as $menuSubSection}
-                                <li>
-                                    {if $menuSubSection->url == NULL || $menuSubSection->url == ""}
-                                        <a n:href="SubPost:show#primary, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
-                                    {else}
-                                        <a href="{$menuSubSection->url}" {if !$menuSubSection->homeUrl}target="_blank"{/if}>
-                                            &#58;&#58; {$menuSubSection->name}</a>
-                                    {/if}
-                                </li>
-                            {/foreach}
-                        </ul>
-                    </li>
-                {else}
-                    <li>
-                        {if $menuSection->url == NULL || $menuSection->url == ""}
-                            <a n:href="Post:show#primary, $menuSection">{$menuSection->name}</a>
-                        {else}
-                            <a href="{$menuSection->url}#primary" {if !$menuSection->homeUrl}target="_blank"{/if}>
-                                {$menuSection->name}</a>
-                        {/if}
-                    </li>
-                {/if}
+          {elseif $menuSection->subsections}
+            {var $menuSubSections = $menuSection->subsections}
+            {if $menuSection->sliding}
+              <li class="slideToggle">
+                <a href="#primary">{$menuSection->name}<span class="caret"></span></a>
+            {else}
+              <li>
+                <a href="#primary">{$menuSection->name}</a>
+            {/if}
+              <ul>
+                {foreach $menuSubSections as $menuSubSection}
+                  <li>
+                    {if $menuSubSection->url == NULL || $menuSubSection->url == ""}
+                      <a n:href="Posts:show#primary, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
+                    {else}
+                      <a href="{$menuSubSection->url}" {if !$menuSubSection->homeUrl}target="_blank"{/if}> &#58;&#58; {$menuSubSection->name}</a>
+                    {/if}
+                  </li>
                 {/foreach}
-                </ul>
-            </aside>
+              </ul>
+            </li>
+      {else}
+        <li>
+          {if $menuSection->url == NULL || $menuSection->url == ""}
+            <a n:href="Posts:show#primary, $menuSection->id">{$menuSection->name}</a>
+          {else}
+            <a href="{$menuSection->url}#primary" {if !$menuSection->homeUrl}target="_blank"{/if}>{$menuSection->name}</a>
+          {/if}
+        </li>
+      {/if}
+    {/foreach}
+  </ul>
+</aside>

@@ -20,24 +20,21 @@ session:
 
 
 services:
-	- App\Model\UserManager
 	- App\Forms\SignFormFactory
-	- App\Model\AlbumRepository
+	- App\Model\AlbumsRepository
 	- App\Model\AnswersRepository
-	- App\Model\BannerRepository
 	- App\Model\FilesRepository
-	- App\Model\GalleryRepository
 	- App\Model\ImagesRepository
-	- App\Model\LevelsResultsRepository
 	- App\Model\LevelsRepository
+	- App\Model\LevelsResultsRepository
 	- App\Model\NoticesRepository
-	- App\Model\PostRepository
+	- App\Model\PostsRepository
 	- App\Model\QuestionsRepository
+	- App\Model\PostImagesRepository
 	- App\Model\ResultsRepository
-	- App\Model\SectionRepository
-	- App\Model\SubFilesRepository
-	- App\Model\SubPostRepository
-	- App\Model\SubSectionRepository
+	- App\Model\SectionsRepository
+	- App\Model\SlidesRepository
 	- App\Model\TestsRepository
-	- App\Model\UserRepository
+	- App\Model\UsersRepository
 	router: App\RouterFactory::createRouter
+	authenticator: App\Model\Authenticator

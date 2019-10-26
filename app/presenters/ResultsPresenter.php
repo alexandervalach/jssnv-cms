@@ -9,6 +9,10 @@ use Nette\Database\Table\ActiveRow;
 
 namespace App\Presenters;
 
+/**
+ * Class ResultsPresenter
+ * @package App\Presenters
+ */
 class ResultsPresenter extends BasePresenter {
 
     /** @var array */
@@ -17,13 +21,19 @@ class ResultsPresenter extends BasePresenter {
     /** @var ActiveRow */
     private $resultRow;
 
-    public function actionAll () {
+  /**
+   * @throws \Nette\Application\AbortException
+   */
+  public function actionAll () {
     	if (!$this->user->isLoggedIn()) {
     		$this->redirect('Homepage:');
     	}
     }
 
-    public function renderAll () {
+  /**
+   *
+   */
+  public function renderAll () {
     	$results = $this->resultsRepository->findAll();
     	$data = [];
 
@@ -38,7 +48,11 @@ class ResultsPresenter extends BasePresenter {
     	$this->template->results = $data;
     }
 
-    public function actionView ($id) {
+  /**
+   * @param $id
+   * @throws \Nette\Application\BadRequestException
+   */
+  public function actionView ($id) {
       $this->resultRow = $this->resultsRepository->findById($id);
       $this->levelsResults = array();
 
@@ -54,7 +68,10 @@ class ResultsPresenter extends BasePresenter {
       }
     }
 
-    public function renderView ($id) {
+  /**
+   * @param $id
+   */
+  public function renderView ($id) {
       $this->template->result = $this->resultRow;
       $this->template->levels = $this->levelsResults;
       $this->template->test = $this->resultRow->ref('tests', 'test_id');

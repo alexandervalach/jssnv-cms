@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
 use Nette;
@@ -10,6 +12,11 @@ use Nette;
 abstract class Repository {
 
   const IS_PRESENT = 'is_present';
+  const SECTION_ID = 'section_id';
+  const VISIBLE = 'visible';
+  const ID = 'id';
+  const NAME = 'name';
+  const USERNAME = 'username';
 
   /** @var Nette\Database\Context */
   private $database;
@@ -17,6 +24,10 @@ abstract class Repository {
   /** @var string */
   protected $tableName;
 
+  /**
+   * Repository constructor.
+   * @param Nette\Database\Context $database
+   */
   public function __construct(Nette\Database\Context $database) {
     $this->database = $database;
   }
@@ -35,6 +46,9 @@ abstract class Repository {
     }
   }
 
+  /**
+   * @return Nette\Database\Context
+   */
   public function getConnection() {
     return $this->database;
   }
@@ -44,14 +58,6 @@ abstract class Repository {
    * @return Nette\Database\Table\Selection
    */
   public function findAll() {
-    return $this->getTable();
-  }
-
-  /**
-   * Returns only rows that are present in table
-   * @return Nette\Database\Table\Selection
-   */
-  public function getAll() {
     return $this->getTable()->where(self::IS_PRESENT, 1);
   }
 
@@ -83,15 +89,26 @@ abstract class Repository {
     return $this->getTable()->get($id);
   }
 
+  /**
+   * @param $id
+   * @param $data
+   */
   public function update($id, $data) {
     $this->getTable()->wherePrimary($id)->update($data);
   }
 
+  /**
+   * @param $data
+   * @return bool|int|Nette\Database\Table\ActiveRow
+   */
   public function insert($data) {
     return $this->getTable()->insert($data);
   }
 
-  public function remove($id) {
+  /**
+   * @param int $id
+   */
+  public function softDelete(int $id) {
     $this->findById($id)->update( array(self::IS_PRESENT => 0) );
   }
 

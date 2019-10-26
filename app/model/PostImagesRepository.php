@@ -3,9 +3,9 @@
 namespace App\Model;
 
 /**
- * Class SubFilesRepository
+ * Class PostImagesRepository
  * @package App\Model
  */
-class SubFilesRepository extends Repository{
+class PostImagesRepository extends Repository{
     //put your code here
 }

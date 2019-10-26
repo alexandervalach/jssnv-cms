@@ -55,11 +55,11 @@ class NoticesPresenter extends BasePresenter {
     $form->addText('name', 'Názov')
             ->setRequired("Názov musí byť vyplnený");
     $form->addTextArea('content', 'Text')
-            ->setAttribute('id', 'ckeditor');
+            ->setHtmlAttribute('id', 'ckeditor');
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
-          ->setAttribute('class', 'btn btn-large btn-warning')
-          ->setAttribute('data-dismiss', 'modal');
+          ->setHtmlAttribute('class', 'btn btn-large btn-warning')
+          ->setHtmlAttribute('data-dismiss', 'modal');
 
     $form->onSuccess[] = [$this, 'submittedAddForm'];
     FormHelper::setBootstrapRenderer($form);
@@ -72,11 +72,11 @@ class NoticesPresenter extends BasePresenter {
     $form->addText('name', 'Názov')
             ->setRequired("Názov musí byť vyplnený");
     $form->addTextArea('content', 'Text')
-            ->setAttribute('id', 'ckeditor');
+            ->setHtmlAttribute('id', 'ckeditor');
     $form->addSubmit('save', 'Uložiť')
             ->onClick[] = [$this, 'submittedEditForm'];
     $form->addSubmit('cancel', 'Zrušiť')
-            ->setAttribute('class', 'btn btn-warning')
+            ->setHtmlAttribute('class', 'btn btn-warning')
             ->onClick[] = [$this, 'formCancelled'];
     FormHelper::setBootstrapRenderer($form);
     return $form;
@@ -85,10 +85,10 @@ class NoticesPresenter extends BasePresenter {
   protected function createComponentRemoveForm() {
     $form = new Form;
     $form->addSubmit('cancel', 'Zrušiť')
-          ->setAttribute('class', 'btn btn-warning')
+          ->setHtmlAttribute('class', 'btn btn-warning')
           ->onClick[] = [$this, 'formCancelled'];
     $form->addSubmit('remove', 'Odstrániť')
-          ->setAttribute('class', 'btn btn-danger')
+          ->setHtmlAttribute('class', 'btn btn-danger')
           ->onClick[] = [$this, 'submittedRemoveForm'];
     FormHelper::setBootstrapRenderer($form);
     return $form;
@@ -109,7 +109,7 @@ class NoticesPresenter extends BasePresenter {
 
   public function submittedRemoveForm() {
     $this->userIsLogged();
-    $this->noticesRepository->remove($this->noticeRow->id);
+    $this->noticesRepository->softDelete($this->noticeRow->id);
     $this->redirect('all#primary');
   }
 

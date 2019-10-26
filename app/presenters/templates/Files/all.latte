@@ -20,7 +20,7 @@
 	      </thead>
 	        <tbody>
 	          {foreach $files as $file}
-	            {var $post = $file->ref('post', 'post_id')}
+	            {var $post = $file->ref('posts', 'post_id')}
 	            <tr>
 	              <td>{$file->name}</td>
 	              <td>
@@ -42,47 +42,4 @@
   {else}
   	<p>Neboli nájdené žiadne položky.</p>
   {/if}
-</section>
-
-<section id="listOfSubFiles">
-  <header>
-	  <div class="pull-left">
-	    <h2>Súbory v podsekciách</h2>
-	  </div>
-  </header>
-
-  {if $subFiles->count() > 0}
-	  <div class="table-responsive">
-	    <table class="table">
-	      <thead>
-	        <tr>
-	          <th>Názov</th>
-	          <th>Podsekcia</th>
-	          <th>Adresa</th>
-	          <th>Akcia</th>
-	        </tr>
-	      </thead>
-	      <tbody>
-	        {foreach $subFiles as $file}
-	          <tr>
-	            <td>{$file->name}</td>
-	            <td>
-	              {$file->ref('subpost', 'subpost_id')->name}
-	            </td>
-	            <td>
-	            	{$baseUrl}/{$fileFolder}{$file->name}
-	            </td>
-	            <td class="text-center">
-	              <a n:href="SubFiles:remove, $file->id" class="text-danger">
-	              	<span class="glyphicon glyphicon-trash"></span>
-	              </a>
-	            </td>
-	          </tr>
-	        {/foreach}
-	      </tbody>
-	    </table>
-		</div>
-	{else}
-		<p>Neboli nájdené žiadne položky.</p>
-	{/if}
 </section>

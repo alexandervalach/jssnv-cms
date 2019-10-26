@@ -9,6 +9,13 @@ use Nette\Database\Table\Selection;
 
 namespace App\Presenters;
 
+use App\FormHelper;
+use Nette\Application\UI\Form;
+
+/**
+ * Class AnswersPresenter
+ * @package App\Presenters
+ */
 class AnswersPresenter extends BasePresenter {
 
   /** @var ActiveRow */
@@ -43,14 +50,22 @@ class AnswersPresenter extends BasePresenter {
     $this->template->test = $this->testRow;
   }
 
+  /**
+   * @param $form
+   * @param $values
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedAddForm ($form, $values) {
     $this->answersRepository->insert($values);
     $this->flashMessage(self::ITEM_ADD_SUCCESS);
     $this->redirect('all', $this->questionRow); 
   }
 
+  /**
+   * @return \Nette\Application\UI\Form
+   */
   protected function createComponentAddForm () {
-    $form = new \Nette\Application\UI\Form;
+    $form = new Form();
 
     $form->addText('label', 'Odpoveď');
     $form->addHidden('question_id', $this->questionRow);
@@ -58,7 +73,7 @@ class AnswersPresenter extends BasePresenter {
     $form->addSubmit('save', 'Uložiť');
     $form->onSuccess[] = [$this, 'submittedAddForm'];
 
-    \App\FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapRenderer($form);
     return $form;
   }
 }

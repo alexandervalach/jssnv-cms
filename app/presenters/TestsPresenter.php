@@ -10,6 +10,10 @@ use Nette\Database\Table\Selection;
 
 namespace App\Presenters;
 
+/**
+ * Class TestsPresenter
+ * @package App\Presenters
+ */
 class TestsPresenter extends BasePresenter {
 
   /** @var ActiveRow */
@@ -18,16 +22,26 @@ class TestsPresenter extends BasePresenter {
   /** @var Selection **/
   private $questions;
 
+  /**
+   * @throws \Nette\Application\AbortException
+   */
   public function actionAll () {
   	if (!$this->user->isLoggedIn()) {
   		$this->redirect('Homepage:');
   	}
   }
 
+  /**
+   *
+   */
   public function renderAll () {
   	$this->template->tests = $this->testsRepository->findAll();
   }
 
+  /**
+   * @param $id
+   * @throws \Nette\Application\BadRequestException
+   */
   public function actionView ($id) {
     $this->testRow = $this->testsRepository->findById($id);
 
@@ -39,23 +53,41 @@ class TestsPresenter extends BasePresenter {
     $this->questions = $this->questionsRepository->findQuestions($this->testRow);
   }
 
+  /**
+   * @param $id
+   */
   public function renderView ($id) {
     $this->template->test = $this->testRow;
     $this->template->questions = $this->questions;
   }
 
+  /**
+   * @param $form
+   * @param $values
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedAddForm ($form, $values) {
     $this->testsRepository->insert($values);
     $this->flashMessage(self::ITEM_ADD_SUCCESS);
     $this->redirect('all');
   }
 
+  /**
+   * @param $form
+   * @param $values
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedEditForm ($form, $values) {
     $this->testRow->update($values);
     $this->flashMessage(self::ITEM_EDIT_SUCCESS);
     $this->redirect('all');
   }
 
+  /**
+   * @param $form
+   * @param $values
+   * @throws \Nette\Application\AbortException
+   */
   public function submittedFinishForm ($form, $values) {
   	$postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -67,6 +99,9 @@ class TestsPresenter extends BasePresenter {
     $this->redirect('Results:view', $resultId);
   }
 
+  /**
+   * @return \Nette\Application\UI\Form
+   */
   protected function createComponentAddForm () {
     $form = new \Nette\Application\UI\Form;
     $form->addText('label', 'Názov');
@@ -77,6 +112,9 @@ class TestsPresenter extends BasePresenter {
     return $form;
   }
 
+  /**
+   * @return \Nette\Application\UI\Form
+   */
   protected function createComponentEditForm () {
     $form = new \Nette\Application\UI\Form;
     $form->addText('label', 'Názov');
@@ -87,12 +125,15 @@ class TestsPresenter extends BasePresenter {
     return $form;
   }
 
+  /**
+   * @return \Nette\Application\UI\Form
+   */
   protected function createComponentFinishForm () {
     $form = new \Nette\Application\UI\Form;
     $form->addText('email', 'E-mail')
       ->addCondition(\Nette\Application\UI\Form::EMAIL, true);
     $form->addText('url', 'Mňam, mňa, toto vyplní len robot')
-      ->setAttribute('style', 'opacity: 0; display: inline')
+      ->setHtmlAttribute('style', 'opacity: 0; display: inline')
       ->setDefaultValue('');
     $form->addSubmit('finish', 'Ukončiť test');
     $form->onSuccess[] = [$this, 'submittedFinishForm'];
@@ -101,6 +142,10 @@ class TestsPresenter extends BasePresenter {
     return $form;
   }
 
+  /**
+   * @param $postData
+   * @return bool|int|\Nette\Database\Table\ActiveRow
+   */
   protected function evaluateTest ($postData) {
     $earnedPoints = array();
     $levels = array();
