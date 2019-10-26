@@ -20,7 +20,11 @@
 
   <body>
     <div id="page">
-      {include 'header.latte'}
+      <header id="banner">
+        <a n:href="Homepage:default">
+          <img src="{$basePath}/{$imgFolder}/header.jpg" class="img-responsive"/>
+        </a>
+      </header>
 
       <div class="row" id="primary">
           {include 'navigation.latte'}

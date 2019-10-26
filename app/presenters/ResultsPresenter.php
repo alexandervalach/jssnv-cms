@@ -9,48 +9,73 @@ use Nette\Database\Table\ActiveRow;
 
 namespace App\Presenters;
 
+use App\Model\AlbumsRepository;
+use App\Model\LevelsResultsRepository;
+use App\Model\ResultsRepository;
+use App\Model\SectionsRepository;
+use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
+
 /**
  * Class ResultsPresenter
  * @package App\Presenters
  */
 class ResultsPresenter extends BasePresenter {
 
-    /** @var array */
-    private $levelsResults;
+  /** @var array */
+  private $levelsResults;
 
-    /** @var ActiveRow */
-    private $resultRow;
+  /** @var ActiveRow */
+  private $resultRow;
+
+  /** @var ResultsRepository */
+  private $resultsRepository;
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @var LevelsResultsRepository
+   */
+  private $levelsResultsRepository;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              ResultsRepository $resultsRepository,
+                              LevelsResultsRepository $levelsResultsRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->resultsRepository = $resultsRepository;
+    $this->levelsResultsRepository = $levelsResultsRepository;
+  }
+
+  /**
+   * @throws AbortException
    */
   public function actionAll () {
-    	if (!$this->user->isLoggedIn()) {
-    		$this->redirect('Homepage:');
-    	}
+    if (!$this->user->isLoggedIn()) {
+      $this->redirect('Homepage:');
     }
+  }
 
   /**
    *
    */
   public function renderAll () {
-    	$results = $this->resultsRepository->findAll();
-    	$data = [];
+    $results = $this->resultsRepository->findAll();
+    $data = [];
 
-    	foreach ($results as $result) {
-    		$data[] = array(
-          'data' => $result,
-    			'levels' => $result->related('levels_results'),
-    			'test' => $result->ref('tests', 'test_id')
-    		);
-    	}
-
-    	$this->template->results = $data;
+    foreach ($results as $result) {
+      $data[] = array(
+        'data' => $result,
+        'levels' => $result->related('levels_results'),
+        'test' => $result->ref('tests', 'test_id')
+      );
     }
+
+    $this->template->results = $data;
+  }
 
   /**
    * @param $id
-   * @throws \Nette\Application\BadRequestException
+   * @throws BadRequestException
    */
   public function actionView ($id) {
       $this->resultRow = $this->resultsRepository->findById($id);

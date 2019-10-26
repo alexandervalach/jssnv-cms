@@ -20,7 +20,6 @@ session:
 
 
 services:
-	- App\Forms\SignFormFactory
 	- App\Model\AlbumsRepository
 	- App\Model\AnswersRepository
 	- App\Model\FilesRepository
@@ -36,5 +35,15 @@ services:
 	- App\Model\SlidesRepository
 	- App\Model\TestsRepository
 	- App\Model\UsersRepository
+
+	# Form factories
+	- App\Forms\FormFactory
+	- App\Forms\SignFormFactory
+	- App\Forms\UploadFormFactory
+	- App\Forms\ModalRemoveFormFactory
+	- App\Forms\PostFormFactory
+	- App\Forms\RemoveFormFactory
+	- App\Forms\SectionFormFactory
+
 	router: App\RouterFactory::createRouter
 	authenticator: App\Model\Authenticator

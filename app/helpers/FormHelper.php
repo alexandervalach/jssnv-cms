@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Helpers;
 
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
@@ -19,7 +19,7 @@ class FormHelper {
   /**
    * @param Form $form
    */
-  public static function setBootstrapRenderer(Form $form) {
+  public static function setBootstrapFormRenderer(Form $form) {
         $renderer = $form->getRenderer();
         $renderer->wrappers['controls']['container'] = NULL;
         $renderer->wrappers['form']['container'] = NULL;

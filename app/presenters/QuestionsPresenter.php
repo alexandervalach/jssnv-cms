@@ -9,6 +9,16 @@ use Nette\Database\Table\Selection;
 
 namespace App\Presenters;
 
+use App\Helpers\FormHelper;
+use App\Model\AlbumsRepository;
+use App\Model\LevelsRepository;
+use App\Model\QuestionsRepository;
+use App\Model\SectionsRepository;
+use App\Model\TestsRepository;
+use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
+use Nette\Application\UI\Form;
+
 /**
  * Class QuestionsPresenter
  * @package App\Presenters
@@ -22,7 +32,32 @@ class QuestionsPresenter extends BasePresenter {
   private $questionRow;
 
   /**
-   * @param id test id 
+   * @var TestsRepository
+   */
+  private $testsRepository;
+
+  /**
+   * @var QuestionsRepository
+   */
+  private $questionsRepository;
+  private $levelsRepository;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              TestsRepository $testsRepository,
+                              QuestionsRepository $questionsRepository,
+                              LevelsRepository $levelsRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->testsRepository = $testsRepository;
+    $this->questionsRepository = $questionsRepository;
+    $this->levelsRepository = $levelsRepository;
+  }
+
+  /**
+   * @param id test id
+   * @throws AbortException
+   * @throws BadRequestException
    */
   public function actionAll ($id) {
     $this->userIsLogged();
@@ -44,7 +79,7 @@ class QuestionsPresenter extends BasePresenter {
   /**
    * @param $form
    * @param $values
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedAddForm ($form, $values) {
     $this->questionsRepository->insert($values);
@@ -53,10 +88,10 @@ class QuestionsPresenter extends BasePresenter {
   }
 
   /**
-   * @return \Nette\Application\UI\Form
+   * @return Form
    */
   protected function createComponentAddForm () {
-    $form = new \Nette\Application\UI\Form;
+    $form = new Form;
     $levels = $this->levelsRepository->getLevels();
 
     $form->addText('label', 'Znenie otázky');
@@ -65,7 +100,7 @@ class QuestionsPresenter extends BasePresenter {
     $form->addSubmit('save', 'Uložiť');
     $form->onSuccess[] = [$this, 'submittedAddForm'];
 
-    \App\FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 }

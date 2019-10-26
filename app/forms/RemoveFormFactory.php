@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types = 1);
+
+namespace App\Forms;
+
+use App\Helpers\FormHelper;
+use Nette\SmartObject;
+use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
+
+/**
+ * @package App\Forms
+ */
+class RemoveFormFactory
+{
+  use SmartObject;
+
+  /** @var FormFactory */
+  private $formFactory;
+
+  /**
+   * @param FormFactory $factory
+   */
+  public function __construct(FormFactory $factory)
+  {
+    $this->formFactory = $factory;
+  }
+
+  /**
+   * Creates and renders remove form
+   * @param callable $onRemove
+   * @param callable $onCancel
+   * @return Form
+   */
+  public function create(callable $onRemove, callable $onCancel): Form
+  {
+    $form = $this->formFactory->create();
+    $remove = $form->addSubmit('remove', 'Odstrániť')
+        ->setHtmlAttribute('class', 'btn btn-large btn-danger');
+    $cancel = $form->addSubmit('cancel', 'Zrušiť')
+        ->setHtmlAttribute('class', 'btn btn-large btn-warning');
+    FormHelper::setBootstrapFormRenderer($form);
+
+    $remove->onClick[] = function () use ($onRemove) {
+      $onRemove();
+    };
+
+    $cancel->onClick[] = function () use ($onCancel) {
+      $onCancel();
+    };
+
+    return $form;
+  }
+}

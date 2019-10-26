@@ -3,8 +3,14 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Forms\RemoveFormFactory;
+use App\Forms\UploadFormFactory;
+use App\Model\AlbumsRepository;
+use App\Model\FilesRepository;
+use App\Model\SectionsRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 use Nette\Utils\FileSystem;
 
 /**
@@ -18,6 +24,33 @@ class FilesPresenter extends BasePresenter {
 
   /** @var string */
   private $error = "File not found!";
+
+  /**
+   * @var UploadFormFactory
+   */
+  private $uploadFormFactory;
+
+  /**
+   * @var FilesRepository
+   */
+  private $filesRepository;
+
+  /**
+   * @var RemoveFormFactory
+   */
+  private $removeFormFactory;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              UploadFormFactory $uploadFormFactory,
+                              FilesRepository $filesRepository,
+                              RemoveFormFactory $removeFormFactory)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->filesRepository = $filesRepository;
+    $this->uploadFormFactory = $uploadFormFactory;
+    $this->removeFormFactory = $removeFormFactory;
+  }
 
   /**
    * @throws \Nette\Application\AbortException
@@ -55,22 +88,26 @@ class FilesPresenter extends BasePresenter {
     $this->template->file = $this->fileRow;
   }
 
+  protected function createComponentUploadForm () {
+    return $this->uploadFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->userIsLogged();
+      $this->filesRepository->softDelete($this->fileRow->id);
+      $this->redirect('all');
+    });
+  }
+
   /**
    * @return Form
    */
   protected function createComponentRemoveFileForm() {
-    $form = new Form;
-
-    $form->addSubmit('cancel', 'Zrušiť')
-        ->setHtmlAttribute('class', 'btn btn-warning')
-        ->onClick[] = [$this, 'formCancelled'];
-
-    $form->addSubmit('remove', 'Odstrániť')
-        ->setHtmlAttribute('class', 'btn btn-danger')
-        ->onClick[] = [$this, 'submittedFileRemoveForm'];
-
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
+    return $this->removeFormFactory->create(function () {
+      $this->userIsLogged();
+      $this->filesRepository->softDelete($this->fileRow->id);
+      $this->flashMessage(self::ITEM_REMOVED, self::SUCCESS);
+      $this->redirect('all');
+    }, function () {
+      $this->redirect('all');
+    });
   }
 
   /**

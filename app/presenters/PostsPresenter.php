@@ -3,6 +3,13 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Forms\ModalRemoveFormFactory;
+use App\Forms\PostFormFactory;
+use App\Forms\UploadFormFactory;
+use App\Model\AlbumsRepository;
+use App\Model\FilesRepository;
+use App\Model\PostsRepository;
+use App\Model\SectionsRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
@@ -28,13 +35,54 @@ class PostsPresenter extends BasePresenter {
   private $error = "Post not found!";
 
   /**
+   * @var PostsRepository
+   */
+  private $postsRepository;
+
+  /**
+   * @var PostFormFactory
+   */
+  private $postFormFactory;
+
+  /**
+   * @var FilesRepository
+   */
+  private $filesRepository;
+
+  /**
+   * @var UploadFormFactory
+   */
+  private $uploadFormFactory;
+
+  /**
+   * @var ModalRemoveFormFactory
+   */
+  private $removeFormFactory;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              PostsRepository $postsRepository,
+                              PostFormFactory $postFormFactory,
+                              FilesRepository $filesRepository,
+                              UploadFormFactory $uploadFormFactory,
+                              ModalRemoveFormFactory $modalRemoveFormFactory)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->postsRepository = $postsRepository;
+    $this->filesRepository = $filesRepository;
+    $this->postFormFactory = $postFormFactory;
+    $this->uploadFormFactory = $uploadFormFactory;
+    $this->removeFormFactory = $modalRemoveFormFactory;
+  }
+
+  /**
    * @param $id
    * @throws BadRequestException
    */
   public function actionShow ($id) {
     $this->postRow = $this->postsRepository->findByValue('section_id', $id)->fetch();
 
-    if (!$this->postRow) {
+    if (!$this->postRow || !$this->postRow->is_present) {
       throw new BadRequestException($this->error);
     }
 
@@ -52,111 +100,56 @@ class PostsPresenter extends BasePresenter {
   }
 
   /**
-   * @param $id
-   */
-  public function actionEdit ($id) {
-
-  }
-
-  /**
-   * @param sahl $id
-   */
-  public function renderEdit ($id) {
-
-  }
-
-  /**
    * @return Form
    */
   protected function createComponentEditForm() {
-    $form = new Form;
-    $form->addText('name', 'Názov');
-    $form->addTextArea('content', 'Obsah:')
-          ->setHtmlAttribute('id', 'ckeditor');
-    $form->addCheckbox('onHomepage', ' Na domovskej stránke');
-    $form->addSubmit('save', 'Uložiť');
-    $form->addSubmit('cancel', 'Zrušiť')
-          ->setHtmlAttribute('data-dismiss', 'modal')
-          ->setHtmlAttribute('class', 'btn btn-large btn-warning');
-    $form->onSuccess[] = [$this, 'submittedEditForm'];
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
+    return $this->postFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->userIsLogged();
+      $this->postRow->update($values);
+
+      if ($this->sectionRow->name != $values->name) {
+        $this->sectionRow->update( array('name' => $values->name) );
+      }
+
+      $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+      $this->redirect('show', $this->postRow->section_id);
+    });
   }
 
-  /**
-   * @param Form $form
-   * @param ArrayHash $values
-   * @throws \Nette\Application\AbortException
-   */
-  public function submittedEditForm(Form $form, ArrayHash $values) {
-    $this->userIsLogged();
-    $this->postRow->update($values);
-
-    if ($this->sectionRow->name != $values->name) {
-      $this->sectionRow->update( array('name' => $values->name) );
-    }
-
-    $this->flashMessage('Položka bola upravená', self::SUCCESS);
-    $this->redirect('show', $this->postRow->section_id);
-  }
-
-  /**
-   * @throws \Nette\Application\AbortException
-   */
-  public function submittedRemoveForm() {
-    $this->userIsLogged();
-    $sectionRow = $this->postRow->ref('sections', 'section_id');
-    $this->sectionsRepository->softDelete($sectionRow->id);
-    $this->postsRepository->softDelete($this->postRow->id);
-    $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
-    $this->redirect('Sections:all');
+  protected function createComponentRemoveForm () {
+    return $this->removeFormFactory->create(function () {
+      $this->userIsLogged();
+      $sectionRow = $this->postRow->ref('sections', 'section_id');
+      $this->sectionsRepository->softDelete($sectionRow->id);
+      $this->postsRepository->softDelete($this->postRow->id);
+      $this->flashMessage('Sekcia bola odstránená.', 'alert-success');
+      $this->redirect('Sections:all');
+    });
   }
 
   /**
    * @return Form
    */
-  protected function createComponentUploadFilesForm() {
-    $form = new Form;
-    $form->addMultiUpload('files', 'Vyber súbory');
-    $form->addSubmit('upload', 'Nahraj')
-          ->onClick[] = [$this, 'submittedUploadFilesForm'];
-    $form->addSubmit('cancel', 'Zrušiť')
-          ->setHtmlAttribute('class', 'btn btn-warning')
-          ->onClick[] = [$this, 'formCancelled'];
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
-  }
+  protected function createComponentUploadForm() {
+    return $this->uploadFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->userIsLogged();
 
-  /**
-   * @param SubmitButton $btn
-   * @param ArrayHash $values
-   * @throws \Nette\Application\AbortException
-   */
-  public function submittedUploadFilesForm(SubmitButton $btn, ArrayHash $values) {
-    $this->userIsLogged();
-    $fileData = array();
+      foreach ($values->files as $file) {
+        $name = strtolower($file->getSanitizedName());
 
-    foreach ($values->files as $file) {
-      $name = strtolower($file->getSanitizedName());
+        if ($file->isOk()) {
+          $file->move($this->storage . $name);
 
-      if ($file->isOk()) {
-        $file->move($this->storage . $name);
-
-        $fileData['name'] = $name;
-        $fileData['post_id'] = $this->postRow;
-        $this->filesRepository->insert($fileData);
+          $fileData = [];
+          $fileData['name'] = $name;
+          $fileData['post_id'] = $this->postRow->id;
+          $this->filesRepository->insert($fileData);
+        }
       }
-    }
 
-    $this->flashMessage('Súbory boli pridané.', 'alert-success');
-    $this->redirect('show', $this->postRow);
-  }
-
-  /**
-   * @throws \Nette\Application\AbortException
-   */
-  public function formCancelled() {
-    $this->redirect('show', $this->postRow);
+      $this->flashMessage(self::FILES_UPLOADED, self::SUCCESS);
+      $this->redirect('show', $this->postRow->id);
+    });
   }
 
 }

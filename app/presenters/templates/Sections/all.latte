@@ -1,6 +1,6 @@
 {block content}
 
-<section id="listOfSections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+<section id="sections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <header>
     <div class="pull-left">
       <h2>Sekcie</h2>
@@ -13,7 +13,7 @@
     </div>
   </header>
 
-  {if $listOfSections->count() > 0}
+  {if $sections->count() > 0}
     <div class="table-responsive">
       <table class="table">
         <thead>
@@ -22,10 +22,11 @@
             <th>Poradie</th>
             <th>Rolovanie</th>
             <th>V navgácii</th>
+            <th colspan="2">Akcia</th>
           </tr>
         </thead>
         <tbody>
-          {foreach $listOfSections as $section}
+          {foreach $sections as $section}
             <tr>
               <td>
                 {if $section->url == null}
@@ -38,6 +39,16 @@
               <td>{$section->order}</td>
               <td>{$section->sliding ? 'ÁNO' : 'NIE'}</td>
               <td>{$section->visible ? 'ÁNO' : 'NIE'}</td>
+              <td>
+                <a n:href="edit, $section->id" class="text-success">
+                  <span class="glyphicon glyphicon-edit"></span>
+                </a>
+              </td>
+              <td>
+                <a n:href="remove, $section->id" class="text-danger">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
+              </td>
             </tr>
           {/foreach}
         </tbody>
@@ -56,7 +67,7 @@
         <h3 class="modal-title">Pridať sekciu</h3>
       </div>
       <div class="modal-body">
-        {control addForm}
+        {control sectionForm}
       </div>
     </div>
   </div>

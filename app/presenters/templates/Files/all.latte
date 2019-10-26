@@ -1,45 +1,64 @@
 {block content}
 
 <section id="listOfFiles">
-  <header>
-	  <div class="pull-left">
-	    <h2>Súbory</h2>
-	  </div>
+  <header class="clearfix" style="margin: 15px 0">
+    <div class="pull-left">
+      <h2>Súbory</h2>
+    </div>
+    <div class="pull-right" style="margin-top: 20px" n:if="$user->loggedIn">
+      <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
+        <span class="glyphicon glyphicon-plus"></span> Pridať
+      </button>
+    </div>
   </header>
 
-  {if $files->count() > 0}
-  	<div class="table-responsive">
-	    <table class="table">
-	      <thead>
-	        <tr>
-	          <th>Názov</th>
-	          <th>Sekcia</th>
-	          <th>Adresa</th>
-	          <th>Akcia</th>
-	        </tr>
-	      </thead>
-	        <tbody>
-	          {foreach $files as $file}
-	            {var $post = $file->ref('posts', 'post_id')}
-	            <tr>
-	              <td>{$file->name}</td>
-	              <td>
-	               	{$post ? $post->name : 'NEPRIRADENÁ' }
-	              </td>
-	              <td>
-	                {$baseUrl}/{$fileFolder}{$file->name}
-	              </td>
-	              <td class="text-center">
-	                <a n:href="remove, $file->id" class="text-danger">
-	                  <span class="glyphicon glyphicon-trash"></span>
-	                </a>
-	              </td>
-	            </tr>
-	          {/foreach}
-	        </tbody>
-	    </table>
-	  </div>
-  {else}
-  	<p>Neboli nájdené žiadne položky.</p>
-  {/if}
+    {if $files->count() > 0}
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Názov</th>
+            <th>Sekcia</th>
+            <th>Adresa</th>
+            <th>Akcia</th>
+          </tr>
+          </thead>
+          <tbody>
+          {foreach $files as $file}
+              {var $post = $file->ref('posts', 'post_id')}
+            <tr>
+              <td>{$file->name}</td>
+              <td>
+                  {$post ? $post->name : 'NEPRIRADENÁ' }
+              </td>
+              <td>
+                  {$baseUrl}/{$fileFolder}{$file->name}
+              </td>
+              <td class="text-center">
+                <a n:href="remove, $file->id" class="text-danger">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
+              </td>
+            </tr>
+          {/foreach}
+          </tbody>
+        </table>
+      </div>
+    {else}
+      <p>Neboli nájdené žiadne položky.</p>
+    {/if}
 </section>
+
+<div id="add" class="modal fade" role="dialog" n:if="$user->loggedIn">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Nahrať súbor</h3>
+      </div>
+      <div class="modal-body">
+          {control uploadForm}
+      </div>
+    </div>
+  </div>
+</div>

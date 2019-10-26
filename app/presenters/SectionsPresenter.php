@@ -3,12 +3,22 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Forms\RemoveFormFactory;
+use App\Forms\SectionFormFactory;
+use App\Model\AlbumsRepository;
+use App\Model\PostsRepository;
+use App\Model\SectionsRepository;
+use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\ArrayHash;
 
+/**
+ * Class SectionsPresenter
+ * @package App\Presenters
+ */
 class SectionsPresenter extends BasePresenter {
 
   /** @var ActiveRow */
@@ -17,33 +27,81 @@ class SectionsPresenter extends BasePresenter {
   /** @var string */
   private $error = "Section not found!";
 
+  /**
+   * @var SectionFormFactory
+   */
+  private $sectionFormFactory;
+
+  /**
+   * @var PostsRepository
+   */
+  private $postsRepository;
+
+  /**
+   * @var RemoveFormFactory
+   */
+  private $removeFormFactory;
+
+  /**
+   * SectionsPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param SectionFormFactory $sectionFormFactory
+   * @param PostsRepository $postsRepository
+   * @param RemoveFormFactory $removeFormFactory
+   */
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              SectionFormFactory $sectionFormFactory,
+                              PostsRepository $postsRepository,
+                              RemoveFormFactory $removeFormFactory)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->postsRepository = $postsRepository;
+    $this->sectionFormFactory = $sectionFormFactory;
+    $this->removeFormFactory = $removeFormFactory;
+  }
+
+  /**
+   * @throws AbortException
+   */
   public function actionAll() {
     $this->userIsLogged();
   }
 
+  /**
+   *
+   */
   public function renderAll() {
-    $this->template->listOfSections = $this->sectionsRepository->findAll()->order("order DESC");
+    // Property $sections is inherited from parent
+    $this->template->sections = $this->sections;
   }
 
+  /**
+   * @param $id
+   * @throws BadRequestException
+   */
   public function actionEdit($id) {
     $this->sectionRow = $this->sectionsRepository->findById($id);
 
-    if (!$this->sectionRow) {
+    if (!$this->sectionRow || !$this->sectionRow->is_present) {
       throw new BadRequestException($this->error);
     }
   }
 
+  /**
+   * @param $id
+   */
   public function renderEdit($id) {
     $this->template->mainSection = $this->sectionRow;
-    $this->getComponent('editForm')->setDefaults($this->sectionRow);
+    $this['sectionForm']->setDefaults($this->sectionRow);
   }
 
-  public function actionAdd() {
-    $this->userIsLogged();
-  }
-
-  public function renderAdd() { }
-
+  /**
+   * @param $id
+   * @throws BadRequestException
+   * @throws AbortException
+   */
   public function actionRemove($id) {
     $this->userIsLogged();
     $this->sectionRow = $this->sectionsRepository->findById($id);
@@ -53,129 +111,80 @@ class SectionsPresenter extends BasePresenter {
     }
   }
 
+  /**
+   * @param $id
+   */
   public function renderRemove($id) {
     $this->template->mainSection = $this->sectionRow;
-    $this->getComponent('removeForm');
   }
 
-  protected function createComponentAddForm() {
-    $sections = $this->sectionsRepository->fetchAll();
-    $form = new Form;
-    $form->addText('name', 'Názov')
-        ->setRequired('Názov musí byť vyplnený.')
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-    $form->addSelect('section_id', 'Sekcie', $sections);
-    $form->addText('url', 'URL adresa');
-
-    $form->addCheckbox('homeUrl', ' URL na tejto stránke')
-        ->setDefaultValue(0);
-
-    $form->addText('order', 'Poradie')
-        ->setRequired(true)
-        ->setDefaultValue(50)
-        ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
-
-    $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
-        ->setDefaultValue(1);
-
-    $form->addCheckbox('sliding', ' Rolovacie menu');
-    $form->addSubmit('save', 'Uložiť');
-
-    $form->onSuccess[] = [$this, 'submittedAddForm'];
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
+  /**
+   * @return Form
+   */
+  protected function createComponentSectionForm() {
+    return $this->sectionFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->getParameter('id') ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
+    });
   }
 
-  protected function createComponentEditForm() {
-    $form = new Form;
-
-    $form->addText('name', 'Názov')
-        ->setRequired('Názov musí byť vyplnený.')
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-
-    $form->addText('url', 'URL adresa');
-
-    $form->addCheckbox('homeUrl', ' URL na tejto stránke');
-
-    $form->addText('order', 'Poradie')
-        ->setRequired('Poradie musí byť vyplnené')
-        ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
-
-    $form->addCheckbox('visible', ' Viditeľné v bočnom menu');
-    $form->addCheckbox('sliding', ' Rolovacie menu');
-
-    $form->addSubmit('save', 'Uložiť')
-        ->onClick[] = [$this, 'submittedEditForm'];
-
-    $form->addSubmit('cancel', 'Zrušiť')
-        ->setHtmlAttribute('class', 'btn btn-warning')
-        ->onClick[] = [$this, 'formCancelled'];
-
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
-  }
-
+  /**
+   * @return Form
+   */
   protected function createComponentRemoveForm() {
-    $form = new Form;
+    return $this->removeFormFactory->create(function () {
+      $this->userIsLogged();
 
-    $form->addSubmit('cancel', 'Zrušiť')
-        ->setHtmlAttribute('class', 'btn btn-warning')
-        ->onClick[] = [$this, 'formCancelled'];
+      if (empty($this->sectionRow->url)) {
+        $post = $this->sectionRow->related('posts')->fetch();
+        $this->postsRepository->softDelete($post->id);
+      }
 
-    $form->addSubmit('remove', 'Odstrániť')
-        ->setHtmlAttribute('class', 'btn btn-danger')
-        ->onClick[] = [$this, 'submittedRemoveForm'];
+      $sections = $this->sectionsRepository->findByParent($this->sectionRow->id);
 
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
+      // Delete also children of given section
+      foreach ($sections as $section) {
+        $this->sectionsRepository->softDelete($section->id);
+      }
+
+      $this->sectionsRepository->softDelete($this->sectionRow->id);
+      $this->flashMessage(self::ITEM_REMOVED);
+      $this->redirect('all');
+    }, function () {
+      $this->redirect('all');
+    });
   }
 
-  public function submittedAddForm(Form $form, ArrayHash $values) {
+  /**
+   * @param ArrayHash $values
+   * @throws AbortException
+   */
+  private function submittedAddForm(ArrayHash $values) {
     $this->userIsLogged();
 
     $values->offsetSet('section_id', $values->section_id === 0 ? null : $values->section_id);
-    // dump($values);
     $section = $this->sectionsRepository->insert($values);
 
     if (empty($values->url)) {
-      $postData = array(
-        'section_id' => $section->id,
-        'name' => $values['name']
-      );
-
+      $postData = array('section_id' => $section->id, 'name' => $values->name);
       $this->postsRepository->insert($postData);
-      $this->flashMessage('Sekcia bola pridaná');
-      $this->redirect('Posts:show#primary', $section->id);
+      $this->flashMessage(self::ITEM_ADDED);
+      $this->redirect('Posts:show', $section->id);
     } else {
-      $this->flashMessage('Sekcia bola pridaná');
-      $this->redirect('all#primary');
+      $this->flashMessage(self::ITEM_ADDED);
+      $this->redirect('all');
     }
   }
 
-  public function submittedEditForm(SubmitButton $btn) {
+  /**
+   * @param ArrayHash $values
+   * @throws AbortException
+   */
+  private function submittedEditForm(ArrayHash $values) {
     $this->userIsLogged();
-
-    $values = $btn->form->getValues();
+    $values->section_id = $values->section_id === 0 ? null : $values->section_id;
     $this->sectionRow->update($values);
-    $this->flashMessage('Sekcia bola upravená');
-    $this->redirect('all#primary');
-  }
-
-  public function submittedRemoveForm() {
-    $this->userIsLogged();
-
-    if ($this->sectionRow->url == NULL || $this->sectionRow->url == "") {
-        $post = $this->sectionRow->related('post')->fetch();
-        $post->delete();
-    }
-
-    $this->sectionRow->delete();
-    $this->flashMessage('Sekcia bola odstránená');
-    $this->redirect('all#primary');
-  }
-
-  public function formCancelled() {
-    $this->redirect('all#primary');
+    $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+    $this->redirect('all');
   }
 
 }

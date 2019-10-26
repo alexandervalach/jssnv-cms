@@ -3,6 +3,8 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Model\AlbumsRepository;
+use App\Model\SectionsRepository;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
@@ -20,6 +22,11 @@ class AlbumsPresenter extends BasePresenter {
   /** @var string */
   private $error = "Album not found!";
 
+  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+  }
+
   /**
    *
    */
@@ -31,6 +38,7 @@ class AlbumsPresenter extends BasePresenter {
   /**
    * @param $id
    * @throws BadRequestException
+   * @throws \Nette\Application\AbortException
    */
   public function actionEdit($id) {
     $this->userIsLogged();

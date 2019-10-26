@@ -10,6 +10,16 @@ use Nette\Database\Table\Selection;
 
 namespace App\Presenters;
 
+use App\Helpers\FormHelper;
+use App\Model\AlbumsRepository;
+use App\Model\LevelsResultsRepository;
+use App\Model\QuestionsRepository;
+use App\Model\ResultsRepository;
+use App\Model\SectionsRepository;
+use App\Model\TestsRepository;
+use Nette\Application\AbortException;
+use Nette\Application\UI\Form;
+
 /**
  * Class TestsPresenter
  * @package App\Presenters
@@ -23,7 +33,41 @@ class TestsPresenter extends BasePresenter {
   private $questions;
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @var TestsRepository
+   */
+  private $testsRepository;
+
+  /**
+   * @var ResultsRepository
+   */
+  private $resultsRepository;
+
+  /**
+   * @var QuestionsRepository
+   */
+  private $questionsRepository;
+
+  /**
+   * @var LevelsResultsRepository
+   */
+  private $levelsResultsRepository;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              TestsRepository $testsRepository,
+                              ResultsRepository $resultsRepository,
+                              QuestionsRepository $questionsRepository,
+                              LevelsResultsRepository $levelsResultsRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->testsRepository = $testsRepository;
+    $this->resultsRepository = $resultsRepository;
+    $this->levelsResultsRepository = $levelsResultsRepository;
+    $this->questionsRepository = $questionsRepository;
+  }
+
+  /**
+   * @throws AbortException
    */
   public function actionAll () {
   	if (!$this->user->isLoggedIn()) {
@@ -40,12 +84,12 @@ class TestsPresenter extends BasePresenter {
 
   /**
    * @param $id
-   * @throws \Nette\Application\BadRequestException
+   * @throws BadRequestException
    */
   public function actionView ($id) {
     $this->testRow = $this->testsRepository->findById($id);
 
-    if (!$this->testRow) {
+    if (!$this->testRow || !$this->testRow->is_present) {
       $this->error(self::TEST_NOT_FOUND);
     }
 
@@ -64,29 +108,29 @@ class TestsPresenter extends BasePresenter {
   /**
    * @param $form
    * @param $values
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedAddForm ($form, $values) {
     $this->testsRepository->insert($values);
-    $this->flashMessage(self::ITEM_ADD_SUCCESS);
+    $this->flashMessage(self::ITEM_ADDED);
     $this->redirect('all');
   }
 
   /**
    * @param $form
    * @param $values
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedEditForm ($form, $values) {
     $this->testRow->update($values);
-    $this->flashMessage(self::ITEM_EDIT_SUCCESS);
+    $this->flashMessage(self::ITEM_UPDATED);
     $this->redirect('all');
   }
 
   /**
    * @param $form
    * @param $values
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedFinishForm ($form, $values) {
   	$postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
@@ -100,51 +144,49 @@ class TestsPresenter extends BasePresenter {
   }
 
   /**
-   * @return \Nette\Application\UI\Form
+   * @return Form
    */
   protected function createComponentAddForm () {
-    $form = new \Nette\Application\UI\Form;
+    $form = new Form;
     $form->addText('label', 'Názov');
     $form->addSubmit('save', 'Uložiť');
     $form->onSuccess[] = [$this, 'submittedAddForm'];
-
-    \App\FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 
   /**
-   * @return \Nette\Application\UI\Form
+   * @return Form
    */
   protected function createComponentEditForm () {
-    $form = new \Nette\Application\UI\Form;
+    $form = new Form;
     $form->addText('label', 'Názov');
     $form->addSubmit('save', 'Uložiť');
     $form->onSuccess[] = [$this, 'submittedEditForm'];
-
-    \App\FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 
   /**
-   * @return \Nette\Application\UI\Form
+   * @return Form
    */
   protected function createComponentFinishForm () {
-    $form = new \Nette\Application\UI\Form;
+    $form = new Form();
     $form->addText('email', 'E-mail')
-      ->addCondition(\Nette\Application\UI\Form::EMAIL, true);
+      ->addCondition(Form::EMAIL, true);
     $form->addText('url', 'Mňam, mňa, toto vyplní len robot')
       ->setHtmlAttribute('style', 'opacity: 0; display: inline')
       ->setDefaultValue('');
     $form->addSubmit('finish', 'Ukončiť test');
     $form->onSuccess[] = [$this, 'submittedFinishForm'];
 
-    \App\FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 
   /**
    * @param $postData
-   * @return bool|int|\Nette\Database\Table\ActiveRow
+   * @return bool|int|ActiveRow
    */
   protected function evaluateTest ($postData) {
     $earnedPoints = array();

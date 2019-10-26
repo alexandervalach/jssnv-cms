@@ -39,7 +39,7 @@
                       </ul>
                   {/if}
               </li>
-          {elseif $menuSection->subsections}
+          {elseif empty($menuSection->subsections)}
             {var $menuSubSections = $menuSection->subsections}
             {if $menuSection->sliding}
               <li class="slideToggle">
