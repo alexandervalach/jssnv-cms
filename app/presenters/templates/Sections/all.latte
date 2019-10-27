@@ -27,13 +27,12 @@
         </thead>
         <tbody>
           {foreach $sections as $section}
-            <tr>
+            <tr class="bg-success">
               <td>
                 {if $section->url == null}
                   <a n:href="Posts:show, $section->id">{$section->name}</a>
                 {else}
-                  <a class="text-danger" href="{$section->url}"
-                    {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
+                  <a class="text-danger" href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
                 {/if}
               </td>
               <td>{$section->order}</td>
@@ -50,6 +49,33 @@
                 </a>
               </td>
             </tr>
+
+            {if !empty($section->subsections)}
+              {foreach $section->subsections as $subSection}
+                <tr>
+                  <td>
+                      {if empty($subSection->url)}
+                        <a n:href="Posts:show, $subSection->id">{$subSection->name}</a>
+                      {else}
+                        <a class="text-danger" href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}>{$subSection->name}</a>
+                      {/if}
+                  </td>
+                  <td>{$section->order}</td>
+                  <td>{$section->sliding ? 'ÁNO' : 'NIE'}</td>
+                  <td>{$section->visible ? 'ÁNO' : 'NIE'}</td>
+                  <td>
+                    <a n:href="edit, $subSection->id" class="text-success">
+                      <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                  </td>
+                  <td>
+                    <a n:href="remove, $subSection->id" class="text-danger">
+                      <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                  </td>
+                </tr>
+              {/foreach}
+            {/if}
           {/foreach}
         </tbody>
       </table>

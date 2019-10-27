@@ -33,26 +33,25 @@
                       <ul>
                           {foreach $menuAlbums as $menuAlbum}
                               <li>
-                                  <a n:href="Gallery:view#primary, $menuAlbum->id"> &#58;&#58; {$menuAlbum->name}</a>
+                                  <a n:href="Gallery:view, $menuAlbum->id"> &#58;&#58; {$menuAlbum->name}</a>
                               </li>
                           {/foreach}
                       </ul>
                   {/if}
               </li>
-          {elseif empty($menuSection->subsections)}
-            {var $menuSubSections = $menuSection->subsections}
+          {elseif $menuSection->subsections->count() > 0}
             {if $menuSection->sliding}
               <li class="slideToggle">
-                <a href="#primary">{$menuSection->name}<span class="caret"></span></a>
+                <a href="#">{$menuSection->name}<span class="caret"></span></a>
             {else}
               <li>
-                <a href="#primary">{$menuSection->name}</a>
+                <a href="#">{$menuSection->name}</a>
             {/if}
               <ul>
-                {foreach $menuSubSections as $menuSubSection}
+                {foreach $menuSection->subsections as $menuSubSection}
                   <li>
                     {if $menuSubSection->url == NULL || $menuSubSection->url == ""}
-                      <a n:href="Posts:show#primary, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
+                      <a n:href="Posts:show, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
                     {else}
                       <a href="{$menuSubSection->url}" {if !$menuSubSection->homeUrl}target="_blank"{/if}> &#58;&#58; {$menuSubSection->name}</a>
                     {/if}
@@ -62,10 +61,10 @@
             </li>
       {else}
         <li>
-          {if $menuSection->url == NULL || $menuSection->url == ""}
-            <a n:href="Posts:show#primary, $menuSection->id">{$menuSection->name}</a>
+          {if empty($menuSection->url)}
+            <a n:href="Posts:show, $menuSection->id">{$menuSection->name}</a>
           {else}
-            <a href="{$menuSection->url}#primary" {if !$menuSection->homeUrl}target="_blank"{/if}>{$menuSection->name}</a>
+            <a href="{$menuSection->url}" {if !$menuSection->homeUrl}target="_blank"{/if}>{$menuSection->name}</a>
           {/if}
         </li>
       {/if}

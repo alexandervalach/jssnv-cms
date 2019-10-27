@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace App\Forms;
 
-use App\FormHelper;
-use Nette;
+use App\Helpers\FormHelper;
 use Nette\Application\UI\Form;
+use Nette\Security\AuthenticationException;
 use Nette\Security\User;
+use Nette\SmartObject;
+use Nette\Utils\ArrayHash;
 
 /**
  * Class SignFormFactory
@@ -15,47 +17,45 @@ use Nette\Security\User;
  */
 class SignFormFactory {
 
+  use SmartObject;
+
+  /** @var FormFactory */
+  private $formFactory;
+
   /** @var User */
   private $user;
 
   /**
    * SignFormFactory constructor.
-   * @param User $user
+   * @param FormFactory $formFactory
    */
-  public function __construct(User $user) {
-    $this->user = $user;
+  public function __construct(FormFactory $formFactory) {
+    $this->formFactory = $formFactory;
   }
 
   /**
+   * @param callable $onSuccess
    * @return Form
    */
-  public function create() {
+  public function create(callable $onSuccess): Form
+  {
     $form = new Form;
-    $form->addText('username', 'Používateľské meno')
-        ->setRequired('Ešte chýba používateľské meno.');
+    $form->addText('username', 'Používateľské meno*')
+        ->setRequired();
 
-    $form->addPassword('password', 'Heslo')
-        ->setRequired('Ešte chýba heslo.');
+    $form->addPassword('password', 'Heslo*')
+        ->setRequired();
 
     $form->addCheckbox('remember', ' Zapamätať si ma na 14 dní');
     $form->addSubmit('send', 'Prihlásiť');
 
-    $form->onSuccess[] = [$this, 'formSucceeded'];
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
-  }
+    FormHelper::setBootstrapFormRenderer($form);
 
-  /**
-   * @param $form
-   * @param $values
-   */
-  public function formSucceeded($form, $values) {
-    $values->remember ? $this->user->setExpiration('14 days') : $this->user->setExpiration('30 minutes');
-    try {
-      $this->user->login($values->username, $values->password);
-    } catch (Nette\Security\AuthenticationException $e) {
-      $form->addError($e->getMessage());
-    }
+    $form->onSuccess[] = function (Form $form, ArrayHash $values) use ($onSuccess) {
+      $onSuccess($form, $values);
+    };
+
+    return $form;
   }
 
 }

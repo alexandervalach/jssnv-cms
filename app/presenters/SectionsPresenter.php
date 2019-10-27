@@ -133,19 +133,18 @@ class SectionsPresenter extends BasePresenter {
   protected function createComponentRemoveForm() {
     return $this->removeFormFactory->create(function () {
       $this->userIsLogged();
+      $this->deletePostForSection($this->sectionRow);
 
-      if (empty($this->sectionRow->url)) {
-        $post = $this->sectionRow->related('posts')->fetch();
-        $this->postsRepository->softDelete($post->id);
+      // Delete also subsections if parent section
+      if ($this->sectionRow->section_id != null) {
+        $subSections = $this->sectionsRepository->findByParent($this->sectionRow->id);
+        foreach ($subSections as $subSection) {
+          $this->deletePostForSection($subSection);
+          $this->sectionsRepository->softDelete($subSection->id);
+        }
       }
 
-      $sections = $this->sectionsRepository->findByParent($this->sectionRow->id);
-
-      // Delete also children of given section
-      foreach ($sections as $section) {
-        $this->sectionsRepository->softDelete($section->id);
-      }
-
+      // Delete section from database
       $this->sectionsRepository->softDelete($this->sectionRow->id);
       $this->flashMessage(self::ITEM_REMOVED);
       $this->redirect('all');
@@ -185,6 +184,18 @@ class SectionsPresenter extends BasePresenter {
     $this->sectionRow->update($values);
     $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
     $this->redirect('all');
+  }
+
+  /**
+   * @param $sectionRow
+   */
+  private function deletePostForSection ($sectionRow) {
+    if (empty($sectionRow->url)) {
+      $post = $sectionRow->related('posts')->fetch();
+      if ($post && $post->is_present) {
+        $this->postsRepository->softDelete($post->id);
+      }
+    }
   }
 
 }

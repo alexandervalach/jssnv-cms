@@ -3,6 +3,9 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Model\AlbumsRepository;
+use App\Model\SectionsRepository;
+use App\Model\SlidesRepository;
 use Nette\Database\Table\ActiveRow;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
@@ -17,8 +20,18 @@ class SlidesPresenter extends BasePresenter {
   /** @var ActiveRow */
   private $slideRow;
 
-  /** @var string */
-  private $error = "Item not found!";
+  /**
+   * @var SlidesRepository
+   */
+  private $slidesRepository;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              SlidesRepository $slidesRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->slidesRepository = $slidesRepository;
+  }
 
   /**
    * @param $id
@@ -28,7 +41,7 @@ class SlidesPresenter extends BasePresenter {
     $this->slideRow = $this->slidesRepository->findById($id);
 
     if (!$this->slideRow) {
-      throw new BadRequestException($this->error);
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
   }
 

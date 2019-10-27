@@ -14,7 +14,6 @@ use App\Model\LevelsResultsRepository;
 use App\Model\ResultsRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
-use Nette\Application\BadRequestException;
 
 /**
  * Class ResultsPresenter

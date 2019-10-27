@@ -37,8 +37,8 @@
                 <div style="clear: both"><!-- --></div>
             {/if}
             <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6" style="margin:10px 0 10px 0">
-                <a href="{$basePath}/{$imgFolder}{$img->name}">
-                    <img src="{$basePath}/{$imgFolder}{$img->name}" alt="{$img->name}" class="img-responsive"/>
+                <a href="{$basePath}/{$imgFolder}/{$img->name}">
+                    <img src="{$basePath}/{$imgFolder}/{$img->name}" alt="{$img->name}" class="img-responsive"/>
                 </a>
                 <figcaption n:if='$user->loggedIn' style='margin: 5px 0 10px 0'>
                     <a n:href='remove#primary, $img->id' class='btn btn-danger'>

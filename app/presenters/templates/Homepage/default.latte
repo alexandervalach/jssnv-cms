@@ -12,7 +12,7 @@
     <div class="carousel-inner" role="listbox">
         {foreach $slides as $slide}
             <div class="item {if $iterator->first}active{/if}">
-                <img src="{$basePath}/{$imgFolder}{$slide->img}" alt="Jazyková škola">
+                <img src="{$basePath}/{$imgFolder}/{$slide->img}" alt="Jazyková škola">
 
                 <!-- Links to edit -->
                 <div class="customize-carousel" n:if="$user->loggedIn">

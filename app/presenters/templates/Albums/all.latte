@@ -11,7 +11,7 @@
             {var $thumbnail = $album->related('gallery')->fetch()}
             <figure class="hiden-xs hidden-sm col-md-6 col-lg-6" style="margin:10px 25% 10px 25%">
                 <a n:href="Gallery:view#primary, $album->id">
-                    <img src="{$basePath}/{$imgFolder}{$thumbnail->name}" 
+                    <img src="{$basePath}/{$imgFolder}/{$thumbnail->name}"
                          alt="{$thumbnail->name}" class="img-thumbnail img-responsive"/>
                 </a>
                 <figcaption class="text-center">
@@ -20,7 +20,7 @@
             </figure>
             <figure class="col-xs-12 col-sm-12 hidden-md hidden-lg" style="margin:10px 0 10px 0">
                 <a n:href="Gallery:view#primary, $album->id">
-                    <img src="{$basePath}/{$imgFolder}{$thumbnail->name}" 
+                    <img src="{$basePath}/{$imgFolder}/{$thumbnail->name}"
                          alt="{$thumbnail->name}" class="img-thumbnail img-responsive"/>
                 </a>
                 <figcaption>
