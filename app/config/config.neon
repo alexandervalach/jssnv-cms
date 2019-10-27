@@ -22,14 +22,12 @@ session:
 services:
 	- App\Model\AlbumsRepository
 	- App\Model\AnswersRepository
-	- App\Model\FilesRepository
+	- App\Model\ContentsRepository
 	- App\Model\ImagesRepository
 	- App\Model\LevelsRepository
 	- App\Model\LevelsResultsRepository
 	- App\Model\NoticesRepository
-	- App\Model\PostsRepository
 	- App\Model\QuestionsRepository
-	- App\Model\PostImagesRepository
 	- App\Model\ResultsRepository
 	- App\Model\SectionsRepository
 	- App\Model\SlidesRepository
@@ -37,6 +35,9 @@ services:
 	- App\Model\UsersRepository
 
 	# Form factories
+	- App\Forms\AddFileContentFormFactory
+	- App\Forms\AddImageContentFormFactory
+	- App\Forms\AddTextContentFormFactory
 	- App\Forms\FormFactory
 	- App\Forms\SignFormFactory
 	- App\Forms\UploadFormFactory

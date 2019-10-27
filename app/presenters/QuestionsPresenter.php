@@ -40,8 +40,19 @@ class QuestionsPresenter extends BasePresenter {
    * @var QuestionsRepository
    */
   private $questionsRepository;
+  /**
+   * @var LevelsRepository
+   */
   private $levelsRepository;
 
+  /**
+   * QuestionsPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param TestsRepository $testsRepository
+   * @param QuestionsRepository $questionsRepository
+   * @param LevelsRepository $levelsRepository
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               TestsRepository $testsRepository,

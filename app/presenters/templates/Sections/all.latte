@@ -22,7 +22,6 @@
             <th>Poradie</th>
             <th>Rolovanie</th>
             <th>V navgácii</th>
-            <th colspan="2">Akcia</th>
           </tr>
         </thead>
         <tbody>
@@ -30,7 +29,7 @@
             <tr class="bg-success">
               <td>
                 {if $section->url == null}
-                  <a n:href="Posts:show, $section->id">{$section->name}</a>
+                  <a n:href="Sections:show, $section->id">{$section->name}</a>
                 {else}
                   <a class="text-danger" href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
                 {/if}
@@ -38,16 +37,6 @@
               <td>{$section->order}</td>
               <td>{$section->sliding ? 'ÁNO' : 'NIE'}</td>
               <td>{$section->visible ? 'ÁNO' : 'NIE'}</td>
-              <td>
-                <a n:href="edit, $section->id" class="text-success">
-                  <span class="glyphicon glyphicon-edit"></span>
-                </a>
-              </td>
-              <td>
-                <a n:href="remove, $section->id" class="text-danger">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </a>
-              </td>
             </tr>
 
             {if !empty($section->subsections)}
@@ -55,7 +44,7 @@
                 <tr>
                   <td>
                       {if empty($subSection->url)}
-                        <a n:href="Posts:show, $subSection->id">{$subSection->name}</a>
+                        <a n:href="Sections:show, $subSection->id">{$subSection->name}</a>
                       {else}
                         <a class="text-danger" href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}>{$subSection->name}</a>
                       {/if}

@@ -5,28 +5,10 @@ namespace App\Presenters;
 use App\Components\ModalDialog;
 use App\Components\FormCancelled;
 use App\Model\AlbumsRepository;
-use App\Model\AnswersRepository;
-use App\Model\SlidesRepository;
-use App\Model\FilesRepository;
-use App\Model\ImagesRepository;
-use App\Model\PostImagesRepository;
-use App\Model\LevelsResultsRepository;
-use App\Model\LevelsRepository;
-use App\Model\NoticesRepository;
-use App\Model\PostsRepository;
-use App\Model\QuestionsRepository;
-use App\Model\ResultsRepository;
 use App\Model\SectionsRepository;
-use App\Model\SubFilesRepository;
-use App\Model\SubPostRepository;
-use App\Model\SubSectionRepository;
-use App\Model\TestsRepository;
-use App\Model\TestsResultsRepository;
-use App\Model\UsersRepository;
+use Nette\Application\AbortException;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Presenter;
-use Nette\Application\UI\Form;
-use App\FormHelper;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -84,7 +66,8 @@ abstract class BasePresenter extends Presenter {
       $items[$section->id]['order'] = $section->order;
       $items[$section->id]['sliding'] = $section->sliding;
       $items[$section->id]['visible'] = $section->visible;
-      $items[$section->id]['homeUrl'] = $section->homeUrl;
+      $items[$section->id]['on_homepage'] = $section->on_homepage;
+      $items[$section->id]['home_url'] = $section->home_url;
     }
 
     $this->sections = ArrayHash::from($items);
@@ -96,7 +79,7 @@ abstract class BasePresenter extends Presenter {
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   protected function userIsLogged() {
     if (!$this->user->isLoggedIn()) {

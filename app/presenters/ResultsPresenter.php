@@ -35,6 +35,13 @@ class ResultsPresenter extends BasePresenter {
    */
   private $levelsResultsRepository;
 
+  /**
+   * ResultsPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param ResultsRepository $resultsRepository
+   * @param LevelsResultsRepository $levelsResultsRepository
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               ResultsRepository $resultsRepository,

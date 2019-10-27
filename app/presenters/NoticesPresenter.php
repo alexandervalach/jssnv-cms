@@ -3,12 +3,19 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Model\AlbumsRepository;
 use App\Model\NoticesRepository;
+use App\Model\SectionsRepository;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Application\BadRequestException;
 
+/**
+ * Class NoticesPresenter
+ * @package App\Presenters
+ */
 class NoticesPresenter extends BasePresenter {
 
   /** @var ActiveRow */
@@ -17,10 +24,31 @@ class NoticesPresenter extends BasePresenter {
   /** @var string */
   private $error = "Notice not found";
 
+  /**
+   * @var NoticesRepository
+   */
+  private $noticesRepository;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              NoticesRepository $noticesRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->noticesRepository = $noticesRepository;
+  }
+
+  /**
+   *
+   */
   public function renderAll() {
     $this->template->notices = $this->noticesRepository->getAll();
   }
 
+  /**
+   * @param $id
+   * @throws BadRequestException
+   * @throws AbortException
+   */
   public function actionEdit($id) {
     $this->userIsLogged();
     $this->noticeRow = $this->noticesRepository->findById($id);
@@ -29,13 +57,21 @@ class NoticesPresenter extends BasePresenter {
       throw new BadRequestException($this->error);
     }
 
-    $this->getComponent('editForm')->setDefaults($this->noticeRow);
+    $this['editForm']->setDefaults($this->noticeRow);
   }
 
+  /**
+   * @param $id
+   */
   public function renderEdit($id) {
     $this->template->notice = $this->noticeRow;
   }
 
+  /**
+   * @param $id
+   * @throws BadRequestException
+   * @throws AbortException
+   */
   public function actionRemove($id) {
     $this->userIsLogged();
     $this->noticeRow = $this->noticesRepository->findById($id);
@@ -45,10 +81,16 @@ class NoticesPresenter extends BasePresenter {
     }
   }
 
+  /**
+   * @param $id
+   */
   public function renderRemove($id) {
     $this->template->notice = $this->noticeRow;
   }
 
+  /**
+   * @return Form
+   */
   protected function createComponentAddForm() {
     $form = new Form;
     $form->addSelect('type', 'Paleta', NoticesRepository::$flag);
@@ -66,6 +108,9 @@ class NoticesPresenter extends BasePresenter {
     return $form;
   }
 
+  /**
+   * @return Form
+   */
   protected function createComponentEditForm() {
     $form = new Form;
     $form->addSelect('type', 'Paleta', NoticesRepository::$flag);
@@ -82,6 +127,9 @@ class NoticesPresenter extends BasePresenter {
     return $form;
   }
 
+  /**
+   * @return Form
+   */
   protected function createComponentRemoveForm() {
     $form = new Form;
     $form->addSubmit('cancel', 'Zrušiť')
@@ -94,12 +142,21 @@ class NoticesPresenter extends BasePresenter {
     return $form;
   }
 
+  /**
+   * @param Form $form
+   * @param $values
+   * @throws AbortException
+   */
   public function submittedAddForm(Form $form, $values) {
     $this->userIsLogged();
     $this->noticesRepository->insert($values);
     $this->redirect('all#primary');
   }
 
+  /**
+   * @param SubmitButton $btn
+   * @throws AbortException
+   */
   public function submittedEditForm(SubmitButton $btn) {
     $this->userIsLogged();
     $values = $btn->form->getValues();
@@ -107,12 +164,18 @@ class NoticesPresenter extends BasePresenter {
     $this->redirect('all#primary');
   }
 
+  /**
+   * @throws AbortException
+   */
   public function submittedRemoveForm() {
     $this->userIsLogged();
     $this->noticesRepository->softDelete($this->noticeRow->id);
     $this->redirect('all#primary');
   }
 
+  /**
+   * @throws AbortException
+   */
   public function formCancelled() {
     $this->redirect('all#primary');
   }

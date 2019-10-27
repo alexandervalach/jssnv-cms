@@ -12,7 +12,8 @@
         <ul>
           <li>
             <a n:href="Sections:all"> &#58;&#58; Sekcie</a>
-            <a n:href="Files:all"> &#58;&#58; Súbory</a>
+            <a n:href="Albums:all"> &#58;&#58; Fotogaléria</a>
+            {*<a n:href="Files:all"> &#58;&#58; Súbory</a>*}
             <a n:href="Tests:all"> &#58;&#58; Testy</a>
             <a n:href="Results:all"> &#58;&#58; Výsledky testov</a>
             <a n:href="Users:all"> &#58;&#58; Používatelia</a>
@@ -51,7 +52,7 @@
                 {foreach $menuSection->subsections as $menuSubSection}
                   <li>
                     {if $menuSubSection->url == NULL || $menuSubSection->url == ""}
-                      <a n:href="Posts:show, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
+                      <a n:href="Sections:show, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
                     {else}
                       <a href="{$menuSubSection->url}" {if !$menuSubSection->homeUrl}target="_blank"{/if}> &#58;&#58; {$menuSubSection->name}</a>
                     {/if}
@@ -62,7 +63,7 @@
       {else}
         <li>
           {if empty($menuSection->url)}
-            <a n:href="Posts:show, $menuSection->id">{$menuSection->name}</a>
+            <a n:href="Sections:show, $menuSection->id">{$menuSection->name}</a>
           {else}
             <a href="{$menuSection->url}" {if !$menuSection->homeUrl}target="_blank"{/if}>{$menuSection->name}</a>
           {/if}

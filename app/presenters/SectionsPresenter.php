@@ -2,17 +2,17 @@
 
 namespace App\Presenters;
 
-use App\FormHelper;
+use App\Forms\AddTextContentFormFactory;
+use App\Forms\ModalRemoveFormFactory;
 use App\Forms\RemoveFormFactory;
 use App\Forms\SectionFormFactory;
 use App\Model\AlbumsRepository;
-use App\Model\PostsRepository;
+use App\Model\ContentsRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
-use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -33,33 +33,46 @@ class SectionsPresenter extends BasePresenter {
   private $sectionFormFactory;
 
   /**
-   * @var PostsRepository
+   * @var ModalRemoveFormFactory
    */
-  private $postsRepository;
+  private $modalRemoveFormFactory;
 
   /**
-   * @var RemoveFormFactory
+   * @var AddTextContentFormFactory
    */
-  private $removeFormFactory;
+  private $addTextContentFormFactory;
+
+  /**
+   * @var ContentsRepository
+   */
+  private $contentsRepository;
+
+  /**
+   * @var \Nette\Database\Table\GroupedSelection
+   */
+  private $contents;
 
   /**
    * SectionsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
    * @param SectionFormFactory $sectionFormFactory
-   * @param PostsRepository $postsRepository
-   * @param RemoveFormFactory $removeFormFactory
+   * @param ModalRemoveFormFactory $modalRemoveFormFactory
+   * @param AddTextContentFormFactory $addTextContentFormFactory
+   * @param ContentsRepository $contentsRepository
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               SectionFormFactory $sectionFormFactory,
-                              PostsRepository $postsRepository,
-                              RemoveFormFactory $removeFormFactory)
+                              ModalRemoveFormFactory $modalRemoveFormFactory,
+                              AddTextContentFormFactory $addTextContentFormFactory,
+                              ContentsRepository $contentsRepository)
   {
     parent::__construct($albumsRepository, $sectionRepository);
-    $this->postsRepository = $postsRepository;
     $this->sectionFormFactory = $sectionFormFactory;
-    $this->removeFormFactory = $removeFormFactory;
+    $this->contentsRepository = $contentsRepository;
+    $this->modalRemoveFormFactory = $modalRemoveFormFactory;
+    $this->addTextContentFormFactory = $addTextContentFormFactory;
   }
 
   /**
@@ -77,45 +90,20 @@ class SectionsPresenter extends BasePresenter {
     $this->template->sections = $this->sections;
   }
 
-  /**
-   * @param $id
-   * @throws BadRequestException
-   */
-  public function actionEdit($id) {
-    $this->sectionRow = $this->sectionsRepository->findById($id);
-
-    if (!$this->sectionRow || !$this->sectionRow->is_present) {
-      throw new BadRequestException($this->error);
-    }
-  }
-
-  /**
-   * @param $id
-   */
-  public function renderEdit($id) {
-    $this->template->mainSection = $this->sectionRow;
-    $this['sectionForm']->setDefaults($this->sectionRow);
-  }
-
-  /**
-   * @param $id
-   * @throws BadRequestException
-   * @throws AbortException
-   */
-  public function actionRemove($id) {
-    $this->userIsLogged();
+  public function actionShow(int $id) {
     $this->sectionRow = $this->sectionsRepository->findById($id);
 
     if (!$this->sectionRow) {
-      throw new BadRequestException($this->error);
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
+
+    $this->contents = $this->sectionRow->related('contents')->where('is_present', 1);
+    $this['sectionForm']->setDefaults($this->sectionRow);
   }
 
-  /**
-   * @param $id
-   */
-  public function renderRemove($id) {
-    $this->template->mainSection = $this->sectionRow;
+  public function renderShow(int $id) {
+    $this->template->section = $this->sectionRow;
+    $this->template->contents = $this->contents;
   }
 
   /**
@@ -131,15 +119,13 @@ class SectionsPresenter extends BasePresenter {
    * @return Form
    */
   protected function createComponentRemoveForm() {
-    return $this->removeFormFactory->create(function () {
+    return $this->modalRemoveFormFactory->create(function () {
       $this->userIsLogged();
-      $this->deletePostForSection($this->sectionRow);
 
       // Delete also subsections if parent section
       if ($this->sectionRow->section_id != null) {
         $subSections = $this->sectionsRepository->findByParent($this->sectionRow->id);
         foreach ($subSections as $subSection) {
-          $this->deletePostForSection($subSection);
           $this->sectionsRepository->softDelete($subSection->id);
         }
       }
@@ -148,8 +134,17 @@ class SectionsPresenter extends BasePresenter {
       $this->sectionsRepository->softDelete($this->sectionRow->id);
       $this->flashMessage(self::ITEM_REMOVED);
       $this->redirect('all');
-    }, function () {
-      $this->redirect('all');
+    });
+  }
+
+  protected function createComponentAddTextContentForm () {
+    return $this->addTextContentFormFactory->create(function (Form $form, ArrayHash $values) {
+      // Change the type according to content
+      $values['type'] = ContentsRepository::$type['text'];
+      $values['section_id'] = $this->sectionRow->id;
+      $this->contentsRepository->insert($values);
+      $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
+      $this->redirect('show', $this->sectionRow->id);
     });
   }
 
@@ -159,19 +154,10 @@ class SectionsPresenter extends BasePresenter {
    */
   private function submittedAddForm(ArrayHash $values) {
     $this->userIsLogged();
-
     $values->offsetSet('section_id', $values->section_id === 0 ? null : $values->section_id);
     $section = $this->sectionsRepository->insert($values);
-
-    if (empty($values->url)) {
-      $postData = array('section_id' => $section->id, 'name' => $values->name);
-      $this->postsRepository->insert($postData);
-      $this->flashMessage(self::ITEM_ADDED);
-      $this->redirect('Posts:show', $section->id);
-    } else {
-      $this->flashMessage(self::ITEM_ADDED);
-      $this->redirect('all');
-    }
+    $this->flashMessage(self::ITEM_ADDED);
+    $this->redirect('show', $section->id);
   }
 
   /**
@@ -183,19 +169,7 @@ class SectionsPresenter extends BasePresenter {
     $values->section_id = $values->section_id === 0 ? null : $values->section_id;
     $this->sectionRow->update($values);
     $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
-    $this->redirect('all');
-  }
-
-  /**
-   * @param $sectionRow
-   */
-  private function deletePostForSection ($sectionRow) {
-    if (empty($sectionRow->url)) {
-      $post = $sectionRow->related('posts')->fetch();
-      if ($post && $post->is_present) {
-        $this->postsRepository->softDelete($post->id);
-      }
-    }
+    $this->redirect('show', $this->sectionRow->id);
   }
 
 }

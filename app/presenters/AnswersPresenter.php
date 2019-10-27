@@ -6,6 +6,14 @@ use App\FormHelper;
 
 namespace App\Presenters;
 
+use App\Model\AlbumsRepository;
+use App\Model\AnswersRepository;
+use App\Model\QuestionsRepository;
+use App\Model\SectionsRepository;
+use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
+use Nette\Application\UI\Form;
+
 /**
  * Class AnswersPresenter
  * @package App\Presenters
@@ -20,9 +28,29 @@ class AnswersPresenter extends BasePresenter {
   
   /** @var ActiveRow */
   private $testRow;
+  /**
+   * @var QuestionsRepository
+   */
+  private $questionsRepository;
+  /**
+   * @var AnswersRepository
+   */
+  private $answersRepository;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              QuestionsRepository $questionsRepository,
+                              AnswersRepository $answersRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->questionsRepository = $questionsRepository;
+    $this->answersRepository  = $answersRepository;
+  }
 
   /**
-   * @param id test id 
+   * @param id test id
+   * @throws AbortException
+   * @throws BadRequestException
    */
   public function actionAll ($id) {
     $this->userIsLogged();
@@ -47,7 +75,7 @@ class AnswersPresenter extends BasePresenter {
   /**
    * @param $form
    * @param $values
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedAddForm ($form, $values) {
     $this->answersRepository->insert($values);
@@ -56,7 +84,7 @@ class AnswersPresenter extends BasePresenter {
   }
 
   /**
-   * @return \Nette\Application\UI\Form
+   * @return Form
    */
   protected function createComponentAddForm () {
     $form = new Form();

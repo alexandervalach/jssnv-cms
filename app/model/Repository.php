@@ -82,11 +82,12 @@ abstract class Repository {
 
   /**
    * Vráti riadok podľa ID.
-   * @param type $id identifikátor / primárny kľúč
+   * @param int $id identifikátor / primárny kľúč
    * @return Nette\Database\Table\ActiveRow
    */
-  public function findById($id) {
-    return $this->getTable()->get($id);
+  public function findById(int $id) {
+    $item = $this->getTable()->get($id);
+    return $item->is_present ? $item : null;
   }
 
   /**

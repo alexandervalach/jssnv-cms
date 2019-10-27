@@ -6,8 +6,9 @@ use App\FormHelper;
 use App\Forms\RemoveFormFactory;
 use App\Forms\UploadFormFactory;
 use App\Model\AlbumsRepository;
-use App\Model\FilesRepository;
+use App\Model\ContentsRepository;
 use App\Model\SectionsRepository;
+use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
@@ -31,7 +32,7 @@ class FilesPresenter extends BasePresenter {
   private $uploadFormFactory;
 
   /**
-   * @var FilesRepository
+   * @var ContentsRepository
    */
   private $filesRepository;
 
@@ -40,20 +41,28 @@ class FilesPresenter extends BasePresenter {
    */
   private $removeFormFactory;
 
+  /**
+   * FilesPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param UploadFormFactory $uploadFormFactory
+   * @param ContentsRepository $filesRepository
+   * @param RemoveFormFactory $removeFormFactoryText
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               UploadFormFactory $uploadFormFactory,
-                              FilesRepository $filesRepository,
-                              RemoveFormFactory $removeFormFactory)
+                              ContentsRepository $filesRepository,
+                              RemoveFormFactory $removeFormFactoryText)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->filesRepository = $filesRepository;
     $this->uploadFormFactory = $uploadFormFactory;
-    $this->removeFormFactory = $removeFormFactory;
+    $this->removeFormFactory = $removeFormFactoryText;
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function actionAll() {
     $this->userIsLogged();
@@ -70,7 +79,7 @@ class FilesPresenter extends BasePresenter {
   /**
    * @param $id
    * @throws BadRequestException
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function actionRemove($id) {
     $this->userIsLogged();
@@ -88,6 +97,9 @@ class FilesPresenter extends BasePresenter {
     $this->template->file = $this->fileRow;
   }
 
+  /**
+   * @return Form
+   */
   protected function createComponentUploadForm () {
     return $this->uploadFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->userIsLogged();
@@ -111,14 +123,14 @@ class FilesPresenter extends BasePresenter {
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function formCancelled() {
     $this->redirect('Posts:show#primary', $this->fileRow->ref('posts', 'post_id'));
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedFileRemoveForm() {
     $this->userIsLogged();

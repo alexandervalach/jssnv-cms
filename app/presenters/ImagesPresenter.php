@@ -3,12 +3,17 @@
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Model\AlbumsRepository;
+use App\Model\ImagesRepository;
+use App\Model\SectionsRepository;
+use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Utils\FileSystem;
 use Nette\Utils\Image;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Utils\UnknownImageFileException;
 
 /**
  * Class ImagesPresenter
@@ -26,7 +31,20 @@ class ImagesPresenter extends BasePresenter {
   private $albumRow;
 
   /** @var ActiveRow */
-  private $galleryRow;
+  private $imageRow;
+
+  /**
+   * @var ImagesRepository
+   */
+  private $imagesRepository;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              ImagesRepository $imagesRepository)
+  {
+    parent::__construct($albumsRepository, $sectionRepository);
+    $this->imagesRepository = $imagesRepository;
+  }
 
   /**
    * @param $id
@@ -44,7 +62,7 @@ class ImagesPresenter extends BasePresenter {
    * @param $id
    */
   public function renderView($id) {
-    $this->template->images = $this->galleryRepository->findByValue('album_id', $id)->order('height ASC');
+    $this->template->images = $this->imagesRepository->findByValue('album_id', $id)->order('height ASC');
     $this->template->imgFolder = $this->imgFolder;
     $this->template->mainAlbum = $this->albumRow;
   }
@@ -65,7 +83,7 @@ class ImagesPresenter extends BasePresenter {
    * @param $id
    */
   public function renderAdd($id) {
-    $this->template->images = $this->galleryRepository->findByValue('album_id', $id);
+    $this->template->images = $this->imagesRepository->findByValue('album_id', $id);
     $this->template->imgFolder = $this->imgFolder;
     $this->template->mainAlbum = $this->albumRow;
   }
@@ -73,13 +91,13 @@ class ImagesPresenter extends BasePresenter {
   /**
    * @param $id
    * @throws BadRequestException
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function actionRemove($id) {
     $this->userIsLogged();
-    $this->galleryRow = $this->galleryRepository->findById($id);
+    $this->imageRow = $this->imagesRepository->findById($id);
 
-    if (!$this->galleryRow) {
+    if (!$this->imageRow) {
       throw new BadRequestException($this->error);
     }
   }
@@ -88,7 +106,7 @@ class ImagesPresenter extends BasePresenter {
    * @param $id
    */
   public function renderRemove($id) {
-    $this->template->img = $this->galleryRow;
+    $this->template->img = $this->imageRow;
     $this['removeImageForm'];
   }
 
@@ -126,8 +144,8 @@ class ImagesPresenter extends BasePresenter {
 
   /**
    * @param SubmitButton $btn
-   * @throws \Nette\Application\AbortException
-   * @throws \Nette\Utils\UnknownImageFileException
+   * @throws AbortException
+   * @throws UnknownImageFileException
    */
   public function submittedUploadImagesForm(SubmitButton $btn) {
     $this->userIsLogged();
@@ -149,16 +167,16 @@ class ImagesPresenter extends BasePresenter {
         $imgData['album_id'] = $this->albumRow;
         $imgData['width'] = $width;
         $imgData['height'] = $height;
-        $this->galleryRepository->insert($imgData);
+        $this->imagesRepository->insert($imgData);
       }
     }
 
     $this->flashMessage('Fotografie boli nahraté');
-    $this->redirect('view#primary', $this->albumRow);
+    $this->redirect('view', $this->albumRow);
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedRemoveForm() {
     $this->userIsLogged();
@@ -178,28 +196,28 @@ class ImagesPresenter extends BasePresenter {
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function submittedRemoveImageForm() {
     $this->userIsLogged();
-    $id = $this->galleryRow->ref('album', 'album_id');
-    $this->galleryRow->delete();
+    $id = $this->imageRow->ref('album', 'album_id');
+    $this->imageRow->delete();
     $this->flashMessage('Fotografia bola odstránená');
     $this->redirect('view#primary', $id);
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function formCancelled() {
-    $this->redirect('view#primary', $this->galleryRow->ref('album', 'album_id'));
+    $this->redirect('view', $this->imageRow->ref('album', 'album_id'));
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * @throws AbortException
    */
   public function formReturnToGallery() {
-    $this->redirect('view#primary', $this->albumRow);
+    $this->redirect('view', $this->albumRow);
   }
 
 }

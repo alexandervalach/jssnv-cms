@@ -22,14 +22,18 @@ class HomepagePresenter extends BasePresenter {
    */
   private $postsRepository;
 
+  /**
+   * HomepagePresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param SlidesRepository $slidesRepository
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              SlidesRepository $slidesRepository,
-                              PostsRepository $postsRepository)
+                              SlidesRepository $slidesRepository)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->slidesRepository = $slidesRepository;
-    $this->postsRepository = $postsRepository;
   }
 
   /**
@@ -37,7 +41,6 @@ class HomepagePresenter extends BasePresenter {
    */
   public function renderDefault() {
     $this->template->slides = $this->slidesRepository->findAll();
-    $this->template->posts = $this->postsRepository->findByValue('onHomepage', 1);
   }
 
 }

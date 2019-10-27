@@ -52,7 +52,7 @@ class SectionFormFactory
 
     $form->addText('url', 'URL adresa');
 
-    $form->addCheckbox('homeUrl', ' URL na tejto stránke')
+    $form->addCheckbox('home_url', ' URL na tejto stránke')
         ->setDefaultValue(0);
 
     $form->addText('order', 'Poradie*')
@@ -64,7 +64,12 @@ class SectionFormFactory
         ->setDefaultValue(1);
 
     $form->addCheckbox('sliding', ' Rolovacie menu');
+
     $form->addSubmit('save', 'Uložiť');
+
+    $form->addSubmit('cancel', 'Zrušiť')
+        ->setHtmlAttribute('class', 'btn btn-large btn-warning')
+        ->setHtmlAttribute('data-dismiss', 'modal');
 
     FormHelper::setBootstrapFormRenderer($form);
 
