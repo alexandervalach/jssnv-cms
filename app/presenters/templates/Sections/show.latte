@@ -3,11 +3,8 @@
 <div class="row">
   <article>
     <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        <div class="pull-left">
-            <h2>{$section->name}</h2>
-        </div>
         {if $user->loggedIn}
-          <div class="pull-right" style="margin-top: 15px">
+          <div class="clearfix" style="margin-top: 15px">
             <a data-toggle="modal" data-target="#addTextContentForm" class="btn btn-default">
               <span class="glyphicon glyphicon-plus"></span> Text
             </a>
@@ -25,11 +22,15 @@
             </a>
           </div>
         {/if}
+        <div class="clearfix">
+          <h2>{$section->name}</h2>
+        </div>
     </header>
     <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
       {*<p>{$post->content|noescape}</p>*}
       {foreach $contents as $content}
         {if $content->type === 'text'}
+          {* <p>{str_replace('\n', '', $content->text)}</p> *}
           <p>{$content->text|noescape}</p>
         {elseif $content->type === 'file'}
           <a href="{$basePath}/{$fileFolder}/{$file->text}" class="text-success">{$file->name}</a>

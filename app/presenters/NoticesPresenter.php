@@ -2,7 +2,7 @@
 
 namespace App\Presenters;
 
-use App\FormHelper;
+use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
 use App\Model\NoticesRepository;
 use App\Model\SectionsRepository;
@@ -104,7 +104,7 @@ class NoticesPresenter extends BasePresenter {
           ->setHtmlAttribute('data-dismiss', 'modal');
 
     $form->onSuccess[] = [$this, 'submittedAddForm'];
-    FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 
@@ -123,7 +123,7 @@ class NoticesPresenter extends BasePresenter {
     $form->addSubmit('cancel', 'Zrušiť')
             ->setHtmlAttribute('class', 'btn btn-warning')
             ->onClick[] = [$this, 'formCancelled'];
-    FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 
@@ -138,7 +138,7 @@ class NoticesPresenter extends BasePresenter {
     $form->addSubmit('remove', 'Odstrániť')
           ->setHtmlAttribute('class', 'btn btn-danger')
           ->onClick[] = [$this, 'submittedRemoveForm'];
-    FormHelper::setBootstrapRenderer($form);
+    FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 
@@ -161,7 +161,7 @@ class NoticesPresenter extends BasePresenter {
     $this->userIsLogged();
     $values = $btn->form->getValues();
     $this->noticeRow->update($values);
-    $this->redirect('all#primary');
+    $this->redirect('all');
   }
 
   /**
@@ -170,14 +170,14 @@ class NoticesPresenter extends BasePresenter {
   public function submittedRemoveForm() {
     $this->userIsLogged();
     $this->noticesRepository->softDelete($this->noticeRow->id);
-    $this->redirect('all#primary');
+    $this->redirect('all');
   }
 
   /**
    * @throws AbortException
    */
   public function formCancelled() {
-    $this->redirect('all#primary');
+    $this->redirect('all');
   }
 
 }
