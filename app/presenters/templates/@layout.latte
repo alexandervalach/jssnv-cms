@@ -7,12 +7,11 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="description" content="">
+    <meta name="description" content="Web jazykovej školy v Spišskej Novej Vsi">
     <meta name="robots" content="{$robots}" n:ifset="$robots">
-    <meta name="viewport" content="width=device-width">
-
+    <meta name="keywords" content="Jazyková škola,Spišská Nová Ves,Javorová 16,Angličtina,Nemčina,Ruština,Taliančina,Španielčina,Maďarčina,Slovenčina,Japončina,Slovenčina,Cudzie jazyky">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{ifset title}{include title|striptags} | {/ifset}Jazykovka</title>
-
     <link rel="stylesheet" href="{$basePath}/css/style.css?v=1.0.3">
     <link rel="stylesheet" href="{$basePath}/bootstrap/css/bootstrap.min.css">
     <link rel="shortcut icon" href="{$basePath}/favicon.ico">
@@ -53,13 +52,9 @@
     <script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
     <script type="text/javascript" src="{$basePath}/js/main.js"></script>
     <script type="text/javascript" src="{$basePath}/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{$basePath}/js/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="{$basePath}/js/sliding.js"></script>
-    <script type="text/javascript">
-      // Replace the <textarea id="ckeditor"> with a CKEditor
-      // instance, using default configuration.
-      CKEDITOR.replace('ckeditor');
-    </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/ckeditor_init.js"></script>
     {/block}
   </body>
 </html>
