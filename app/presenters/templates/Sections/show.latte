@@ -30,7 +30,7 @@
       {*<p>{$post->content|noescape}</p>*}
       {foreach $contents as $content}
         {if $content->type === 'text'}
-          <p>{$content->text}</p>
+          <p>{$content->text|noescape}</p>
         {elseif $content->type === 'file'}
           <a href="{$basePath}/{$fileFolder}/{$file->text}" class="text-success">{$file->name}</a>
         {elseif $content->type === 'image'}

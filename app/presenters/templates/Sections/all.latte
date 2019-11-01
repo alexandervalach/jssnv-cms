@@ -31,7 +31,7 @@
                 {if $section->url == null}
                   <a n:href="Sections:show, $section->id">{$section->name}</a>
                 {else}
-                  <a class="text-danger" href="{$section->url}" {if !$section->homeUrl}target="_blank"{/if}>{$section->name}</a>
+                  <a class="text-danger" href="{$section->url}" {if !$section->home_url}target="_blank"{/if}>{$section->name}</a>
                 {/if}
               </td>
               <td>{$section->order}</td>
@@ -46,7 +46,7 @@
                       {if empty($subSection->url)}
                         <a n:href="Sections:show, $subSection->id">{$subSection->name}</a>
                       {else}
-                        <a class="text-danger" href="{$subSection->url}" {if !$subSection->homeUrl}target="_blank"{/if}>{$subSection->name}</a>
+                        <a class="text-danger" href="{$subSection->url}" {if !$subSection->home_url}target="_blank"{/if}>{$subSection->name}</a>
                       {/if}
                   </td>
                   <td>{$section->order}</td>

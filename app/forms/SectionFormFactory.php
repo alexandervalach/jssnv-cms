@@ -46,7 +46,7 @@ class SectionFormFactory
 
     $form->addText('name', 'Názov*')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
+        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
 
     $form->addSelect('section_id', 'Sekcie', $sections);
 

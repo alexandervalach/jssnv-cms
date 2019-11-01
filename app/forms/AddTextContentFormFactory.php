@@ -38,6 +38,7 @@ class AddTextContentFormFactory
   {
     $form = $this->formFactory->create();
     $form->addTextArea('text', 'Text*')
+        ->setHtmlAttribute('id', 'editor')
         ->setRequired();
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')

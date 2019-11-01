@@ -13,10 +13,10 @@ abstract class Repository {
 
   const IS_PRESENT = 'is_present';
   const SECTION_ID = 'section_id';
-  const VISIBLE = 'visible';
   const ID = 'id';
   const NAME = 'name';
   const USERNAME = 'username';
+  const PRIORITY = 'order';
 
   /** @var Nette\Database\Context */
   private $database;
