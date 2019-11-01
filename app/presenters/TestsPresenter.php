@@ -132,7 +132,7 @@ class TestsPresenter extends BasePresenter {
    * @param $values
    * @throws AbortException
    */
-  public function submittedFinishForm ($form, $values) {
+  public function submittedFinishForm (Form $form, ArrayHash $values) {
   	$postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
     if (isset($postData['url']) && !empty($postData['url'])) {

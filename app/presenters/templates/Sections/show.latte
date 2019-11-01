@@ -27,11 +27,10 @@
         </div>
     </header>
     <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      {*<p>{$post->content|noescape}</p>*}
       {foreach $contents as $content}
         {if $content->type === 'text'}
-          <p>{str_replace('\n', '', $content->text)}</p>
-          {* <p>{$content->text|noescape}</p> *}
+          {*}<p>{str_replace('\n', '', $content->text)}</p>*}
+          <p>{$content->text|noescape}</p>
         {elseif $content->type === 'file'}
           <a href="{$basePath}/{$fileFolder}/{$file->text}" class="text-success">{$file->name}</a>
         {elseif $content->type === 'image'}
