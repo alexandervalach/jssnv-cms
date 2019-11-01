@@ -139,8 +139,8 @@ class TestsPresenter extends BasePresenter {
       $this->redirect('Homepage:');
     }
 
-  	$resultId = $this->evaluateTest($postData);
-    $this->redirect('Results:view', $resultId);
+  	$result = $this->evaluateTest($postData);
+    $this->redirect('Results:view', $result->id);
   }
 
   /**
