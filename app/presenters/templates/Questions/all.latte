@@ -2,12 +2,12 @@
 
 <section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="pull-left">
-  	<h2>Otázky k testu {$test->label}</h2>
+  	<h2 n:block="title">Otázky k testu {$test->label}</h2>
   </div>
   <div class="pull-right" style="margin-top: 20px">
-		<button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
-		  <span class="glyphicon glyphicon-plus"></span> Pridať
-		</button>
+    <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
+      <span class="glyphicon glyphicon-plus"></span> Pridať
+    </button>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$questions->count() > 0">
     <div class="list-group">
