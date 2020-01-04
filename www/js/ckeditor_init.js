@@ -1,8 +1,6 @@
 const selector = '#editor'
 const editorExists = document.querySelector( selector )
-let editor = null
-
-console.log(editorExists)
+let editor
 
 if (editorExists) {
   ClassicEditor
@@ -11,7 +9,3 @@ if (editorExists) {
     console.error( error );
   });
 }
-
-/*
-
- */
