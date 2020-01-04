@@ -2,13 +2,15 @@
 
 namespace App\Presenters;
 
-use App\FormHelper;
+use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
+use App\Forms\AlbumFormFactory;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Utils\ArrayHash;
 
 /**
  * Class AlbumPresenter
@@ -22,9 +24,13 @@ class AlbumsPresenter extends BasePresenter {
   /** @var string */
   private $error = "Album not found!";
 
-  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository)
+  /** @var AlbumFormFactory */
+  private $albumFormFactory;
+
+  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository, AlbumFormFactory $albumFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository);
+    $this->albumFormFactory = $albumFormFactory;
   }
 
   /**
@@ -40,21 +46,21 @@ class AlbumsPresenter extends BasePresenter {
    * @throws BadRequestException
    * @throws \Nette\Application\AbortException
    */
-  public function actionEdit($id) {
+  public function actionView(int $id) {
     $this->userIsLogged();
     $this->albumRow = $this->albumsRepository->findById($id);
 
     if (!$this->albumRow) {
-        throw new BadRequestException($this->error);
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
   }
 
   /**
    * @param $id
    */
-  public function renderEdit($id) {
+  public function renderView(int $id) {
     $this->template->mainAlbum = $this->albumRow;
-    $this['editForm']->setDefaults($this->albumRow);
+    $this['albumForm']->setDefaults($this->albumRow);
   }
 
   /**
@@ -67,16 +73,18 @@ class AlbumsPresenter extends BasePresenter {
   /**
    * @return Form
    */
-  protected function createComponentAddForm() {
-    $form = new Form;
-    $form->addText('name', 'Názov')
-        ->setRequired('Názov musí byť vyplnený.')
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
+  protected function createComponentAlbumForm() {
+    return $this->albumFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->userIsLogged();
 
-    $form->addSubmit('save', 'Zapísať');
-    $form->onSuccess[] = [$this, 'submittedAddForm'];
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
+      $id = $this->getParameter('id');
+
+      if ($id) {
+        $this->submittedEditForm($values);
+      } else {
+        $this->submittedAddForm($values);
+      }
+    });
   }
 
   /**
@@ -84,51 +92,21 @@ class AlbumsPresenter extends BasePresenter {
    * @param $values
    * @throws \Nette\Application\AbortException
    */
-  public function submittedAddForm(Form $form, $values) {
-    $this->userIsLogged();
-    $id = $this->albumsRepository->insert($values);
-    $this->flashMessage('Album bol pridaný');
-    $this->redirect('Images:view', $id);
+  private function submittedAddForm(ArrayHash $values) {
+    $album = $this->albumsRepository->insert($values);
+    $this->flashMessage(self::ITEM_ADDED);
+    $this->redirect('Albums:view', $album->id);
   }
 
   /**
-   * @return Form
-   */
-  protected function createComponentEditForm() {
-    $form = new Form;
-
-    $form->addText('name', 'Názov')
-      ->setRequired('Názov musí byť vyplnený.')
-      ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 50 znakov.', 50);
-
-    $form->addSubmit('save', 'Zapísať')
-      ->onClick[] = [$this, 'submittedEditForm'];
-
-    $form->addSubmit('cancel', 'Zrušiť')
-      ->setHtmlAttribute('class', 'btn btn-warning')
-      ->onClick[] = [$this, 'formCancelled'];
-
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
-  }
-
-  /**
-   * @param SubmitButton $btn
+   * @param int $id
+   * @param ArrayHash $values
    * @throws \Nette\Application\AbortException
    */
-  public function submittedEditForm(SubmitButton $btn) {
-    $this->userIsLogged();
-    $values = $btn->form->getValues();
+  public function submittedEditForm(ArrayHash $values) {
     $this->albumRow->update($values);
     $this->flashMessage('Album bol upravený');
-    $this->redirect('Images:view', $this->albumRow->id);
-  }
-
-  /**
-   * @throws \Nette\Application\AbortException
-   */
-  public function formCancelled() {
-    $this->redirect('Images:view#primary', $this->albumRow);
+    $this->redirect('Albums:view', $this->albumRow->id);
   }
 
 }

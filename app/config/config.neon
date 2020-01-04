@@ -35,6 +35,7 @@ services:
 	- App\Model\UsersRepository
 
 	# Form factories
+	- App\Forms\AlbumFormFactory
 	- App\Forms\AddFileContentFormFactory
 	- App\Forms\AddImageContentFormFactory
 	- App\Forms\AddTextContentFormFactory
