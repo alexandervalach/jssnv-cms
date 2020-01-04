@@ -1,41 +1,41 @@
 {block content}
 
 <section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-  <div class="pull-left">
+  <div class="float-left">
   	<h2 n:block="title">Testy</h2>
   </div>
-  <div class="pull-right" style="margin-top: 20px">
-		<button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
-		  <span class="glyphicon glyphicon-plus"></span> Pridať
-		</button>
+  <div class="float-right">
+    <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
+      Pridať
+    </button>
   </div>
   <div class="table-responsive" n:if="$tests->count() > 0">
     <table class="table">
-    	<thead>
-    		<tr>
-    			<th>Názov</th>
-          <th colspan="2">Akcie</th>
-    		</tr>
-    	</thead>
-    	<tbody>
-    		{foreach $tests as $test}
-    			<tr>
-    				<td>
-							<a n:href="view, $test->id" target="_blank">{$test->label}</a>
-						</td>
+      <thead>
+        <tr>
+          <th>Názov</th>
+          <th colspan="2" class="text-center">Akcie</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $tests as $test}
+          <tr>
             <td>
+              <a n:href="view, $test->id" target="_blank">{$test->label}</a>
+            </td>
+            <td class="text-center">
               <a n:href="Questions:all, $test->id" class="text-success">
-                <span class="glyphicon glyphicon-pencil"></span>
+                <i data-feather="edit-2"></i>
               </a>
             </td>
-            <td>
+            <td class="text-center">
               <span class="text-danger">
-                <span class="glyphicon glyphicon-trash"></span>
+                <i data-feather="trash-2"></i>
               </span>
             </td>
-					</tr>
-    		{/foreach}
-    	</tbody>
+          </tr>
+        {/foreach}
+      </tbody>
     </table>
   </div>
 </section>

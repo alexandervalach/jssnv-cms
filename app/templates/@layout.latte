@@ -12,8 +12,12 @@
     <meta name="keywords" content="Jazyková škola,Spišská Nová Ves,Javorová 16,Angličtina,Nemčina,Ruština,Taliančina,Španielčina,Maďarčina,Slovenčina,Japončina,Slovenčina,Cudzie jazyky">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{ifset title}{include title|striptags} | {/ifset}Jazykovka</title>
-    <link rel="stylesheet" href="{$basePath}/css/style.css?v=1.1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    {block styles}
+      <link rel="stylesheet" href="{$basePath}/css/style.css?v=1.1.0">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    {/block}
+
     <link rel="shortcut icon" href="{$basePath}/favicon.ico">
   </head>
 
@@ -54,6 +58,12 @@
       <script type="text/javascript" src="{$basePath}/js/sliding.js"></script>
       <script src="https://cdn.ckeditor.com/ckeditor5/15.0.0/classic/ckeditor.js"></script>
       <script type="text/javascript" src="{$basePath}/js/ckeditor_init.js"></script>
+      <!-- choose one -->
+      <script src="https://unpkg.com/feather-icons"></script>
+      <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+      <script>
+        feather.replace()
+      </script>
     {/block}
   </body>
 </html>

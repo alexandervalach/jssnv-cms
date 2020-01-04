@@ -2,41 +2,40 @@
 
 <section id="sections" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <header>
-    <div class="pull-left">
-      <h2 n:block="title">Sekcie</h2>
+    <div class="float-left">
+      <h2 n:block=title>Sekcie</h2>
     </div>
-
-    <div class="pull-right" style="margin-top: 20px">
+    <div class="float-right">
       <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
-        <span class="glyphicon glyphicon-plus"></span> Pridať
+        Pridať
       </button>
     </div>
   </header>
 
   {if $sections->count() > 0}
-    <div class="table-responsive">
+    <div class="table-responsive table-hover">
       <table class="table">
-        <thead>
+        <thead class="bg-success" style="color: white">
           <tr>
             <th>Názov</th>
-            <th>Poradie</th>
-            <th>Rolovanie</th>
-            <th>V navgácii</th>
+            <th class="text-center">Poradie</th>
+            <th class="text-center">Rolovanie</th>
+            <th class="text-center">V navigácii</th>
           </tr>
         </thead>
         <tbody>
           {foreach $sections as $section}
-            <tr class="bg-success">
+            <tr class="table-success">
               <td>
                 {if $section->url == null}
-                  <a n:href="Sections:show, $section->id">{$section->name}</a>
+                  <a class="text-dark" n:href="Sections:show, $section->id">{$section->name}</a>
                 {else}
                   <a class="text-danger" href="{$section->url}" {if !$section->home_url}target="_blank"{/if}>{$section->name}</a>
                 {/if}
               </td>
-              <td>{$section->order}</td>
-              <td>{$section->sliding ? 'ÁNO' : 'NIE'}</td>
-              <td>{$section->visible ? 'ÁNO' : 'NIE'}</td>
+              <td class="text-center">{$section->order}</td>
+              <td class="text-center">{$section->sliding ? 'ÁNO' : 'NIE'}</td>
+              <td class="text-center">{$section->visible ? 'ÁNO' : 'NIE'}</td>
             </tr>
 
             {if !empty($section->subsections)}
@@ -44,14 +43,14 @@
                 <tr>
                   <td>
                       {if empty($subSection->url)}
-                        <a n:href="Sections:show, $subSection->id">{$subSection->name}</a>
+                        <a class="text-success" n:href="Sections:show, $subSection->id">{$subSection->name}</a>
                       {else}
                         <a class="text-danger" href="{$subSection->url}" {if !$subSection->home_url}target="_blank"{/if}>{$subSection->name}</a>
                       {/if}
                   </td>
-                  <td>{$section->order}</td>
-                  <td>{$section->sliding ? 'ÁNO' : 'NIE'}</td>
-                  <td>{$section->visible ? 'ÁNO' : 'NIE'}</td>
+                  <td class="text-center">{$section->order}</td>
+                  <td class="text-center">{$section->sliding ? 'ÁNO' : 'NIE'}</td>
+                  <td class="text-center">{$section->visible ? 'ÁNO' : 'NIE'}</td>
                 </tr>
               {/foreach}
             {/if}

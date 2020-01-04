@@ -7,6 +7,14 @@ html, body {
   -webkit-box-sizing: border-box;
 }
 
+section {
+  padding: 15px;
+}
+
+section > header {
+  margin-bottom: 20px;
+}
+
 /* CSS style for carousel */
 /*
 .carousel-message {
