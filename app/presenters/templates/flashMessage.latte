@@ -1,8 +1,0 @@
-<div class="row" n:if="$flashes != null">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$flashes">
-    <div n:foreach="$flashes as $flash" class="alert alert-dismissible alert-{$flash->type}">
-      <button type="button" class="close" data-dismiss="alert">×</button>
-      {$flash->message}
-    </div>
-  </div>
-</div>
