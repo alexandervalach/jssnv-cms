@@ -26,7 +26,8 @@
 		"nette/security": "^3.0",
 		"nette/utils": "^3.0",
 		"latte/latte": "^2.5",
-		"tracy/tracy": "^2.6"
+		"tracy/tracy": "^2.6",
+		"twbs/bootstrap": "4.4.1"
 	},
 	"require-dev": {
 		"nette/tester": "^2.0"
@@ -34,5 +35,5 @@
 	"autoload": {
 		"classmap": ["app/bootstrap.php"]
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "stable"
 }

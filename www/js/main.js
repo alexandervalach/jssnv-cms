@@ -1,19 +1,24 @@
-$(function() {
-  var scroll_btn = $('#scroll-to-top');
+jQuery(function() {
+  var scrollBtn = $('#scroll-to-top');
   var body = $('html, body');
 
-  showScrollBtn(body, scroll_btn);
-  scrolToTop(body, scroll_btn);
+  showScrollBtn(body, scrollBtn);
+  scrolToTop(body, scrollBtn);
 });
 
-function scrolToTop(body, scroll_btn) {
-  scroll_btn.bind('click', function() {
+function scrolToTop(body, scrollBtn) {
+  scrollBtn.bind('click', function() {
     body.animate({ scrollTop: 0}, 'fast');
   });
 }
 
 function showScrollBtn(body, scrollBtn) {
-  $(window).scroll( function() {
+  console.log(scrollBtn)
+  if (!scrollBtn || scrollBtn === null) {
+    return
+  }
+
+  jQuery(window).scroll( function() {
     if (body.scrollTop() > 20) {
       scrollBtn.fadeIn();
     } else {
