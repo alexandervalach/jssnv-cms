@@ -2,14 +2,12 @@
 
 namespace App\Presenters;
 
-use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Forms\AlbumFormFactory;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
-use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -20,9 +18,6 @@ class AlbumsPresenter extends BasePresenter {
 
   /** @var ActiveRow */
   private $albumRow;
-
-  /** @var string */
-  private $error = "Album not found!";
 
   /** @var AlbumFormFactory */
   private $albumFormFactory;
@@ -38,7 +33,6 @@ class AlbumsPresenter extends BasePresenter {
    */
   public function renderAll() {
     $this->template->listOfAlbums = $this->albumsRepository->findAll();
-    $this->template->imgFolder = $this->imgFolder;
   }
 
   /**
