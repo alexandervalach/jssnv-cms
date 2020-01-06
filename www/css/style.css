@@ -248,7 +248,7 @@ p::selection
 3. Header
 *********************************/
 
-.header
+#page .header
 {
   position: fixed;
   top: 0;
@@ -262,6 +262,18 @@ p::selection
   -o-transition: all 200ms ease;
   transition: all 200ms ease;
 }
+
+#page .header nav.navbar ul li a {
+  color: white;
+  text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+
+#page .header nav.navbar ul li .dropdown-menu a {
+  color: black;
+  font-family: 'Poppins', sans-serif;
+  text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+
 .header.scrolled
 {
   top: -51px;
@@ -271,38 +283,6 @@ p::selection
 3.1 Top Bar
 *********************************/
 
-.top_bar
-{
-  width: 100%;
-  background: #FFFFFF;
-  border-bottom: solid 1px #ebebeb;
-  z-index: 10;
-}
-.top_bar_container
-{
-  width: 100%;
-}
-.top_bar_content
-{
-  height: 49px;
-  font-size: 12px;
-  color: rgba(0,0,0,0.4);
-  font-weight: 600;
-}
-.top_bar_phone
-{
-
-}
-.top_bar_title
-{
-  margin-right: 10px;
-  letter-spacing: 0.075em;
-  text-transform: uppercase;
-}
-.top_bar_lang
-{
-  display: inline-block;
-}
 .lang_list
 {
   display: inline-block;
@@ -408,6 +388,7 @@ p::selection
 .header_content
 {
   height: 80px;
+  color: white;
   -webkit-transition: all 200ms ease;
   -moz-transition: all 200ms ease;
   -ms-transition: all 200ms ease;
