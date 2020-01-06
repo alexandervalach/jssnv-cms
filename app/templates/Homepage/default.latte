@@ -1,7 +1,134 @@
 {block content}
 
+<!-- Home -->
+<template>
+<div class="q-pa-md">
+  <q-carousel
+          arrows
+          animated
+          v-model="slide"
+          height="400px"
+  >
+    <q-carousel-slide name="first" img-src="https://cdn.quasar.dev/img/mountains.jpg">
+      <div class="absolute-bottom custom-caption">
+        <div class="text-h2">First stop</div>
+        <div class="text-subtitle1">Mountains</div>
+      </div>
+    </q-carousel-slide>
+    <q-carousel-slide name="second" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
+      <div class="absolute-bottom custom-caption">
+        <div class="text-h2">Second stop</div>
+        <div class="text-subtitle1">Famous City</div>
+      </div>
+    </q-carousel-slide>
+    <q-carousel-slide name="third" img-src="https://cdn.quasar.dev/img/parallax2.jpg">
+      <div class="absolute-bottom custom-caption">
+        <div class="text-h2">Third stop</div>
+        <div class="text-subtitle1">Famous Bridge</div>
+      </div>
+    </q-carousel-slide>
+  </q-carousel>
+</div>
+</template>
+
+{*
+<div class="home">
+  <div class="home_background" style="background: green"></div>
+  <div class="home_content">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <h1 class="home_title">Learn Languages Easily</h1>
+          <q-btn label="Get started"></q-btn>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Language -->
+
+<div class="language">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="language_slider_container">
+          <!-- Language Slider -->
+          <div class="owl-carousel owl-theme language_slider">
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/Ukrainian.svg" alt=""></div>
+                <div class="lang_name">Ukrainian</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/Japanese.svg" alt=""></div>
+                <div class="lang_name">Japanese</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/Lithuanian.svg" alt=""></div>
+                <div class="lang_name">Lithuanian</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/Swedish.svg" alt=""></div>
+                <div class="lang_name">Swedish</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/English.svg" alt=""></div>
+                <div class="lang_name">English</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/Italian.svg" alt=""></div>
+                <div class="lang_name">Italian</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/Chinese.svg" alt=""></div>
+                <div class="lang_name">Chinese</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/French.svg" alt=""></div>
+                <div class="lang_name">French</div>
+              </a>
+            </div>
+            <!-- Flag -->
+            <div class="owl-item language_item">
+              <a href="#">
+                <div class="flag"><img src="images/German.svg" alt=""></div>
+                <div class="lang_name">German</div>
+              </a>
+            </div>
+          </div>
+          <div class="lang_nav lang_prev"><i data-feather="chevron-left" aria-hidden="true"></i></div>
+          <div class="lang_nav lang_next"><i data-feather="chevron-right" aria-hidden="true"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{*
 <section style="height: 50vh">
-  {*
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       {foreach $slides as $slide}
@@ -29,8 +156,8 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-  *}
 </section>
+*}
 
 {*
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -81,7 +208,7 @@
     {foreach $posts as $post}
         <article class="row">
             <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="pull-left">
+                <div class="float-left">
                     <h2>{$post->name}</h2>
                 </div>
             </header>

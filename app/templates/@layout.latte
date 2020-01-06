@@ -26,16 +26,14 @@
   <body>
     <div id="page">
       <header>
-        {include 'navigation.latte'}
+        {include 'header.latte'}
       </header>
 
-      <div id="primary" class="row">
-        <div class="col-md-2 col-lg-1"><!-- --></div>
-        <main id="content" class="col-xs-12 col-sm-12 col-md-8 col-lg-10">
+      <div id="primary" class="container-fluid">
+        <main id="content" class="offset-lg-1 offset-md-1 col-xs-12 col-sm-12 col-md-8 col-lg-10 clearfix">
           {include 'flashMessage.latte'}
           {include content}
         </main>
-        <div class="col-md-2 col-lg-1"><!-- --></div>
       </div>
 
       <div>
@@ -45,9 +43,7 @@
         </button>
       </div>
 
-      <footer>
-        &copy; Alexander Valach, 2015 - {date('Y')}
-      </footer>
+      {include 'footer.latte'}
     </div>
 
     {block scripts}

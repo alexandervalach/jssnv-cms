@@ -1,0 +1,449 @@
+{*
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" n:href="Homepage:">JSSNV</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown-1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Kurzy <span class="sr-only">(current)</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown-1">
+          <a class="dropdown-item" href="#">Anglický jazyk</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown-2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Testy
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown-2">
+          <a class="dropdown-item" href="#">Anglický jazyk</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown-3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          O škole
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown-3">
+          <a class="dropdown-item" href="#">Anglický jazyk</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown-4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Osnovy
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown-4">
+          <a class="dropdown-item" href="#">Anglický jazyk</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdown-5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Pobočky
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdown-5">
+          <a class="dropdown-item" href="#">Anglický jazyk</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      {if $user->loggedIn}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Admin
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown-6">
+            <a n:href="Sections:all" class="dropdown-item">Sekcie</a>
+            <a n:href="Albums:all" class="dropdown-item">Fotogaléria</a>
+            <a n:href="Files:all" class="dropdown-item">Súbory</a>
+            <a n:href="Tests:all" class="dropdown-item">Testy</a>
+            <a n:href="Results:all" class="dropdown-item">Výsledky testov</a>
+            <a n:href="Users:all" class="dropdown-item">Používatelia</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" n:href="Sign:out">Odhlásiť</a>
+        </li>
+      {/if}
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="angličtina" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Vyhľadať</button>
+    </form>
+  </div>
+</nav>
+
+<!-- Header -->
+
+<header class="header">
+
+  <!-- Top Bar -->
+  <div class="top_bar">
+    <div class="top_bar_container">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
+              <div class="top_bar_phone"><span class="top_bar_title">phone:</span>+44 300 303 0266</div>
+              <div class="top_bar_right ml-auto">
+
+                <!-- Language -->
+                <div class="top_bar_lang">
+                  <span class="top_bar_title">site language:</span>
+                  <ul class="lang_list">
+                    <li class="hassubs">
+                      <a href="#">English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                      <ul>
+                        <li><a href="#">Ukrainian</a></li>
+                        <li><a href="#">Japanese</a></li>
+                        <li><a href="#">Lithuanian</a></li>
+                        <li><a href="#">Swedish</a></li>
+                        <li><a href="#">Italian</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Social -->
+                <div class="top_bar_social">
+                  <span class="top_bar_title social_title">follow us</span>
+                  <ul>
+                    <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Content -->
+  <div class="header_container">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="header_content d-flex flex-row align-items-center justify-content-start">
+            <div class="logo_container mr-auto">
+              <a href="#">
+                <div class="logo_text">Lingua</div>
+              </a>
+            </div>
+            <nav class="main_nav_contaner">
+              <ul class="main_nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="instructors.html">Instructors</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+              </ul>
+            </nav>
+            <div class="header_content_right ml-auto text-right">
+              <div class="header_search">
+                <div class="search_form_container">
+                  <form action="#" id="search_form" class="search_form trans_400">
+                    <input type="search" class="header_search_input trans_400" placeholder="Type for Search" required="required">
+                    <div class="search_button">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Hamburger -->
+
+              <div class="user"><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></div>
+              <div class="hamburger menu_mm">
+                <i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+*}
+<!-- Menu -->
+
+<!-- Header -->
+<header class="header">
+  <!-- Top Bar -->
+  <!--
+  <div class="top_bar">
+    <div class="top_bar_container">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <div class="top_bar_content d-flex flex-row align-items-center justify-content-start">
+              <div class="top_bar_phone"><span class="top_bar_title">Telefón:</span>053/38 10 188</div>
+              <div class="top_bar_right ml-auto">
+                <div class="top_bar_social">
+                  <span class="top_bar_title social_title">Sledujte nás</span>
+                  <ul>
+                    <li>
+                      <a href="#"><i data-feather="facebook" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                      <a href="#"><i data-feather="instagram" aria-hidden="true"></i></a>
+                    </li>
+                    <li>
+                      <a href="#"><i data-feather="twitter" aria-hidden="true"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+  <!-- Header Content -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-success">
+    <a class="navbar-brand" n:href="Homepage:">JSSNV</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto text-center">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Kurzy
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown-1">
+            <a class="dropdown-item" href="#">Anglický jazyk</a>
+            <a class="dropdown-item" href="#">Nemecký jazyk</a>
+            <a class="dropdown-item" href="#">Taliansky jazyk</a>
+            <a class="dropdown-item" href="#">Japonský jazyk</a>
+            <a class="dropdown-item" href="#">Španielsky jazyk</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            O nás
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown-2">
+            <a class="dropdown-item" href="#">O škole</a>
+            <a class="dropdown-item" href="#">Zamestnanci</a>
+            <a class="dropdown-item" href="#">Rada školy</a>
+            <a class="dropdown-item" href="#">Povinné zverejňovanie</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Testy
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown-3">
+            <a class="dropdown-item" href="#">Anglický jazyk</a>
+            <a class="dropdown-item" href="#">Taliansky jazyk</a>
+            <a class="dropdown-item" href="#">Španielsky jazyk</a>
+            <a class="dropdown-item" href="#">Nemecký jazyk</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-4" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Štúdium
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown-4">
+            <a class="dropdown-item" href="#">Anglický jazyk</a>
+            <a class="dropdown-item" href="#">Taliansky jazyk</a>
+            <a class="dropdown-item" href="#">Španielsky jazyk</a>
+            <a class="dropdown-item" href="#">Nemecký jazyk</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Uchádzači
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown-5">
+            <a class="dropdown-item" href="#">Anglický jazyk</a>
+            <a class="dropdown-item" href="#">Taliansky jazyk</a>
+            <a class="dropdown-item" href="#">Španielsky jazyk</a>
+            <a class="dropdown-item" href="#">Nemecký jazyk</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" n:href="Contact:">Kontakt</a>
+        </li>
+        <li class="nav-item dropdown" n:if="$user->loggedIn">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Admin
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdown-5">
+            <a class="dropdown-item" n:href="Sections:all">Sekcie</a>
+            <a class="dropdown-item" n:href="Albums:all">Fotogaléria</a>
+            <a class="dropdown-item" n:href="Tests:all">Testy</a>
+            <a class="dropdown-item" n:href="Results:all">Výsledky testov</a>
+            <a class="dropdown-item" n:href="Users:all">Používatelia</a>
+          </div>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Hľadať" aria-label="Search">
+        <button class="btn btn-success my-2 my-sm-0" type="submit">
+          <i data-feather="search"></i>
+        </button>
+      </form>
+    </div>
+  </nav>
+  <!--
+  <div class="header_container">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="header_content d-flex flex-row align-items-center justify-content-start">
+            <div class="logo_container mr-auto">
+              <a n:href="Homepage:">
+                <div class="logo_text">JS SNV</div>
+              </a>
+            </div>
+            <nav class="main_nav_contaner">
+              <ul class="main_nav">
+                <li class="active"><a href="#">Kurzy</a></li>
+                <li><a href="#">O nás</a></li>
+                <li><a href="#">Online testy</a></li>
+                <li><a href="#">Štúdium</a></li>
+                <li><a href="#">Uchádzači</a></li>
+                <li><a n:href="Contact:">Kontakt</a></li>
+              </ul>
+            </nav>
+            <div class="header_content_right ml-auto text-right">
+              <div class="header_search">
+                <div class="search_form_container">
+                  <form action="#" id="search_form" class="search_form trans_400">
+                    <input type="search" class="header_search_input trans_400" placeholder="Type for Search" required="required">
+                    <div class="search_button">
+                      <i class="fa fa-search" aria-hidden="true"></i>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="user"><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></div>
+              <div class="hamburger menu_mm">
+                <i class="fa fa-bars menu_mm" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  -->
+</header>
+
+<!-- Menu -->
+<div class="menu d-flex flex-column align-items-end justify-content-start text-right menu_mm trans_400">
+  <div class="menu_close_container"><div class="menu_close"><div></div><div></div></div></div>
+  <div class="search">
+    <form action="#" class="header_search_form menu_mm">
+      <input type="search" class="search_input menu_mm" placeholder="Search" required="required">
+      <button class="header_search_button d-flex flex-column align-items-center justify-content-center menu_mm">
+        <i class="fa fa-search menu_mm" aria-hidden="true"></i>
+      </button>
+    </form>
+  </div>
+  <nav class="menu_nav">
+    <ul class="menu_mm">
+      <li class="menu_mm"><a href="index.html">Home</a></li>
+      <li class="menu_mm"><a href="courses.html">Courses</a></li>
+      <li class="menu_mm"><a href="instructors.html">Instructors</a></li>
+      <li class="menu_mm"><a href="#">Events</a></li>
+      <li class="menu_mm"><a href="blog.html">Blog</a></li>
+      <li class="menu_mm"><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="menu_extra">
+    <div class="menu_phone"><span class="menu_title">phone:</span>+44 300 303 0266</div>
+    <div class="menu_social">
+      <span class="menu_title">follow us</span>
+      <ul>
+        <li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+        <li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+{*
+<aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
+  <ul class="nav nav-pills nav-stacked">-->
+    <!-- Prednastavené sekcie -->
+    {if $user->loggedIn}
+      <li>
+        <a n:href="Sign:out">
+          <span class="glyphicon glyphicon-off"> Odhlásiť
+        </a>
+      </li>
+      <li>
+        <a href="#">Admin</a>
+        <ul>
+          <li>
+            <a n:href="Sections:all"> &#58;&#58; Sekcie</a>
+            <a n:href="Albums:all"> &#58;&#58; Fotogaléria</a>
+            <a n:href="Files:all"> &#58;&#58; Súbory</a>
+            <a n:href="Tests:all"> &#58;&#58; Testy</a>
+            <a n:href="Results:all"> &#58;&#58; Výsledky testov</a>
+            <a n:href="Users:all"> &#58;&#58; Používatelia</a>
+          </li>
+        </ul>
+      </li>
+    {/if}
+    <!-- Používateľom generované sekcie -->
+    {foreach $menuSections as $menuSection}
+      {if $menuSection->visible}
+        {if $menuSection->subsections->count() > 0}
+          {if $menuSection->sliding}
+            <li class="slideToggle"><a href="#">{$menuSection->name}<span class="caret"></span></a>
+          {else}
+            <li><a href="#">{$menuSection->name}</a>
+          {/if}
+          <ul>
+            {foreach $menuSection->subsections as $menuSubSection}
+              <li>
+                {if $menuSubSection->url == NULL || $menuSubSection->url == ""}
+                  <a n:href="Sections:show, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
+                {else}
+                  <a href="{$menuSubSection->url}" {if !$menuSubSection->home_url}target="_blank"{/if}> &#58;&#58;
+                  {$menuSubSection->name}</a>
+                {/if}
+              </li>
+            {/foreach}
+          </ul>
+          </li>
+        {else}
+          <li>
+            {if empty($menuSection->url)}
+              <a n:href="Sections:show, $menuSection->id">{$menuSection->name}</a>
+            {else}
+              <a href="{$menuSection->url}" {if !$menuSection->home_url}target="_blank"{/if}>{$menuSection->name}</a>
+            {/if}
+          </li>
+        {/if}
+      {/if}
+    {/foreach}
+  </ul>
+</aside>
+*}
+

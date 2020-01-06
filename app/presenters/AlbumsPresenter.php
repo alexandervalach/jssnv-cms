@@ -32,7 +32,7 @@ class AlbumsPresenter extends BasePresenter {
    *
    */
   public function renderAll() {
-    $this->template->listOfAlbums = $this->albumsRepository->findAll();
+    $this->template->albums = $this->albumsRepository->findAll();
   }
 
   /**

@@ -12,28 +12,18 @@
     </div>
   </header>
   <main id="albums" class="row">
-    {foreach $listOfAlbums as $album}
-      {var $thumbnail = $album->related('images')->fetch()}
-      {if !empty($thumbnail)}
-        <figure class="hiden-xs hidden-sm col-md-6 col-lg-6" style="margin:10px 25% 10px 25%">
-          <a n:href="Images:view, $album->id">
-            <img src="{$basePath}/{$imgFolder}/{$thumbnail->name}" alt="{$thumbnail->name}" class="img-thumbnail img-responsive"/>
+    {foreach $albums as $album}
+      {if $album->thumbnail != NULL}
+        <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          <a n:href="Albums:view, $album->id">
+            {var $file = $album->thumbnail != NULL ? $album->thumbnail || ''}
+            <img src="{$basePath}/{$imgFolder}/{$album->thumbnail}" alt="{$album->thumbnail}" class="img-fluid img-thumbnail" />
           </a>
           <figcaption class="text-center">
             <span>{$album->name}</span>
           </figcaption>
         </figure>
       {/if}
-      {*
-      <figure class="col-xs-12 col-sm-12 hidden-md hidden-lg" style="margin:10px 0 10px 0">
-          <a n:href="Images:view, $album->id">
-              <img src="{$basePath}/{$imgFolder}/{$thumbnail->name}" alt="{$thumbnail->name}" class="img-thumbnail img-responsive"/>
-          </a>
-          <figcaption>
-              <span>{$album->name}</span>
-          </figcaption>
-      </figure>
-      *}
     {/foreach}
   </main>
 </div>

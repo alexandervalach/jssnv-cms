@@ -1,5 +1,5 @@
 /log
 /temp
 /app/config/config.local.neon
-/www/images
+/www/images/*
 /vendor

@@ -2,10 +2,10 @@
 
 <section id="notices" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <header class="clearfix" style="margin: 15px 0">
-    <div class="pull-left">
+    <div class="float-left">
       <h2 n:block="title">Oznamy</h2>
     </div>
-    <div class="pull-right" style="margin-top: 20px" n:if="$user->loggedIn">
+    <div class="float-right" style="margin-top: 20px" n:if="$user->loggedIn">
       <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
         <span class="glyphicon glyphicon-plus"></span> Pridať
       </button>
@@ -16,11 +16,11 @@
     {foreach $notices as $notice}
       <div class="alert alert-{$notice->type}">
         <header>
-          <div class="pull-left">
+          <div class="float-left">
             {$notice->name}
           </div>
 
-          <div class="pull-right" n:if="$user->loggedIn">
+          <div class="float-right" n:if="$user->loggedIn">
             <a n:href="edit, $notice->id" class="text-{$notice->type}">
               <span class="glyphicon glyphicon-pencil"></span>
             </a>&nbsp;&nbsp;

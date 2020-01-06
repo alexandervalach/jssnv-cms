@@ -1,18 +1,18 @@
 {block content}
 
 <section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-  <div class="pull-left">
+  <div class="float-left">
   	<h2 n:block="title">Otázka #{$question->id}</h2>
   </div>
-  <div class="pull-right" style="margin: 20px 0 0 5px">
+  <div class="float-right">
     <a n:href="Questions:all#question{$question->id}, $test->id" class='btn btn-warning'>
-		  <span class="glyphicon glyphicon-arrow-left"></span> Späť na test
-		</a>
+      <span class="glyphicon glyphicon-arrow-left"></span> Späť na test
+    </a>
   </div>
-  <div class="pull-right" style="margin: 20px 0 0 5px">
+  <div class="float-right" style="margin: 20px 0 0 5px">
     <button type="button" class='btn btn-success' data-toggle="modal" data-target="#add">
-		  <span class="glyphicon glyphicon-plus"></span> Pridať
-		</button>
+      <i data-feather="plus"></i> Pridať
+    </button>
   </div>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     {$question->label}
