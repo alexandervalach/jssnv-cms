@@ -10,7 +10,7 @@ use Nette\Database\Table\Selection;
 
 namespace App\Presenters;
 
-use App\Helpers\FormHelper;
+use App\Forms\TestFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
 use App\Model\QuestionsRepository;
@@ -19,6 +19,7 @@ use App\Model\SectionsRepository;
 use App\Model\TestsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 
 /**
  * Class TestsPresenter
@@ -52,18 +53,25 @@ class TestsPresenter extends BasePresenter {
    */
   private $levelsResultsRepository;
 
+  /**
+   * @var TestFormFactory
+   */
+  private $testFormFactory;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               TestsRepository $testsRepository,
                               ResultsRepository $resultsRepository,
                               QuestionsRepository $questionsRepository,
-                              LevelsResultsRepository $levelsResultsRepository)
+                              LevelsResultsRepository $levelsResultsRepository,
+                              TestFormFactory $testFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->testsRepository = $testsRepository;
     $this->resultsRepository = $resultsRepository;
     $this->levelsResultsRepository = $levelsResultsRepository;
     $this->questionsRepository = $questionsRepository;
+    $this->testFormFactory = $testFormFactory;
   }
 
   /**
@@ -110,7 +118,7 @@ class TestsPresenter extends BasePresenter {
    * @param $values
    * @throws AbortException
    */
-  public function submittedAddForm ($form, $values) {
+  private function submittedAddForm ($values) {
     $this->testsRepository->insert($values);
     $this->flashMessage(self::ITEM_ADDED);
     $this->redirect('all');
@@ -121,7 +129,7 @@ class TestsPresenter extends BasePresenter {
    * @param $values
    * @throws AbortException
    */
-  public function submittedEditForm ($form, $values) {
+  private function submittedEditForm ($values) {
     $this->testRow->update($values);
     $this->flashMessage(self::ITEM_UPDATED);
     $this->redirect('all');
@@ -146,25 +154,16 @@ class TestsPresenter extends BasePresenter {
   /**
    * @return Form
    */
-  protected function createComponentAddForm () {
-    $form = new Form;
-    $form->addText('label', 'Názov');
-    $form->addSubmit('save', 'Uložiť');
-    $form->onSuccess[] = [$this, 'submittedAddForm'];
-    FormHelper::setBootstrapFormRenderer($form);
-    return $form;
-  }
+  protected function createComponentTestForm () {
+    return $this->testFormFactory->create(function (Form $form, ArrayHash $values) {
+      $id = $this->getParameter('id');
 
-  /**
-   * @return Form
-   */
-  protected function createComponentEditForm () {
-    $form = new Form;
-    $form->addText('label', 'Názov');
-    $form->addSubmit('save', 'Uložiť');
-    $form->onSuccess[] = [$this, 'submittedEditForm'];
-    FormHelper::setBootstrapFormRenderer($form);
-    return $form;
+      if ($id) {
+        $this->submittedEditForm($values);
+      } else {
+        $this->submittedAddForm($values);
+      }
+    });
   }
 
   /**

@@ -46,6 +46,7 @@ services:
 	- App\Forms\PostFormFactory
 	- App\Forms\RemoveFormFactory
 	- App\Forms\SectionFormFactory
+	- App\Forms\TestFormFactory
 
 	router: App\RouterFactory::createRouter
 	authenticator: App\Model\Authenticator
