@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Forms\UserFormFactory;
 use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
@@ -13,6 +14,7 @@ use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Forms\Controls\SubmitButton;
 use Nette\Security\Passwords;
+use Nette\Utils\ArrayHash;
 
 /**
  * Class UserPresenter
@@ -42,14 +44,21 @@ class UsersPresenter extends BasePresenter {
    */
   private $passwords;
 
+  /**
+   * @var UserFormFactory
+   */
+  private $userFormFactory;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               UsersRepository $usersRepository,
-                              Passwords $passwords)
+                              Passwords $passwords,
+                              UserFormFactory $userFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->usersRepository = $usersRepository;
     $this->passwords = $passwords;
+    $this->userFormFactory = $userFormFactory;
   }
 
   /**
@@ -144,23 +153,11 @@ class UsersPresenter extends BasePresenter {
   /**
    * @return Form
    */
-  protected function createComponentAddForm() {
-    $form = new Form;
-
-    $form->addText('username', 'Používateľské meno')
-         ->addRule(Form::FILLED, 'Používateľské meno musí byť vyplnené.')
-         ->addRule(Form::MAX_LENGTH, 'Používateľské meno môže mať maximálne 50 znakov.', 50);
-
-    $form->addPassword('password', 'Heslo')
-         ->addRule(Form::FILLED, 'Heslo musí byť vyplnené.')
-         ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 50 znakov.', 50);
-
-    $form->addSubmit('save', 'Uložiť');
-    $form->onSuccess[] = [$this, 'submittedAddForm'];
-
-    FormHelper::setBootstrapFormRenderer($form);
-    return $form;
-    }
+  protected function createComponentUserForm() {
+    return $this->userFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->submittedAddForm($values);
+    });
+  }
 
   /**
    * @return Form
@@ -198,7 +195,7 @@ class UsersPresenter extends BasePresenter {
    * @param ArrayHash $values
    * @throws AbortException
    */
-  public function submittedAddForm(Form $form, ArrayHash $values) {
+  private function submittedAddForm(ArrayHash $values) {
     $this->userIsLogged();
     $this->usersRepository->insert($values);
     $this->redirect('all');

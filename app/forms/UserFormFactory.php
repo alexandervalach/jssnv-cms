@@ -13,7 +13,7 @@ use Nette\Utils\ArrayHash;
  * Add upload form factory
  * @package App\Forms
  */
-class AlbumFormFactory
+class UserFormFactory
 {
   use SmartObject;
 
@@ -37,14 +37,17 @@ class AlbumFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addText('name', 'Názov*')
-        ->setHtmlAttribute('placeholder','Zo života školy')
+    $form->addText('username', 'Používateľské meno*')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
+        ->addRule(Form::MAX_LENGTH, 'Používateľské meno môže mať maximálne 50 znakov.', 50);
+    $form->addPassword('password', 'Heslo*')
+        ->setRequired()
+        ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 50 znakov.', 50);
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-warning')
         ->setHtmlAttribute('data-dismiss', 'modal');
+
     FormHelper::setBootstrapFormRenderer($form);
 
     $form->onSuccess[] = function (Form $form, ArrayHash $values) use ($onSuccess) {

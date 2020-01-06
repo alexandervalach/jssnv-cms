@@ -2,50 +2,57 @@
 
 <section id="listOfUsers" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <header>
-	<div class="float-left">
-	  <h2 n:block="title">Používatelia</h2>
-	</div>
+    <div class="float-left">
+      <h2 n:block="title">Používatelia</h2>
+    </div>
     <div class="float-right">
       <button type="button" class='btn btn-success' data-toggle="modal" data-target="#addForm">
-	  	<i data-feather="plus"></i> Pridať
+        <i data-feather="plus"></i> Pridať
       </button>
     </div>
   </header>
 
-	<div class="table-responsive">
-		<table class="table">
-			<thead>
-				<tr>
-				  <th>Meno</th>
-				  <th>Rola</th>
-				</tr>
-			</thead>
-			<tbody>
-				{foreach $users as $admin}
-				  <tr>
-			      <td>
-			        <a n:href="show, $admin->id" class="text-success">{$admin->username}</a>
-			      </td>
-			      <td>{$admin->role === "admin" ? "root" : "administrátor"}</td>
-				  </tr>
-				{/foreach}
-			</tbody>
-		</table>
-	</div>
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Meno</th>
+        <th>Rola</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr n:foreach="$users as $admin">
+        <td>
+          <a n:href="show, $admin->id" class="text-success">{$admin->username}</a>
+        </td>
+        <td>{$admin->role === "admin" ? "root" : "administrátor"}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </section>
 
 <div id="addForm" class="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">Pridať používateľa</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				{control addForm}
-			</div>
-		</div>
-	</div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Pridať používateľa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {form userForm}
+          {label username}
+          {input username}
+          {label password}
+          {input password}
+      </div>
+      <div class="modal-footer">
+          {input cancel}
+          {input save}
+        {/form}
+      </div>
+    </div>
+  </div>
 </div>
