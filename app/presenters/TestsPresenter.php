@@ -10,6 +10,7 @@ use Nette\Database\Table\Selection;
 
 namespace App\Presenters;
 
+use App\Helpers\FormHelper;
 use App\Forms\TestFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
@@ -101,7 +102,7 @@ class TestsPresenter extends BasePresenter {
       $this->error(self::TEST_NOT_FOUND);
     }
 
-    $this['editForm']->setDefaults($this->testRow);
+    $this['testForm']->setDefaults($this->testRow);
     $this->questions = $this->questionsRepository->findQuestions($this->testRow);
   }
 

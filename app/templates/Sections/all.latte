@@ -28,7 +28,7 @@
             <tr class="table-success">
               <td>
                 {if $section->url == null}
-                  <a class="text-dark" n:href="Sections:show, $section->id">{$section->name}</a>
+                  <a class="text-dark" n:href="Sections:view, $section->id">{$section->name}</a>
                 {else}
                   <a class="text-danger" href="{$section->url}" {if !$section->home_url}target="_blank"{/if}>{$section->name}</a>
                 {/if}
@@ -43,7 +43,7 @@
                 <tr>
                   <td>
                       {if empty($subSection->url)}
-                        <a class="text-success" n:href="Sections:show, $subSection->id">{$subSection->name}</a>
+                        <a class="text-success" n:href="Sections:view, $subSection->id">{$subSection->name}</a>
                       {else}
                         <a class="text-danger" href="{$subSection->url}" {if !$subSection->home_url}target="_blank"{/if}>{$subSection->name}</a>
                       {/if}

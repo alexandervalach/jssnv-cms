@@ -90,7 +90,7 @@ class SectionsPresenter extends BasePresenter {
     $this->template->sections = $this->sections;
   }
 
-  public function actionShow(int $id) {
+  public function actionView(int $id) {
     $this->sectionRow = $this->sectionsRepository->findById($id);
 
     if (!$this->sectionRow) {
@@ -101,7 +101,7 @@ class SectionsPresenter extends BasePresenter {
     $this['sectionForm']->setDefaults($this->sectionRow);
   }
 
-  public function renderShow(int $id) {
+  public function renderView(int $id) {
     $this->template->section = $this->sectionRow;
     $this->template->contents = $this->contents;
   }
