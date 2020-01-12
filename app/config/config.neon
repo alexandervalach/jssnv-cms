@@ -44,9 +44,11 @@ services:
 	- App\Forms\SignFormFactory
 	- App\Forms\UploadFormFactory
 	- App\Forms\ModalRemoveFormFactory
+	- App\Forms\PasswordFormFactory
 	- App\Forms\PostFormFactory
 	- App\Forms\RemoveFormFactory
 	- App\Forms\SectionFormFactory
+	- App\Forms\SlideFormFactory
 	- App\Forms\TestFormFactory
 	- App\Forms\UserFormFactory
 

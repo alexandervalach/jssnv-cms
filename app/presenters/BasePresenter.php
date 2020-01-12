@@ -23,6 +23,8 @@ abstract class BasePresenter extends Presenter {
   const ITEM_REMOVED = 'Položka bola odstránená';
   const ITEMS_ADDED = 'Položky boli nahraté';
   const SUCCESS = 'success';
+  const ERROR = 'danger';
+  const INFO = 'info';
 
   /** @var AlbumsRepository */
   protected $albumsRepository;

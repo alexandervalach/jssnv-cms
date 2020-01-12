@@ -1,20 +1,74 @@
 {block content}
 
-{control modalDialog 'remove', 'Odstrániť užívateľa',
-    "Noazaj chcete odstrániť používateľa <span class=\"text-danger text-uppercase\">$users->username</span> ?",
-    'danger', 'Odstrániť', 'remove'}
-
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
       <h2 n:block="title">{$users->username}</h2>
     </div>
     <div class="float-right">
-      <p class="text-danger">
-        <a href="#" data-toggle="modal" data-target="#removeModal" class="btn btn-danger">
-          <span class="glyphicon glyphicon-trash"></span>
-        </a>
-      </p>
+      <button type="button" data-toggle="modal" data-target="#editModal" class="btn btn-success">
+        <ion-icon name="create"></ion-icon>
+      </button>
+      <button type="button" data-toggle="modal" data-target="#passwordModal" class="btn btn-primary">
+        <ion-icon name="lock"></ion-icon>
+      </button>
+      <button type="button" data-toggle="modal" data-target="#removeModal" class="btn btn-danger">
+        <ion-icon name="trash"></ion-icon>
+      </button>
     </div>
   </header>
+</div>
+
+<!-- Remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeModalLabel">Odstrániť používateľa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Naozaj chcete odstrániť používateľa <mark>{$users->username}</mark>?
+      </div>
+      <div class="modal-footer">
+        {control removeForm}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Lock Modal -->
+<div class="modal fade" id="passwordModal" tabindex="-2" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="passwordModalLabel">Zmeniť heslo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {control passwordForm}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-3" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Upraviť používateľa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {control editForm}
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\FormHelper;
+use App\Forms\SlideFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Model\SlidesRepository;
+use Nette\Application\AbortException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\SubmitButton;
+use Nette\Utils\ArrayHash;
 
 /**
  * Class SlidesPresenter
@@ -25,73 +30,58 @@ class SlidesPresenter extends BasePresenter {
    */
   private $slidesRepository;
 
+  /**
+    * @var SlideFormFactory
+    */
+  private $slideFormFactory;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              SlidesRepository $slidesRepository)
+                              SlidesRepository $slidesRepository,
+                              SlideFormFactory $slideFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->slidesRepository = $slidesRepository;
+    $this->slideFormFactory = $slideFormFactory;
   }
 
   /**
-   * @param $id
-   * @throws BadRequestException
+   * Prepares data for render template
    */
-  public function actionEdit($id) {
-    $this->slideRow = $this->slidesRepository->findById($id);
-
-    if (!$this->slideRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
-    }
-  }
-
-  /**
-   * @param $id
-   */
-  public function renderEdit($id) {
-    $this->template->banner = $this->slideRow;
-    $this['editForm']->setDefaults($this->slideRow);
+  public function renderAll(): void
+  {
+    $this->template->slides = $this->slidesRepository->findAll();
   }
 
   /**
    * @return Form
    */
-  protected function createComponentEditForm() {
-    $form = new Form;
-
-    $form->addTextArea('message', 'Text')
-            ->addRule(Form::FILLED, 'Text muís byť vyplnený.')
-            ->addRule(Form::MAX_LENGTH, 'Maximálna dĺžka textu je 250 znakov.', 250);
-
-    $form->addText('link', 'Odkaz');
-
-    $form->addSubmit('save', 'Zapísať')
-            ->onClick[] = [$this, 'submittedEditForm'];
-
-    $form->addSubmit('cancel', 'Zrušiť')
-            ->setHtmlAttribute('class', 'btn btn-warning')
-            ->onClick[] = [$this, 'formCancelled'];
-
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
-    }
-
-  /**
-   * @param SubmitButton $btn
-   * @throws \Nette\Application\AbortException
-   */
-  public function submittedEditForm(SubmitButton $btn) {
-    $this->userIsLogged();
-    $values = $btn->form->getValues();
-    $this->slideRow->update($values);
-    $this->redirect('Homepage:#primary');
+  protected function createComponentSlideForm(): Form
+  {
+    return $this->slideFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->userIsLogged();
+      $this->getParameter('id' ) ? $this->submittedAddSlideForm($values) : $this->submittedEditSlideForm($values);
+    });
   }
 
   /**
-   * @throws \Nette\Application\AbortException
+   * Insert new slide to database
+   * @param ArrayHash $values
+   * @throws AbortException
    */
-  public function formCancelled() {
-    $this->redirect('Homepage:#primary');
+  public function submittedAddSlideForm(ArrayHash $values) {
+    $slide = $this->slidesRepository->insert($values);
+    $this->redirect('view', $slide->id);
+  }
+
+  /**
+   * Updates item with new values
+   * @param ArrayHash $values
+   * @throws AbortException
+   */
+  public function submittedEditSlideForm(ArrayHash $values) {
+    $this->slideRow->update($values);
+    $this->redirect('all');
   }
 
 }

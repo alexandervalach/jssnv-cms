@@ -2,6 +2,9 @@
 
 namespace App\Presenters;
 
+use App\Forms\ModalRemoveFormFactory;
+use App\Forms\PasswordFormFactory;
+use App\Forms\RemoveFormFactory;
 use App\Forms\UserFormFactory;
 use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
@@ -49,16 +52,30 @@ class UsersPresenter extends BasePresenter {
    */
   private $userFormFactory;
 
+  /**
+   * @var ModalRemoveFormFactory
+   */
+  private $modalRemoveFormFactory;
+
+  /**
+   * @var PasswordFormFactory
+   */
+  private $passwordFormFactory;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               UsersRepository $usersRepository,
                               Passwords $passwords,
-                              UserFormFactory $userFormFactory)
+                              UserFormFactory $userFormFactory,
+                              ModalRemoveFormFactory $modalRemoveFormFactory,
+                              PasswordFormFactory $passwordFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->usersRepository = $usersRepository;
     $this->passwords = $passwords;
     $this->userFormFactory = $userFormFactory;
+    $this->modalRemoveFormFactory = $modalRemoveFormFactory;
+    $this->passwordFormFactory = $passwordFormFactory;
   }
 
   /**
@@ -135,6 +152,7 @@ class UsersPresenter extends BasePresenter {
   public function actionView($id) {
     $this->userIsLogged();
     $this->userRow = $this->usersRepository->findById($id);
+    $this['editForm']->setDefaults($this->userRow);
   }
 
   /**
@@ -155,6 +173,7 @@ class UsersPresenter extends BasePresenter {
    */
   protected function createComponentUserForm() {
     return $this->userFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->userIsLogged();
       $this->submittedAddForm($values);
     });
   }
@@ -165,37 +184,47 @@ class UsersPresenter extends BasePresenter {
   protected function createComponentEditForm() {
     $form = new Form;
 
-    $form->addText('username', 'Používateľské meno')
+    $form->addText('username', 'Používateľské meno*')
          ->addRule(Form::FILLED, 'Meno musí byť vyplnené.')
          ->addRule(Form::MAX_LENGTH, 'Meno môže mať maximálne 50 znakov.', 50);
-
-    $form->addSubmit('save', 'Uložiť')
-         ->onClick[] = [$this, 'submittedEditForm'];
-
+    $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
          ->setHtmlAttribute('class', 'btn btn-warning')
-         ->onClick[] = [$this, 'formCancelled'];
+         ->setHtmlAttribute('data-dismiss', 'modal');
+    $form->onSuccess[] = [$this, 'submittedEditForm'];
 
     FormHelper::setBootstrapFormRenderer($form);
     return $form;
   }
 
   /**
-   * @param SubmitButton $btn
-   * @throws AbortException
+   * @return Form
    */
-  public function submittedEditForm(SubmitButton $btn) {
-    $values = $btn->form->getValues();
-    $this->userRow->update($values);
-    $this->redirect('all');
+  protected function createComponentRemoveForm(): Form
+  {
+    return $this->modalRemoveFormFactory->create(function () {
+      $this->submittedRemoveForm();
+    });
   }
 
   /**
-   * @param Form $form
    * @param ArrayHash $values
    * @throws AbortException
    */
-  private function submittedAddForm(ArrayHash $values) {
+  public function submittedEditForm(Form $form, ArrayHash $values): void
+  {
+    $this->userIsLogged();
+    $this->userRow->update($values);
+    $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+    $this->redirect('view', $this->userRow->id);
+  }
+
+  /**
+   * @param ArrayHash $values
+   * @throws AbortException
+   */
+  private function submittedAddForm(ArrayHash $values): void
+  {
     $this->userIsLogged();
     $this->usersRepository->insert($values);
     $this->redirect('all');
@@ -204,23 +233,11 @@ class UsersPresenter extends BasePresenter {
   /**
    * @return Form
    */
-  protected function createComponentPasswdForm() {
-    $form = new Form;
-    $form->addPassword('password', 'Heslo')
-            ->addRule(Form::FILLED, 'Heslo musí byť vyplnené.')
-            ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 100 znakov.', 100)
-            ->addRule(Form::MIN_LENGTH, 'Heslo musí mať minimálne 5 znakov.', 5);
-
-    $form->addPassword('password_again', 'Heslo znovu')
-            ->addRule(Form::FILLED, 'Heslo znovu musí byť vyplnené.')
-            ->addRule(Form::EQUAL, 'Heslá sa nezhodujú.', $form['password']);
-
-    $form->addSubmit('save', 'Nastaviť');
-    $form->addProtection('Vypršal časový limit, odošli formulár znovu.');
-
-    $form->onSuccess[] = [$this, 'submittedPasswdForm'];
-    FormHelper::setBootstrapRenderer($form);
-    return $form;
+  protected function createComponentPasswordForm(): Form
+  {
+    return $this->passwordFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->submittedPassworddForm($values);
+    });
   }
 
   /**
@@ -228,21 +245,30 @@ class UsersPresenter extends BasePresenter {
    * @throws AbortException
    * @throws ForbiddenRequestException
    */
-  public function submittedPasswdForm(Form $form, ArrayHash $values) {
+  public function submittedPassworddForm(ArrayHash $values): void
+  {
     $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
     $this->userRow->update(array('password' => $this->passwords->hash($values->password)));
-    $this->redirect('all');
+    $this->flashMessage('Heslo bolo zmenené', self::SUCCESS);
+    $this->redirect('view', $this->userRow->id);
   }
 
   /**
    * @throws AbortException
    * @throws ForbiddenRequestException
    */
-  public function submittedRemoveForm() {
+  private function submittedRemoveForm() {
     $this->userIsLogged();
     $this->userIsAllowed($this->userRow->id, $this->user->roles[0], $this->root, $this->forbidden);
+
+    if ($this->userRow->id === $this->user->id) {
+      $this->flashMessage('Nemožno odstrániť práve prihláseného používateľa', self::ERROR);
+      $this->redirect('all');
+    }
+
+    $this->flashMessage(self::ITEM_REMOVED, self::SUCCESS);
     $this->usersRepository->softDelete($this->userRow->id);
-    $this->redirect('all#primary');
+    $this->redirect('all');
   }
 
 }
