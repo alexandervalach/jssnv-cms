@@ -11,7 +11,7 @@ use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
 
 /**
- * Sign in/out presenters.
+ * Sign in/out Presenters.
  */
 class SignPresenter extends BasePresenter {
 

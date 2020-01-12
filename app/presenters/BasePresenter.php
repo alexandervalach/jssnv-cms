@@ -12,7 +12,7 @@ use Nette\Application\UI\Presenter;
 use Nette\Utils\ArrayHash;
 
 /**
- * Base presenter for all application presenters.
+ * Base presenter for all application Presenters.
  */
 abstract class BasePresenter extends Presenter {
 

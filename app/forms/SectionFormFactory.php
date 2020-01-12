@@ -50,20 +50,25 @@ class SectionFormFactory
 
     $form->addSelect('section_id', 'Sekcie', $sections);
 
+    /*
     $form->addText('url', 'URL adresa');
 
     $form->addCheckbox('home_url', ' URL na tejto stránke')
         ->setDefaultValue(0);
+    */
 
     $form->addText('order', 'Poradie*')
         ->setRequired()
+        ->setHtmlType('number')
         ->setDefaultValue(50)
         ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
 
+    /*
     $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
         ->setDefaultValue(1);
 
     $form->addCheckbox('sliding', ' Rolovacie menu');
+    */
 
     $form->addSubmit('save', 'Uložiť');
 

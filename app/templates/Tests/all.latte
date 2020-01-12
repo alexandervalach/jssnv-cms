@@ -6,7 +6,7 @@
   </div>
   <div class="float-right">
     <button type="button" class='btn btn-success' data-toggle="modal" data-target="#testForm">
-      <i data-feather="plus"></i> Pridať
+      <ion-icon name="add"></ion-icon> Pridať
     </button>
   </div>
   <div class="table-responsive" n:if="$tests->count() > 0">
@@ -51,14 +51,7 @@
         </button>
       </div>
       <div class="modal-body">
-        {form testForm}
-          {label label}
-          {input label}
-      </div>
-      <div class="modal-footer">
-          {input cancel}
-          {input save}
-        {/form}
+        {control testForm}
       </div>
     </div>
   </div>

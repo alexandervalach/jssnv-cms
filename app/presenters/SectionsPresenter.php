@@ -157,7 +157,7 @@ class SectionsPresenter extends BasePresenter {
     $values->offsetSet('section_id', $values->section_id === 0 ? null : $values->section_id);
     $section = $this->sectionsRepository->insert($values);
     $this->flashMessage(self::ITEM_ADDED);
-    $this->redirect('show', $section->id);
+    $this->redirect('view', $section->id);
   }
 
   /**
@@ -169,7 +169,7 @@ class SectionsPresenter extends BasePresenter {
     $values->section_id = $values->section_id === 0 ? null : $values->section_id;
     $this->sectionRow->update($values);
     $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
-    $this->redirect('show', $this->sectionRow->id);
+    $this->redirect('view', $this->sectionRow->id);
   }
 
 }

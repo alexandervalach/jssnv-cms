@@ -132,7 +132,7 @@ class UsersPresenter extends BasePresenter {
    * @param $id
    * @throws AbortException
    */
-  public function actionShow($id) {
+  public function actionView($id) {
     $this->userIsLogged();
     $this->userRow = $this->usersRepository->findById($id);
   }
@@ -142,7 +142,7 @@ class UsersPresenter extends BasePresenter {
    * @throws BadRequestException
    * @throws ForbiddenRequestException
    */
-  public function renderShow($id) {
+  public function renderView($id) {
     if (!$this->userRow) {
       throw new BadRequestException($this->error);
     }
