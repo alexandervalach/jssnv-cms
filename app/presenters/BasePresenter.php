@@ -21,7 +21,7 @@ abstract class BasePresenter extends Presenter {
   const ITEM_ADDED = 'Položka bola pridaná';
   const ITEM_UPDATED = 'Položka bola upravená';
   const ITEM_REMOVED = 'Položka bola odstránená';
-  const FILES_UPLOADED = 'Súbory boli nahraté';
+  const ITEMS_ADDED = 'Položky boli nahraté';
   const SUCCESS = 'success';
 
   /** @var AlbumsRepository */

@@ -1,6 +1,33 @@
 @charset "utf-8";
 /* CSS Document */
 
+/*
+#page .btn-primary {
+  color: #fff;
+  background-color: #03a61c;
+  border-color: #28a745;
+}
+
+#page .btn-secondary {
+  color: #fff;
+  background-color: #5be815;
+  border-color: #28a745;
+}
+*/
+
+/*
+$primary   : #03a61c
+$secondary : #5be815
+$accent    : #e38100
+
+$dark      : #005e11
+
+$positive  : #21BA45
+$negative  : #C10015
+$info      : #fff021
+$warning   : #F2C037
+*/
+
 /******************************
 
 [Table of Contents]

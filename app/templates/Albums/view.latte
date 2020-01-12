@@ -1,2 +1,61 @@
 {block content}
 
+<div class="row">
+  <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="float-left">
+      <h2 n:block=title>{$album->name}</h2>
+    </div>
+    <div class="float-right" n:if="$user->loggedIn">
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#albumForm">
+        <ion-icon name="create"></ion-icon> Upraviť
+      </button>
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#uploadForm">
+        <ion-icon name="images"></ion-icon> Pridať
+      </button>
+    </div>
+  </header>
+  <main id="albums" class="row">
+    {foreach $images as $image}
+      {if $image->name != NULL}
+        <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+          {var $file = $album->thumbnail != NULL ? $album->thumbnail || ''}
+          <img src="{$basePath}/{$imgFolder}/{$image->name}" alt="{$image->name}" class="img-fluid" />
+        </figure>
+      {/if}
+    {/foreach}
+  </main>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="albumForm" tabindex="-1" role="dialog" aria-labelledby="albumFormModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="albumFormModalLabel">Upraviť album</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {control albumForm}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div class="modal fade" id="uploadForm" tabindex="-1" role="dialog" aria-labelledby="uploadFormModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadFormModalLabel">Nahrať obrázky</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {control uploadForm}
+      </div>
+    </div>
+  </div>
+</div>
