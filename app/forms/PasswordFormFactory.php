@@ -44,7 +44,11 @@ class PasswordFormFactory
     $form->addPassword('password_again', 'Heslo znovu*')
         ->addRule(Form::FILLED, 'Heslo znovu musí byť vyplnené.')
         ->addRule(Form::EQUAL, 'Heslá sa nezhodujú.', $form['password']);
-    $form->addSubmit('save', 'Uložiť');
+    $form->addSubmit('save', 'Uložiť')
+        ->setHtmlAttribute('class', 'btn btn-primary');
+    $form->addSubmit('cancel', 'Zrušiť')
+        ->setHtmlAttribute('class', 'btn btn-warning')
+        ->setHtmlAttribute('data-dismiss', 'modal');
     $form->addProtection('Vypršal časový limit, odošli formulár znovu.');
     FormHelper::setBootstrapFormRenderer($form);
 
