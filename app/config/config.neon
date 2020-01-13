@@ -14,6 +14,13 @@ application:
 	mapping:
 		*: App\*Module\Presenters\*Presenter
 
+forms:
+	messages:
+		REQUIRED: 'Pole je povinné.'
+		EMAIL: 'Neplatná emailová adresa.'
+		IMAGE: 'Obrázok môže byť len vo formáte JPEG, PNG alebo GIF'
+		URL: 'Hodnota musí byť absolútna URL'
+		INTEGER: 'Hodnota musí byť celé číslo'
 
 session:
 	expiration: 14 days
