@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Forms\ModalRemoveFormFactory;
 use App\Forms\MultiUploadFormFactory;
-use App\Forms\UploadFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\ImagesRepository;
 use App\Model\SectionsRepository;
@@ -40,12 +40,23 @@ class AlbumsPresenter extends BasePresenter {
    */
   private $multiUploadFormFactory;
 
-  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository, AlbumFormFactory $albumFormFactory, MultiUploadFormFactory $multiUploadFormFactory, ImagesRepository $imagesRepository)
+  /**
+   * @var ModalRemoveFormFactory
+   */
+  private $removeFormFactory;
+
+  public function __construct(AlbumsRepository $albumsRepository,
+                              SectionsRepository $sectionRepository,
+                              AlbumFormFactory $albumFormFactory,
+                              MultiUploadFormFactory $multiUploadFormFactory,
+                              ImagesRepository $imagesRepository,
+                              ModalRemoveFormFactory $removeFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->imagesRepository = $imagesRepository;
     $this->albumFormFactory = $albumFormFactory;
     $this->multiUploadFormFactory = $multiUploadFormFactory;
+    $this->removeFormFactory = $removeFormFactory;
   }
 
   /**
@@ -97,11 +108,23 @@ class AlbumsPresenter extends BasePresenter {
    * Generates upload form
    * @return Form
    */
-  protected function createComponentUploadForm (): Form
+  protected function createComponentUploadForm(): Form
   {
     return $this->multiUploadFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->userIsLogged();
       $this->submittedUploadForm($values);
+    });
+  }
+
+  /**
+   * Generates remove form
+   * @return Form
+   */
+  protected function createComponentRemoveForm(): Form
+  {
+    return $this->removeFormFactory->create(function () {
+      $this->userIsLogged();
+      $this->submittedRemoveForm();
     });
   }
 
@@ -154,6 +177,17 @@ class AlbumsPresenter extends BasePresenter {
     $this->albumRow->update($values);
     $this->flashMessage(self::ITEM_UPDATED);
     $this->redirect('view', $this->albumRow->id);
+  }
+
+  public function submittedRemoveForm(): void
+  {
+    $images = $this->albumRow->related('images');
+    foreach ($images as $image) {
+      $this->imagesRepository->softDelete((int) $image->id);
+    }
+    $this->albumsRepository->softDelete((int) $this->albumRow->id);
+    $this->flashMessage(self::ITEM_REMOVED, self::INFO);
+    $this->redirect('all');
   }
 
 }
