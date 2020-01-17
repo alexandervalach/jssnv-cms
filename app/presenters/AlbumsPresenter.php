@@ -132,27 +132,31 @@ class AlbumsPresenter extends BasePresenter {
    * @param ArrayHash $values
    * @throws AbortException
    */
-  public function submittedUploadForm(ArrayHash $values): void
+  private function submittedUploadForm(ArrayHash $values): void
   {
-    foreach ($values->images as $image) {
-      $name = strtolower($image->getSanitizedName());
-      $data = array(
-        'name' => $name,
-        'album_id' => $this->albumRow
-      );
+    if ($values->images) {
+      foreach ($values->images as $image) {
+        $name = strtolower($image->getSanitizedName());
+        $data = array(
+          'name' => $name,
+          'album_id' => $this->albumRow
+        );
 
-      if (!$image->isOk() || !$image->isImage()) {
-        throw new InvalidArgumentException;
+        if (!$image->isOk() || !$image->isImage()) {
+          throw new InvalidArgumentException;
+        }
+
+        if (!$image->move($this->imgFolder . '/' . $name)) {
+          throw new IOException;
+        }
+
+        $this->imagesRepository->insert(ArrayHash::from($data));
       }
 
-      if (!$image->move($this->imgFolder . '/' . $name)) {
-        throw new IOException;
-      }
-
-      $this->imagesRepository->insert(ArrayHash::from($data));
+      $this->flashMessage(self::ITEMS_ADDED, self::INFO);
+    } else {
+      $this->flashMessage('Neboli pridané žiadne nové obrázky', self::INFO);
     }
-
-    $this->flashMessage(self::ITEMS_ADDED, self::INFO);
     $this->redirect('view', $this->albumRow->id);
   }
 

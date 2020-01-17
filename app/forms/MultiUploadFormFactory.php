@@ -38,7 +38,7 @@ class MultiUploadFormFactory
     $form = $this->formFactory->create();
     $form->addMultiUpload('images', 'Obrázky*')
         ->setRequired()
-        ->addRule(Form::MAX_FILE_SIZE, 50, 'Naraz je možné nahrať len súbory do 50 MiB');
+        ->addRule(Form::MAX_FILE_SIZE,  'Naraz je možné nahrať len súbory do 50 MiB', 2 * 1024 * 1024);
     $form->addSubmit('upload', 'Nahrať');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-large btn-warning')

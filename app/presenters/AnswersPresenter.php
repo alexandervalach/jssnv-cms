@@ -48,11 +48,12 @@ class AnswersPresenter extends BasePresenter {
   }
 
   /**
-   * @param id test id
+   * @param int $id
    * @throws AbortException
    * @throws BadRequestException
    */
-  public function actionAll ($id) {
+  public function actionAll (int $id): void
+  {
     $this->userIsLogged();
     $this->questionRow = $this->questionsRepository->findById($id);
 
@@ -64,9 +65,10 @@ class AnswersPresenter extends BasePresenter {
   }
 
   /**
-   * @param id test id
+   * @param int $id
    */
-  public function renderAll ($id) {
+  public function renderAll (int $id): void
+  {
     $this->template->question = $this->questionRow;
     $this->template->answers = $this->questionRow->related('answers');
     $this->template->test = $this->testRow;

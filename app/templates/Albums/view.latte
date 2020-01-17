@@ -20,7 +20,7 @@
   <main id="albums" class="row">
     {foreach $images as $image}
       {if $image->name != NULL}
-        <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <figure class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           {var $file = $album->thumbnail != NULL ? $album->thumbnail || ''}
           <img src="{$basePath}/{$imgFolder}/{$image->name}" alt="{$image->name}" class="img-fluid" />
         </figure>
@@ -28,7 +28,6 @@
     {/foreach}
   </main>
 </div>
-
 <!-- Edit Modal -->
 <div class="modal fade" id="albumForm" tabindex="-1" role="dialog" aria-labelledby="albumFormModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
