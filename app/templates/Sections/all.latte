@@ -15,7 +15,7 @@
   {if $sections->count() > 0}
     <div class="table-responsive table-hover">
       <table class="table">
-        <thead class="bg-success" style="color: white">
+        <thead>
           <tr>
             <th>Názov</th>
             <th class="text-center">Poradie</th>
@@ -25,7 +25,7 @@
         </thead>
         <tbody>
           {foreach $sections as $section}
-            <tr class="table-success">
+            <tr>
               <td>
                 {if $section->url == null}
                   <a class="text-dark" n:href="Sections:view, $section->id">{$section->name}</a>

@@ -114,7 +114,7 @@ class UsersPresenter extends BasePresenter
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
     $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT, self::FORBIDDEN);
-    $this->template->users = $this->userRow;
+    $this->template->displayedUser = $this->userRow;
   }
 
   /**

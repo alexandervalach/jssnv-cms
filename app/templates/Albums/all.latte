@@ -14,13 +14,13 @@
   <main id="albums" class="row">
     {foreach $albums as $album}
       {if $album->thumbnail != NULL}
-        <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <figure class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <a n:href="Albums:view, $album->id">
             {var $file = $album->thumbnail != NULL ? $album->thumbnail || ''}
             <img src="{$basePath}/{$imgFolder}/{$album->thumbnail}" alt="{$album->thumbnail}" class="img-fluid img-thumbnail" />
           </a>
           <figcaption class="text-center">
-            <span>{$album->name}</span>
+            <a n:href="Albums:view, $album->id">{$album->name}</a>
           </figcaption>
         </figure>
       {/if}

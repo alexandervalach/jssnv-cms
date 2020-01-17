@@ -152,7 +152,7 @@ class AlbumsPresenter extends BasePresenter {
       $this->imagesRepository->insert(ArrayHash::from($data));
     }
 
-    $this->flashMessage(self::ITEMS_ADDED, self::SUCCESS);
+    $this->flashMessage(self::ITEMS_ADDED, self::INFO);
     $this->redirect('view', $this->albumRow->id);
   }
 
@@ -163,7 +163,7 @@ class AlbumsPresenter extends BasePresenter {
   private function submittedAddForm(ArrayHash $values): void
   {
     $album = $this->albumsRepository->insert($values);
-    $this->flashMessage(self::ITEM_ADDED);
+    $this->flashMessage(self::ITEM_ADDED, self::INFO);
     $this->redirect('view', $album->id);
   }
 
@@ -175,7 +175,7 @@ class AlbumsPresenter extends BasePresenter {
   public function submittedEditForm(ArrayHash $values): void
   {
     $this->albumRow->update($values);
-    $this->flashMessage(self::ITEM_UPDATED);
+    $this->flashMessage(self::ITEM_UPDATED, self::INFO);
     $this->redirect('view', $this->albumRow->id);
   }
 
