@@ -14,19 +14,17 @@
 
   <div class="table-responsive">
     <table class="table">
-      <thead>
-      <tr>
-        <th>Meno</th>
-        <th>Rola</th>
-      </tr>
+      <thead class="bg-success">
+        <tr>
+          <th>Meno</th>
+          <th>Rola</th>
+        </tr>
       </thead>
       <tbody>
-      <tr n:foreach="$users as $admin">
-        <td>
-          <a n:href="view, $admin->id" class="text-success">{$admin->username}</a>
-        </td>
-        <td>{$admin->role === "admin" ? "root" : "administrátor"}</td>
-      </tr>
+        <tr n:foreach="$users as $admin">
+          <td><a n:href="view, $admin->id" class="text-success">{$admin->username}</a></td>
+          <td>{$admin->role === "admin" ? "root" : "administrátor"}</td>
+        </tr>
       </tbody>
     </table>
   </div>

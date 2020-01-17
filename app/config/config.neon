@@ -46,11 +46,12 @@ services:
 	- App\Forms\AddFileContentFormFactory
 	- App\Forms\AddImageContentFormFactory
 	- App\Forms\AddTextContentFormFactory
-	- App\Forms\MultiUploadFormFactory
+	- App\Forms\EditUserFormFactory
 	- App\Forms\FormFactory
 	- App\Forms\SignFormFactory
 	- App\Forms\UploadFormFactory
 	- App\Forms\ModalRemoveFormFactory
+	- App\Forms\MultiUploadFormFactory
 	- App\Forms\PasswordFormFactory
 	- App\Forms\PostFormFactory
 	- App\Forms\RemoveFormFactory

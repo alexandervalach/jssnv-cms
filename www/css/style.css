@@ -290,15 +290,28 @@ p::selection
   transition: all 200ms ease;
 }
 
-#page .header nav.navbar ul li a {
+#page .header nav.navbar a {
   color: white;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
 
-#page .header nav.navbar ul li .dropdown-menu a {
-  color: black;
-  font-family: 'Poppins', sans-serif;
+#page .header nav .dropdown-menu a {
+  color: #000;
+  background: inherit;
+  transition: background 100ms;
+  -webkit-transition: background 100ms;
+}
+
+
+#page .header nav .dropdown-menu a:hover {
+  background: orange;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
+}
+
+#page .header nav .dropdown-menu {
+  color: #fff;
+  background: #80CD27;
+  font-family: 'Poppins', sans-serif;
 }
 
 .header.scrolled

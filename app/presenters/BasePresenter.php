@@ -18,10 +18,12 @@ abstract class BasePresenter extends Presenter {
 
   const TEST_NOT_FOUND = 'Test not found';
   const ITEM_NOT_FOUND = 'Item not found';
+  const FORBIDDEN = 'Action not allowed';
   const ITEM_ADDED = 'Položka bola pridaná';
   const ITEM_UPDATED = 'Položka bola upravená';
   const ITEM_REMOVED = 'Položka bola odstránená';
   const ITEMS_ADDED = 'Položky boli nahraté';
+  const USER_ADDED = 'Používateľ bol pridaný';
   const SUCCESS = 'success';
   const ERROR = 'danger';
   const INFO = 'info';
