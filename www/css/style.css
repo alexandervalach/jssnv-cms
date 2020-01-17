@@ -2182,3 +2182,7 @@ p::selection
 #page .table-responsive > table {
   margin-top: 15px;
 }
+
+#page figure > figcaption {
+  margin-top: 5px;
+}

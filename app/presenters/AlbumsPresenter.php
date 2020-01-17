@@ -88,7 +88,7 @@ class AlbumsPresenter extends BasePresenter {
   public function renderView(int $id): void
   {
     $this->template->album = $this->albumRow;
-    $this->template->images = $this->albumRow->related('images');
+    $this->template->images = $this->albumRow->related('images')->where('is_present', 1);
     $this['albumForm']->setDefaults($this->albumRow);
   }
 
@@ -172,7 +172,6 @@ class AlbumsPresenter extends BasePresenter {
   }
 
   /**
-   * @param int $id
    * @param ArrayHash $values
    * @throws AbortException
    */

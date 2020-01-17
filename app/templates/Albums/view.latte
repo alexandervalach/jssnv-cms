@@ -23,6 +23,10 @@
         <figure class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           {var $file = $album->thumbnail != NULL ? $album->thumbnail || ''}
           <img src="{$basePath}/{$imgFolder}/{$image->name}" alt="{$image->name}" class="img-fluid" />
+          <figcaption class="figure-caption text-center">
+            <a n:href="Images:thumbnail, $image->id" class="btn btn-primary"><i class="fas fa-image"></i></a>&nbsp;
+            <a n:href="Images:remove, $image->id" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+          </figcaption>
         </figure>
       {/if}
     {/foreach}
@@ -39,7 +43,7 @@
         </button>
       </div>
       <div class="modal-body">
-          {control albumForm}
+        {control albumForm}
       </div>
     </div>
   </div>
@@ -74,7 +78,7 @@
         Naozaj chcete odstrániť album <mark>{$album->name}</mark>?
       </div>
       <div class="modal-footer">
-          {control removeForm}
+        {control removeForm}
       </div>
     </div>
   </div>
