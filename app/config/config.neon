@@ -48,6 +48,7 @@ services:
 	- App\Forms\AddTextContentFormFactory
 	- App\Forms\EditUserFormFactory
 	- App\Forms\FormFactory
+	- App\Forms\FinishFormFactory
 	- App\Forms\SignFormFactory
 	- App\Forms\UploadFormFactory
 	- App\Forms\ModalRemoveFormFactory

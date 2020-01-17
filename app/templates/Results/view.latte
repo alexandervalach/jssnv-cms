@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-	<head>
+  <head>
     <meta charset="utf-8">
-    <meta name="description" content="">
+    <meta name="description" content="Web jazykovej školy v Spišskej Novej Vsi">
     <meta name="robots" content="{$robots}" n:ifset="$robots">
-    <meta name="viewport" content="width=device-width">
-
-    <title>Test Jazyková škola Spišská Nová Ves</title>
+    <meta name="keywords" content="Jazyková škola,Spišská Nová Ves,Javorová 16,Angličtina,Nemčina,Ruština,Taliančina,Španielčina,Maďarčina,Slovenčina,Japončina,Slovenčina,Cudzie jazyky">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Jazykovej školy v Spišskej Novej Vsi</title>
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="shortcut icon" href="{$basePath}/favicon.ico">
@@ -40,7 +40,9 @@
         font-size: 0.85rem;
       }
     </style>
-	</head>
+
+    <script src="https://kit.fontawesome.com/6b5e00271b.js" crossorigin="anonymous"></script>
+  </head>
 
   <body>
     <nav class="navbar navbar-dark bg-success">
@@ -79,8 +81,12 @@
           </div>
           <div class="content-footer">
             <p>
-              <a n:href="Tests:view, $test->id" class="btn btn-large btn-success">Skúsiť znovu</a>
-              <a n:href="Homepage:" class="btn btn-large btn-warning">Prejsť na stránku jazykovej školy</a>
+              <a n:href="Tests:view, $test->id" class="btn btn-large btn-success">
+                <i class="fas fa-redo-alt"></i> Skúsiť znovu
+              </a>
+              <a n:href="Homepage:" class="btn btn-large btn-warning">
+                <i class="fas fa-arrow-left"></i> Prejsť na stránku jazykovej školy
+              </a>
             </p>
           </div>
 				</div>

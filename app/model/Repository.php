@@ -7,12 +7,14 @@ namespace App\Model;
 use Nette;
 
 /**
- * Provádí operace nad databázovou tabulkou.
+ * Operations on database tables
  */
 abstract class Repository {
 
   const IS_PRESENT = 'is_present';
   const SECTION_ID = 'section_id';
+  const TEST_ID = 'test_id';
+  const LEVEL_ID = 'level_id';
   const ID = 'id';
   const NAME = 'name';
   const USERNAME = 'username';
@@ -28,19 +30,21 @@ abstract class Repository {
    * Repository constructor.
    * @param Nette\Database\Context $database
    */
-  public function __construct(Nette\Database\Context $database) {
+  public function __construct(Nette\Database\Context $database)
+  {
     $this->database = $database;
   }
 
   /**
-   * Vrací objekt reprezentující databázovou tabulku.
+   * Returns object representing database table
    * @return Nette\Database\Table\Selection
    */
-  protected function getTable() {
+  protected function getTable()
+  {
     if (isset($this->tableName)) {
       return $this->database->table($this->tableName);
     } else {
-      // název tabulky odvodíme z názvu třídy
+      // name of table derived from class name
       preg_match('#(\w+)Repository$#', get_class($this), $m);
       return $this->database->table(strtolower($m[1]));
     }
@@ -49,52 +53,60 @@ abstract class Repository {
   /**
    * @return Nette\Database\Context
    */
-  public function getConnection() {
+  public function getConnection(): Nette\Database\Context
+  {
     return $this->database;
   }
 
   /**
-   * Vrací všechny řádky z tabulky.
+   * Return rows from table
    * @return Nette\Database\Table\Selection
    */
-  public function findAll() {
+  public function findAll()
+  {
     return $this->getTable()->where(self::IS_PRESENT, 1);
   }
 
   /**
-   * Vrací řádky podle filtru, např. array('name' => 'John').
+   * Returns row using filter, array('name' => 'John').
+   * @param array $by
    * @return Nette\Database\Table\Selection
    */
-  public function findBy(array $by) {
+  public function findBy(array $by)
+  {
     return $this->getTable()->where($by);
   }
 
   /**
-   * Vracia selection podľa jednej podmienky.
-   * @param type $columnName
-   * @param type $value
+   * Returns a selection from given condition
+   * @param $columnName
+   * @param $value
    * @return Nette\Database\Table\Selection
    */
-  public function findByValue($columnName, $value) {
+  public function findByValue($columnName, $value)
+  {
     $condition = array($columnName => $value);
     return $this->findBy($condition);
   }
 
   /**
-   * Vráti riadok podľa ID.
-   * @param int $id identifikátor / primárny kľúč
-   * @return Nette\Database\Table\ActiveRow
+   * Returns row from id
+   * @param int $id id / primary key
+   * @return Nette\Database\Table\ActiveRow|null
    */
-  public function findById(int $id) {
+  public function findById(int $id)
+  {
     $item = $this->getTable()->get($id);
     return $item->is_present ? $item : null;
   }
 
   /**
+   * Updates data for selected item
    * @param $id
    * @param $data
    */
-  public function update($id, $data) {
+  public function update($id, $data): void
+  {
     $this->getTable()->wherePrimary($id)->update($data);
   }
 
@@ -102,14 +114,17 @@ abstract class Repository {
    * @param $data
    * @return bool|int|Nette\Database\Table\ActiveRow
    */
-  public function insert($data) {
+  public function insert($data)
+  {
     return $this->getTable()->insert($data);
   }
 
   /**
+   * Softly deletes row from table
    * @param int $id
    */
-  public function softDelete(int $id) {
+  public function softDelete(int $id)
+  {
     $this->findById($id)->update( array(self::IS_PRESENT => 0) );
   }
 

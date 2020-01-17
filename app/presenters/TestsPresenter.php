@@ -2,15 +2,7 @@
 
 namespace App\Presenters;
 
-use App\FormHelper;
-use Nette\Application\BadRequestException;
-use Nette\Application\UI\Form;
-use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
-
-namespace App\Presenters;
-
-use App\Helpers\FormHelper;
+use App\Forms\FinishFormFactory;
 use App\Forms\TestFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
@@ -19,6 +11,7 @@ use App\Model\ResultsRepository;
 use App\Model\SectionsRepository;
 use App\Model\TestsRepository;
 use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
 
@@ -26,8 +19,8 @@ use Nette\Utils\ArrayHash;
  * Class TestsPresenter
  * @package App\Presenters
  */
-class TestsPresenter extends BasePresenter {
-
+class TestsPresenter extends BasePresenter
+{
   /** @var ActiveRow */
   private $testRow;
 
@@ -59,13 +52,19 @@ class TestsPresenter extends BasePresenter {
    */
   private $testFormFactory;
 
+  /**
+   * @var FinishFormFactory
+   */
+  private $finishFormFactory;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               TestsRepository $testsRepository,
                               ResultsRepository $resultsRepository,
                               QuestionsRepository $questionsRepository,
                               LevelsResultsRepository $levelsResultsRepository,
-                              TestFormFactory $testFormFactory)
+                              TestFormFactory $testFormFactory,
+                              FinishFormFactory $finishFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository);
     $this->testsRepository = $testsRepository;
@@ -73,21 +72,22 @@ class TestsPresenter extends BasePresenter {
     $this->levelsResultsRepository = $levelsResultsRepository;
     $this->questionsRepository = $questionsRepository;
     $this->testFormFactory = $testFormFactory;
+    $this->finishFormFactory = $finishFormFactory;
   }
 
   /**
    * @throws AbortException
    */
-  public function actionAll () {
-  	if (!$this->user->isLoggedIn()) {
-  		$this->redirect('Homepage:');
-  	}
+  public function actionAll (): void
+  {
+  	$this->userIsLogged();
   }
 
   /**
    *
    */
-  public function renderAll () {
+  public function renderAll (): void
+  {
   	$this->template->tests = $this->testsRepository->findAll();
   }
 
@@ -95,101 +95,83 @@ class TestsPresenter extends BasePresenter {
    * @param $id
    * @throws BadRequestException
    */
-  public function actionView ($id) {
+  public function actionView (int $id): void
+  {
     $this->testRow = $this->testsRepository->findById($id);
 
-    if (!$this->testRow || !$this->testRow->is_present) {
-      $this->error(self::TEST_NOT_FOUND);
+    if (!$this->testRow) {
+      throw new BadRequestException(self::TEST_NOT_FOUND);
     }
 
     $this['testForm']->setDefaults($this->testRow);
-    $this->questions = $this->questionsRepository->findQuestions($this->testRow);
+    $this->questions = $this->questionsRepository->findQuestions($this->testRow->id);
   }
 
   /**
    * @param $id
    */
-  public function renderView ($id) {
+  public function renderView (int $id): void
+  {
     $this->template->test = $this->testRow;
     $this->template->questions = $this->questions;
   }
 
   /**
-   * @param $form
-   * @param $values
-   * @throws AbortException
-   */
-  private function submittedAddForm ($values) {
-    $this->testsRepository->insert($values);
-    $this->flashMessage(self::ITEM_ADDED);
-    $this->redirect('all');
-  }
-
-  /**
-   * @param $form
-   * @param $values
-   * @throws AbortException
-   */
-  private function submittedEditForm ($values) {
-    $this->testRow->update($values);
-    $this->flashMessage(self::ITEM_UPDATED);
-    $this->redirect('all');
-  }
-
-  /**
-   * @param $form
-   * @param $values
-   * @throws AbortException
-   */
-  public function submittedFinishForm (Form $form, ArrayHash $values) {
-  	$postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-    if (isset($postData['url']) && !empty($postData['url'])) {
-      $this->redirect('Homepage:');
-    }
-
-  	$result = $this->evaluateTest($postData);
-    $this->redirect('Results:view', $result->id);
-  }
-
-  /**
    * @return Form
    */
-  protected function createComponentTestForm () {
+  protected function createComponentTestForm (): Form
+  {
     return $this->testFormFactory->create(function (Form $form, ArrayHash $values) {
-      $id = $this->getParameter('id');
-
-      if ($id) {
-        $this->submittedEditForm($values);
-      } else {
-        $this->submittedAddForm($values);
-      }
+      $this->getParameter('id') ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
     });
   }
 
   /**
    * @return Form
    */
-  protected function createComponentFinishForm () {
-    $form = new Form();
-    $form->addText('email', 'E-mail')
-      ->addCondition(Form::EMAIL, true);
-    $form->addText('url', 'Mňam, mňa, toto vyplní len robot')
-      ->setHtmlAttribute('style', 'opacity: 0; display: inline')
-      ->setDefaultValue('');
-    $form->addSubmit('finish', 'Ukončiť test');
-    $form->onSuccess[] = [$this, 'submittedFinishForm'];
+  protected function createComponentFinishForm (): Form
+  {
+    return $this->finishFormFactory->create(function (Form $form, ArrayHash $values) {
+      $postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-    FormHelper::setBootstrapFormRenderer($form);
-    return $form;
+      if (isset($postData['url']) && !empty($postData['url'])) {
+        $this->redirect('Homepage:');
+      }
+
+      $result = $this->evaluateTest($postData);
+      $this->redirect('Results:view', $result->id);
+    });
   }
+
+  /**
+   * @param ArrayHash $values
+   * @throws AbortException
+   */
+  private function submittedAddForm (ArrayHash $values): void
+  {
+    $this->testsRepository->insert($values);
+    $this->flashMessage(self::ITEM_ADDED, self::INFO);
+    $this->redirect('all');
+  }
+
+  /**
+   * @param $values
+   * @throws AbortException
+   */
+  private function submittedEditForm (ArrayHash $values): void
+  {
+    $this->testRow->update($values);
+    $this->flashMessage(self::ITEM_UPDATED, self::INFO);
+    $this->redirect('all');
+  }
+
 
   /**
    * @param $postData
    * @return bool|int|ActiveRow
    */
-  protected function evaluateTest ($postData) {
-    $earnedPoints = array();
+  protected function evaluateTest ($postData)
+  {
     $levels = array();
     $highScore = 0;
     $score = 0;
@@ -214,7 +196,7 @@ class TestsPresenter extends BasePresenter {
       if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
         $levels[$question->level_id]['score'] += $question->value;
         $score += $question->value;
-  		}
+      }
     }
 
     $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
