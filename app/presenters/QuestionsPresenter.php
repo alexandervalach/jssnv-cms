@@ -1,15 +1,9 @@
 <?php
 
-namespace App\Presenters;
-
-use App\FormHelper;
-use Nette\Application\UI\Form;
-use Nette\Database\Table\ActiveRow;
-use Nette\Database\Table\Selection;
+declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsRepository;
 use App\Model\QuestionsRepository;
@@ -17,14 +11,14 @@ use App\Model\SectionsRepository;
 use App\Model\TestsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
-use Nette\Application\UI\Form;
+use Nette\Database\Table\ActiveRow;
 
 /**
  * Class QuestionsPresenter
  * @package App\Presenters
  */
-class QuestionsPresenter extends BasePresenter {
-
+class QuestionsPresenter extends BasePresenter
+{
   /** @var ActiveRow */
   private $testRow;
 

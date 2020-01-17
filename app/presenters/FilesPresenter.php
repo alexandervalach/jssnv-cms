@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\FormHelper;
@@ -11,6 +13,7 @@ use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Database\Table\ActiveRow;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\FileSystem;
 
@@ -18,13 +21,10 @@ use Nette\Utils\FileSystem;
  * Class FilesPresenter
  * @package App\Presenters
  */
-class FilesPresenter extends BasePresenter {
-
+class FilesPresenter extends BasePresenter
+{
   /** @var ActiveRow */
   private $fileRow;
-
-  /** @var string */
-  private $error = "File not found!";
 
   /**
    * @var UploadFormFactory
@@ -86,7 +86,7 @@ class FilesPresenter extends BasePresenter {
     $this->fileRow = $this->filesRepository->findById($id);
 
     if (!$this->fileRow) {
-      throw new BadRequestException($this->error);
+      throw new BadRequestException(self::FILE_NOT_FOUND);
     }
   }
 
@@ -103,7 +103,7 @@ class FilesPresenter extends BasePresenter {
   protected function createComponentUploadForm () {
     return $this->uploadFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->userIsLogged();
-      $this->filesRepository->softDelete($this->fileRow->id);
+      $this->filesRepository->softDelete((int)$this->fileRow->id);
       $this->redirect('all');
     });
   }
@@ -114,7 +114,7 @@ class FilesPresenter extends BasePresenter {
   protected function createComponentRemoveFileForm() {
     return $this->removeFormFactory->create(function () {
       $this->userIsLogged();
-      $this->filesRepository->softDelete($this->fileRow->id);
+      $this->filesRepository->softDelete((int)$this->fileRow->id);
       $this->flashMessage(self::ITEM_REMOVED, self::SUCCESS);
       $this->redirect('all');
     }, function () {
@@ -126,7 +126,7 @@ class FilesPresenter extends BasePresenter {
    * @throws AbortException
    */
   public function formCancelled() {
-    $this->redirect('Posts:show#primary', $this->fileRow->ref('posts', 'post_id'));
+    $this->redirect('Posts:view#primary', $this->fileRow->ref('posts', 'post_id'));
   }
 
   /**
@@ -135,8 +135,8 @@ class FilesPresenter extends BasePresenter {
   public function submittedFileRemoveForm() {
     $this->userIsLogged();
     $id = $this->fileRow->ref('posts', 'post_id');
-    $this->filesRepository->softDelete($this->fileRow->id);
-    $this->redirect('Posts:show#primary', $id);
+    $this->filesRepository->softDelete((int)$this->fileRow->id);
+    $this->redirect('Posts:view#primary', $id);
   }
 
 }

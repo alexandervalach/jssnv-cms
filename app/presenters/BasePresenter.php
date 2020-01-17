@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\Components\ModalDialog;
@@ -14,8 +16,8 @@ use Nette\Utils\ArrayHash;
 /**
  * Base presenter for all application Presenters.
  */
-abstract class BasePresenter extends Presenter {
-
+abstract class BasePresenter extends Presenter
+{
   const TEST_NOT_FOUND = 'Test not found';
   const ITEM_NOT_FOUND = 'Item not found';
   const FORBIDDEN = 'Action not allowed';
@@ -24,6 +26,7 @@ abstract class BasePresenter extends Presenter {
   const ITEM_REMOVED = 'Položka bola odstránená';
   const ITEMS_ADDED = 'Položky boli nahraté';
   const USER_ADDED = 'Používateľ bol pridaný';
+  const FILE_NOT_FOUND = 'Súbor nebol nájdený';
   const SUCCESS = 'success';
   const ERROR = 'danger';
   const INFO = 'info';

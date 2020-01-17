@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Presenters;
-
-use App\FormHelper;
+declare(strict_types=1);
 
 namespace App\Presenters;
 
@@ -13,16 +11,14 @@ use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Database\Table\ActiveRow;
 
 /**
  * Class AnswersPresenter
  * @package App\Presenters
  */
-class AnswersPresenter extends BasePresenter {
-
-  /** @var ActiveRow */
-  private $answerRow;
-
+class AnswersPresenter extends BasePresenter
+{
   /** @var ActiveRow **/ 
   private $questionRow;
   

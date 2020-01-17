@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\Forms\EditUserFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\PasswordFormFactory;
-use App\Forms\RemoveFormFactory;
 use App\Forms\UserFormFactory;
-use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Model\UsersRepository;
@@ -16,7 +16,6 @@ use Nette\Application\BadRequestException;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
-use Nette\Forms\Controls\SubmitButton;
 use Nette\Security\Passwords;
 use Nette\Utils\ArrayHash;
 

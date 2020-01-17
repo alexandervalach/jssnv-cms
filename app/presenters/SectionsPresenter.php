@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\Forms\AddTextContentFormFactory;
@@ -13,19 +15,17 @@ use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\GroupedSelection;
 use Nette\Utils\ArrayHash;
 
 /**
  * Class SectionsPresenter
  * @package App\Presenters
  */
-class SectionsPresenter extends BasePresenter {
-
+class SectionsPresenter extends BasePresenter
+{
   /** @var ActiveRow */
   private $sectionRow;
-
-  /** @var string */
-  private $error = "Section not found!";
 
   /**
    * @var SectionFormFactory
@@ -48,7 +48,7 @@ class SectionsPresenter extends BasePresenter {
   private $contentsRepository;
 
   /**
-   * @var \Nette\Database\Table\GroupedSelection
+   * @var GroupedSelection
    */
   private $contents;
 
@@ -144,7 +144,7 @@ class SectionsPresenter extends BasePresenter {
       $values['section_id'] = $this->sectionRow->id;
       $this->contentsRepository->insert($values);
       $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
-      $this->redirect('show', $this->sectionRow->id);
+      $this->redirect('view', $this->sectionRow->id);
     });
   }
 

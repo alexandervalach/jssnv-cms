@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\Model\AlbumsRepository;
@@ -13,8 +15,8 @@ use Nette\Utils\ArrayHash;
 /**
  * Sign in/out Presenters.
  */
-class SignPresenter extends BasePresenter {
-
+class SignPresenter extends BasePresenter
+{
   /**
    * @var SignFormFactory
    */

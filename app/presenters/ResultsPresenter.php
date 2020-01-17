@@ -1,11 +1,6 @@
 <?php
 
-namespace App\Presenters;
-
-use App\FormHelper;
-use Nette\Application\BadRequestException;
-use Nette\Application\UI\Form;
-use Nette\Database\Table\ActiveRow;
+declare(strict_types=1);
 
 namespace App\Presenters;
 
@@ -14,13 +9,14 @@ use App\Model\LevelsResultsRepository;
 use App\Model\ResultsRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
+use Nette\Database\Table\ActiveRow;
 
 /**
  * Class ResultsPresenter
  * @package App\Presenters
  */
-class ResultsPresenter extends BasePresenter {
-
+class ResultsPresenter extends BasePresenter
+{
   /** @var array */
   private $levelsResults;
 
@@ -83,7 +79,8 @@ class ResultsPresenter extends BasePresenter {
    * @param $id
    * @throws BadRequestException
    */
-  public function actionView ($id) {
+  public function actionView (int $id): void
+  {
       $this->resultRow = $this->resultsRepository->findById($id);
       $this->levelsResults = array();
 

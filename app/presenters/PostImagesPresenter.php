@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\Model\AlbumsRepository;
@@ -11,8 +13,8 @@ use App\Model\SectionsRepository;
  * Class PostImagesPresenter
  * @package App\Presenters
  */
-class PostImagesPresenter extends BasePresenter {
-
+class PostImagesPresenter extends BasePresenter
+{
   /**
    * @var PostsRepository
    */

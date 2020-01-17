@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\Helpers\FormHelper;
@@ -16,8 +18,8 @@ use Nette\Application\BadRequestException;
  * Class NoticesPresenter
  * @package App\Presenters
  */
-class NoticesPresenter extends BasePresenter {
-
+class NoticesPresenter extends BasePresenter
+{
   /** @var ActiveRow */
   private $noticeRow;
 

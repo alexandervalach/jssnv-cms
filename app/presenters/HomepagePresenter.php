@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use App\Model\AlbumsRepository;
@@ -10,17 +12,12 @@ use App\Model\SlidesRepository;
 /**
  * Homepage presenter.
  */
-class HomepagePresenter extends BasePresenter {
-
+class HomepagePresenter extends BasePresenter
+{
   /**
    * @var SlidesRepository
    */
   private $slidesRepository;
-
-  /**
-   * @var PostsRepository
-   */
-  private $postsRepository;
 
   /**
    * HomepagePresenter constructor.

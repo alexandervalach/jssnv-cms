@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenters;
 
 use Nette;
 use Tracy\ILogger;
-
 
 /**
  * Error presenter.
@@ -25,8 +26,9 @@ class ErrorPresenter extends BasePresenter
 
 
   /**
-   * @param  Exception
+   * @param Exception
    * @return void
+   * @throws Nette\Application\AbortException
    */
   public function renderDefault($exception)
   {

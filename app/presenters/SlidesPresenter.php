@@ -20,8 +20,8 @@ use Nette\Utils\ArrayHash;
  * Class SlidesPresenter
  * @package App\Presenters
  */
-class SlidesPresenter extends BasePresenter {
-
+class SlidesPresenter extends BasePresenter
+{
   /** @var ActiveRow */
   private $slideRow;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Helpers;
 
 use Nette\Application\UI\Form;
@@ -19,7 +21,8 @@ class FormHelper {
   /**
    * @param Form $form
    */
-  public static function setBootstrapFormRenderer(Form $form) {
+  public static function setBootstrapFormRenderer(Form $form): void
+  {
     $renderer = $form->getRenderer();
     $renderer->wrappers['controls']['container'] = NULL;
     $renderer->wrappers['form']['container'] = NULL;

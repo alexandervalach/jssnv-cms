@@ -22,8 +22,8 @@ use Nette\Utils\ArrayHash;
  * Class AlbumPresenter
  * @package App\Presenters
  */
-class AlbumsPresenter extends BasePresenter {
-
+class AlbumsPresenter extends BasePresenter
+{
   /** @var ActiveRow */
   private $albumRow;
 
