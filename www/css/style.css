@@ -53,12 +53,39 @@ $warning   : #F2C037
 ******************************/
 
 #page {
-  margin-top: 56px;
+  margin-top: 107px;
 }
 
 #page main {
   padding: 20px;
 }
+
+#page .bg-primary,
+#page .btn-primary {
+  background-color: #2e7d32 !important;
+}
+
+#page .bg-secondary,
+#page .btn-secondary {
+  background-color: #87c145 !important;
+}
+
+#page .btn-primary {
+  border-color: #77ac39 !important;
+}
+
+#page .btn-secondary {
+  border-color: #d4d12b !important;
+}
+
+#page .text-dark {
+  color: #0c0c0c !important;
+}
+
+#page .text-light {
+  color: #c0c0c0 !important;
+}
+
 
 /***********
 1. Fonts
@@ -290,28 +317,34 @@ p::selection
   transition: all 200ms ease;
 }
 
+#page header nav {
+  -webkit-box-shadow: 2px 0px 22px -5px rgba(0,0,0,0.72);
+  -moz-box-shadow: 2px 0px 22px -5px rgba(0,0,0,0.72);
+  box-shadow: 2px 0px 22px -5px rgba(0,0,0,0.72);
+}
+
 #page .header nav.navbar a {
-  color: white;
+  color: #fff;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
 
 #page .header nav .dropdown-menu a {
-  color: #000;
+  color: inherit;
   background: inherit;
   transition: background 100ms;
   -webkit-transition: background 100ms;
 }
 
-
 #page .header nav .dropdown-menu a:hover {
-  background: orange;
+  background: #ff9800; /* #ffa600; */
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
 }
 
-#page .header nav .dropdown-menu {
-  color: #fff;
-  background: #80CD27;
+#page nav .dropdown-menu {
   font-family: 'Poppins', sans-serif;
+  -webkit-box-shadow: 2px 2px 10px rgba(0,0,0,0.72);
+  -moz-box-shadow: 2px 2px 10px rgba(0,0,0,0.72);
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.72);
 }
 
 .header.scrolled
@@ -1891,10 +1924,6 @@ p::selection
 12. Footer
 *********************************/
 
-.footer
-{
-  background: green;
-}
 .footer_col
 {
   padding-right: 50px;

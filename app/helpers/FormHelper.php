@@ -39,7 +39,7 @@ class FormHelper {
       }
       if ($component instanceof SubmitButton) {
         if (empty($component->getControlPrototype()->class)) {
-          $component->getControlPrototype()->class = "btn btn-success";
+          $component->getControlPrototype()->class = "btn btn-large btn-primary";
         }
       }
       if ($component instanceof SelectBox) {
