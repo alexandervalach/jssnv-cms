@@ -93,49 +93,7 @@
       </form>
     </div>
   </nav>
-  <!--
-  <div class="header_container">
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <div class="header_content d-flex flex-row align-items-center justify-content-start">
-            <div class="logo_container mr-auto">
-              <a n:href="Homepage:">
-                <div class="logo_text">JS SNV</div>
-              </a>
-            </div>
-            <nav class="main_nav_contaner">
-              <ul class="main_nav">
-                <li class="active"><a href="#">Kurzy</a></li>
-                <li><a href="#">O nás</a></li>
-                <li><a href="#">Online testy</a></li>
-                <li><a href="#">Štúdium</a></li>
-                <li><a href="#">Uchádzači</a></li>
-                <li><a n:href="Contact:">Kontakt</a></li>
-              </ul>
-            </nav>
-            <div class="header_content_right ml-auto text-right">
-              <div class="header_search">
-                <div class="search_form_container">
-                  <form action="#" id="search_form" class="search_form trans_400">
-                    <input type="search" class="header_search_input trans_400" placeholder="Type for Search" required="required">
-                    <div class="search_button">
-                      <i class="fa fa-search" aria-hidden="true"></i>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <div class="user"><a href="#"><i class="fa fa-user" aria-hidden="true"></i></a></div>
-              <div class="hamburger menu_mm">
-                <i class="fa fa-bars menu_mm" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  -->
+  {control breadcrumb}
 </header>
 
 <!-- Menu -->
@@ -171,65 +129,3 @@
     </div>
   </div>
 </div>
-
-{*
-<aside id="menu" class="col-xs-12 col-sm-12 col-md-4 col-lg-3">
-  <ul class="nav nav-pills nav-stacked">-->
-    <!-- Prednastavené sekcie -->
-    {if $user->loggedIn}
-      <li>
-        <a n:href="Sign:out">
-          <span class="glyphicon glyphicon-off"> Odhlásiť
-        </a>
-      </li>
-      <li>
-        <a href="#">Admin</a>
-        <ul>
-          <li>
-            <a n:href="Sections:all"> &#58;&#58; Sekcie</a>
-            <a n:href="Albums:all"> &#58;&#58; Fotogaléria</a>
-            <a n:href="Files:all"> &#58;&#58; Súbory</a>
-            <a n:href="Tests:all"> &#58;&#58; Testy</a>
-            <a n:href="Results:all"> &#58;&#58; Výsledky testov</a>
-            <a n:href="Users:all"> &#58;&#58; Používatelia</a>
-          </li>
-        </ul>
-      </li>
-    {/if}
-    <!-- Používateľom generované sekcie -->
-    {foreach $menuSections as $menuSection}
-      {if $menuSection->visible}
-        {if $menuSection->subsections->count() > 0}
-          {if $menuSection->sliding}
-            <li class="slideToggle"><a href="#">{$menuSection->name}<span class="caret"></span></a>
-          {else}
-            <li><a href="#">{$menuSection->name}</a>
-          {/if}
-          <ul>
-            {foreach $menuSection->subsections as $menuSubSection}
-              <li>
-                {if $menuSubSection->url == NULL || $menuSubSection->url == ""}
-                  <a n:href="Sections:show, $menuSubSection->id"> &#58;&#58; {$menuSubSection->name}</a>
-                {else}
-                  <a href="{$menuSubSection->url}" {if !$menuSubSection->home_url}target="_blank"{/if}> &#58;&#58;
-                  {$menuSubSection->name}</a>
-                {/if}
-              </li>
-            {/foreach}
-          </ul>
-          </li>
-        {else}
-          <li>
-            {if empty($menuSection->url)}
-              <a n:href="Sections:show, $menuSection->id">{$menuSection->name}</a>
-            {else}
-              <a href="{$menuSection->url}" {if !$menuSection->home_url}target="_blank"{/if}>{$menuSection->name}</a>
-            {/if}
-          </li>
-        {/if}
-      {/if}
-    {/foreach}
-  </ul>
-</aside>
-*}
-

@@ -90,6 +90,14 @@ $warning   : #F2C037
   color: #c0c0c0 !important;
 }
 
+#page a.text-primary {
+  color: #2e7d32 !important;
+}
+
+#page a.text-primary:hover {
+  color: #77ac39 !important;
+}
+
 #page a:hover {
   text-decoration: none !important;
 }
@@ -239,90 +247,6 @@ p::selection
   display: block;
   position: relative;
   box-sizing: border-box;
-}
-
-.clear
-{
-  clear: both;
-}
-.clearfix::before, .clearfix::after
-{
-  content: "";
-  display: table;
-}
-.clearfix::after
-{
-  clear: both;
-}
-.clearfix
-{
-  zoom: 1;
-}
-.float_left
-{
-  float: left;
-}
-.float_right
-{
-  float: right;
-}
-.trans_200
-{
-  -webkit-transition: all 200ms ease;
-  -moz-transition: all 200ms ease;
-  -ms-transition: all 200ms ease;
-  -o-transition: all 200ms ease;
-  transition: all 200ms ease;
-}
-.trans_300
-{
-  -webkit-transition: all 300ms ease;
-  -moz-transition: all 300ms ease;
-  -ms-transition: all 300ms ease;
-  -o-transition: all 300ms ease;
-  transition: all 300ms ease;
-}
-.trans_400
-{
-  -webkit-transition: all 400ms ease;
-  -moz-transition: all 400ms ease;
-  -ms-transition: all 400ms ease;
-  -o-transition: all 400ms ease;
-  transition: all 400ms ease;
-}
-.trans_500
-{
-  -webkit-transition: all 500ms ease;
-  -moz-transition: all 500ms ease;
-  -ms-transition: all 500ms ease;
-  -o-transition: all 500ms ease;
-  transition: all 500ms ease;
-}
-.fill_height
-{
-  height: 100%;
-}
-.super_container
-{
-  width: 100%;
-  overflow: hidden;
-}
-.prlx_parent
-{
-  overflow: hidden;
-}
-.prlx
-{
-  height: 130% !important;
-}
-.parallax-window
-{
-  min-height: 400px;
-  background: transparent;
-}
-.nopadding
-{
-  padding: 0px !important;
 }
 
 /*********************************

@@ -1,36 +1,16 @@
-{* Responsive template for Bootstrap 4.0 with rich snippets *}
-
-{*
-  <div class="container">
-    <ul class="breadcrumb visible-md visible-lg">
-      <li>
-        <a href="{$homepage['link']}">{$homepage['name']}</a>
-      </li>
-      <li n:foreach="$items as $item" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-        <a href="{$item['link']}" n:tag-if="$item['link'] and !$iterator->last" itemprop="url"><span itemprop="title">{$item['name']}</span></a>
-      </li>
-    </ul>
-    <ul class="breadcrumb visible-xs visible-sm">
-      <li>
-        <a href="{$backLink['link']}"><span class="glyphicon glyphicon-chevron-left"></span> {$backLink['name']}</a>
-      </li>
-    </ul>
-  </div>
-</div>
-*}
-
+{* Responsive template for Bootstrap 4.0 *}
 <div n:if="$items">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item">
-        <a href="{$homepage['link']}">{$homepage['name']}</a>
+        <a href="{$homepage['link']}" class="text-primary">{$homepage['name']}</a>
       </li>
       {foreach $items as $item}
         {if $iterator->last}
           <li class="breadcrumb-item active" aria-current="page">{$item['name']}</li>
         {else}
           <li class="breadcrumb-item">
-            <a href="{$item['link']}" n:tag-if="$item['link']">{$item['name']}</a>
+            <a href="{$item['link']}" n:tag-if="$item['link']" class="text-primary">{$item['name']}</a>
           </li>
         {/if}
       {/foreach}

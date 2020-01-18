@@ -1,77 +1,68 @@
 {block content}
 
-<div class="row">
-  <article>
-    <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-        {if $user->loggedIn}
-          <div class="clearfix" style="margin-top: 15px">
-            <a data-toggle="modal" data-target="#addTextContentForm" class="btn btn-default">
-              <span class="glyphicon glyphicon-plus"></span> Text
-            </a>
-            <a data-toggle="modal" data-target="#addImageContentForm" class="btn btn-default">
-              <span class="glyphicon glyphicon-picture"></span> Obrázok
-            </a>
-            <a data-toggle="modal" data-target="#addFileContentForm" class="btn btn-default">
-              <span class="glyphicon glyphicon-file"></span> Súbor
-            </a>
-            <a data-toggle="modal" data-target="#editForm" class="btn btn-success">
-              <span class="glyphicon glyphicon-edit"></span> Upraviť
-            </a>
-            <a data-toggle="modal" data-target="#removeForm" class="btn btn-danger">
-              <span class="glyphicon glyphicon-trash"></span> Odstrániť
-            </a>
-          </div>
-        {/if}
-        <div class="clearfix text-center">
-          <h2 n:block="title">{$section->name}</h2>
-        </div>
-    </header>
-    <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      {foreach $contents as $content}
-        {if $content->type === 'text'}
-          {*}<p>{str_replace('\n', '', $content->text)}</p>*}
-          <p>{$content->text|noescape}</p>
-        {elseif $content->type === 'file'}
-          <a href="{$basePath}/{$fileFolder}/{$file->text}" class="text-success">{$file->name}</a>
-        {elseif $content->type === 'image'}
+<article class="row">
+  <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div n:if="$user->loggedIn" class="float-right" style="margin-top: 15px">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTextModal">
+        <i class="fas fa-plus"></i> Text
+      </button>
+      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#addImageModal">
+        <i class="fas fa-image"></i> Obrázok
+      </button>
+      <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addFileModal">
+        <i class="fas fa-file-alt"></i> Súbor
+      </button>
+      <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editModal">
+        <i class="fas fa-pencil-alt"></i> Upraviť
+      </button>
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">
+        <i class="fas fa-trash"></i> Odstrániť
+      </button>
+    </div>
+    <div class="float-left">
+      <h2 n:block="title">{$section->name}</h2>
+    </div>
+  </header>
+  <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    {foreach $contents as $content}
+      {if $content->type === 'text'}
+        {*}<p>{str_replace('\n', '', $content->text)}</p>*}
+        <p>{$content->text|noescape}</p>
+      {elseif $content->type === 'file'}
+        <a href="{$basePath}/{$fileFolder}/{$file->text}" class="text-success">{$file->name}</a>
+      {elseif $content->type === 'image'}
 
-        {elseif $content->type === 'video'}
+      {elseif $content->type === 'video'}
 
-        {/if}
-      {/foreach}
-    </main>
-  </article>
+      {/if}
+    {/foreach}
+  </main>
   <footer class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    {*
-    <ul style="list-style: none; padding-left: 0px">
-      {foreach $files as $file}
-        <li>
-          <a href="{$basePath}/{$fileFolder}{$file->name}" class="text-success">{$file->name}</a>
-          <a n:if="$user->loggedIn" n:href="Files:remove#primary, $file->id" class="text-danger">
-            <span class="glyphicon glyphicon-remove"></span>
-          </a>
-        </li>
-      {/foreach}
-    </ul>
-    *}
+      {*
+      <ul style="list-style: none; padding-left: 0px">
+        {foreach $files as $file}
+          <li>
+            <a href="{$basePath}/{$fileFolder}{$file->name}" class="text-success">{$file->name}</a>
+            <a n:if="$user->loggedIn" n:href="Files:remove#primary, $file->id" class="text-danger">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          </li>
+        {/foreach}
+      </ul>
+      *}
   </footer>
-</div>
-
-{*
-<div class="row">
-  <figure n:if="$user->loggedIn">
-      {control uploadForm}
-  </figure>
-</div>
-*}
+</article>
 
 {if $user->loggedIn}
-  <div class="modal" id="addTextContentForm" tabindex="-1" role="dialog" aria-labelledby="addTextContent" aria-hidden="true">
-    <div class="modal-dialog">
+  <!-- Content modal -->
+  <div class="modal fade" id="addTextModal" tabindex="-1" role="dialog" aria-labelledby="addTextModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title" id="addTextContent">Pridať text</h4>
+          <h5 class="modal-title" id="addTextModalLabel">Pridať text</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
           {control addTextContentForm}
@@ -79,12 +70,15 @@
       </div>
     </div>
   </div>
-  <div class="modal" id="removeForm" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <!-- Remove modal -->
+  <div class="modal fade" id="removeModal" tabindex="-2" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title" id="removeModalLabel">Odstrániť príspevok</h4>
+          <h5 class="modal-title" id="removeModalLabel">Odstrániť príspevok</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
           Naozaj chcete odstrániť sekciu <mark>{$section->name}</mark>?
@@ -95,12 +89,15 @@
       </div>
     </div>
   </div>
-  <div class="modal" id="editForm" tabindex="-1" role="dialog" aria-labelledby="sectionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+  <!-- Edit modal -->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h4 class="modal-title" id="sectionModalLabel">Upraviť príspevok</h4>
+          <h5 class="modal-title" id="editModalLabel">Upraviť príspevok</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
           {control sectionForm}
