@@ -10,6 +10,7 @@ use App\Model\LevelsResultsRepository;
 use App\Model\ResultsRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\Database\Table\ActiveRow;
 
 /**
@@ -75,6 +76,8 @@ class ResultsPresenter extends BasePresenter
       );
     }
 
+    $this['breadcrumb']->add('Testy', $this->link('Tests:all'));
+    $this['breadcrumb']->add('Výsledky testov');
     $this->template->results = $data;
   }
 
@@ -88,7 +91,7 @@ class ResultsPresenter extends BasePresenter
       $this->levelsResults = array();
 
       if (!$this->resultRow) {
-        $this->error(self::ITEM_NOT_FOUND);
+        throw new BadRequestException(self::ITEM_NOT_FOUND);
       }
 
       $levelsResults = $this->levelsResultsRepository->findAll()->where('result_id', $this->resultRow->id);
@@ -102,9 +105,10 @@ class ResultsPresenter extends BasePresenter
   /**
    * @param $id
    */
-  public function renderView ($id) {
-      $this->template->result = $this->resultRow;
-      $this->template->levels = $this->levelsResults;
-      $this->template->test = $this->resultRow->ref('tests', 'test_id');
-    }
+  public function renderView (int $id): void
+  {
+    $this->template->result = $this->resultRow;
+    $this->template->levels = $this->levelsResults;
+    $this->template->test = $this->resultRow->ref('tests', 'test_id');
+  }
 }

@@ -81,19 +81,23 @@ class SectionsPresenter extends BasePresenter
   /**
    * @throws AbortException
    */
-  public function actionAll() {
+  public function actionAll(): void
+  {
     $this->userIsLogged();
   }
 
   /**
    *
    */
-  public function renderAll() {
+  public function renderAll(): void
+  {
     // Property $sections is inherited from parent
     $this->template->sections = $this->sections;
+    $this['breadcrumb']->add('Sekcie');
   }
 
-  public function actionView(int $id) {
+  public function actionView(int $id): void
+  {
     $this->sectionRow = $this->sectionsRepository->findById($id);
 
     if (!$this->sectionRow) {
@@ -102,9 +106,23 @@ class SectionsPresenter extends BasePresenter
 
     $this->contents = $this->sectionRow->related('contents')->where('is_present', 1);
     $this['sectionForm']->setDefaults($this->sectionRow);
+
+    // Breadcrumb management
+    if ($this->user->loggedIn) {
+      $this['breadcrumb']->add('Sekcie', $this->link('all'));
+    }
+
+    $parent = $this->sectionRow->ref('sections', 'section_id');
+
+    if ($parent) {
+      $this['breadcrumb']->add($parent->name, $this->link('Sections:view', $parent->id));
+    }
+
+    $this['breadcrumb']->add($this->sectionRow->name);
   }
 
-  public function renderView(int $id) {
+  public function renderView(int $id): void
+  {
     $this->template->section = $this->sectionRow;
     $this->template->contents = $this->contents;
   }
@@ -112,7 +130,8 @@ class SectionsPresenter extends BasePresenter
   /**
    * @return Form
    */
-  protected function createComponentSectionForm() {
+  protected function createComponentSectionForm(): Form
+  {
     return $this->sectionFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->getParameter('id') ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
     });
@@ -121,7 +140,8 @@ class SectionsPresenter extends BasePresenter
   /**
    * @return Form
    */
-  protected function createComponentRemoveForm() {
+  protected function createComponentRemoveForm(): Form
+  {
     return $this->modalRemoveFormFactory->create(function () {
       $this->userIsLogged();
 
@@ -134,13 +154,14 @@ class SectionsPresenter extends BasePresenter
       }
 
       // Delete section from database
-      $this->sectionsRepository->softDelete($this->sectionRow->id);
+      $this->sectionsRepository->softDelete((int)$this->sectionRow->id);
       $this->flashMessage(self::ITEM_REMOVED);
       $this->redirect('all');
     });
   }
 
-  protected function createComponentAddTextContentForm () {
+  protected function createComponentAddTextContentForm (): Form
+  {
     return $this->addTextContentFormFactory->create(function (Form $form, ArrayHash $values) {
       // Change the type according to content
       $values['type'] = ContentsRepository::$type['text'];
@@ -155,7 +176,8 @@ class SectionsPresenter extends BasePresenter
    * @param ArrayHash $values
    * @throws AbortException
    */
-  private function submittedAddForm(ArrayHash $values) {
+  private function submittedAddForm(ArrayHash $values): void
+  {
     $this->userIsLogged();
     $values->offsetSet('section_id', $values->section_id === 0 ? null : $values->section_id);
     $section = $this->sectionsRepository->insert($values);
@@ -167,7 +189,8 @@ class SectionsPresenter extends BasePresenter
    * @param ArrayHash $values
    * @throws AbortException
    */
-  private function submittedEditForm(ArrayHash $values) {
+  private function submittedEditForm(ArrayHash $values): void
+  {
     $this->userIsLogged();
     $values->section_id = $values->section_id === 0 ? null : $values->section_id;
     $this->sectionRow->update($values);
