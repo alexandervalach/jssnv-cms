@@ -55,6 +55,11 @@ class SlidesPresenter extends BasePresenter
     $this->slideFormFactory = $slideFormFactory;
   }
 
+  public function actionAll(): void
+  {
+    $this->guestRedirect();
+  }
+
   /**
    * Prepares data for render template
    */

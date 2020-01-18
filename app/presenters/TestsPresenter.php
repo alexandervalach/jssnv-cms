@@ -85,7 +85,7 @@ class TestsPresenter extends BasePresenter
    */
   public function actionAll (): void
   {
-  	$this->userIsLogged();
+  	$this->guestRedirect();
   }
 
   /**

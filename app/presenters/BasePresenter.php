@@ -64,7 +64,7 @@ abstract class BasePresenter extends Presenter
   }
 
   /**
-   *
+   * Loads common data for every page
    */
   public function beforeRender()
   {
@@ -95,8 +95,27 @@ abstract class BasePresenter extends Presenter
    */
   protected function userIsLogged()
   {
-    if (!$this->user->isLoggedIn()) {
-      $this->redirect('Sign:in');
+    try {
+      if (!$this->user->isLoggedIn()) {
+        $this->redirect('Sign:in');
+      }
+    } catch (AbortException $e) {
+      $this->redirect('Homepage:');
+    }
+  }
+
+  /**
+   * Redirects guest to homepage
+   * @throws AbortException
+   */
+  protected function guestRedirect()
+  {
+    try {
+      if (!$this->user->isLoggedIn()) {
+        $this->redirect('Homepage:');
+      }
+    } catch (AbortException $e) {
+      $this->redirect('Homepage:');
     }
   }
 
@@ -106,7 +125,7 @@ abstract class BasePresenter extends Presenter
    * @param $privilegedUserRole
    * @throws ForbiddenRequestException
    */
-  protected function userIsAllowed($id, $currentUserRole, $privilegedUserRole)
+  protected function userIsAllowed($id, string $currentUserRole, string $privilegedUserRole)
   {
     if ($currentUserRole != $privilegedUserRole) {
       if ($this->user->id != $id) {
@@ -115,7 +134,11 @@ abstract class BasePresenter extends Presenter
     }
   }
 
-  protected function createComponentBreadcrumb()
+  /***
+   * Generates breadcrumb control
+   * @return BreadcrumbControl
+   */
+  protected function createComponentBreadcrumb(): BreadcrumbControl
   {
     return new BreadcrumbControl();
   }
