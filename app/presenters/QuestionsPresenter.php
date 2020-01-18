@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\QuestionFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsRepository;
 use App\Model\QuestionsRepository;
@@ -12,7 +13,10 @@ use App\Model\SectionsRepository;
 use App\Model\TestsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
+use Nette\Application\UI\Form;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Database\Table\ActiveRow;
+use Nette\Utils\ArrayHash;
 
 /**
  * Class QuestionsPresenter
@@ -41,6 +45,11 @@ class QuestionsPresenter extends BasePresenter
   private $levelsRepository;
 
   /**
+   * @var QuestionFormFactory
+   */
+  private $questionFormFactory;
+
+  /**
    * QuestionsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
@@ -48,67 +57,69 @@ class QuestionsPresenter extends BasePresenter
    * @param QuestionsRepository $questionsRepository
    * @param LevelsRepository $levelsRepository
    * @param BreadcrumbControl $breadcrumbControl
+   * @param QuestionFormFactory $questionFormFactory
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               TestsRepository $testsRepository,
                               QuestionsRepository $questionsRepository,
                               LevelsRepository $levelsRepository,
-                              BreadcrumbControl $breadcrumbControl)
+                              BreadcrumbControl $breadcrumbControl,
+                              QuestionFormFactory $questionFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->testsRepository = $testsRepository;
     $this->questionsRepository = $questionsRepository;
     $this->levelsRepository = $levelsRepository;
+    $this->questionFormFactory = $questionFormFactory;
   }
 
   /**
-   * @param id test id
+   * @param int $id
    * @throws AbortException
    * @throws BadRequestException
    */
-  public function actionAll ($id) {
+  public function actionAll (int $id): void
+  {
     $this->userIsLogged();
     $this->testRow = $this->testsRepository->findById($id);
 
     if (!$this->testRow) {
-      $this->error(self::TEST_NOT_FOUND);
+      throw new BadRequestException(self::TEST_NOT_FOUND);
     }
   }
 
   /**
-   * @param id test id
+   * @param int $id
+   * @throws InvalidLinkException
    */
-  public function renderAll ($id) {
+  public function renderAll (int $id): void
+  {
     $this->template->test = $this->testRow;
-    $this->template->questions = $this->testRow->related('questions');
+    $this->template->questions = $this->testRow->related('questions')->where('is_present', 1);
+    $this['breadcrumb']->add('Testy', $this->link('Tests:all'));
+    $this['breadcrumb']->add($this->testRow->label);
   }
 
   /**
-   * @param $form
-   * @param $values
+   * @param ArrayHash $values
    * @throws AbortException
    */
-  public function submittedAddForm ($form, $values) {
+  public function submittedAddForm (ArrayHash $values): void
+  {
     $this->questionsRepository->insert($values);
-    $this->flashMessage(self::ITEM_ADD_SUCCESS);
+    $this->flashMessage(self::ITEM_ADDED, self::INFO);
     $this->redirect('all', $this->testRow); 
   }
 
   /**
    * @return Form
    */
-  protected function createComponentAddForm () {
-    $form = new Form;
-    $levels = $this->levelsRepository->getLevels();
-
-    $form->addText('label', 'Znenie otázky');
-    $form->addHidden('test_id', $this->testRow);
-    $form->addSelect('level_id', 'Úroveň', $levels);
-    $form->addSubmit('save', 'Uložiť');
-    $form->onSuccess[] = [$this, 'submittedAddForm'];
-
-    FormHelper::setBootstrapFormRenderer($form);
-    return $form;
+  protected function createComponentAddForm (): Form
+  {
+    return $this->questionFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->userIsLogged();
+      $this->submittedAddForm($values);
+    });
   }
 }

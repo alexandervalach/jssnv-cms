@@ -58,6 +58,7 @@ services:
     - App\Forms\MultiUploadFormFactory
     - App\Forms\PasswordFormFactory
     - App\Forms\PostFormFactory
+    - App\Forms\QuestionFormFactory
     - App\Forms\RemoveFormFactory
     - App\Forms\SectionFormFactory
     - App\Forms\SlideFormFactory

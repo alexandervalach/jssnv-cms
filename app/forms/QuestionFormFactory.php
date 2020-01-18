@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Forms;
 
 use App\Helpers\FormHelper;
+use App\Model\LevelsRepository;
 use Nette\SmartObject;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
@@ -13,7 +14,7 @@ use Nette\Utils\ArrayHash;
  * Add upload form factory
  * @package App\Forms
  */
-class AlbumFormFactory
+class QuestionFormFactory
 {
   use SmartObject;
 
@@ -21,11 +22,18 @@ class AlbumFormFactory
   private $formFactory;
 
   /**
-   * @param FormFactory $factory
+   * @var LevelsRepository
    */
-  public function __construct(FormFactory $factory)
+  private $levelsRepository;
+
+  /**
+   * @param FormFactory $factory
+   * @param LevelsRepository $levelsRepository
+   */
+  public function __construct(FormFactory $factory, LevelsRepository $levelsRepository)
   {
     $this->formFactory = $factory;
+    $this->levelsRepository = $levelsRepository;
   }
 
   /**
@@ -36,14 +44,17 @@ class AlbumFormFactory
   public function create(callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
+    $levels = $this->levelsRepository->getLevels();
 
-    $form->addText('label', 'Názov*')
-        ->setHtmlAttribute('placeholder','Zo života školy')
+    $form->addText('label', 'Znenie otázky*')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
+        ->addRule(Form::MAX_LENGTH, 'Otázka môže mať maximálne 255 znakov.', 255);
+    // $form->addHidden('test_id', $this->testRow);
+    $form->addSelect('level_id', 'Úroveň*', $levels)
+        ->setRequired();
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
-        ->setHtmlAttribute('class', 'btn btn-warning')
+        ->setHtmlAttribute('class', 'btn btn-large btn-warning')
         ->setHtmlAttribute('data-dismiss', 'modal');
     FormHelper::setBootstrapFormRenderer($form);
 

@@ -20,7 +20,7 @@
             <img src="{$basePath}/{$imgFolder}/{$album->thumbnail}" alt="{$album->thumbnail}" class="img-fluid img-thumbnail" />
           </a>
           <figcaption class="text-center">
-            <a n:href="Albums:view, $album->id">{$album->name}</a>
+            <a n:href="Albums:view, $album->id">{$album->label}</a>
           </figcaption>
         </figure>
       {/if}

@@ -16,6 +16,7 @@ use App\Model\TestsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -93,11 +94,13 @@ class TestsPresenter extends BasePresenter
   public function renderAll (): void
   {
   	$this->template->tests = $this->testsRepository->findAll();
+    $this['breadcrumb']->add('Testy');
   }
 
   /**
    * @param $id
    * @throws BadRequestException
+   * @throws InvalidLinkException
    */
   public function actionView (int $id): void
   {
@@ -108,6 +111,8 @@ class TestsPresenter extends BasePresenter
     }
 
     $this['testForm']->setDefaults($this->testRow);
+    $this['breadcrumb']->add('Testy', $this->link('all'));
+    $this['breadcrumb']->add($this->testRow->label);
     $this->questions = $this->questionsRepository->findQuestions((int)$this->testRow->id);
   }
 

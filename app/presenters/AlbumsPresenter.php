@@ -14,6 +14,7 @@ use App\Forms\AlbumFormFactory;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Database\Table\ActiveRow;
 use Nette\InvalidArgumentException;
 use Nette\IOException;
@@ -77,12 +78,14 @@ class AlbumsPresenter extends BasePresenter
   public function renderAll(): void
   {
     $this->template->albums = $this->albumsRepository->findAll();
+    $this['breadcrumb']->add('Fotogaléria');
   }
 
   /**
    * @param $id
    * @throws BadRequestException
    * @throws AbortException
+   * @throws InvalidLinkException
    */
   public function actionView(int $id): void
   {
@@ -92,6 +95,9 @@ class AlbumsPresenter extends BasePresenter
     if (!$this->albumRow) {
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
+
+    $this['breadcrumb']->add('Fotogaléria', $this->link('all'));
+    $this['breadcrumb']->add($this->albumRow->label);
   }
 
   /**
@@ -158,7 +164,7 @@ class AlbumsPresenter extends BasePresenter
           throw new InvalidArgumentException;
         }
 
-        if (!$image->move($this->imgFolder . '/' . $name)) {
+        if (!$image->move(self::IMAGE_FOLDER . '/' . $name)) {
           throw new IOException;
         }
 
