@@ -49,6 +49,7 @@ services:
     - App\Forms\AddFileContentFormFactory
     - App\Forms\AddImageContentFormFactory
     - App\Forms\AddTextContentFormFactory
+    - App\Forms\EditSlideFormFactory
     - App\Forms\EditUserFormFactory
     - App\Forms\FormFactory
     - App\Forms\FinishFormFactory

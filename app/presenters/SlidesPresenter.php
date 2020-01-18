@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\EditSlideFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\SlideFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Model\SlidesRepository;
 use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\Application\UI\InvalidLinkException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Application\UI\Form;
@@ -43,11 +45,17 @@ class SlidesPresenter extends BasePresenter
   private $modalRemoveFormFactory;
 
   /**
+   * @var EditSlideFormFactory
+   */
+  private $editSlideFormFactory;
+
+  /**
    * SlidesPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
    * @param SlidesRepository $slidesRepository
    * @param SlideFormFactory $slideFormFactory
+   * @param EditSlideFormFactory $editSlideFormFactory
    * @param BreadcrumbControl $breadcrumbControl
    * @param ModalRemoveFormFactory $modalRemoveFormFactory
    */
@@ -55,6 +63,7 @@ class SlidesPresenter extends BasePresenter
                               SectionsRepository $sectionRepository,
                               SlidesRepository $slidesRepository,
                               SlideFormFactory $slideFormFactory,
+                              EditSlideFormFactory $editSlideFormFactory,
                               BreadcrumbControl $breadcrumbControl,
                               ModalRemoveFormFactory $modalRemoveFormFactory)
   {
@@ -62,8 +71,12 @@ class SlidesPresenter extends BasePresenter
     $this->slidesRepository = $slidesRepository;
     $this->slideFormFactory = $slideFormFactory;
     $this->modalRemoveFormFactory = $modalRemoveFormFactory;
+    $this->editSlideFormFactory = $editSlideFormFactory;
   }
 
+  /**
+   *
+   */
   public function actionAll(): void
   {
     try {
@@ -82,6 +95,10 @@ class SlidesPresenter extends BasePresenter
     $this['breadcrumb']->add('Kurzy', 'Slides:all');
   }
 
+  /**
+   * @param int $id
+   * @throws BadRequestException
+   */
   public function actionView(int $id): void
   {
     $this->slideRow = $this->slidesRepository->findById($id);
@@ -90,34 +107,55 @@ class SlidesPresenter extends BasePresenter
     }
   }
 
+  /**
+   * @param int $id
+   */
   public function renderView(int $id): void
   {
     $this->template->slide = $this->slideRow;
+    $this['editForm']->setDefaults($this->slideRow);
 
     try {
       $this['breadcrumb']->add('Kurzy', $this->link('all'));
     } catch (InvalidLinkException $e) {
 
     }
-
     $this['breadcrumb']->add($this->slideRow->title);
   }
 
   /**
+   * Creates add form control
    * @return Form
    */
   protected function createComponentSlideForm(): Form
   {
     return $this->slideFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->guestRedirect();
-      $this->getParameter('id' ) ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
+      $this->submittedAddForm($values);
     });
   }
 
+  /**
+   * Creates edit form control
+   * @return Form
+   */
+  protected function createComponentEditForm(): Form
+  {
+    return $this->editSlideFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->guestRedirect();
+      $this->submittedEditForm($values);
+    });
+  }
+
+  /**
+   * Creates remove form control
+   * @return Form
+   */
   protected function createComponentRemoveForm(): Form
   {
-    return $this->modalRemoveFormFactory->create(function (Form $form, ArrayHash $values) {
+    return $this->modalRemoveFormFactory->create(function () {
       $this->guestRedirect();
+      $this->submittedRemoveForm();
     });
   }
 
@@ -167,4 +205,14 @@ class SlidesPresenter extends BasePresenter
     $this->redirect('view', $this->slideRow->id);
   }
 
+  /**
+   * Removes selected item
+   * @throws AbortException
+   */
+  public function submittedRemoveForm (): void
+  {
+    $this->slidesRepository->softDelete((int) $this->slideRow->id);
+    $this->flashMessage(self::ITEM_REMOVED, self::INFO);
+    $this->redirect('all');
+  }
 }
