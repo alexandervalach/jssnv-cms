@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use App\Components\ModalDialog;
-use App\Components\FormCancelled;
+use App\Components\BreadcrumbControl;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
@@ -30,6 +29,8 @@ abstract class BasePresenter extends Presenter
   const SUCCESS = 'success';
   const ERROR = 'danger';
   const INFO = 'info';
+  const IMAGE_FOLDER = 'images';
+  const FILE_FOLDER = 'files';
 
   /** @var AlbumsRepository */
   protected $albumsRepository;
@@ -40,22 +41,24 @@ abstract class BasePresenter extends Presenter
   /** @var ArrayHash */
   protected $sections;
 
-  /** @var string */
-  protected $imgFolder = 'images';
-
-  /** @var string */
-  protected $fileFolder = 'files';
+  /**
+   * @var BreadcrumbControl
+   */
+  private $breadcrumbControl;
 
   /**
    * BasePresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
+   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
-                              SectionsRepository $sectionRepository) {
+                              SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl) {
     parent::__construct();
     $this->albumsRepository = $albumsRepository;
     $this->sectionsRepository = $sectionRepository;
+    $this->breadcrumbControl = $breadcrumbControl;
   }
 
   /**
@@ -81,8 +84,8 @@ abstract class BasePresenter extends Presenter
 
     $this->template->menuSections = $this->sections;
     $this->template->menuAlbums = $this->albumsRepository->findAll();
-    $this->template->imgFolder = $this->imgFolder;
-    $this->template->fileFolder = $this->fileFolder;
+    $this->template->imgFolder = self::IMAGE_FOLDER;
+    $this->template->fileFolder = self::FILE_FOLDER;
   }
 
   /**
@@ -92,20 +95,6 @@ abstract class BasePresenter extends Presenter
     if (!$this->user->isLoggedIn()) {
       $this->redirect('Sign:in');
     }
-  }
-
-  /**
-   * @return ModalDialog
-   */
-  protected function createComponentModalDialog() {
-    return new ModalDialog();
-  }
-
-  /**
-   * @return FormCancelled
-   */
-  protected function createComponentFormCancelled() {
-    return new FormCancelled();
   }
 
   /**
@@ -121,6 +110,11 @@ abstract class BasePresenter extends Presenter
           throw new ForbiddenRequestException($errorMessage);
       }
     }
+  }
+
+  protected function createComponentBreadcrumb()
+  {
+    return new BreadcrumbControl();
   }
 
 }

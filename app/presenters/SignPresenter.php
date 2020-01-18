@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Forms\SignFormFactory;
@@ -22,11 +23,19 @@ class SignPresenter extends BasePresenter
    */
   private $signFormFactory;
 
+  /**
+   * SignPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param SignFormFactory $signFormFactory
+   * @param BreadcrumbControl $breadcrumbControl
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              SignFormFactory $signFormFactory)
+                              SignFormFactory $signFormFactory,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->signFormFactory = $signFormFactory;
   }
 

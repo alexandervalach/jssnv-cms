@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Model\AlbumsRepository;
 use App\Model\ImagesRepository;
 use App\Model\SectionsRepository;
@@ -28,11 +29,19 @@ class ImagesPresenter extends BasePresenter
    */
   private $imagesRepository;
 
+  /**
+   * ImagesPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param ImagesRepository $imagesRepository
+   * @param BreadcrumbControl $breadcrumbControl
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              ImagesRepository $imagesRepository)
+                              ImagesRepository $imagesRepository,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->imagesRepository = $imagesRepository;
   }
 

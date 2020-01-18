@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Model\AlbumsRepository;
 use App\Model\PostsRepository;
 use App\Model\SectionsRepository;
@@ -24,12 +25,14 @@ class HomepagePresenter extends BasePresenter
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
    * @param SlidesRepository $slidesRepository
+   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              SlidesRepository $slidesRepository)
+                              SlidesRepository $slidesRepository,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->slidesRepository = $slidesRepository;
   }
 

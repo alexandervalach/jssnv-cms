@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\MultiUploadFormFactory;
 use App\Model\AlbumsRepository;
@@ -45,14 +46,25 @@ class AlbumsPresenter extends BasePresenter
    */
   private $removeFormFactory;
 
+  /**
+   * AlbumsPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param AlbumFormFactory $albumFormFactory
+   * @param MultiUploadFormFactory $multiUploadFormFactory
+   * @param ImagesRepository $imagesRepository
+   * @param ModalRemoveFormFactory $removeFormFactory
+   * @param BreadcrumbControl $breadcrumbControl
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               AlbumFormFactory $albumFormFactory,
                               MultiUploadFormFactory $multiUploadFormFactory,
                               ImagesRepository $imagesRepository,
-                              ModalRemoveFormFactory $removeFormFactory)
+                              ModalRemoveFormFactory $removeFormFactory,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->imagesRepository = $imagesRepository;
     $this->albumFormFactory = $albumFormFactory;
     $this->multiUploadFormFactory = $multiUploadFormFactory;
@@ -182,6 +194,9 @@ class AlbumsPresenter extends BasePresenter
     $this->redirect('view', $this->albumRow->id);
   }
 
+  /**
+   * @throws AbortException
+   */
   public function submittedRemoveForm(): void
   {
     $images = $this->albumRow->related('images');

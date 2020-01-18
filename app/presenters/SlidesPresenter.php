@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\FormHelper;
 use App\Forms\SlideFormFactory;
 use App\Model\AlbumsRepository;
@@ -35,12 +36,21 @@ class SlidesPresenter extends BasePresenter
     */
   private $slideFormFactory;
 
+  /**
+   * SlidesPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param SlidesRepository $slidesRepository
+   * @param SlideFormFactory $slideFormFactory
+   * @param BreadcrumbControl $breadcrumbControl
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               SlidesRepository $slidesRepository,
-                              SlideFormFactory $slideFormFactory)
+                              SlideFormFactory $slideFormFactory,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->slidesRepository = $slidesRepository;
     $this->slideFormFactory = $slideFormFactory;
   }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Forms\AddTextContentFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\RemoveFormFactory;
@@ -60,15 +61,17 @@ class SectionsPresenter extends BasePresenter
    * @param ModalRemoveFormFactory $modalRemoveFormFactory
    * @param AddTextContentFormFactory $addTextContentFormFactory
    * @param ContentsRepository $contentsRepository
+   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               SectionFormFactory $sectionFormFactory,
                               ModalRemoveFormFactory $modalRemoveFormFactory,
                               AddTextContentFormFactory $addTextContentFormFactory,
-                              ContentsRepository $contentsRepository)
+                              ContentsRepository $contentsRepository,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->sectionFormFactory = $sectionFormFactory;
     $this->contentsRepository = $contentsRepository;
     $this->modalRemoveFormFactory = $modalRemoveFormFactory;

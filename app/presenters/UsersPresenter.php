@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Forms\EditUserFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\PasswordFormFactory;
@@ -15,6 +16,7 @@ use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Form;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Security\Passwords;
 use Nette\Utils\ArrayHash;
@@ -67,9 +69,10 @@ class UsersPresenter extends BasePresenter
                               UserFormFactory $userFormFactory,
                               ModalRemoveFormFactory $modalRemoveFormFactory,
                               PasswordFormFactory $passwordFormFactory,
-                              EditUserFormFactory $editUserFormFactory)
+                              EditUserFormFactory $editUserFormFactory,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->usersRepository = $usersRepository;
     $this->passwords = $passwords;
     $this->userFormFactory = $userFormFactory;
@@ -84,6 +87,7 @@ class UsersPresenter extends BasePresenter
   public function actionAll(): void
   {
     $this->userIsLogged();
+    $this['breadcrumb']->add('Používatelia');
   }
 
   public function renderAll(): void
@@ -94,12 +98,21 @@ class UsersPresenter extends BasePresenter
   /**
    * @param $id
    * @throws AbortException
+   * @throws BadRequestException
+   * @throws InvalidLinkException
    */
   public function actionView(int $id): void
   {
     $this->userIsLogged();
     $this->userRow = $this->usersRepository->findById($id);
+
+    if (!$this->userRow) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
+
     $this['editForm']->setDefaults($this->userRow);
+    $this['breadcrumb']->add('Používatelia', $this->link('all'));
+    $this['breadcrumb']->add($this->userRow->username);
   }
 
   /**
@@ -165,7 +178,7 @@ class UsersPresenter extends BasePresenter
   }
 
   /**
-   * @param Form $form
+   * @param ArrayHash $values
    * @throws AbortException
    * @throws ForbiddenRequestException
    */
@@ -190,7 +203,7 @@ class UsersPresenter extends BasePresenter
     }
 
     $this->flashMessage(self::ITEM_REMOVED, self::SUCCESS);
-    $this->usersRepository->softDelete($this->userRow->id);
+    $this->usersRepository->softDelete((int)$this->userRow->id);
     $this->redirect('all');
   }
 

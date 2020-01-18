@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\FormHelper;
 use App\Forms\RemoveFormFactory;
 use App\Forms\UploadFormFactory;
@@ -48,14 +49,16 @@ class FilesPresenter extends BasePresenter
    * @param UploadFormFactory $uploadFormFactory
    * @param ContentsRepository $filesRepository
    * @param RemoveFormFactory $removeFormFactoryText
+   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               UploadFormFactory $uploadFormFactory,
                               ContentsRepository $filesRepository,
-                              RemoveFormFactory $removeFormFactoryText)
+                              RemoveFormFactory $removeFormFactoryText,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->filesRepository = $filesRepository;
     $this->uploadFormFactory = $uploadFormFactory;
     $this->removeFormFactory = $removeFormFactoryText;

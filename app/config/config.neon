@@ -27,39 +27,42 @@ session:
 
 
 services:
-	- App\Model\AlbumsRepository
-	- App\Model\AnswersRepository
-	- App\Model\ContentsRepository
-	- App\Model\ImagesRepository
-	- App\Model\LevelsRepository
-	- App\Model\LevelsResultsRepository
-	- App\Model\NoticesRepository
-	- App\Model\QuestionsRepository
-	- App\Model\ResultsRepository
-	- App\Model\SectionsRepository
-	- App\Model\SlidesRepository
-	- App\Model\TestsRepository
-	- App\Model\UsersRepository
+    # Components
+    - App\Components\BreadcrumbControl
 
-	# Form factories
-	- App\Forms\AlbumFormFactory
-	- App\Forms\AddFileContentFormFactory
-	- App\Forms\AddImageContentFormFactory
-	- App\Forms\AddTextContentFormFactory
-	- App\Forms\EditUserFormFactory
-	- App\Forms\FormFactory
-	- App\Forms\FinishFormFactory
-	- App\Forms\SignFormFactory
-	- App\Forms\UploadFormFactory
-	- App\Forms\ModalRemoveFormFactory
-	- App\Forms\MultiUploadFormFactory
-	- App\Forms\PasswordFormFactory
-	- App\Forms\PostFormFactory
-	- App\Forms\RemoveFormFactory
-	- App\Forms\SectionFormFactory
-	- App\Forms\SlideFormFactory
-	- App\Forms\TestFormFactory
-	- App\Forms\UserFormFactory
+    - App\Model\AlbumsRepository
+    - App\Model\AnswersRepository
+    - App\Model\ContentsRepository
+    - App\Model\ImagesRepository
+    - App\Model\LevelsRepository
+    - App\Model\LevelsResultsRepository
+    - App\Model\NoticesRepository
+    - App\Model\QuestionsRepository
+    - App\Model\ResultsRepository
+    - App\Model\SectionsRepository
+    - App\Model\SlidesRepository
+    - App\Model\TestsRepository
+    - App\Model\UsersRepository
 
-	router: App\RouterFactory::createRouter
-	authenticator: App\Model\Authenticator
+    # Form factories
+    - App\Forms\AlbumFormFactory
+    - App\Forms\AddFileContentFormFactory
+    - App\Forms\AddImageContentFormFactory
+    - App\Forms\AddTextContentFormFactory
+    - App\Forms\EditUserFormFactory
+    - App\Forms\FormFactory
+    - App\Forms\FinishFormFactory
+    - App\Forms\SignFormFactory
+    - App\Forms\UploadFormFactory
+    - App\Forms\ModalRemoveFormFactory
+    - App\Forms\MultiUploadFormFactory
+    - App\Forms\PasswordFormFactory
+    - App\Forms\PostFormFactory
+    - App\Forms\RemoveFormFactory
+    - App\Forms\SectionFormFactory
+    - App\Forms\SlideFormFactory
+    - App\Forms\TestFormFactory
+    - App\Forms\UserFormFactory
+
+    router: App\RouterFactory::createRouter
+    authenticator: App\Model\Authenticator

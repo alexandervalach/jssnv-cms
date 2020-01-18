@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Helpers\FormHelper;
 use App\Model\AlbumsRepository;
 use App\Model\NoticesRepository;
@@ -31,11 +32,19 @@ class NoticesPresenter extends BasePresenter
    */
   private $noticesRepository;
 
+  /**
+   * NoticesPresenter constructor.
+   * @param AlbumsRepository $albumsRepository
+   * @param SectionsRepository $sectionRepository
+   * @param NoticesRepository $noticesRepository
+   * @param BreadcrumbControl $breadcrumbControl
+   */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              NoticesRepository $noticesRepository)
+                              NoticesRepository $noticesRepository,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->noticesRepository = $noticesRepository;
   }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
 use App\Model\ResultsRepository;
@@ -37,13 +38,15 @@ class ResultsPresenter extends BasePresenter
    * @param SectionsRepository $sectionRepository
    * @param ResultsRepository $resultsRepository
    * @param LevelsResultsRepository $levelsResultsRepository
+   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               ResultsRepository $resultsRepository,
-                              LevelsResultsRepository $levelsResultsRepository)
+                              LevelsResultsRepository $levelsResultsRepository,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->resultsRepository = $resultsRepository;
     $this->levelsResultsRepository = $levelsResultsRepository;
   }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
+use App\Components\BreadcrumbControl;
 use App\Forms\FinishFormFactory;
 use App\Forms\TestFormFactory;
 use App\Model\AlbumsRepository;
@@ -66,9 +67,10 @@ class TestsPresenter extends BasePresenter
                               QuestionsRepository $questionsRepository,
                               LevelsResultsRepository $levelsResultsRepository,
                               TestFormFactory $testFormFactory,
-                              FinishFormFactory $finishFormFactory)
+                              FinishFormFactory $finishFormFactory,
+                              BreadcrumbControl $breadcrumbControl)
   {
-    parent::__construct($albumsRepository, $sectionRepository);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->testsRepository = $testsRepository;
     $this->resultsRepository = $resultsRepository;
     $this->levelsResultsRepository = $levelsResultsRepository;
@@ -106,7 +108,7 @@ class TestsPresenter extends BasePresenter
     }
 
     $this['testForm']->setDefaults($this->testRow);
-    $this->questions = $this->questionsRepository->findQuestions($this->testRow->id);
+    $this->questions = $this->questionsRepository->findQuestions((int)$this->testRow->id);
   }
 
   /**
