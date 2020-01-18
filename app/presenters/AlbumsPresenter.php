@@ -90,7 +90,7 @@ class AlbumsPresenter extends BasePresenter
    */
   public function actionView(int $id): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this->albumRow = $this->albumsRepository->findById($id);
 
     if (!$this->albumRow) {
@@ -118,7 +118,7 @@ class AlbumsPresenter extends BasePresenter
   protected function createComponentAlbumForm(): Form
   {
     return $this->albumFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->getParameter('id') ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
     });
   }
@@ -130,7 +130,7 @@ class AlbumsPresenter extends BasePresenter
   protected function createComponentUploadForm(): Form
   {
     return $this->multiUploadFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->submittedUploadForm($values);
     });
   }
@@ -142,7 +142,7 @@ class AlbumsPresenter extends BasePresenter
   protected function createComponentRemoveForm(): Form
   {
     return $this->removeFormFactory->create(function () {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->submittedRemoveForm();
     });
   }

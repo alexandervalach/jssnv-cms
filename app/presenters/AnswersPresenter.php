@@ -60,7 +60,7 @@ class AnswersPresenter extends BasePresenter
    */
   public function actionAll (int $id): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this->questionRow = $this->questionsRepository->findById($id);
 
     if (!$this->questionRow) {

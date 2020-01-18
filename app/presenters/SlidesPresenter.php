@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\ModalRemoveFormFactory;
 use App\Forms\SlideFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Model\SlidesRepository;
 use Nette\Application\AbortException;
-use Nette\Application\BadRequestException;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Application\UI\Form;
 use Nette\InvalidArgumentException;
@@ -37,27 +38,39 @@ class SlidesPresenter extends BasePresenter
   private $slideFormFactory;
 
   /**
+   * @var ModalRemoveFormFactory
+   */
+  private $modalRemoveFormFactory;
+
+  /**
    * SlidesPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
    * @param SlidesRepository $slidesRepository
    * @param SlideFormFactory $slideFormFactory
    * @param BreadcrumbControl $breadcrumbControl
+   * @param ModalRemoveFormFactory $modalRemoveFormFactory
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               SlidesRepository $slidesRepository,
                               SlideFormFactory $slideFormFactory,
-                              BreadcrumbControl $breadcrumbControl)
+                              BreadcrumbControl $breadcrumbControl,
+                              ModalRemoveFormFactory $modalRemoveFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->slidesRepository = $slidesRepository;
     $this->slideFormFactory = $slideFormFactory;
+    $this->modalRemoveFormFactory = $modalRemoveFormFactory;
   }
 
   public function actionAll(): void
   {
-    $this->guestRedirect();
+    try {
+      $this->guestRedirect();
+    } catch (AbortException $e) {
+
+    }
   }
 
   /**
@@ -80,7 +93,13 @@ class SlidesPresenter extends BasePresenter
   public function renderView(int $id): void
   {
     $this->template->slide = $this->slideRow;
-    $this['breadcrumb']->add('Kurzy', $this->link('all'));
+
+    try {
+      $this['breadcrumb']->add('Kurzy', $this->link('all'));
+    } catch (InvalidLinkException $e) {
+
+    }
+
     $this['breadcrumb']->add($this->slideRow->title);
   }
 
@@ -90,8 +109,15 @@ class SlidesPresenter extends BasePresenter
   protected function createComponentSlideForm(): Form
   {
     return $this->slideFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->getParameter('id' ) ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
+    });
+  }
+
+  protected function createComponentRemoveForm(): Form
+  {
+    return $this->modalRemoveFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->guestRedirect();
     });
   }
 

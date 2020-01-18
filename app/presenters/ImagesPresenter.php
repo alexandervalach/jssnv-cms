@@ -52,7 +52,7 @@ class ImagesPresenter extends BasePresenter
    */
   public function actionRemove(int $id): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this->imageRow = $this->imagesRepository->findById($id);
 
     if (!$this->imageRow) {
@@ -75,7 +75,7 @@ class ImagesPresenter extends BasePresenter
    */
   public function actionThumbnail(int $id): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this->imageRow = $this->imagesRepository->findById($id);
 
     if (!$this->imageRow) {

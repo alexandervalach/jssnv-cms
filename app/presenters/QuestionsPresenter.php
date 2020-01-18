@@ -81,7 +81,7 @@ class QuestionsPresenter extends BasePresenter
    */
   public function actionAll (int $id): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this->testRow = $this->testsRepository->findById($id);
 
     if (!$this->testRow) {
@@ -113,12 +113,13 @@ class QuestionsPresenter extends BasePresenter
   }
 
   /**
+   * Creates add form control
    * @return Form
    */
   protected function createComponentAddForm (): Form
   {
     return $this->questionFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->submittedAddForm($values);
     });
   }

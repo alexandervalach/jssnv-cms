@@ -86,7 +86,7 @@ class UsersPresenter extends BasePresenter
    */
   public function actionAll(): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this['breadcrumb']->add('Používatelia');
   }
 
@@ -101,9 +101,9 @@ class UsersPresenter extends BasePresenter
    * @throws BadRequestException
    * @throws InvalidLinkException
    */
-  public function actionView(int $id): void
+  public function actionView (int $id): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this->userRow = $this->usersRepository->findById($id);
 
     if (!$this->userRow) {
@@ -135,7 +135,7 @@ class UsersPresenter extends BasePresenter
   protected function createComponentUserForm(): Form
   {
     return $this->userFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->usersRepository->insert($values);
       $this->flashMessage(self::USER_ADDED, self::SUCCESS);
       $this->redirect('all');
@@ -148,7 +148,7 @@ class UsersPresenter extends BasePresenter
   protected function createComponentEditForm(): Form
   {
     return $this->editUserFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->userRow->update($values);
       $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
       $this->redirect('view', $this->userRow->id);
@@ -161,7 +161,7 @@ class UsersPresenter extends BasePresenter
   protected function createComponentRemoveForm(): Form
   {
     return $this->modalRemoveFormFactory->create(function () {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->submittedRemoveForm();
     });
   }
@@ -172,7 +172,7 @@ class UsersPresenter extends BasePresenter
   protected function createComponentPasswordForm(): Form
   {
     return $this->passwordFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->submittedPassworddForm($values);
     });
   }

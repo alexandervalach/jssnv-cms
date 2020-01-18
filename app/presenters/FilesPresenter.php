@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
-use App\FormHelper;
 use App\Forms\RemoveFormFactory;
 use App\Forms\UploadFormFactory;
 use App\Model\AlbumsRepository;
@@ -16,7 +15,6 @@ use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Utils\ArrayHash;
-use Nette\Utils\FileSystem;
 
 /**
  * Class FilesPresenter
@@ -67,14 +65,16 @@ class FilesPresenter extends BasePresenter
   /**
    * @throws AbortException
    */
-  public function actionAll() {
-    $this->userIsLogged();
+  public function actionAll(): void
+  {
+    $this->guestRedirect();
   }
 
   /**
    *
    */
-  public function renderAll() {
+  public function renderAll(): void
+  {
     $this->template->files = $this->filesRepository->findAll()->order('name ASC');
     $this->template->fileFolder = $this->fileFolder;
   }
@@ -84,28 +84,25 @@ class FilesPresenter extends BasePresenter
    * @throws BadRequestException
    * @throws AbortException
    */
-  public function actionRemove($id) {
-    $this->userIsLogged();
+  public function actionRemove(int $id): void
+  {
+    $this->guestRedirect();
     $this->fileRow = $this->filesRepository->findById($id);
 
     if (!$this->fileRow) {
       throw new BadRequestException(self::FILE_NOT_FOUND);
     }
-  }
 
-  /**
-   * @param $id
-   */
-  public function renderRemove($id) {
-    $this->template->file = $this->fileRow;
+    $this->submittedFileRemoveForm();
   }
 
   /**
    * @return Form
    */
-  protected function createComponentUploadForm () {
+  protected function createComponentUploadForm (): Form
+  {
     return $this->uploadFormFactory->create(function (Form $form, ArrayHash $values) {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->filesRepository->softDelete((int)$this->fileRow->id);
       $this->redirect('all');
     });
@@ -114,9 +111,10 @@ class FilesPresenter extends BasePresenter
   /**
    * @return Form
    */
-  protected function createComponentRemoveFileForm() {
+  protected function createComponentRemoveFileForm(): Form
+  {
     return $this->removeFormFactory->create(function () {
-      $this->userIsLogged();
+      $this->guestRedirect();
       $this->filesRepository->softDelete((int)$this->fileRow->id);
       $this->flashMessage(self::ITEM_REMOVED, self::SUCCESS);
       $this->redirect('all');
@@ -128,15 +126,17 @@ class FilesPresenter extends BasePresenter
   /**
    * @throws AbortException
    */
-  public function formCancelled() {
+  public function formCancelled(): void
+  {
     $this->redirect('Posts:view#primary', $this->fileRow->ref('posts', 'post_id'));
   }
 
   /**
    * @throws AbortException
    */
-  public function submittedFileRemoveForm() {
-    $this->userIsLogged();
+  public function submittedFileRemoveForm(): void
+  {
+    $this->guestRedirect();
     $id = $this->fileRow->ref('posts', 'post_id');
     $this->filesRepository->softDelete((int)$this->fileRow->id);
     $this->redirect('Posts:view#primary', $id);

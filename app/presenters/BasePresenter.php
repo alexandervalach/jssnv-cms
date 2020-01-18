@@ -91,31 +91,13 @@ abstract class BasePresenter extends Presenter
   }
 
   /**
-   * @throws AbortException
-   */
-  protected function userIsLogged()
-  {
-    try {
-      if (!$this->user->isLoggedIn()) {
-        $this->redirect('Sign:in');
-      }
-    } catch (AbortException $e) {
-      $this->redirect('Homepage:');
-    }
-  }
-
-  /**
    * Redirects guest to homepage
    * @throws AbortException
    */
   protected function guestRedirect()
   {
-    try {
-      if (!$this->user->isLoggedIn()) {
-        $this->redirect('Homepage:');
-      }
-    } catch (AbortException $e) {
-      $this->redirect('Homepage:');
+    if (!$this->user->isLoggedIn()) {
+      $this->redirect('Sign:in');
     }
   }
 

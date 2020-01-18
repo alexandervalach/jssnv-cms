@@ -83,7 +83,7 @@ class SectionsPresenter extends BasePresenter
    */
   public function actionAll(): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
   }
 
   /**
@@ -143,7 +143,7 @@ class SectionsPresenter extends BasePresenter
   protected function createComponentRemoveForm(): Form
   {
     return $this->modalRemoveFormFactory->create(function () {
-      $this->userIsLogged();
+      $this->guestRedirect();
 
       // Delete also subsections if parent section
       if ($this->sectionRow->section_id != null) {
@@ -178,7 +178,7 @@ class SectionsPresenter extends BasePresenter
    */
   private function submittedAddForm(ArrayHash $values): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $values->offsetSet('section_id', $values->section_id === 0 ? null : $values->section_id);
     $section = $this->sectionsRepository->insert($values);
     $this->flashMessage(self::ITEM_ADDED);
@@ -191,7 +191,7 @@ class SectionsPresenter extends BasePresenter
    */
   private function submittedEditForm(ArrayHash $values): void
   {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $values->section_id = $values->section_id === 0 ? null : $values->section_id;
     $this->sectionRow->update($values);
     $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);

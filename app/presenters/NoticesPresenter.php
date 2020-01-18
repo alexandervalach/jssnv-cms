@@ -61,7 +61,7 @@ class NoticesPresenter extends BasePresenter
    * @throws AbortException
    */
   public function actionEdit($id) {
-    $this->userIsLogged();
+    $this->guestRedirect();
     $this->noticeRow = $this->noticesRepository->findById($id);
 
     if (!$this->noticeRow) {
@@ -83,8 +83,9 @@ class NoticesPresenter extends BasePresenter
    * @throws BadRequestException
    * @throws AbortException
    */
-  public function actionRemove($id) {
-    $this->userIsLogged();
+  public function actionRemove(int $id): void
+  {
+    $this->guestRedirect();
     $this->noticeRow = $this->noticesRepository->findById($id);
 
     if (!$this->noticeRow) {
@@ -158,8 +159,9 @@ class NoticesPresenter extends BasePresenter
    * @param $values
    * @throws AbortException
    */
-  public function submittedAddForm(Form $form, $values) {
-    $this->userIsLogged();
+  public function submittedAddForm(Form $form, $values): void
+  {
+    $this->guestRedirect();
     $this->noticesRepository->insert($values);
     $this->redirect('all#primary');
   }
@@ -168,8 +170,9 @@ class NoticesPresenter extends BasePresenter
    * @param SubmitButton $btn
    * @throws AbortException
    */
-  public function submittedEditForm(SubmitButton $btn) {
-    $this->userIsLogged();
+  public function submittedEditForm(SubmitButton $btn): void
+  {
+    $this->guestRedirect();
     $values = $btn->form->getValues();
     $this->noticeRow->update($values);
     $this->redirect('all');
@@ -178,16 +181,18 @@ class NoticesPresenter extends BasePresenter
   /**
    * @throws AbortException
    */
-  public function submittedRemoveForm() {
-    $this->userIsLogged();
-    $this->noticesRepository->softDelete($this->noticeRow->id);
+  public function submittedRemoveForm(): void
+  {
+    $this->guestRedirect();
+    $this->noticesRepository->softDelete((int)$this->noticeRow->id);
     $this->redirect('all');
   }
 
   /**
    * @throws AbortException
    */
-  public function formCancelled() {
+  public function formCancelled(): void
+  {
     $this->redirect('all');
   }
 
