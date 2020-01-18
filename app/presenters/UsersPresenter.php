@@ -125,7 +125,7 @@ class UsersPresenter extends BasePresenter
     if (!$this->userRow) {
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
-    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT, self::FORBIDDEN);
+    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT);
     $this->template->displayedUser = $this->userRow;
   }
 
@@ -184,7 +184,7 @@ class UsersPresenter extends BasePresenter
    */
   private function submittedPassworddForm(ArrayHash $values): void
   {
-    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT, self::FORBIDDEN);
+    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT);
     $this->userRow->update(array('password' => $this->passwords->hash($values->password)));
     $this->flashMessage('Heslo bolo zmenené', self::SUCCESS);
     $this->redirect('view', $this->userRow->id);
@@ -195,7 +195,7 @@ class UsersPresenter extends BasePresenter
    * @throws ForbiddenRequestException
    */
   private function submittedRemoveForm() {
-    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT, self::FORBIDDEN);
+    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT);
 
     if ($this->userRow->id === $this->user->id) {
       $this->flashMessage('Nemožno odstrániť práve prihláseného používateľa', self::ERROR);

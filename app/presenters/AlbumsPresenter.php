@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Components\RemoveModalControl;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\MultiUploadFormFactory;
 use App\Model\AlbumsRepository;
@@ -213,5 +214,4 @@ class AlbumsPresenter extends BasePresenter
     $this->flashMessage(self::ITEM_REMOVED, self::INFO);
     $this->redirect('all');
   }
-
 }

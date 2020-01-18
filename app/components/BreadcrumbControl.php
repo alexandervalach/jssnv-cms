@@ -63,7 +63,7 @@ class BreadcrumbControl extends Control
   public function render(): void
   {
     if ($this->customTemplate == FALSE) {
-      $this->customTemplate = __DIR__ . '/Breadcrumb.latte';
+      $this->customTemplate = __DIR__ . '/BreadcrumbControl.latte';
     }
 
     $this->template->homepage = !empty($this->homepage) ? $this->homepage : [

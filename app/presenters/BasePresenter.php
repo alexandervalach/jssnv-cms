@@ -55,7 +55,8 @@ abstract class BasePresenter extends Presenter
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              BreadcrumbControl $breadcrumbControl) {
+                              BreadcrumbControl $breadcrumbControl)
+  {
     parent::__construct();
     $this->albumsRepository = $albumsRepository;
     $this->sectionsRepository = $sectionRepository;
@@ -65,7 +66,8 @@ abstract class BasePresenter extends Presenter
   /**
    *
    */
-  public function beforeRender() {
+  public function beforeRender()
+  {
     $sections = $this->sectionsRepository->findByParent(null);
     $items = [];
 
@@ -84,7 +86,6 @@ abstract class BasePresenter extends Presenter
     $this->sections = ArrayHash::from($items);
 
     $this->template->menuSections = $this->sections;
-    $this->template->menuAlbums = $this->albumsRepository->findAll();
     $this->template->imgFolder = self::IMAGE_FOLDER;
     $this->template->fileFolder = self::FILE_FOLDER;
   }
@@ -92,7 +93,8 @@ abstract class BasePresenter extends Presenter
   /**
    * @throws AbortException
    */
-  protected function userIsLogged() {
+  protected function userIsLogged()
+  {
     if (!$this->user->isLoggedIn()) {
       $this->redirect('Sign:in');
     }
@@ -100,15 +102,15 @@ abstract class BasePresenter extends Presenter
 
   /**
    * @param $id
-   * @param $userRole
-   * @param $root
-   * @param $errorMessage
+   * @param $currentUserRole
+   * @param $privilegedUserRole
    * @throws ForbiddenRequestException
    */
-  protected function userIsAllowed($id, $userRole, $root, $errorMessage) {
-    if ($userRole != $root) {
+  protected function userIsAllowed($id, $currentUserRole, $privilegedUserRole)
+  {
+    if ($currentUserRole != $privilegedUserRole) {
       if ($this->user->id != $id) {
-          throw new ForbiddenRequestException($errorMessage);
+        throw new ForbiddenRequestException(self::FORBIDDEN);
       }
     }
   }
