@@ -10,8 +10,11 @@ use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Model\SlidesRepository;
 use Nette\Application\AbortException;
+use Nette\Application\BadRequestException;
 use Nette\Database\Table\ActiveRow;
 use Nette\Application\UI\Form;
+use Nette\InvalidArgumentException;
+use Nette\IOException;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -61,6 +64,21 @@ class SlidesPresenter extends BasePresenter
     $this['breadcrumb']->add('Kurzy', 'Slides:all');
   }
 
+  public function actionView(int $id): void
+  {
+    $this->slideRow = $this->slidesRepository->findById($id);
+    if (!$this->slideRow) {
+      $this->error(self::ITEM_NOT_FOUND);
+    }
+  }
+
+  public function renderView(int $id): void
+  {
+    $this->template->slide = $this->slideRow;
+    $this['breadcrumb']->add('Kurzy', $this->link('all'));
+    $this['breadcrumb']->add($this->slideRow->title);
+  }
+
   /**
    * @return Form
    */
@@ -68,7 +86,7 @@ class SlidesPresenter extends BasePresenter
   {
     return $this->slideFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->userIsLogged();
-      $this->getParameter('id' ) ? $this->submittedAddForm($values) : $this->submittedEditForm($values);
+      $this->getParameter('id' ) ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
     });
   }
 
@@ -79,7 +97,30 @@ class SlidesPresenter extends BasePresenter
    */
   public function submittedAddForm(ArrayHash $values): void
   {
+    $image = $values->image;
+    $name = strtolower($image->getSanitizedName());
+
+    try {
+      if (!$image->isOk() || (!$image->isImage() && $image->getContentType() !== 'image/svg')) {
+        throw new InvalidArgumentException;
+      }
+
+      if (!$image->move(self::IMAGE_FOLDER . '/' . $name)) {
+        throw new IOException;
+      }
+    } catch (IOException $e) {
+      $this->flashMessage(self::UPLOAD_ERROR, self::ERROR);
+      $this->redirect('all');
+    } catch (InvalidArgumentException $e) {
+      $this->flashMessage(self::UPLOAD_ERROR, self::ERROR);
+      $this->redirect('all');
+    }
+
+    $values->offsetUnset('image');
+    $values->offsetSet('img', $name);
+
     $slide = $this->slidesRepository->insert($values);
+    $this->flashMessage(self::ITEM_ADDED, self::INFO);
     $this->redirect('view', $slide->id);
   }
 
@@ -91,7 +132,8 @@ class SlidesPresenter extends BasePresenter
   public function submittedEditForm(ArrayHash $values): void
   {
     $this->slideRow->update($values);
-    $this->redirect('all');
+    $this->flashMessage(self::ITEM_UPDATED, self::INFO);
+    $this->redirect('view', $this->slideRow->id);
   }
 
 }

@@ -38,12 +38,16 @@ class SlideFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('title', 'Názov*')
-        ->setHtmlAttribute('placeholder','Online testy')
+        ->setHtmlAttribute('placeholder','Anglický jazyk')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
 
+    $form->addUpload('image', 'Obrázok*')
+        ->setRequired()
+        ->addRule(Form::MAX_FILE_SIZE,  'Naraz je možné nahrať len súbory do 2 MiB', 2 * 1024 * 1024);
+
     $form->addTextArea('message', 'Text')
-        ->setHtmlAttribute('placeholder', 'Vyskúšajte si naše nové online testy')
+        ->setHtmlAttribute('placeholder', 'Pravidelné kurzy anglického jazyka')
         ->addRule(Form::MAX_LENGTH, 'Text môže mať len 1000 znakov', 1000);
 
     $form->addText('link', 'Odkaz')
