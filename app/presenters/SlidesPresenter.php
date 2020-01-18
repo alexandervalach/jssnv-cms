@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
-use App\FormHelper;
 use App\Forms\SlideFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Model\SlidesRepository;
 use Nette\Application\AbortException;
 use Nette\Database\Table\ActiveRow;
-use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
-use Nette\Forms\Controls\SubmitButton;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -61,6 +58,7 @@ class SlidesPresenter extends BasePresenter
   public function renderAll(): void
   {
     $this->template->slides = $this->slidesRepository->findAll();
+    $this['breadcrumb']->add('Kurzy', 'Slides:all');
   }
 
   /**
@@ -70,7 +68,7 @@ class SlidesPresenter extends BasePresenter
   {
     return $this->slideFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->userIsLogged();
-      $this->getParameter('id' ) ? $this->submittedAddSlideForm($values) : $this->submittedEditSlideForm($values);
+      $this->getParameter('id' ) ? $this->submittedAddForm($values) : $this->submittedEditForm($values);
     });
   }
 
@@ -79,7 +77,8 @@ class SlidesPresenter extends BasePresenter
    * @param ArrayHash $values
    * @throws AbortException
    */
-  public function submittedAddSlideForm(ArrayHash $values) {
+  public function submittedAddForm(ArrayHash $values): void
+  {
     $slide = $this->slidesRepository->insert($values);
     $this->redirect('view', $slide->id);
   }
@@ -89,7 +88,8 @@ class SlidesPresenter extends BasePresenter
    * @param ArrayHash $values
    * @throws AbortException
    */
-  public function submittedEditSlideForm(ArrayHash $values) {
+  public function submittedEditForm(ArrayHash $values): void
+  {
     $this->slideRow->update($values);
     $this->redirect('all');
   }
