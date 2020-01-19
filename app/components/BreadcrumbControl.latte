@@ -1,19 +1,17 @@
 {* Responsive template for Bootstrap 4.0 *}
-<div n:if="$items">
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item">
-        <a href="{$homepage['link']}" class="text-primary">{$homepage['name']}</a>
-      </li>
-      {foreach $items as $item}
-        {if $iterator->last}
-          <li class="breadcrumb-item active" aria-current="page">{$item['name']}</li>
-        {else}
-          <li class="breadcrumb-item">
-            <a href="{$item['link']}" n:tag-if="$item['link']" class="text-primary">{$item['name']}</a>
-          </li>
-        {/if}
-      {/foreach}
-    </ol>
-  </nav>
-</div>
+<nav n:if="$items" aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a href="{$homepage['link']}" class="text-primary">{$homepage['name']}</a>
+    </li>
+    {foreach $items as $item}
+      {if $iterator->last}
+        <li class="breadcrumb-item active" aria-current="page">{$item['name']}</li>
+      {else}
+        <li class="breadcrumb-item">
+          <a href="{$item['link']}" n:tag-if="$item['link']" class="text-primary">{$item['name']}</a>
+        </li>
+      {/if}
+    {/foreach}
+  </ol>
+</nav>
