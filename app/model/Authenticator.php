@@ -9,7 +9,7 @@ use Nette\Security\Passwords;
 use Nette\Security\IIdentity;
 
 /**
- * Users management.
+ * Basic authenticator
  */
 class Authenticator implements Nette\Security\IAuthenticator {
 
@@ -35,7 +35,8 @@ class Authenticator implements Nette\Security\IAuthenticator {
    * @return Nette\Security\IIdentity
    * @throws Nette\Security\AuthenticationException
    */
-    public function authenticate(array $credentials): IIdentity {
+    public function authenticate(array $credentials): IIdentity
+    {
       [$username, $password] = $credentials;
 
       $row = $this->usersRepository->fetchByName($username);
@@ -44,7 +45,7 @@ class Authenticator implements Nette\Security\IAuthenticator {
         throw new Nette\Security\AuthenticationException('Používateľ neexistuje.', self::IDENTITY_NOT_FOUND);
       }
 
-      if (!$this->passwords->verify($password, $row->password)) {
+      if (!$this->passwords->verify($password, (string)$row->password)) {
         throw new Nette\Security\AuthenticationException('Nesprávne heslo.', self::INVALID_CREDENTIAL);
       }
 

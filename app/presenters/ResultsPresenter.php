@@ -11,7 +11,9 @@ use App\Model\ResultsRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Database\Table\ActiveRow;
+use Nette\Utils\ArrayHash;
 
 /**
  * Class ResultsPresenter
@@ -34,6 +36,11 @@ class ResultsPresenter extends BasePresenter
   private $levelsResultsRepository;
 
   /**
+   * @var ArrayHash
+   */
+  private $results;
+
+  /**
    * ResultsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
@@ -54,31 +61,33 @@ class ResultsPresenter extends BasePresenter
 
   /**
    * @throws AbortException
+   * @throws InvalidLinkException
    */
-  public function actionAll () {
-    if (!$this->user->isLoggedIn()) {
-      $this->redirect('Homepage:');
-    }
-  }
-
-  /**
-   *
-   */
-  public function renderAll () {
+  public function actionAll (): void
+  {
+    $this->guestRedirect();
     $results = $this->resultsRepository->findAll();
     $data = [];
 
     foreach ($results as $result) {
       $data[] = array(
-        'data' => $result,
-        'levels' => $result->related('levels_results'),
-        'test' => $result->ref('tests', 'test_id')
+          'data' => $result,
+          'levels' => $result->related('levels_results'),
+          'test' => $result->ref('tests', 'test_id')
       );
     }
 
+    $this->results = ArrayHash::from($data);
     $this['breadcrumb']->add('Testy', $this->link('Tests:all'));
     $this['breadcrumb']->add('Výsledky testov');
-    $this->template->results = $data;
+  }
+
+  /**
+   *
+   */
+  public function renderAll (): void
+  {
+    $this->template->results = $this->results;
   }
 
   /**

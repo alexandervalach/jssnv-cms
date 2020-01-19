@@ -16,11 +16,11 @@ application:
 
 forms:
 	messages:
-		REQUIRED: 'Pole je povinné.'
-		EMAIL: 'Neplatná emailová adresa.'
-		IMAGE: 'Obrázok môže byť len vo formáte JPEG, PNG alebo GIF'
-		URL: 'Hodnota musí byť absolútna URL'
-		INTEGER: 'Hodnota musí byť celé číslo'
+		REQUIRED: 'Pole %label je povinné.'
+		EMAIL: 'Neplatná emailová adresa: %value.'
+		IMAGE: '%label môže byť len vo formáte JPEG, PNG alebo GIF.'
+		URL: 'Hodnota políčka %label musí byť absolútna URL.'
+		INTEGER: 'Hodnota políčka %label musí byť celé číslo, nie %value.'
 
 session:
 	expiration: 14 days

@@ -74,12 +74,19 @@ class AlbumsPresenter extends BasePresenter
   }
 
   /**
-   * Render all action
+   * Prepares data for all template
+   */
+  public function actionAll(): void
+  {
+    $this['breadcrumb']->add('Fotogaléria');
+  }
+
+  /**
+   * Passes data to all template
    */
   public function renderAll(): void
   {
     $this->template->albums = $this->albumsRepository->findAll();
-    $this['breadcrumb']->add('Fotogaléria');
   }
 
   /**
@@ -99,16 +106,17 @@ class AlbumsPresenter extends BasePresenter
 
     $this['breadcrumb']->add('Fotogaléria', $this->link('all'));
     $this['breadcrumb']->add($this->albumRow->label);
+    $this['albumForm']->setDefaults($this->albumRow);
   }
 
   /**
+   * Passes data to view template
    * @param $id
    */
   public function renderView(int $id): void
   {
     $this->template->album = $this->albumRow;
     $this->template->images = $this->albumRow->related('images')->where('is_present', 1);
-    $this['albumForm']->setDefaults($this->albumRow);
   }
 
   /**

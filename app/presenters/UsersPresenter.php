@@ -113,19 +113,19 @@ class UsersPresenter extends BasePresenter
     $this['editForm']->setDefaults($this->userRow);
     $this['breadcrumb']->add('Používatelia', $this->link('all'));
     $this['breadcrumb']->add($this->userRow->username);
+
+    if (!$this->userRow) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
+
+    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT);
   }
 
   /**
    * @param $id
-   * @throws BadRequestException
-   * @throws ForbiddenRequestException
    */
   public function renderView(int $id): void
   {
-    if (!$this->userRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
-    }
-    $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT);
     $this->template->displayedUser = $this->userRow;
   }
 

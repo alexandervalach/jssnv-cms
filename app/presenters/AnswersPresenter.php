@@ -65,9 +65,8 @@ class AnswersPresenter extends BasePresenter
 
     if (!$this->questionRow) {
       $this->error(self::ITEM_NOT_FOUND);
-    } else {
-      $this->testRow = $this->questionRow->ref('tests', 'test_id');
     }
+    $this->testRow = $this->questionRow->ref('tests', 'test_id');
   }
 
   /**
@@ -85,24 +84,31 @@ class AnswersPresenter extends BasePresenter
    * @param $values
    * @throws AbortException
    */
-  public function submittedAddForm ($form, $values) {
+  public function submittedAddForm ($form, $values): void
+  {
+    $this->guestRedirect();
     $this->answersRepository->insert($values);
-    $this->flashMessage(self::ITEM_ADD_SUCCESS);
-    $this->redirect('all', $this->questionRow); 
+    $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
+    $this->redirect('all', $this->questionRow->id);
   }
 
   /**
+   * Creates add form component
    * @return Form
    */
-  protected function createComponentAddForm () {
+  protected function createComponentAddForm (): Form
+  {
     $form = new Form();
-
-    $form->addText('label', 'Odpoveď');
-    $form->addHidden('question_id', $this->questionRow);
+    $form->addText('label', 'Odpoveď*')
+        ->setRequired()
+        ->addRule(FORM::MAX_LENGTH, 'Dĺžka odpovede môže byť max 255 znakov', 255);
+    $form->addHidden('question_id', (string) $this->questionRow->id);
     $form->addCheckbox('correct', ' Správna odpoveď');
     $form->addSubmit('save', 'Uložiť');
+    $form->addSubmit('cancel', 'Zrušiť')
+        ->setHtmlAttribute('class', 'btn btn-warning')
+        ->setHtmlAttribute('data-dismiss', 'modal');
     $form->onSuccess[] = [$this, 'submittedAddForm'];
-
     FormHelper::setBootstrapRenderer($form);
     return $form;
   }

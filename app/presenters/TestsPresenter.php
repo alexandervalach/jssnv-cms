@@ -104,6 +104,7 @@ class TestsPresenter extends BasePresenter
   public function actionAll (): void
   {
   	$this->guestRedirect();
+    $this['breadcrumb']->add('Testy');
   }
 
   /**
@@ -112,7 +113,6 @@ class TestsPresenter extends BasePresenter
   public function renderAll (): void
   {
   	$this->template->tests = $this->testsRepository->findAll();
-    $this['breadcrumb']->add('Testy');
   }
 
   /**
@@ -130,6 +130,9 @@ class TestsPresenter extends BasePresenter
     }
 
     $this->questions = $this->questionsRepository->findQuestions((int)$this->testRow->id);
+    $this['testForm']->setDefaults($this->testRow);
+    $this['breadcrumb']->add('Testy', $this->link('Tests:all'));
+    $this['breadcrumb']->add($this->testRow->label);
   }
 
   /**
@@ -141,9 +144,6 @@ class TestsPresenter extends BasePresenter
   {
     $this->template->test = $this->testRow;
     $this->template->questions = $this->questions;
-    $this['testForm']->setDefaults($this->testRow);
-    $this['breadcrumb']->add('Testy', $this->link('Tests:all'));
-    $this['breadcrumb']->add($this->testRow->label);
   }
 
   /**

@@ -84,6 +84,7 @@ class SectionsPresenter extends BasePresenter
   public function actionAll(): void
   {
     $this->guestRedirect();
+    $this['breadcrumb']->add('Sekcie');
   }
 
   /**
@@ -93,7 +94,6 @@ class SectionsPresenter extends BasePresenter
   {
     // Property $sections is inherited from parent
     $this->template->sections = $this->sections;
-    $this['breadcrumb']->add('Sekcie');
   }
 
   public function actionView(int $id): void

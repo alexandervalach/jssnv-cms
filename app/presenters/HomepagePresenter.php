@@ -37,7 +37,7 @@ class HomepagePresenter extends BasePresenter
   }
 
   /**
-   *
+   * Passes data to default template
    */
   public function renderDefault() {
     $this->template->slides = $this->slidesRepository->findAll();

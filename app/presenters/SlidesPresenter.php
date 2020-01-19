@@ -75,7 +75,7 @@ class SlidesPresenter extends BasePresenter
   }
 
   /**
-   *
+   * Prepares data for render template
    */
   public function actionAll(): void
   {
@@ -84,15 +84,15 @@ class SlidesPresenter extends BasePresenter
     } catch (AbortException $e) {
 
     }
+    $this['breadcrumb']->add('Kurzy', 'Slides:all');
   }
 
   /**
-   * Prepares data for render template
+   * Passes data to render template
    */
   public function renderAll(): void
   {
     $this->template->slides = $this->slidesRepository->findAll();
-    $this['breadcrumb']->add('Kurzy', 'Slides:all');
   }
 
   /**
@@ -102,17 +102,11 @@ class SlidesPresenter extends BasePresenter
   public function actionView(int $id): void
   {
     $this->slideRow = $this->slidesRepository->findById($id);
+
     if (!$this->slideRow) {
       $this->error(self::ITEM_NOT_FOUND);
     }
-  }
 
-  /**
-   * @param int $id
-   */
-  public function renderView(int $id): void
-  {
-    $this->template->slide = $this->slideRow;
     $this['editForm']->setDefaults($this->slideRow);
 
     try {
@@ -121,6 +115,14 @@ class SlidesPresenter extends BasePresenter
 
     }
     $this['breadcrumb']->add($this->slideRow->title);
+  }
+
+  /**
+   * @param int $id
+   */
+  public function renderView(int $id): void
+  {
+    $this->template->slide = $this->slideRow;
   }
 
   /**
