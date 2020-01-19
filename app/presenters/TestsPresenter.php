@@ -176,6 +176,7 @@ class TestsPresenter extends BasePresenter
   }
 
   /**
+   * Creates test control form
    * @return Form
    */
   protected function createComponentTestForm (): Form
@@ -207,6 +208,7 @@ class TestsPresenter extends BasePresenter
   }
 
   /**
+   * Creates finish form control
    * @return Form
    */
   protected function createComponentFinishForm (): Form
@@ -277,10 +279,11 @@ class TestsPresenter extends BasePresenter
    */
   protected function evaluateTest ($postData)
   {
-    $levels = array();
+    $levels = [];
     $highScore = 0;
     $score = 0;
 
+    // Loop through questions
   	foreach ($this->questions as $question) {
       if (!isset($levels[$question->level_id])) {
         $levels[$question->level_id]['score'] = 0;
@@ -314,6 +317,7 @@ class TestsPresenter extends BasePresenter
       )
     );
 
+    // Save partial results foreach difficulty level
     foreach ($levels as $level) {
       $this->levelsResultsRepository->insert(
         array(
