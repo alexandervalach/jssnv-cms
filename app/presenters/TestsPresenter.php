@@ -17,6 +17,8 @@ use Nette\Application\AbortException;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\InvalidLinkException;
+use Nette\Database\Table\ActiveRow;
+use Nette\Database\Table\Selection;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -102,7 +104,7 @@ class TestsPresenter extends BasePresenter
    * @throws BadRequestException
    * @throws InvalidLinkException
    */
-  public function actionView (int $id): void
+  public function actionRun (int $id): void
   {
     $this->testRow = $this->testsRepository->findById($id);
 
@@ -119,7 +121,7 @@ class TestsPresenter extends BasePresenter
   /**
    * @param $id
    */
-  public function renderView (int $id): void
+  public function renderRun (int $id): void
   {
     $this->template->test = $this->testRow;
     $this->template->questions = $this->questions;

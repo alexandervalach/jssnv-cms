@@ -20,16 +20,16 @@
       <tbody>
         {foreach $tests as $test}
           <tr>
-            <td>
-              <a n:href="view, $test->id" target="_blank">{$test->label}</a>
-            </td>
+            <td>{$test->label}</td>
             <td class="text-center">
-              <a n:href="Questions:all, $test->id">
-                <i class="fas fa-pencil-alt"></i>
+              <a n:href="run, $test->id" target="_blank" title="Spustiť test">
+                <i class="fas fa-running"></i>
               </a>
             </td>
             <td class="text-center">
-              <i class="fas fa-trash"></i>
+              <a n:href="Questions:all, $test->id" title="Upraviť test">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
             </td>
           </tr>
         {/foreach}

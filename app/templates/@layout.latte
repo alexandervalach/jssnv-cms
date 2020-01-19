@@ -72,11 +72,14 @@
           const options = {
             animation: true,
             autohide: true,
-            delay: 3000
+            delay: 4000
           };
           const toast = $('.toast');
-          toast.toast(options);
-          toast.toast('show');
+
+          if (toast) {
+            toast.toast(options);
+            toast.toast('show');
+          }
         });
       </script>
     {/block}
