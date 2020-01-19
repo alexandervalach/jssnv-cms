@@ -28,25 +28,28 @@
 
   <body>
     <div id="page">
-      <header>
-        {include 'header.latte'}
-      </header>
+      {include 'header.latte'}
 
       <div id="primary" class="container-fluid">
         <main id="content" class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clearfix">
-          {include 'flashMessage.latte'}
+          <!-- Breadcrumb -->
+          {control breadcrumb}
+          <!-- Content -->
           {include content}
         </main>
       </div>
 
+      <!--
       <div>
         <button type="button" id="scroll-to-top">
           <span class="sr-only">Späť na vrch stránky</span>
           <span class="glyphicon glyphicon-chevron-up"></span>
         </button>
       </div>
+      -->
 
       {include 'footer.latte'}
+      {include 'toasts.latte'}
     </div>
 
     {block scripts}
@@ -64,11 +67,18 @@
       -->
       <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
       <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-      <!--
       <script>
-        feather.replace()
+        $(document).ready(function () {
+          const options = {
+            animation: true,
+            autohide: true,
+            delay: 3000
+          };
+          const toast = $('.toast');
+          toast.toast(options);
+          toast.toast('show');
+        });
       </script>
-      -->
     {/block}
   </body>
 </html>
