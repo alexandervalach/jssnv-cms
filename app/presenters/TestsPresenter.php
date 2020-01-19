@@ -6,6 +6,8 @@ namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
 use App\Forms\FinishFormFactory;
+use App\Forms\ModalRemoveFormFactory;
+use App\Forms\QuestionFormFactory;
 use App\Forms\TestFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
@@ -63,6 +65,16 @@ class TestsPresenter extends BasePresenter
    */
   private $finishFormFactory;
 
+  /**
+   * @var ModalRemoveFormFactory
+   */
+  private $modalRemoveFormFactory;
+
+  /**
+   * @var QuestionFormFactory
+   */
+  private $questionFormFactory;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               TestsRepository $testsRepository,
@@ -71,7 +83,9 @@ class TestsPresenter extends BasePresenter
                               LevelsResultsRepository $levelsResultsRepository,
                               TestFormFactory $testFormFactory,
                               FinishFormFactory $finishFormFactory,
-                              BreadcrumbControl $breadcrumbControl)
+                              BreadcrumbControl $breadcrumbControl,
+                              ModalRemoveFormFactory $modalRemoveFormFactory,
+                              QuestionFormFactory $questionFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
     $this->testsRepository = $testsRepository;
@@ -80,6 +94,8 @@ class TestsPresenter extends BasePresenter
     $this->questionsRepository = $questionsRepository;
     $this->testFormFactory = $testFormFactory;
     $this->finishFormFactory = $finishFormFactory;
+    $this->modalRemoveFormFactory = $modalRemoveFormFactory;
+    $this->questionFormFactory = $questionFormFactory;
   }
 
   /**
@@ -91,12 +107,43 @@ class TestsPresenter extends BasePresenter
   }
 
   /**
-   *
+   * Passes data to run template
    */
   public function renderAll (): void
   {
   	$this->template->tests = $this->testsRepository->findAll();
     $this['breadcrumb']->add('Testy');
+  }
+
+  /**
+   * @param int $id
+   * @throws AbortException
+   * @throws BadRequestException
+   */
+  public function actionView (int $id): void
+  {
+    $this->guestRedirect();
+    $this->testRow = $this->testsRepository->findById($id);
+
+    if (!$this->testRow) {
+      throw new BadRequestException(self::TEST_NOT_FOUND);
+    }
+
+    $this->questions = $this->questionsRepository->findQuestions((int)$this->testRow->id);
+  }
+
+  /**
+   * Passes data to view template
+   * @param int $id
+   * @throws InvalidLinkException
+   */
+  public function renderView (int $id): void
+  {
+    $this->template->test = $this->testRow;
+    $this->template->questions = $this->questions;
+    $this['testForm']->setDefaults($this->testRow);
+    $this['breadcrumb']->add('Testy', $this->link('Tests:all'));
+    $this['breadcrumb']->add($this->testRow->label);
   }
 
   /**
@@ -119,6 +166,7 @@ class TestsPresenter extends BasePresenter
   }
 
   /**
+   * Passes data to run template
    * @param $id
    */
   public function renderRun (int $id): void
@@ -133,7 +181,28 @@ class TestsPresenter extends BasePresenter
   protected function createComponentTestForm (): Form
   {
     return $this->testFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->guestRedirect();
       $this->getParameter('id') ? $this->submittedEditForm($values) : $this->submittedAddForm($values);
+    });
+  }
+
+  protected function createComponentRemoveForm (): Form
+  {
+    return $this->modalRemoveFormFactory->create(function () {
+      $this->guestRedirect();
+      $this->submittedRemoveForm();
+    });
+  }
+
+  /**
+   * Creates add form control
+   * @return Form
+   */
+  protected function createComponentAddQuestionForm (): Form
+  {
+    return $this->questionFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->guestRedirect();
+      $this->submittedAddQuestionForm($values);
     });
   }
 
@@ -143,14 +212,7 @@ class TestsPresenter extends BasePresenter
   protected function createComponentFinishForm (): Form
   {
     return $this->finishFormFactory->create(function (Form $form, ArrayHash $values) {
-      $postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-      if (isset($postData['url']) && !empty($postData['url'])) {
-        $this->redirect('Homepage:');
-      }
-
-      $result = $this->evaluateTest($postData);
-      $this->redirect('Results:view', $result->id);
+      $this->submittedFinishForm($values);
     });
   }
 
@@ -166,6 +228,17 @@ class TestsPresenter extends BasePresenter
   }
 
   /**
+   * @param ArrayHash $values
+   * @throws AbortException
+   */
+  public function submittedAddQuestionForm (ArrayHash $values): void
+  {
+    $this->questionsRepository->insert($values);
+    $this->flashMessage(self::ITEM_ADDED, self::INFO);
+    $this->redirect('all', $this->testRow->id);
+  }
+
+  /**
    * @param $values
    * @throws AbortException
    */
@@ -176,6 +249,27 @@ class TestsPresenter extends BasePresenter
     $this->redirect('all');
   }
 
+  /**
+   * @throws AbortException
+   */
+  public function submittedRemoveForm (): void
+  {
+    $this->testsRepository->softDelete((int)$this->testRow->id);
+    $this->flashMessage(self::ITEM_REMOVED, self::INFO);
+    $this->redirect('all');
+  }
+
+  public function submittedFinishForm (): void
+  {
+    $postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+    if (isset($postData['url']) && !empty($postData['url'])) {
+      $this->redirect('Homepage:');
+    }
+
+    $result = $this->evaluateTest($postData);
+    $this->redirect('Results:view', $result->id);
+  }
 
   /**
    * @param $postData

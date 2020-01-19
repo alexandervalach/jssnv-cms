@@ -18,6 +18,8 @@ class QuestionsRepository extends Repository
   */
   public function findQuestions(int $testId)
   {
-    return $this->getTable()->where(self::TEST_ID, $testId)->order(self::LEVEL_ID);
+    return $this->getTable()->where(self::TEST_ID, $testId)
+        ->where(self::IS_PRESENT, 1)
+        ->order(self::LEVEL_ID);
   }
 }

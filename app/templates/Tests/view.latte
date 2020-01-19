@@ -1,0 +1,95 @@
+{block content}
+
+<section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <div class="clearfix">
+    <div class="float-left">
+      <h2 n:block="title">{$test->label}</h2>
+    </div>
+    <div class="float-right">
+      <button type="button" class='btn btn-primary' data-toggle="modal" data-target="#addModal">
+        <i class="fas fa-plus"></i> Pridať
+      </button>
+      <button type="button" class='btn btn-secondary' data-toggle="modal" data-target="#testModal">
+        <i class="fas fa-pencil-alt"></i> Upraviť
+      </button>
+      <button type="button" class='btn btn-danger' data-toggle="modal" data-target="#removeModal">
+        <i class="fas fa-trash"></i> Odstrániť
+      </button>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" n:if="$questions->count() > 0">
+    <div class="list-group">
+        {foreach $questions as $question}
+            {var $answers = $question->related('answers')}
+          <div id="question{$question}" class="list-group-item">
+            <span class="list-group-item-heading">{$iterator->counter}. {$question->label}</span>
+            <a n:href="Answers:all, $question->id" class="text-success">
+              <i data-feather="edit-2"></i>
+            </a>&nbsp;
+            <a class="text-danger">
+              <i data-feather="trash-2"></i>
+            </a>
+            <p class="list-group-item-text" n:if="$answers->count() > 0">
+            <ol style="list-style-type: upper-alpha">
+                {foreach $answers as $answer}
+                  <li n:class="$answer->correct ? 'text-success' : 'text-warning'">{$answer->label}</li>
+                {/foreach}
+            </ol>
+            </p>
+          </div>
+        {/foreach}
+    </div>
+  </div>
+</section>
+
+<!-- Questions Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addModalLabel">Pridať otázku</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {control addQuestionForm}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Test Modal -->
+<div class="modal fade" id="testModal" tabindex="-2" role="dialog" aria-labelledby="testModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="testModalLabel">Upraviť test</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          {control testForm}
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Remove Modal -->
+<div class="modal fade" id="removeModal" tabindex="-2" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeModalLabel">Odstrániť test</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Naozaj chcete odstrániť test <mark>{$test->label}</mark>?
+      </div>
+      <div class="modal-body">
+          {control removeForm}
+      </div>
+    </div>
+  </div>
+</div>

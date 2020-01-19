@@ -18,7 +18,7 @@
         {foreach $results as $result}
           <tr>
             <td>
-              <a n:href="Questions:all, $result['test']->id" class="text-success">
+              <a n:href="Tests:view, $result['test']->id" class="text-success">
                 {$result['test']->label}
               </a>
             </td>
