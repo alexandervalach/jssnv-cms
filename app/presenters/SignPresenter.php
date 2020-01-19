@@ -45,13 +45,14 @@ class SignPresenter extends BasePresenter
    */
   protected function createComponentSignInForm() {
     return $this->signFormFactory->create(function (Form $form, ArrayHash $values) {
-      $values->remember ? $this->user->setExpiration('14 days') : $this->user->setExpiration('30 minutes');
+      $values->remember ? $this->user->setExpiration('7 days') : $this->user->setExpiration('30 minutes');
       try {
         $this->user->login($values->username, $values->password);
+        $this->flashMessage('Vitajte v administrácii JSSNV!', self::SUCCESS);
         $this->redirect('Homepage:');
       } catch (AuthenticationException $e) {
         $form->addError($e->getMessage());
-        $this->redirect('Homepage:');
+        $this->redirect('Sign:in');
       }
     });
   }

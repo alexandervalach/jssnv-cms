@@ -41,10 +41,12 @@ class SignFormFactory {
   {
     $form = new Form;
     $form->addText('username', 'Používateľské meno*')
-        ->setRequired();
+        ->setRequired()
+        ->setHtmlAttribute('autocomplete', 'username');
 
     $form->addPassword('password', 'Heslo*')
-        ->setRequired();
+        ->setRequired()
+        ->setHtmlAttribute('autocomplete', 'current-password');
 
     $form->addCheckbox('remember', ' Zapamätať si ma na 14 dní');
     $form->addSubmit('send', 'Prihlásiť');
