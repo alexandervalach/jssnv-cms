@@ -119,6 +119,7 @@ class TestsPresenter extends BasePresenter
    * @param int $id
    * @throws AbortException
    * @throws BadRequestException
+   * @throws InvalidLinkException
    */
   public function actionView (int $id): void
   {
@@ -138,7 +139,6 @@ class TestsPresenter extends BasePresenter
   /**
    * Passes data to view template
    * @param int $id
-   * @throws InvalidLinkException
    */
   public function renderView (int $id): void
   {

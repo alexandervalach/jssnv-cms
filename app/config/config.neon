@@ -30,6 +30,7 @@ services:
     # Components
     - App\Components\BreadcrumbControl
 
+    # Repositories
     - App\Model\AlbumsRepository
     - App\Model\AnswersRepository
     - App\Model\ContentsRepository
@@ -44,7 +45,7 @@ services:
     - App\Model\TestsRepository
     - App\Model\UsersRepository
 
-    # Form factories
+    # Forms
     - App\Forms\AlbumFormFactory
     - App\Forms\AddFileContentFormFactory
     - App\Forms\AddImageContentFormFactory
@@ -66,5 +67,9 @@ services:
     - App\Forms\TestFormFactory
     - App\Forms\UserFormFactory
 
+    # Security
+    - App\Security\PermissionFactory
+
     router: App\RouterFactory::createRouter
     authenticator: App\Model\Authenticator
+    authorizator: App\Security\Authorizator(@App\Security\PermissionFactory::create())

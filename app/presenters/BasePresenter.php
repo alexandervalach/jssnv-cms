@@ -11,6 +11,7 @@ use Nette\Application\AbortException;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Presenter;
 use Nette\Utils\ArrayHash;
+use Nette\Security\User;
 
 /**
  * Base presenter for all application Presenters.
@@ -61,6 +62,21 @@ abstract class BasePresenter extends Presenter
     $this->albumsRepository = $albumsRepository;
     $this->sectionsRepository = $sectionRepository;
     $this->breadcrumbControl = $breadcrumbControl;
+  }
+
+  public function startup()
+  {
+    parent::startup();
+
+    if (!$this->user->isLoggedIn()) {
+      if ($this->user->getLogoutReason() === User::INACTIVITY) {
+        $this->flashMessage('Boli ste odhlásený z dôvodu nečinnosti.', self::INFO);
+      }
+    }
+
+    if (!$this->getUser()->isAllowed($this->name, $this->action)) {
+      $this->redirect('Homepage:');
+    }
   }
 
   /**
