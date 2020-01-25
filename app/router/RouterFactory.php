@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
-use Nette,
-	Nette\Application\Routers\RouteList,
-	Nette\Application\Routers\Route,
-	Nette\Application\Routers\SimpleRouter;
+use Nette\Application\Routers\RouteList;
+use Nette\Application\Routers\Route;
+use Nette\Application\IRouter;
 
 
 /**
@@ -13,16 +14,14 @@ use Nette,
  */
 class RouterFactory
 {
-
-	/**
-	 * @return \Nette\Application\IRouter
-	 */
-	public static function createRouter()
-	{
-		$router = new RouteList();
-		$router[] = new Route('admin', 'Sign:in');
-		$router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
-		return $router;
-	}
-
+  /**
+   * @return IRouter
+   */
+  public static function createRouter()
+  {
+    $router = new RouteList();
+    $router[] = new Route('admin', 'Sign:in');
+    $router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
+    return $router;
+  }
 }
