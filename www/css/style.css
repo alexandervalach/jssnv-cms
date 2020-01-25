@@ -45,6 +45,14 @@
   color: #c0c0c0 !important;
 }
 
+#page .text-primary {
+  color: #2e7d32 !important;
+}
+
+#page .text-secondary {
+  color: #87c145 !important;
+}
+
 #page a.text-primary, a.text-primary:visited {
   color: #2e7d32 !important;
 }
@@ -201,6 +209,13 @@ Home
 {
   width: 100%;
   height: 330px;
+}
+
+.home-title
+{
+  background: rgba(255, 255, 255, 0.7);
+  padding: 10px 25px;
+  color: #0c0c0c;
 }
 
 .home-background

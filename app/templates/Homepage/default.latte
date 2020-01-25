@@ -6,9 +6,11 @@
   <div class="home-content">
     <div class="row">
       <div class="col text-center">
-        <h1 :block="title" class="home-title text-light">Jazyková škola v Spišskej Nove Vsi</h1>
+        <h1 :block="title">
+          <span class="home-title">Jazyková škola v Spišskej Nove Vsi</span>
+        </h1>
         <div class="home-button bg-primary">
-          <a n:href="Sections:view, 111">Chcem sa prihlásiť</a>
+          <a n:href="Sections:view, 111">Prihlásiť sa na kurz</a>
         </div>
       </div>
     </div>
@@ -19,6 +21,9 @@
   <div class="container">
     <div class="row">
       <div class="col">
+        <div class="text-center clearfix">
+          <h2 class="text-center">Ponuka kurzov</h2>
+        </div>
         <div class="language-slider-container">
           <!-- Language Slider -->
           <div class="language-slider">
@@ -36,8 +41,10 @@
               {/foreach}
             </div>
           </div>
+          {*
           <div class="lang-nav lang-prev"><i class="fas fa-chevron-left" aria-hidden="true"></i></div>
           <div class="lang-nav lang-next"><i class="fas fa-chevron-right" aria-hidden="true"></i></div>
+          *}
         </div>
       </div>
     </div>
