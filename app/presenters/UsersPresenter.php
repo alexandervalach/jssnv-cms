@@ -8,6 +8,7 @@ use App\Components\BreadcrumbControl;
 use App\Forms\EditUserFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\PasswordFormFactory;
+use App\Forms\SearchFormFactory;
 use App\Forms\UserFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
@@ -64,15 +65,16 @@ class UsersPresenter extends BasePresenter
 
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
                               UsersRepository $usersRepository,
                               Passwords $passwords,
                               UserFormFactory $userFormFactory,
                               ModalRemoveFormFactory $modalRemoveFormFactory,
                               PasswordFormFactory $passwordFormFactory,
-                              EditUserFormFactory $editUserFormFactory,
-                              BreadcrumbControl $breadcrumbControl)
+                              EditUserFormFactory $editUserFormFactory)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->usersRepository = $usersRepository;
     $this->passwords = $passwords;
     $this->userFormFactory = $userFormFactory;
@@ -107,7 +109,7 @@ class UsersPresenter extends BasePresenter
     $this->userRow = $this->usersRepository->findById($id);
 
     if (!$this->userRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
+      $this->error(self::ITEM_NOT_FOUND);
     }
 
     $this['editForm']->setDefaults($this->userRow);
@@ -115,7 +117,7 @@ class UsersPresenter extends BasePresenter
     $this['breadcrumb']->add($this->userRow->username);
 
     if (!$this->userRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
+      $this->error(self::ITEM_NOT_FOUND);
     }
 
     $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT);

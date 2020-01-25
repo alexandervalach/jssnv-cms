@@ -8,6 +8,7 @@ use App\Components\BreadcrumbControl;
 use App\Components\RemoveModalControl;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\MultiUploadFormFactory;
+use App\Forms\SearchFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\ImagesRepository;
 use App\Model\SectionsRepository;
@@ -52,21 +53,23 @@ class AlbumsPresenter extends BasePresenter
    * AlbumsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
+   * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchFormFactory
    * @param AlbumFormFactory $albumFormFactory
    * @param MultiUploadFormFactory $multiUploadFormFactory
    * @param ImagesRepository $imagesRepository
    * @param ModalRemoveFormFactory $removeFormFactory
-   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
                               AlbumFormFactory $albumFormFactory,
                               MultiUploadFormFactory $multiUploadFormFactory,
                               ImagesRepository $imagesRepository,
-                              ModalRemoveFormFactory $removeFormFactory,
-                              BreadcrumbControl $breadcrumbControl)
+                              ModalRemoveFormFactory $removeFormFactory)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->imagesRepository = $imagesRepository;
     $this->albumFormFactory = $albumFormFactory;
     $this->multiUploadFormFactory = $multiUploadFormFactory;

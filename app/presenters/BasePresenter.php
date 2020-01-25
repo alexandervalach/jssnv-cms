@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\SearchFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
 use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Presenter;
+use Nette\Forms\Form;
 use Nette\Utils\ArrayHash;
 use Nette\Security\User;
 
@@ -47,21 +49,29 @@ abstract class BasePresenter extends Presenter
    * @var BreadcrumbControl
    */
   private $breadcrumbControl;
+  
+  /**
+   * @var SearchFormFactory
+   */
+  private $searchForm;
 
   /**
    * BasePresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
    * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchForm
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              BreadcrumbControl $breadcrumbControl)
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchForm)
   {
     parent::__construct();
     $this->albumsRepository = $albumsRepository;
     $this->sectionsRepository = $sectionRepository;
     $this->breadcrumbControl = $breadcrumbControl;
+    $this->searchForm = $searchForm;
   }
 
   public function startup()
@@ -139,6 +149,13 @@ abstract class BasePresenter extends Presenter
   protected function createComponentBreadcrumb(): BreadcrumbControl
   {
     return new BreadcrumbControl();
+  }
+
+  protected function createComponentSearchForm(): Form
+  {
+    return $this->searchForm->create(function (Form $form, ArrayHash $values) {
+      $this->redirect('Search:all', $values->expression);
+    });
   }
 
 }

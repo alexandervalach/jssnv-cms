@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\SearchFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
 use App\Model\ResultsRepository;
@@ -44,17 +45,19 @@ class ResultsPresenter extends BasePresenter
    * ResultsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
+   * @param SearchFormFactory $searchFormFactory
+   * @param BreadcrumbControl $breadcrumbControl
    * @param ResultsRepository $resultsRepository
    * @param LevelsResultsRepository $levelsResultsRepository
-   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              SearchFormFactory $searchFormFactory,
+                              BreadcrumbControl $breadcrumbControl,
                               ResultsRepository $resultsRepository,
-                              LevelsResultsRepository $levelsResultsRepository,
-                              BreadcrumbControl $breadcrumbControl)
+                              LevelsResultsRepository $levelsResultsRepository)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->resultsRepository = $resultsRepository;
     $this->levelsResultsRepository = $levelsResultsRepository;
   }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\SearchFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\AnswersRepository;
 use App\Model\QuestionsRepository;
@@ -38,17 +39,19 @@ class AnswersPresenter extends BasePresenter
    * AnswersPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
+   * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchFormFactory
    * @param QuestionsRepository $questionsRepository
    * @param AnswersRepository $answersRepository
-   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
                               QuestionsRepository $questionsRepository,
-                              AnswersRepository $answersRepository,
-                              BreadcrumbControl $breadcrumbControl)
+                              AnswersRepository $answersRepository)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->questionsRepository = $questionsRepository;
     $this->answersRepository  = $answersRepository;
   }
@@ -84,7 +87,7 @@ class AnswersPresenter extends BasePresenter
    * @param $values
    * @throws AbortException
    */
-  public function submittedAddForm ($form, $values): void
+  public function submittedAddForm (Form $form, ArrayHash $values): void
   {
     $this->guestRedirect();
     $this->answersRepository->insert($values);

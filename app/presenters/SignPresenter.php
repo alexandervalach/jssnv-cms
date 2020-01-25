@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\SearchFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Forms\SignFormFactory;
@@ -27,15 +28,17 @@ class SignPresenter extends BasePresenter
    * SignPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
-   * @param SignFormFactory $signFormFactory
    * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchFormFactory
+   * @param SignFormFactory $signFormFactory
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              SignFormFactory $signFormFactory,
-                              BreadcrumbControl $breadcrumbControl)
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
+                              SignFormFactory $signFormFactory)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->signFormFactory = $signFormFactory;
   }
 
@@ -43,7 +46,8 @@ class SignPresenter extends BasePresenter
    * Sign-in form factory.
    * @return Form
    */
-  protected function createComponentSignInForm() {
+  protected function createComponentSignInForm(): Form
+  {
     return $this->signFormFactory->create(function (Form $form, ArrayHash $values) {
       $values->remember ? $this->user->setExpiration('7 days') : $this->user->setExpiration('30 minutes');
       try {
@@ -60,7 +64,8 @@ class SignPresenter extends BasePresenter
   /**
    * @throws Nette\Application\AbortException
    */
-  public function actionIn() {
+  public function actionIn(): void
+  {
     if ($this->user->isLoggedIn()) {
       $this->redirect('Homepage:');
     }
@@ -69,7 +74,8 @@ class SignPresenter extends BasePresenter
   /**
    * @throws Nette\Application\AbortException
    */
-  public function actionOut() {
+  public function actionOut(): void
+  {
     $this->getUser()->logout();
     $this->flashMessage('Boli ste odhlásený.');
     $this->redirect('Homepage:');

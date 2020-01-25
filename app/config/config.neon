@@ -54,6 +54,7 @@ services:
     - App\Forms\EditUserFormFactory
     - App\Forms\FormFactory
     - App\Forms\FinishFormFactory
+    - App\Forms\SearchFormFactory
     - App\Forms\SignFormFactory
     - App\Forms\UploadFormFactory
     - App\Forms\ModalRemoveFormFactory

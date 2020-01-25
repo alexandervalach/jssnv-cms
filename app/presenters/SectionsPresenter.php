@@ -8,6 +8,7 @@ use App\Components\BreadcrumbControl;
 use App\Forms\AddTextContentFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\RemoveFormFactory;
+use App\Forms\SearchFormFactory;
 use App\Forms\SectionFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\ContentsRepository;
@@ -57,21 +58,23 @@ class SectionsPresenter extends BasePresenter
    * SectionsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
+   * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchFormFactory
    * @param SectionFormFactory $sectionFormFactory
    * @param ModalRemoveFormFactory $modalRemoveFormFactory
    * @param AddTextContentFormFactory $addTextContentFormFactory
    * @param ContentsRepository $contentsRepository
-   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
                               SectionFormFactory $sectionFormFactory,
                               ModalRemoveFormFactory $modalRemoveFormFactory,
                               AddTextContentFormFactory $addTextContentFormFactory,
-                              ContentsRepository $contentsRepository,
-                              BreadcrumbControl $breadcrumbControl)
+                              ContentsRepository $contentsRepository)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->sectionFormFactory = $sectionFormFactory;
     $this->contentsRepository = $contentsRepository;
     $this->modalRemoveFormFactory = $modalRemoveFormFactory;

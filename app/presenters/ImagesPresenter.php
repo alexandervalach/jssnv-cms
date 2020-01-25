@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\SearchFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\ImagesRepository;
 use App\Model\SectionsRepository;
@@ -33,15 +34,17 @@ class ImagesPresenter extends BasePresenter
    * ImagesPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
-   * @param ImagesRepository $imagesRepository
    * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchFormFactory
+   * @param ImagesRepository $imagesRepository
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
-                              ImagesRepository $imagesRepository,
-                              BreadcrumbControl $breadcrumbControl)
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
+                              ImagesRepository $imagesRepository)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->imagesRepository = $imagesRepository;
   }
 
@@ -61,7 +64,7 @@ class ImagesPresenter extends BasePresenter
 
     $this->albumRow = $this->imageRow->ref('albums', 'album_id');
 
-    if (!$this->albumRow || !$this->albumRow->is_present) {
+    if (!$this->albumRow) {
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
 
@@ -79,13 +82,13 @@ class ImagesPresenter extends BasePresenter
     $this->imageRow = $this->imagesRepository->findById($id);
 
     if (!$this->imageRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
+      $this->error(self::ITEM_NOT_FOUND);
     }
 
     $this->albumRow = $this->imageRow->ref('albums', 'album_id');
 
-    if (!$this->albumRow || !$this->albumRow->is_present) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    if (!$this->albumRow) {
+      $this->error(self::ITEM_NOT_FOUND);
     }
 
     $this->submittedThumbnailForm();

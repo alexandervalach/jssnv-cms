@@ -7,6 +7,7 @@ namespace App\Presenters;
 use App\Components\BreadcrumbControl;
 use App\Forms\EditSlideFormFactory;
 use App\Forms\ModalRemoveFormFactory;
+use App\Forms\SearchFormFactory;
 use App\Forms\SlideFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
@@ -53,21 +54,23 @@ class SlidesPresenter extends BasePresenter
    * SlidesPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
+   * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchFormFactory
    * @param SlidesRepository $slidesRepository
    * @param SlideFormFactory $slideFormFactory
    * @param EditSlideFormFactory $editSlideFormFactory
-   * @param BreadcrumbControl $breadcrumbControl
    * @param ModalRemoveFormFactory $modalRemoveFormFactory
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
                               SlidesRepository $slidesRepository,
                               SlideFormFactory $slideFormFactory,
                               EditSlideFormFactory $editSlideFormFactory,
-                              BreadcrumbControl $breadcrumbControl,
                               ModalRemoveFormFactory $modalRemoveFormFactory)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->slidesRepository = $slidesRepository;
     $this->slideFormFactory = $slideFormFactory;
     $this->modalRemoveFormFactory = $modalRemoveFormFactory;

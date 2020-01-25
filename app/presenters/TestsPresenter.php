@@ -8,6 +8,7 @@ use App\Components\BreadcrumbControl;
 use App\Forms\FinishFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\QuestionFormFactory;
+use App\Forms\SearchFormFactory;
 use App\Forms\TestFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
@@ -77,17 +78,18 @@ class TestsPresenter extends BasePresenter
 
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
                               TestsRepository $testsRepository,
                               ResultsRepository $resultsRepository,
                               QuestionsRepository $questionsRepository,
                               LevelsResultsRepository $levelsResultsRepository,
                               TestFormFactory $testFormFactory,
                               FinishFormFactory $finishFormFactory,
-                              BreadcrumbControl $breadcrumbControl,
                               ModalRemoveFormFactory $modalRemoveFormFactory,
                               QuestionFormFactory $questionFormFactory)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->testsRepository = $testsRepository;
     $this->resultsRepository = $resultsRepository;
     $this->levelsResultsRepository = $levelsResultsRepository;

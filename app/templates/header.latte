@@ -81,7 +81,7 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link" n:href="Contact:">Kontakt</a>
+          <a class="nav-link" n:href="Sections:view, 117">Kontakt</a>
         </li>
         <li class="nav-item dropdown" n:if="$user->loggedIn">
           <a class="nav-link dropdown-toggle" href="#" id="dropdown-5" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -98,12 +98,18 @@
           </div>
         </li>
       </ul>
+      {form searchForm}
+        {input expression}
+        {input search}
+      {/form}
+        {*
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Hľadať" aria-label="Search">
         <button class="btn btn-success my-2 my-sm-0" type="submit">
           <i class="fas fa-search"></i>
         </button>
       </form>
+      *}
     </div>
   </nav>
 </header>

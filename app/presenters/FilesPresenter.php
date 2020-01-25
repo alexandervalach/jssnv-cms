@@ -6,6 +6,7 @@ namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
 use App\Forms\RemoveFormFactory;
+use App\Forms\SearchFormFactory;
 use App\Forms\UploadFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\ContentsRepository;
@@ -44,25 +45,28 @@ class FilesPresenter extends BasePresenter
    * FilesPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
+   * @param BreadcrumbControl $breadcrumbControl
+   * @param SearchFormFactory $searchFormFactory
    * @param UploadFormFactory $uploadFormFactory
    * @param ContentsRepository $filesRepository
    * @param RemoveFormFactory $removeFormFactoryText
-   * @param BreadcrumbControl $breadcrumbControl
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
+                              BreadcrumbControl $breadcrumbControl,
+                              SearchFormFactory $searchFormFactory,
                               UploadFormFactory $uploadFormFactory,
                               ContentsRepository $filesRepository,
-                              RemoveFormFactory $removeFormFactoryText,
-                              BreadcrumbControl $breadcrumbControl)
+                              RemoveFormFactory $removeFormFactoryText)
   {
-    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl);
+    parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->filesRepository = $filesRepository;
     $this->uploadFormFactory = $uploadFormFactory;
     $this->removeFormFactory = $removeFormFactoryText;
   }
 
   /**
+   * Prepares data for template
    * @throws AbortException
    */
   public function actionAll(): void
@@ -71,12 +75,11 @@ class FilesPresenter extends BasePresenter
   }
 
   /**
-   *
+   * Passes data to all template
    */
   public function renderAll(): void
   {
-    $this->template->files = $this->filesRepository->findAll()->order('name ASC');
-    $this->template->fileFolder = $this->fileFolder;
+    $this->template->files = $this->filesRepository->findAll();
   }
 
   /**
