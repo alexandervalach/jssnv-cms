@@ -172,7 +172,7 @@ class SlidesPresenter extends BasePresenter
     $name = strtolower($image->getSanitizedName());
 
     try {
-      if (!$image->isOk() || (!$image->isImage() && $image->getContentType() !== 'image/svg')) {
+      if (!$image->isOk() || (!$image->isImage() && $image->getContentType() !== 'image/svg' && $image->getContentType() !== 'image/svg+xml')) {
         throw new InvalidArgumentException;
       }
 
