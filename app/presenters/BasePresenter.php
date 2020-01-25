@@ -154,7 +154,7 @@ abstract class BasePresenter extends Presenter
   protected function createComponentSearchForm(): Form
   {
     return $this->searchForm->create(function (Form $form, ArrayHash $values) {
-      $this->redirect('Search:all', $values->expression);
+      $this->redirect('Search:', $values->expression);
     });
   }
 

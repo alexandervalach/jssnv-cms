@@ -19,6 +19,7 @@ abstract class Repository {
   const NAME = 'name';
   const USERNAME = 'username';
   const PRIORITY = 'order';
+  const TEXT_COLUMN = 'text';
 
   /** @var Nette\Database\Context */
   private $database;

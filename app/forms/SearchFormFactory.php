@@ -40,7 +40,7 @@ class SearchFormFactory
     $form->addText('expression', '')
         ->setHtmlAttribute('placeholder','Hľadať')
         ->setHtmlAttribute('style', 'display: inline-block; width: 80%')
-        ->setRequired()
+        // ->setRequired()
         ->addRule(Form::MAX_LENGTH, 'Hľadný výraz môže mať maximálne 255 znakov.', 255);
     $form->addSubmit('search', 'H')
         ->setHtmlAttribute('style', 'display: inline-block');

@@ -1,0 +1,31 @@
+{block content}
+
+<div class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="float-left">
+      <h2 n:block=title>Výsledky vyhľadávania</h2>
+    </div>
+  </div>
+  <!-- Search results -->
+  <div id="search-results" class="row">
+    {foreach $results as $result}
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <article>
+          <header class="clearfix">
+            <a n:href="Sections:view, $result->section_id">
+              {$result->section_name}
+            </a>
+          </header>
+          <main class="clearfix">
+            {$result->text|noescape|truncate:300}
+          </main>
+          <footer class="clearfix">
+            <div class="float-right">
+              {$result->updated_at}
+            </div>
+          </footer>
+        </article>
+      </div>
+    {/foreach}
+  </div>
+</div>

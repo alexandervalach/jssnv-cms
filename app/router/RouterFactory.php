@@ -21,8 +21,12 @@ class RouterFactory
   {
     $router = new RouteList();
     $router[] = new Route('admin', 'Sign:in');
-    $router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
-    $router[] = new Route('<presenter>/<action>/<expression>', 'Search:all');
+    $router[] = new Route('search[/<text>]', 'Search:default');
+    $router[] = new Route('<presenter>/<action>[/<id>]', [
+      'presenter' => 'Homepage',
+      'action' => 'default',
+      'id' => null
+    ]);
     return $router;
   }
 }
