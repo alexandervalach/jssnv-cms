@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* CSS Document */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900|Poppins:300,400,500,600,700,800,900'); /* CSS Document */
 
 /******************************
 
@@ -8,7 +8,7 @@
 ******************************/
 
 #page {
-  margin-top: 107px;
+  margin-top: 75px;
 }
 
 #page main {
@@ -61,6 +61,10 @@
   padding: 25px;
 }
 
+#page ul {
+  list-style: none;
+}
+
 #page ul.inline-list {
   display: inline;
 }
@@ -77,14 +81,8 @@
   color: #c0c0c0;
 }
 
-/***********
-1. Fonts
-***********/
-
-@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900|Poppins:300,400,500,600,700,800,900');
-
 /*********************************
-2. Body and some general stuff
+2. Body and some gfeneral stuff
 *********************************/
 
 *
@@ -95,6 +93,7 @@
   -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
   box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
 }
 
 #page h1 { font-size: 40px; }
@@ -104,7 +103,6 @@
 #page h5 { font-size: 14px; }
 #page h1, #page h2, #page h3, #page h4, #page h5, #page h6
 {
-  font-family: 'Montserrat', sans-serif;
   font-weight: 700;
   color: #000000;
   -webkit-font-smoothing: antialiased;
@@ -135,7 +133,7 @@
   left: 0;
   width: 100%;
   z-index: 100;
-  box-shadow: 0px 5px 20px rgba(0,0,0,0.025);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.025);
   -webkit-transition: all 200ms ease;
   -moz-transition: all 200ms ease;
   -ms-transition: all 200ms ease;
@@ -144,9 +142,9 @@
 }
 
 #page header.header {
-  -webkit-box-shadow: 2px 0px 22px -5px rgba(0,0,0,0.72);
-  -moz-box-shadow: 2px 0px 22px -5px rgba(0,0,0,0.72);
-  box-shadow: 2px 0px 22px -5px rgba(0,0,0,0.72);
+  -webkit-box-shadow: 2px 0 22px -5px rgba(0,0,0,0.72);
+  -moz-box-shadow: 2px 0 22px -5px rgba(0,0,0,0.72);
+  box-shadow: 2px 0 22px -5px rgba(0,0,0,0.72);
 }
 
 #page .header nav.navbar a {
@@ -211,10 +209,11 @@ Home
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-repeat: no-repeat;
+  height: 365px;
+  margin-left: -15px;
+  margin-right: -15px;
   background-size: cover;
-  background-position: center center;
+  background: url('../images/banner.jpg') no-repeat center center;
 }
 
 .home-content
@@ -227,7 +226,7 @@ Home
 
 .home-button
 {
-  width: 225px;
+  width: 250px;
   height: 43px;
   text-align: center;
   border-radius: 3px;
@@ -244,13 +243,12 @@ Home
 .home-button a
 {
   display: block;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
   text-transform: uppercase;
   color: #fff;
   font-weight: 600;
   line-height: 43px;
   letter-spacing: 0.3em;
+  font-size: 12px;
 }
 
 .home-button a:hover

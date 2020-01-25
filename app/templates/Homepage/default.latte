@@ -6,39 +6,15 @@
   <div class="home-content">
     <div class="row">
       <div class="col text-center">
-        <h1 class="home-title">Learn Languages Easily</h1>
+        <h1 :block="title" class="home-title text-light">Jazyková škola v Spišskej Nove Vsi</h1>
         <div class="home-button bg-primary">
-          <a n:href="Contact:">Get started</a>
+          <a n:href="Sections:view, 111">Chcem sa prihlásiť</a>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-{*
-<div class="language">
-  <div class="row">
-    <div class="language-slider-container">
-      <!-- Language Slider -->
-      <div class="owl-carousel owl-theme language-slider">
-        {foreach $slides as $slide}
-          <figure class="flag">
-            <a n:tag-if="$slide->link" href="{$slide->link}">
-              <img src="{$basePath}/{$imgFolder}/{$slide->img}" alt="{$slide->title}" style="display: block; margin: auto">
-              <figcaption class="lang-name">{$slide->title}</figcaption>
-            </a>
-          </figure>
-        {/foreach}
-      </div>
-      <!-- Chevron left -->
-      <div class="lang-nav lang-prev"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
-      <!-- Chevron right -->
-      <div class="lang-nav lang-next"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
-    </div>
-  </div>
-</div>
-*}
-<!-- Language -->
+<!-- Languages -->
 <div class="language d-xs-none">
   <div class="container">
     <div class="row">
@@ -66,4 +42,8 @@
       </div>
     </div>
   </div>
+</div>
+<!-- Instructors -->
+<div class="instructors">
+
 </div>

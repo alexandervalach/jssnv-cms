@@ -49,10 +49,11 @@
             Štúdium
           </a>
           <div class="dropdown-menu bg-secondary text-dark" aria-labelledby="dropdown-4">
-            <a class="dropdown-item" href="#">Anglický jazyk</a>
-            <a class="dropdown-item" href="#">Taliansky jazyk</a>
-            <a class="dropdown-item" href="#">Španielsky jazyk</a>
-            <a class="dropdown-item" href="#">Nemecký jazyk</a>
+            <a class="dropdown-item" n:href="Sections:view, 141">Anglický jazyk</a>
+            <a class="dropdown-item" n:href="Sections:view, 142">Nemecký jazyk</a>
+            <a class="dropdown-item" n:href="Sections:view, 143">Taliansky jazyk</a>
+            <a class="dropdown-item" n:href="Sections:view, 144">Španielsky jazyk</a>
+            <a class="dropdown-item" n:href="Sections:view, 168">Japonský jazyk</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -65,6 +66,18 @@
             <a class="dropdown-item" n:href="Sections:view, 112">Poplatky za štúdium</a>
             <a class="dropdown-item" n:href="Sections:view, 127">Organizácia štúdia</a>
             <a class="dropdown-item" n:href="Sections:view, 128">Jazykové úrovne</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown-6" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Štátna jazyková skúška
+          </a>
+          <div class="dropdown-menu bg-secondary text-dark" aria-labelledby="dropdown-6">
+            <a class="dropdown-item" n:href="Sections:view, 129">Základné informácie</a>
+            <a class="dropdown-item" n:href="Sections:view, 111">Základná</a>
+            <a class="dropdown-item" n:href="Sections:view, 112">Všeobecná</a>
+            <a class="dropdown-item" n:href="Sections:view, 127">Náhrada maturity</a>
+            <a class="dropdown-item" n:href="Sections:view, 128">Prihláška</a>
           </div>
         </li>
         <li class="nav-item">
@@ -94,3 +107,5 @@
     </div>
   </nav>
 </header>
+<!-- Breadcrumb -->
+{control breadcrumb}
