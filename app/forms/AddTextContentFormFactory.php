@@ -38,8 +38,7 @@ class AddTextContentFormFactory
   {
     $form = $this->formFactory->create();
     $form->addTextArea('text', 'Text*')
-        ->setHtmlAttribute('id', 'editor')
-        ->setRequired();
+        ->setHtmlAttribute('id', 'text-editor');
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-large btn-warning')
