@@ -14,7 +14,7 @@ use Nette\Utils\ArrayHash;
  * Add upload form factory
  * @package App\Forms
  */
-class AddTextContentFormFactory
+class TextContentFormFactory
 {
   use SmartObject;
 

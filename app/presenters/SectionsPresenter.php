@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
-use App\Forms\AddTextContentFormFactory;
+use App\Forms\TextContentFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\RemoveFormFactory;
 use App\Forms\SearchFormFactory;
@@ -40,9 +40,9 @@ class SectionsPresenter extends BasePresenter
   private $modalRemoveFormFactory;
 
   /**
-   * @var AddTextContentFormFactory
+   * @var TextContentFormFactory
    */
-  private $addTextContentFormFactory;
+  private $textContentFormFactory;
 
   /**
    * @var ContentsRepository
@@ -62,7 +62,7 @@ class SectionsPresenter extends BasePresenter
    * @param SearchFormFactory $searchFormFactory
    * @param SectionFormFactory $sectionFormFactory
    * @param ModalRemoveFormFactory $modalRemoveFormFactory
-   * @param AddTextContentFormFactory $addTextContentFormFactory
+   * @param TextContentFormFactory $textContentFormFactory
    * @param ContentsRepository $contentsRepository
    */
   public function __construct(AlbumsRepository $albumsRepository,
@@ -71,14 +71,14 @@ class SectionsPresenter extends BasePresenter
                               SearchFormFactory $searchFormFactory,
                               SectionFormFactory $sectionFormFactory,
                               ModalRemoveFormFactory $modalRemoveFormFactory,
-                              AddTextContentFormFactory $addTextContentFormFactory,
+                              TextContentFormFactory $textContentFormFactory,
                               ContentsRepository $contentsRepository)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->sectionFormFactory = $sectionFormFactory;
     $this->contentsRepository = $contentsRepository;
     $this->modalRemoveFormFactory = $modalRemoveFormFactory;
-    $this->addTextContentFormFactory = $addTextContentFormFactory;
+    $this->textContentFormFactory = $textContentFormFactory;
   }
 
   /**
@@ -163,9 +163,9 @@ class SectionsPresenter extends BasePresenter
     });
   }
 
-  protected function createComponentAddTextContentForm (): Form
+  protected function createComponentTextContentForm (): Form
   {
-    return $this->addTextContentFormFactory->create(function (Form $form, ArrayHash $values) {
+    return $this->textContentFormFactory->create(function (Form $form, ArrayHash $values) {
       // Change the type according to content
       $values['type'] = ContentsRepository::$type['text'];
       $values['section_id'] = $this->sectionRow->id;

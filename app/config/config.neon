@@ -49,7 +49,6 @@ services:
     - App\Forms\AlbumFormFactory
     - App\Forms\AddFileContentFormFactory
     - App\Forms\AddImageContentFormFactory
-    - App\Forms\AddTextContentFormFactory
     - App\Forms\EditSlideFormFactory
     - App\Forms\EditUserFormFactory
     - App\Forms\FormFactory
@@ -66,6 +65,7 @@ services:
     - App\Forms\SectionFormFactory
     - App\Forms\SlideFormFactory
     - App\Forms\TestFormFactory
+    - App\Forms\TextContentFormFactory
     - App\Forms\UserFormFactory
 
     # Security
