@@ -9,6 +9,7 @@ use App\Forms\EditSlideFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\SearchFormFactory;
 use App\Forms\SlideFormFactory;
+use App\Helpers\ImageHelper;
 use App\Model\AlbumsRepository;
 use App\Model\SectionsRepository;
 use App\Model\SlidesRepository;
@@ -115,8 +116,9 @@ class SlidesPresenter extends BasePresenter
     try {
       $this['breadcrumb']->add('Kurzy', $this->link('all'));
     } catch (InvalidLinkException $e) {
-
+      $this->flashMessage($e->getMessage(), self::ERROR);
     }
+
     $this['breadcrumb']->add($this->slideRow->title);
   }
 
@@ -171,27 +173,24 @@ class SlidesPresenter extends BasePresenter
    */
   public function submittedAddForm(ArrayHash $values): void
   {
-    $image = $values->image;
-    $name = strtolower($image->getSanitizedName());
+    $imageName = null;
 
     try {
-      if (!$image->isOk() || (!$image->isImage() && $image->getContentType() !== 'image/svg' && $image->getContentType() !== 'image/svg+xml')) {
-        throw new InvalidArgumentException;
-      }
-
-      if (!$image->move(self::IMAGE_FOLDER . '/' . $name)) {
-        throw new IOException;
-      }
-    } catch (IOException $e) {
-      $this->flashMessage(self::UPLOAD_ERROR, self::ERROR);
-      $this->redirect('all');
+      $imageName = ImageHelper::uploadImage($values->image);
     } catch (InvalidArgumentException $e) {
-      $this->flashMessage(self::UPLOAD_ERROR, self::ERROR);
+      $this->flashMessage($e->getMessage(), self::ERROR);
+      $this->redirect('all');
+    } catch (IOException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
       $this->redirect('all');
     }
 
+    // Remove unneccessary item
     $values->offsetUnset('image');
-    $values->offsetSet('img', $name);
+
+    if ($imageName) {
+      $values->offsetSet('img', $imageName);
+    }
 
     $slide = $this->slidesRepository->insert($values);
     $this->flashMessage(self::ITEM_ADDED, self::INFO);
