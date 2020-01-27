@@ -99,7 +99,7 @@ class ImagesPresenter extends BasePresenter
    */
   private function submittedRemoveForm(): void
   {
-    $this->imagesRepository->softDelete((int)$this->imageRow->id);
+    $this->imagesRepository->softDelete($this->imageRow);
     $this->flashMessage(self::ITEM_REMOVED, self::INFO);
     $this->redirect('Albums:view', $this->albumRow->id);
   }

@@ -152,12 +152,12 @@ class SectionsPresenter extends BasePresenter
       if ($this->sectionRow->section_id != null) {
         $subSections = $this->sectionsRepository->findByParent($this->sectionRow->id);
         foreach ($subSections as $subSection) {
-          $this->sectionsRepository->softDelete($subSection->id);
+          $this->sectionsRepository->softDelete($subSection);
         }
       }
 
       // Delete section from database
-      $this->sectionsRepository->softDelete((int)$this->sectionRow->id);
+      $this->sectionsRepository->softDelete($this->sectionRow);
       $this->flashMessage(self::ITEM_REMOVED);
       $this->redirect('all');
     });

@@ -122,11 +122,13 @@ abstract class Repository {
 
   /**
    * Softly deletes row from table
-   * @param int $id
+   * @param Nette\Database\Table\ActiveRow $row
    */
-  public function softDelete(int $id)
+  public function softDelete(Nette\Database\Table\ActiveRow $row)
   {
-    $this->findById($id)->update( array(self::IS_PRESENT => 0) );
+    if ($row) {
+      $row->update(array(self::IS_PRESENT => 0));
+    }
   }
 
 }

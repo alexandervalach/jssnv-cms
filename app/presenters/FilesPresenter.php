@@ -106,7 +106,7 @@ class FilesPresenter extends BasePresenter
   {
     return $this->uploadFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->guestRedirect();
-      $this->filesRepository->softDelete((int)$this->fileRow->id);
+      $this->filesRepository->softDelete(($this->fileRow);
       $this->redirect('all');
     });
   }
@@ -118,7 +118,7 @@ class FilesPresenter extends BasePresenter
   {
     return $this->removeFormFactory->create(function () {
       $this->guestRedirect();
-      $this->filesRepository->softDelete((int)$this->fileRow->id);
+      $this->filesRepository->softDelete($this->fileRow);
       $this->flashMessage(self::ITEM_REMOVED, self::SUCCESS);
       $this->redirect('all');
     }, function () {
@@ -141,7 +141,7 @@ class FilesPresenter extends BasePresenter
   {
     $this->guestRedirect();
     $id = $this->fileRow->ref('posts', 'post_id');
-    $this->filesRepository->softDelete((int)$this->fileRow->id);
+    $this->filesRepository->softDelete($this->fileRow);
     $this->redirect('Posts:view#primary', $id);
   }
 

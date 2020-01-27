@@ -76,7 +76,7 @@ class ContentsPresenter extends BasePresenter
    */
   private function submittedRemoveForm(int $id): void
   {
-    $this->contentsRepository->softDelete($id);
+    $this->contentsRepository->softDelete($this->contentRow);
     $this->flashMessage(self::ITEM_REMOVED, self::INFO);
     $this->redirect('Sections:view', $this->contentRow->section_id);
   }

@@ -258,7 +258,7 @@ class TestsPresenter extends BasePresenter
    */
   public function submittedRemoveForm (): void
   {
-    $this->testsRepository->softDelete((int)$this->testRow->id);
+    $this->testsRepository->softDelete($this->testRow);
     $this->flashMessage(self::ITEM_REMOVED, self::INFO);
     $this->redirect('all');
   }

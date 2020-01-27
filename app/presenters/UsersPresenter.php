@@ -205,7 +205,7 @@ class UsersPresenter extends BasePresenter
     }
 
     $this->flashMessage(self::ITEM_REMOVED, self::SUCCESS);
-    $this->usersRepository->softDelete((int)$this->userRow->id);
+    $this->usersRepository->softDelete($this->userRow);
     $this->redirect('all');
   }
 

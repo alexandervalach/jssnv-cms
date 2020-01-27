@@ -216,7 +216,7 @@ class SlidesPresenter extends BasePresenter
    */
   public function submittedRemoveForm (): void
   {
-    $this->slidesRepository->softDelete((int) $this->slideRow->id);
+    $this->slidesRepository->softDelete($this->slideRow);
     $this->flashMessage(self::ITEM_REMOVED, self::INFO);
     $this->redirect('all');
   }
