@@ -198,6 +198,14 @@ class SectionsPresenter extends BasePresenter
     });
   }
 
+  protected function createComponentUploadFilesForm (): Form
+  {
+    return $this->multiUploadFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->guestRedirect();
+      $this->submittedUploadFilesForm($values);
+    });
+  }
+
   /**
    * @param ArrayHash $values
    * @throws AbortException
@@ -242,6 +250,34 @@ class SectionsPresenter extends BasePresenter
     foreach ($imageNames as $imageName) {
       $data[] = [
         'text' => $imageName,
+        'section_id' => $this->sectionRow->id,
+        'type' => ContentsRepository::$type['image']
+      ];
+    }
+
+    $this->contentsRepository->insert($data);
+    $this->flashMessage(self::ITEMS_ADDED, self::INFO);
+    $this->redirect('view', $this->sectionRow->id);
+  }
+
+  private function submittedUploadFilesForm(ArrayHash $values): void
+  {
+    $fileNames = [];
+
+    try {
+      $fileNames = FileHelper::uploadFiles($values->files);
+    } catch (InvalidArgumentException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
+      $this->redirect('view', $this->sectionRow->id);
+    } catch (IOException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
+      $this->redirect('view', $this->sectionRow->id);
+    }
+
+    $data = [];
+    foreach ($fileNames as $fileName) {
+      $data[] = [
+        'text' => $fileName,
         'section_id' => $this->sectionRow->id,
         'type' => ContentsRepository::$type['image']
       ];

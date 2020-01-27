@@ -50,20 +50,6 @@
       {/if}
     {/foreach}
   </main>
-  <footer class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      {*
-      <ul style="list-style: none; padding-left: 0px">
-        {foreach $files as $file}
-          <li>
-            <a href="{$basePath}/{$fileFolder}{$file->name}" class="text-success">{$file->name}</a>
-            <a n:if="$user->loggedIn" n:href="Files:remove#primary, $file->id" class="text-danger">
-              <span class="glyphicon glyphicon-remove"></span>
-            </a>
-          </li>
-        {/foreach}
-      </ul>
-      *}
-  </footer>
 </article>
 
 {if $user->loggedIn}
@@ -139,7 +125,5 @@
 {block scripts}
   {include parent}
   <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
-  <script>
-    CKEDITOR.replace( 'text-editor' );
-  </script>
+  <script type="text/javascript" src="{$basePath}/js/ckeditor.init.js"></script>
 {/block}
