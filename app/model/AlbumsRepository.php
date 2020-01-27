@@ -9,6 +9,7 @@ namespace App\Model;
  * @package App\Model
  * @author jonsnow
  */
-class AlbumsRepository extends Repository {
-    //put your code here
+class AlbumsRepository extends Repository
+{
+
 }

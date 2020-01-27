@@ -9,6 +9,7 @@ use App\Components\RemoveModalControl;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\MultiUploadFormFactory;
 use App\Forms\SearchFormFactory;
+use App\Helpers\ImageHelper;
 use App\Model\AlbumsRepository;
 use App\Model\ImagesRepository;
 use App\Model\SectionsRepository;
@@ -165,23 +166,26 @@ class AlbumsPresenter extends BasePresenter
   private function submittedUploadForm(ArrayHash $values): void
   {
     if ($values->images) {
-      foreach ($values->images as $image) {
-        $name = strtolower($image->getSanitizedName());
-        $data = array(
-          'name' => $name,
-          'album_id' => $this->albumRow
-        );
-
-        if (!$image->isOk() || !$image->isImage()) {
-          throw new InvalidArgumentException;
-        }
-
-        if (!$image->move(self::IMAGE_FOLDER . '/' . $name)) {
-          throw new IOException;
-        }
-
-        $this->imagesRepository->insert(ArrayHash::from($data));
+      $imageNames = [];
+      try {
+        $imageNames = ImageHelper::uploadImages($values->images);
+      } catch (InvalidArgumentException $e) {
+        $this->flashMessage($e->getMessage(), self::ERROR);
+        $this->redirect('view', $this->albumRow->id);
+      } catch (IOException $e) {
+        $this->flashMessage($e->getMessage(), self::ERROR);
+        $this->redirect('view', $this->albumRow->id);
       }
+
+      $data = [];
+      foreach ($imageNames as $imageName) {
+        $data[] = [
+          'name' => $imageName,
+          'album_id' => $this->albumRow->id
+        ];
+      }
+
+      $this->imagesRepository->insert($data);
 
       $this->flashMessage(self::ITEMS_ADDED, self::INFO);
     } else {
@@ -217,11 +221,11 @@ class AlbumsPresenter extends BasePresenter
    */
   public function submittedRemoveForm(): void
   {
-    $images = $this->albumRow->related('images');
+    $images = $this->imagesRepository->findForAlbum((int)$this->albumRow->id);
     foreach ($images as $image) {
-      $this->imagesRepository->softDelete((int) $image->id);
+      $this->imagesRepository->softDelete($image);
     }
-    $this->albumsRepository->softDelete((int) $this->albumRow->id);
+    $this->albumsRepository->softDelete($this->albumRow);
     $this->flashMessage(self::ITEM_REMOVED, self::INFO);
     $this->redirect('all');
   }
