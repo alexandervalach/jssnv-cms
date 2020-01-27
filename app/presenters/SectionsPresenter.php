@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\MultiUploadFormFactory;
 use App\Forms\TextContentFormFactory;
 use App\Forms\ModalRemoveFormFactory;
-use App\Forms\RemoveFormFactory;
 use App\Forms\SearchFormFactory;
 use App\Forms\SectionFormFactory;
+use App\Helpers\ImageHelper;
 use App\Model\AlbumsRepository;
 use App\Model\ContentsRepository;
 use App\Model\SectionsRepository;
@@ -18,6 +19,8 @@ use Nette\Application\BadRequestException;
 use Nette\Application\UI\Form;
 use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\GroupedSelection;
+use Nette\InvalidArgumentException;
+use Nette\IOException;
 use Nette\Utils\ArrayHash;
 
 /**
@@ -55,6 +58,11 @@ class SectionsPresenter extends BasePresenter
   private $contents;
 
   /**
+   * @var MultiUploadFormFactory
+   */
+  private $multiUploadFormFactory;
+
+  /**
    * SectionsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
@@ -64,6 +72,7 @@ class SectionsPresenter extends BasePresenter
    * @param ModalRemoveFormFactory $modalRemoveFormFactory
    * @param TextContentFormFactory $textContentFormFactory
    * @param ContentsRepository $contentsRepository
+   * @param MultiUploadFormFactory $multiUploadFormFactory
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
@@ -72,13 +81,15 @@ class SectionsPresenter extends BasePresenter
                               SectionFormFactory $sectionFormFactory,
                               ModalRemoveFormFactory $modalRemoveFormFactory,
                               TextContentFormFactory $textContentFormFactory,
-                              ContentsRepository $contentsRepository)
+                              ContentsRepository $contentsRepository,
+                              MultiUploadFormFactory $multiUploadFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->sectionFormFactory = $sectionFormFactory;
     $this->contentsRepository = $contentsRepository;
     $this->modalRemoveFormFactory = $modalRemoveFormFactory;
     $this->textContentFormFactory = $textContentFormFactory;
+    $this->multiUploadFormFactory = $multiUploadFormFactory;
   }
 
   /**
@@ -104,7 +115,11 @@ class SectionsPresenter extends BasePresenter
     $this->sectionRow = $this->sectionsRepository->findById($id);
 
     if (!$this->sectionRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
+      try {
+        $this->error(self::ITEM_NOT_FOUND);
+      } catch (BadRequestException $e) {
+
+      }
     }
 
     $this->contents = $this->sectionRow->related('contents')->where('is_present', 1);
@@ -175,6 +190,14 @@ class SectionsPresenter extends BasePresenter
     });
   }
 
+  protected function createComponentUploadImagesForm (): Form
+  {
+    return $this->multiUploadFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->guestRedirect();
+      $this->submittedUploadImagesForm($values);
+    });
+  }
+
   /**
    * @param ArrayHash $values
    * @throws AbortException
@@ -198,6 +221,34 @@ class SectionsPresenter extends BasePresenter
     $values->section_id = $values->section_id === 0 ? null : $values->section_id;
     $this->sectionRow->update($values);
     $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+    $this->redirect('view', $this->sectionRow->id);
+  }
+
+  private function submittedUploadImagesForm(ArrayHash $values): void
+  {
+    $imageNames = [];
+
+    try {
+      $imageNames = ImageHelper::uploadImages($values->images);
+    } catch (InvalidArgumentException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
+      $this->redirect('view', $this->sectionRow->id);
+    } catch (IOException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
+      $this->redirect('view', $this->sectionRow->id);
+    }
+
+    $data = [];
+    foreach ($imageNames as $imageName) {
+      $data[] = [
+        'text' => $imageName,
+        'section_id' => $this->sectionRow->id,
+        'type' => ContentsRepository::$type['image']
+      ];
+    }
+
+    $this->contentsRepository->insert($data);
+    $this->flashMessage(self::ITEMS_ADDED, self::INFO);
     $this->redirect('view', $this->sectionRow->id);
   }
 

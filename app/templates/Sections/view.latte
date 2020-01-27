@@ -6,11 +6,11 @@
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTextModal">
         <i class="fas fa-plus"></i> Text
       </button>
-      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#addImageModal">
-        <i class="fas fa-image"></i> Obrázok
+      <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#uploadImagesModal">
+        <i class="fas fa-image"></i> Obrázky
       </button>
       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addFileModal">
-        <i class="fas fa-file-alt"></i> Súbor
+        <i class="fas fa-file-alt"></i> Súbory
       </button>
       <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#editModal">
         <i class="fas fa-pencil-alt"></i> Upraviť
@@ -23,30 +23,31 @@
       <h2 n:block="title">{$section->name}</h2>
     </div>
   </header>
-  <main class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <main class="row">
     {foreach $contents as $content}
-      <div class="clearfix" n:if="$user->loggedIn">
-        <div class="float-right">
-          <a n:href="Contents:text, $content->id" class="btn btn-secondary">
-            <i class="fas fa-pencil-alt"></i>
-          </a>
-          <a n:href="Contents:remove $content->id" class="btn btn-danger">
-            <i class="fas fa-trash"></i>
-          </a>
-        </div>
-      </div>
-      <div class="clearfix">
       {if $content->type === 'text'}
-        {*}<p>{str_replace('\n', '', $content->text)}</p>*}
-        <p>{$content->text|noescape}</p>
+        <div class="clearfix" n:if="$user->loggedIn">
+          <div class="float-right">
+            <a n:href="Contents:text, $content->id" class="btn btn-secondary">
+              <i class="fas fa-pencil-alt"></i>
+            </a>
+            <a n:href="Contents:remove $content->id" class="btn btn-danger">
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>
+        </div>
+        <div class="clearfix">
+          <p>{$content->text|noescape}</p>
+        </div>
       {elseif $content->type === 'file'}
-        <a href="{$basePath}/{$fileFolder}/{$file->text}" class="text-success">{$file->name}</a>
+        <a href="{$basePath}/{$fileFolder}/{$content->text}" class="text-success">{$file->name}</a>
       {elseif $content->type === 'image'}
-
+        <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+          <img src="{$basePath}/{$imgFolder}/{$content->text}" class="img-fluid" alt="{$content->text}" />
+        </figure>
       {elseif $content->type === 'video'}
 
       {/if}
-      </div>
     {/foreach}
   </main>
   <footer class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -113,6 +114,22 @@
         </div>
         <div class="modal-body">
           {control sectionForm}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Images modal -->
+  <div class="modal fade" id="uploadImagesModal" tabindex="-3" role="dialog" aria-labelledby="uploadImagesModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="uploadImagesModalLabel">Nahrať obrázky</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          {control uploadImagesForm}
         </div>
       </div>
     </div>
