@@ -106,7 +106,7 @@ class FilesPresenter extends BasePresenter
   {
     return $this->uploadFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->guestRedirect();
-      $this->filesRepository->softDelete(($this->fileRow);
+      $this->filesRepository->softDelete($this->fileRow);
       $this->redirect('all');
     });
   }
