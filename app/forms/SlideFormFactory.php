@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Forms;
 
 use App\Helpers\FormHelper;
+use App\Helpers\ImageHelper;
 use Nette\SmartObject;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
@@ -44,7 +45,8 @@ class SlideFormFactory
 
     $form->addUpload('image', 'Obrázok*')
         ->setRequired()
-        ->addRule(Form::MAX_FILE_SIZE,  'Naraz je možné nahrať len súbory do 2 MiB', 2 * 1024 * 1024);
+        ->addRule(Form::MIME_TYPE, 'Obrázok môže byť len vo formáte PNG, JPG, GIF, SVG', ImageHelper::IMAGE_MIME_TYPES)
+        ->addRule(Form::MAX_FILE_SIZE,  'Obrázok môže mať veľkosť len do 2 MiB', 2 * 1024 * 1024);
 
     $form->addTextArea('message', 'Text')
         ->setHtmlAttribute('placeholder', 'Pravidelné kurzy anglického jazyka')

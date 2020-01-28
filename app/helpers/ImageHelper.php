@@ -23,6 +23,7 @@ class ImageHelper
    */
   const IMAGE_FOLDER = 'images';
   const IMAGE_NAME_LENGTH = 16;
+  const IMAGE_MIME_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/svg', 'image/svg+xml'];
 
   /**
    * @param FileUpload $image
@@ -30,7 +31,7 @@ class ImageHelper
    */
   public static function uploadImage(FileUpload $image): string
   {
-    if (!$image->isOk() || (!$image->isImage() && $image->getContentType() !== 'image/svg' && $image->getContentType() !== 'image/svg+xml')) {
+    if (!$image->isOk()) {
       throw new InvalidArgumentException;
     }
 
