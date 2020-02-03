@@ -275,7 +275,7 @@ class SectionsPresenter extends BasePresenter
     $fileNames = [];
 
     try {
-      $fileNames = FileHelper::uploadFiles($values->files);
+      $files = FileHelper::uploadFiles($values->files);
     } catch (InvalidArgumentException $e) {
       $this->flashMessage($e->getMessage(), self::ERROR);
       $this->redirect('view', $this->sectionRow->id);
@@ -285,9 +285,10 @@ class SectionsPresenter extends BasePresenter
     }
 
     $data = [];
-    foreach ($fileNames as $fileName) {
+    foreach ($files as $file) {
       $data[] = [
-        'text' => $fileName,
+        'title' => $file['desc'],
+        'text' => $file['file_name'],
         'section_id' => $this->sectionRow->id,
         'type' => ContentsRepository::$type['file']
       ];

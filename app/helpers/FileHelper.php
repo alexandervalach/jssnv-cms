@@ -43,16 +43,16 @@ class FileHelper
         throw new InvalidArgumentException;
       }
 
-      $fileName = strtolower($file->getSanitizedName());
+      $fileName = $file->getSanitizedName();
       $pathInfo = pathinfo($fileName);
-      $extension = $pathInfo['extension'];
-      $newName = Random::generate(self::FILE_NAME_LENGTH) . '.' . $extension;
+      $extension = strtolower($pathInfo['extension']);
+      $randomName = Random::generate(self::FILE_NAME_LENGTH) . '.' . $extension;
 
-      if (!$file->move(self::FILE_FOLDER . '/' . $newName)) {
+      if (!$file->move(self::FILE_FOLDER . '/' . $randomName)) {
         throw new IOException;
       }
 
-      $names[] = $newName;
+      $names[] = [ 'desc' => $fileName, 'file_name' => $randomName ];
     }
     return $names;
   }

@@ -40,8 +40,17 @@
           <p>{$content->text|noescape}</p>
         </div>
       {elseif $content->type === 'file'}
-        <div style="display: block">
-          <a href="{$basePath}/{$fileFolder}/{$content->text}" target="_blank" class="text-success">{$content->text}</a>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 clearfix">
+          <div class="float-left">
+            <a href="{$basePath}/{$fileFolder}/{$content->text}" target="_blank" class="text-success">
+              {$content->title} <i class="fas fa-download"></i>
+            </a>
+          </div>
+          <div class="float-right" n:if="$user->loggedIn">
+            <a n:href="Contents:remove $content->id" class="text-danger">
+              <i class="fas fa-trash"></i>
+            </a>
+          </div>
         </div>
       {elseif $content->type === 'image'}
         <figure class="col-xs-12 col-sm-12 col-md-6 col-lg-4">

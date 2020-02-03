@@ -2,4 +2,5 @@
 /temp
 /app/config/config.local.neon
 /www/images/*
+/www/files/*
 /vendor
