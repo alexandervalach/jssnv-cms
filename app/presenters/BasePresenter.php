@@ -29,7 +29,6 @@ abstract class BasePresenter extends Presenter
   const ITEMS_ADDED = 'Položky boli nahraté.';
   const USER_ADDED = 'Používateľ bol pridaný.';
   const FILE_NOT_FOUND = 'Súbor nebol nájdený.';
-  const UPLOAD_ERROR = 'Nastala chyba pri nahrávaní súboru.';
   const SUCCESS = 'success';
   const ERROR = 'danger';
   const INFO = 'info';

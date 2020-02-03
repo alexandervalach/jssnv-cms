@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
+use App\Forms\FileUploadFormFactory;
 use App\Forms\MultiUploadFormFactory;
 use App\Forms\TextContentFormFactory;
 use App\Forms\ModalRemoveFormFactory;
 use App\Forms\SearchFormFactory;
 use App\Forms\SectionFormFactory;
+use App\Helpers\FileHelper;
 use App\Helpers\ImageHelper;
 use App\Model\AlbumsRepository;
 use App\Model\ContentsRepository;
@@ -63,6 +65,11 @@ class SectionsPresenter extends BasePresenter
   private $multiUploadFormFactory;
 
   /**
+   * @var FileUploadFormFactory
+   */
+  private $fileUploadFormFactory;
+
+  /**
    * SectionsPresenter constructor.
    * @param AlbumsRepository $albumsRepository
    * @param SectionsRepository $sectionRepository
@@ -73,6 +80,7 @@ class SectionsPresenter extends BasePresenter
    * @param TextContentFormFactory $textContentFormFactory
    * @param ContentsRepository $contentsRepository
    * @param MultiUploadFormFactory $multiUploadFormFactory
+   * @param FileUploadFormFactory $fileUploadFormFactory
    */
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
@@ -82,7 +90,8 @@ class SectionsPresenter extends BasePresenter
                               ModalRemoveFormFactory $modalRemoveFormFactory,
                               TextContentFormFactory $textContentFormFactory,
                               ContentsRepository $contentsRepository,
-                              MultiUploadFormFactory $multiUploadFormFactory)
+                              MultiUploadFormFactory $multiUploadFormFactory,
+                              FileUploadFormFactory $fileUploadFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchFormFactory);
     $this->sectionFormFactory = $sectionFormFactory;
@@ -90,6 +99,7 @@ class SectionsPresenter extends BasePresenter
     $this->modalRemoveFormFactory = $modalRemoveFormFactory;
     $this->textContentFormFactory = $textContentFormFactory;
     $this->multiUploadFormFactory = $multiUploadFormFactory;
+    $this->fileUploadFormFactory = $fileUploadFormFactory;
   }
 
   /**
@@ -200,7 +210,7 @@ class SectionsPresenter extends BasePresenter
 
   protected function createComponentUploadFilesForm (): Form
   {
-    return $this->multiUploadFormFactory->create(function (Form $form, ArrayHash $values) {
+    return $this->fileUploadFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->guestRedirect();
       $this->submittedUploadFilesForm($values);
     });
@@ -279,7 +289,7 @@ class SectionsPresenter extends BasePresenter
       $data[] = [
         'text' => $fileName,
         'section_id' => $this->sectionRow->id,
-        'type' => ContentsRepository::$type['image']
+        'type' => ContentsRepository::$type['file']
       ];
     }
 
