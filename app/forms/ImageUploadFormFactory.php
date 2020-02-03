@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Forms;
 
 use App\Helpers\FormHelper;
+use App\Helpers\ImageHelper;
 use Nette\SmartObject;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
@@ -13,7 +14,7 @@ use Nette\Utils\ArrayHash;
  * Add upload form factory
  * @package App\Forms
  */
-class UploadFormFactory
+class ImageUploadFormFactory
 {
   use SmartObject;
 
@@ -36,9 +37,10 @@ class UploadFormFactory
   public function create(callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
-    $form->addUpload('files', 'Súbory*')
+    $form->addUpload('image', 'Obrázok*')
         ->setRequired()
-        ->addRule(Form::MAX_FILE_SIZE, 50, 'Naraz je možné nahrať len súbory do 50 MiB');
+        ->addRule(Form::MIME_TYPE, 'Obrázok môže byť len vo formáte PNG, JPG, GIF, SVG', ImageHelper::IMAGE_MIME_TYPES)
+        ->addRule(Form::MAX_FILE_SIZE, 'Obrázok môže mať veľkosť maximálne 2 MiB', 2 * 1024 * 1024);
     $form->addSubmit('upload', 'Nahrať');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-large btn-warning')

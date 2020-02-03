@@ -55,7 +55,7 @@ services:
     - App\Forms\FinishFormFactory
     - App\Forms\SearchFormFactory
     - App\Forms\SignFormFactory
-    - App\Forms\UploadFormFactory
+    - App\Forms\ImageUploadFormFactory
     - App\Forms\ModalRemoveFormFactory
     - App\Forms\MultiUploadFormFactory
     - App\Forms\PasswordFormFactory

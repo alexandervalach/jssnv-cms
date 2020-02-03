@@ -7,7 +7,7 @@ namespace App\Presenters;
 use App\Components\BreadcrumbControl;
 use App\Forms\RemoveFormFactory;
 use App\Forms\SearchFormFactory;
-use App\Forms\UploadFormFactory;
+use App\Forms\ImageUploadFormFactory;
 use App\Model\AlbumsRepository;
 use App\Model\ContentsRepository;
 use App\Model\SectionsRepository;
@@ -27,7 +27,7 @@ class FilesPresenter extends BasePresenter
   private $fileRow;
 
   /**
-   * @var UploadFormFactory
+   * @var ImageUploadFormFactory
    */
   private $uploadFormFactory;
 
@@ -47,7 +47,7 @@ class FilesPresenter extends BasePresenter
    * @param SectionsRepository $sectionRepository
    * @param BreadcrumbControl $breadcrumbControl
    * @param SearchFormFactory $searchFormFactory
-   * @param UploadFormFactory $uploadFormFactory
+   * @param ImageUploadFormFactory $uploadFormFactory
    * @param ContentsRepository $filesRepository
    * @param RemoveFormFactory $removeFormFactoryText
    */
@@ -55,7 +55,7 @@ class FilesPresenter extends BasePresenter
                               SectionsRepository $sectionRepository,
                               BreadcrumbControl $breadcrumbControl,
                               SearchFormFactory $searchFormFactory,
-                              UploadFormFactory $uploadFormFactory,
+                              ImageUploadFormFactory $uploadFormFactory,
                               ContentsRepository $filesRepository,
                               RemoveFormFactory $removeFormFactoryText)
   {
