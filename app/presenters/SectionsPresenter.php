@@ -273,7 +273,7 @@ class SectionsPresenter extends BasePresenter
 
   private function submittedUploadFilesForm(ArrayHash $values): void
   {
-    $fileNames = [];
+    $files = [];
 
     try {
       $files = FileHelper::uploadFiles($values->files);
@@ -286,10 +286,10 @@ class SectionsPresenter extends BasePresenter
     }
 
     $data = [];
-    foreach ($files as $fileName) {
+    foreach ($files as $file) {
       $data[] = [
-        'title' => $fileName,
-        'text' => $fileName,
+        'title' => $file['title'],
+        'text' => $file['base_name'],
         'section_id' => $this->sectionRow->id,
         'type' => ContentsRepository::$type['file']
       ];

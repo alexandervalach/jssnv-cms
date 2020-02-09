@@ -50,13 +50,17 @@ class FileHelper
         throw new InvalidArgumentException;
       }
 
-      $fileName = $file->getSanitizedName();
+      $baseName = $file->getSanitizedName();
+      $pathInfo = pathinfo($baseName);
+      $extension = strtolower($pathInfo['extension']);
+      $fileName = $pathInfo['filename'];
+      $newName = $baseName . '.' . $extension;
 
-      if (!$file->move(self::FILE_FOLDER . '/' . $fileName)) {
+      if (!$file->move(self::FILE_FOLDER . '/' . $newName)) {
         throw new IOException;
       }
 
-      $names[] = $fileName;
+      $names[] = [ 'title' => $fileName, 'base_name' => $baseName ];
     }
     return $names;
   }
