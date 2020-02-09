@@ -4,7 +4,7 @@
   <div class="float-left">
   	<h2 n:block="title">Testy</h2>
   </div>
-  <div class="float-right">
+  <div class="float-right" n:if="$user->loggedIn">
     <button type="button" class='btn btn-success' data-toggle="modal" data-target="#testForm">
       <i class="fas fa-plus"></i> Pridať
     </button>
@@ -14,7 +14,7 @@
       <thead>
         <tr>
           <th>Názov</th>
-          <th colspan="2" class="text-center">Akcie</th>
+          <th {if $user->loggedIn}colspan="2"{/if} class="text-center">Akcie</th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +26,7 @@
                 <i class="fas fa-running"></i>
               </a>
             </td>
-            <td class="text-center">
+            <td n:if="$user->loggedIn" class="text-center">
               <a n:href="Tests:view, $test->id" title="Upraviť test">
                 <i class="fas fa-pencil-alt"></i>
               </a>

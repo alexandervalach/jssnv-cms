@@ -105,7 +105,7 @@ class TestsPresenter extends BasePresenter
    */
   public function actionAll (): void
   {
-  	$this->guestRedirect();
+  	// $this->guestRedirect();
     $this['breadcrumb']->add('Testy');
   }
 
