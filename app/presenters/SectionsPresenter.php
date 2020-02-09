@@ -286,10 +286,10 @@ class SectionsPresenter extends BasePresenter
     }
 
     $data = [];
-    foreach ($files as $file) {
+    foreach ($files as $fileName) {
       $data[] = [
-        'title' => $file['desc'],
-        'text' => $file['file_name'],
+        'title' => $fileName,
+        'text' => $fileName,
         'section_id' => $this->sectionRow->id,
         'type' => ContentsRepository::$type['file']
       ];

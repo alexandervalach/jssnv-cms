@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helpers;
 
+use Nette\Application\BadRequestException;
 use Nette\InvalidArgumentException;
 use Nette\IOException;
 use Nette\Utils\Random;
@@ -43,16 +44,19 @@ class FileHelper
         throw new InvalidArgumentException;
       }
 
-      $fileName = $file->getSanitizedName();
-      $pathInfo = pathinfo($fileName);
-      $extension = strtolower($pathInfo['extension']);
-      $randomName = Random::generate(self::FILE_NAME_LENGTH) . '.' . $extension;
+      $fileType = $file->getContentType();
 
-      if (!$file->move(self::FILE_FOLDER . '/' . $randomName)) {
+      if (!in_array($fileType, self::FILE_MIME_TYPES)) {
+        throw new InvalidArgumentException;
+      }
+
+      $fileName = $file->getSanitizedName();
+
+      if (!$file->move(self::FILE_FOLDER . '/' . $fileName)) {
         throw new IOException;
       }
 
-      $names[] = [ 'desc' => $fileName, 'file_name' => $randomName ];
+      $names[] = $fileName;
     }
     return $names;
   }

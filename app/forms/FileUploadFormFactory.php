@@ -39,8 +39,8 @@ class FileUploadFormFactory
     $form = $this->formFactory->create();
     $form->addMultiUpload('files', 'Súbory')
         ->setRequired()
-        ->addRule(Form::MAX_FILE_SIZE,  'Súbor môže maž maximálne veľkosť 2 MiB', 2 * 1024 * 1024)
-        ->addRule(Form::MIME_TYPE, 'Súbor môže byť len dokument, archív alebo MP3', FileHelper::FILE_MIME_TYPES);
+        ->addRule(Form::MAX_FILE_SIZE,  'Súbor môže maž maximálne veľkosť 2 MiB', 2 * 1024 * 1024);
+        // ->addRule(Form::MIME_TYPE, 'Súbor môže byť len dokument, archív alebo MP3', FileHelper::FILE_MIME_TYPES);
     $form->addSubmit('upload', 'Nahrať');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-large btn-warning')
