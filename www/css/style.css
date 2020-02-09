@@ -187,6 +187,10 @@
   margin-top: 5px;
 }
 
+#page .no-margin {
+  margin: 0;
+}
+
 /*********************************
 Toasts
 *********************************/
@@ -217,12 +221,6 @@ Tables
 Home
 *********************************/
 
-.home
-{
-  width: 100%;
-  height: 330px;
-}
-
 .home-title
 {
   background: rgba(255, 255, 255, 0.7);
@@ -230,24 +228,25 @@ Home
   color: #0c0c0c;
 }
 
-.home-background
+.home
 {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 365px;
-  margin-left: -15px;
-  margin-right: -15px;
-  background-size: cover;
+}
+
+.home-background
+{
+  width: 100%;
+  height: 365px;
   background: url('../images/banner.jpg') no-repeat center center;
+  background-size: cover;
 }
 
 .home-content
 {
   position: absolute;
   left: 0;
-  top: 75px;
+  top: 150px;
   width: 100%;
 }
 
@@ -290,7 +289,7 @@ Courses
 .language
 {
   width: 100%;
-  padding-top: 50px;
+  padding-top: 25px;
   padding-bottom: 50px;
   overflow-x: hidden;
 }
