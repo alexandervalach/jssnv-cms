@@ -128,7 +128,8 @@ class SectionsPresenter extends BasePresenter
       try {
         $this->error(self::ITEM_NOT_FOUND);
       } catch (BadRequestException $e) {
-
+        $this->flashMessage(self::ITEM_NOT_FOUND, self::ERROR);
+        $this->redirect('Homepage:');
       }
     }
 

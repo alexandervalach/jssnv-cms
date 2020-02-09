@@ -98,7 +98,7 @@ abstract class Repository {
   public function findById(int $id)
   {
     $item = $this->getTable()->get($id);
-    return $item->is_present ? $item : null;
+    return $item ? $item->is_present ? $item : null : null;
   }
 
   /**

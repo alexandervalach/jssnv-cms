@@ -20,8 +20,8 @@ use Nette\Security\User;
  */
 abstract class BasePresenter extends Presenter
 {
-  const TEST_NOT_FOUND = 'Test not found!';
-  const ITEM_NOT_FOUND = 'Item not found!';
+  const TEST_NOT_FOUND = 'Test neexistuje!';
+  const ITEM_NOT_FOUND = 'Položka neexistuje!';
   const FORBIDDEN = 'Action not allowed!';
   const ITEM_ADDED = 'Položka bola pridaná.';
   const ITEM_UPDATED = 'Položka bola upravená.';
