@@ -11,7 +11,7 @@
           <th>Test</th>
           <th>E-mail</th>
           <th>Výsledok</th>
-          <th>Akcia</th>
+          <th class="text-center">Akcia</th>
         </tr>
       </thead>
       <tbody>
@@ -24,9 +24,9 @@
             </td>
             <td>{empty($result['data']->email) ? 'anonym' : $result['data']->email}</td>
             <td>{$result['data']->score}</td>
-            <td>
-              <a n:href="Results:view, $result['data']->id" class="text-success">
-                <i data-feather="eye"></i>
+            <td class="text-center">
+              <a n:href="Results:view, $result['data']->id" class="text-primary">
+                <i class="fas fa-eye"></i>
               </a>
             </td>
           </tr>
