@@ -13,7 +13,7 @@ use Nette\Utils\ArrayHash;
  * Add upload form factory
  * @package App\Forms
  */
-class TestFormFactory
+class NoticeFormFactory
 {
   use SmartObject;
 
@@ -37,15 +37,16 @@ class TestFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addText('label', 'Názov')
-        ->setHtmlAttribute('placeholder','Anglický jazyk')
+    $form->addText('title', 'Názov')
+        ->setHtmlAttribute('placeholder','Otvorenie školského roka')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, "%label môže mať maximálne %value znakov.", 255);
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
+    $form->addTextArea('content', 'Text')
+        ->addRule(Form::MAX_LENGTH, 'Text môže mať maximálne %value znakov.', 10000);
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-warning')
         ->setHtmlAttribute('data-dismiss', 'modal');
-
     FormHelper::setBootstrapFormRenderer($form);
 
     $form->onSuccess[] = function (Form $form, ArrayHash $values) use ($onSuccess) {
