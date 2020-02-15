@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Forms;
 
 use App\Helpers\FormHelper;
-use App\Model\ContentsRepository;
 use Nette\SmartObject;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;

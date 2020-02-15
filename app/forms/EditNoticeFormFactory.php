@@ -13,7 +13,7 @@ use Nette\Utils\ArrayHash;
  * Add upload form factory
  * @package App\Forms
  */
-class NoticeFormFactory
+class EditNoticeFormFactory
 {
   use SmartObject;
 

@@ -3,8 +3,8 @@
 
 namespace App\Presenters;
 
-
 use App\Components\BreadcrumbControl;
+use App\Forms\EditNoticeFormFactory;
 use App\Forms\NoticeFormFactory;
 use App\Forms\SearchFormFactory;
 use App\Model\AlbumsRepository;
@@ -31,16 +31,22 @@ class NoticesPresenter extends BasePresenter
    */
   private $noticeFormFactory;
 
-  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository, BreadcrumbControl $breadcrumbControl, SearchFormFactory $searchForm, NoticesRepository $noticesRepository, NoticeFormFactory $noticeFormFactory)
+  /**
+   * @var EditNoticeFormFactory
+   */
+  private $editNoticeFormFactory;
+
+  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository, BreadcrumbControl $breadcrumbControl, SearchFormFactory $searchForm, NoticesRepository $noticesRepository, NoticeFormFactory $noticeFormFactory, EditNoticeFormFactory $editNoticeFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchForm);
     $this->noticesRepository = $noticesRepository;
     $this->noticeFormFactory = $noticeFormFactory;
+    $this->editNoticeFormFactory = $editNoticeFormFactory;
   }
 
   public function renderAll (): void
   {
-    $this->template->notices = $this->noticesRepository->findAll();
+    $this->template->notices = $this->noticesRepository->findAllAndOrder();
   }
 
   public function actionEdit (int $id): void
@@ -51,6 +57,8 @@ class NoticesPresenter extends BasePresenter
     if (!$this->noticeRow) {
       $this->error(self::ITEM_NOT_FOUND);
     }
+
+    $this['editForm']->setDefaults($this->noticeRow);
   }
 
   public function renderEdit (): void
@@ -78,10 +86,25 @@ class NoticesPresenter extends BasePresenter
     });
   }
 
+  protected function createComponentEditForm (): Form
+  {
+    return $this->editNoticeFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->guestRedirect();
+      $this->submittedEditForm($values);
+    });
+  }
+
   private function submittedAddForm (ArrayHash $values): void
   {
     $this->noticesRepository->insert($values);
     $this->flashMessage(self::ITEM_ADDED, self::INFO);
+    $this->redirect('all');
+  }
+
+  private function submittedEditForm (ArrayHash $values): void
+  {
+    $this->noticeRow->update($values);
+    $this->flashMessage(self::ITEM_UPDATED, self::INFO);
     $this->redirect('all');
   }
 

@@ -1,0 +1,18 @@
+{block content}
+
+<section id="notice" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <header class="clearfix" style="margin: 15px 0">
+    <div class="float-left">
+      <h2 n:block="title">{$notice->title}</h2>
+    </div>
+  </header>
+  <div class="content clearfix">
+    {control editForm}
+  </div>
+</section>
+
+{block scripts}
+    {include parent}
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <script type="text/javascript" src="{$basePath}/js/ckeditor.init.js"></script>
+{/block}

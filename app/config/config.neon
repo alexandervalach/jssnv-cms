@@ -50,6 +50,7 @@ services:
     - App\Forms\AlbumFormFactory
     - App\Forms\AddFileContentFormFactory
     - App\Forms\AddImageContentFormFactory
+    - App\Forms\EditNoticeFormFactory
     - App\Forms\EditSlideFormFactory
     - App\Forms\EditUserFormFactory
     - App\Forms\FormFactory
