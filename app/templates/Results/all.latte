@@ -45,9 +45,15 @@
   {include parent}
   <script>
     jQuery(document).ready(() => {
-      const results = jQuery('#results')
-      if (results) {
-        results.DataTable();
+      const tableId = '#results'
+      let table
+
+      if ( jQuery.fn.dataTable.isDataTable(tableId) ) {
+        table = jQuery(tableId).DataTable();
+      } else {
+        table = jQuery(tableId).DataTable({
+          'order': []
+        });
       }
     });
   </script>

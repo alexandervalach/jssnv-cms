@@ -10,7 +10,7 @@ use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
 
 /**
- * Add upload form factory
+ * Edit notice form factory
  * @package App\Forms
  */
 class EditNoticeFormFactory
@@ -29,7 +29,7 @@ class EditNoticeFormFactory
   }
 
   /**
-   * Creates and renders sign in form
+   * Creates and renders edit notice form
    * @param callable $onSuccess
    * @return Form
    */

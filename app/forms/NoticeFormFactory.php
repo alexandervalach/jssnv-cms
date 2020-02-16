@@ -10,7 +10,7 @@ use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
 
 /**
- * Add upload form factory
+ * Add and edit notice form factory
  * @package App\Forms
  */
 class NoticeFormFactory
@@ -29,7 +29,7 @@ class NoticeFormFactory
   }
 
   /**
-   * Creates and renders sign in form
+   * Creates and renders add notice form
    * @param callable $onSuccess
    * @return Form
    */
@@ -41,13 +41,17 @@ class NoticeFormFactory
         ->setHtmlAttribute('placeholder','Otvorenie školského roka')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
+
     $form->addTextArea('content', 'Text')
         ->setHtmlAttribute('id', 'text-editor')
-        ->addRule(Form::MAX_LENGTH, 'Text môže mať maximálne %value znakov.', 10000);
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 10000);
+
     $form->addSubmit('save', 'Uložiť');
+
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-warning')
         ->setHtmlAttribute('data-dismiss', 'modal');
+
     FormHelper::setBootstrapFormRenderer($form);
 
     $form->onSuccess[] = function (Form $form, ArrayHash $values) use ($onSuccess) {

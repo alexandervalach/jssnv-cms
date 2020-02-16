@@ -69,15 +69,15 @@ class ResultsPresenter extends BasePresenter
   public function actionAll (): void
   {
     $this->guestRedirect();
-    $results = $this->resultsRepository->findAll();
+    $results = $this->resultsRepository->findAllAndOrder();
     $data = [];
 
     foreach ($results as $result) {
-      $data[] = array(
-          'data' => $result,
-          'levels' => $result->related('levels_results'),
-          'test' => $result->ref('tests', 'test_id')
-      );
+      $data[] = [
+        'data' => $result,
+        'levels' => $result->related('levels_results'),
+        'test' => $result->ref('tests', 'test_id')
+      ];
     }
 
     $this->results = ArrayHash::from($data);
