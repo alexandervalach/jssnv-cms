@@ -282,52 +282,62 @@ class TestsPresenter extends BasePresenter
   protected function evaluateTest ($postData)
   {
     $levels = [];
-    $highScore = 0;
-    $score = 0;
+    $levelsResults = [];
+    $totalHighScore = 0;
+    $totalScore = 0;
 
-    // Loop through questions
-  	foreach ($this->questions as $question) {
-      if (!isset($levels[$question->level_id])) {
-        $levels[$question->level_id]['score'] = 0;
-        $levels[$question->level_id]['high_score'] = 0;
-        $levels[$question->level_id]['level_id'] = $question->level_id;
+    // Value initialization
+    foreach ($this->questions as $question) {
+      if (empty($levels[$question->level_id])) {
+        $levels[$question->level_id] = [
+          'id' => $question->level_id,
+          'score' => 0,
+          'high_score' => 0
+        ];
       }
+    }
 
+    // Get high score value (total and per level) and correct answers
+  	foreach ($this->questions as $question) {
       $levels[$question->level_id]['high_score'] += $question->value;
-  		$answer[$question->id] = $question->related('answers')->where('correct', 1)->fetch();
-  		$highScore += $question->value;
+      $answer[$question->id] = $question->related('answers')->where('correct', 1)->fetch();
+      $totalHighScore += $question->value;
   	}
 
   	foreach ($this->questions as $question) {
+  	  // Check if there is an answer for question
       if (!(array_key_exists('question' . $question->id, $postData))) {
         continue;
       }
 
+      // Check if question correct
       if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
         $levels[$question->level_id]['score'] += $question->value;
-        $score += $question->value;
+        $totalScore += $question->value;
       }
     }
 
     $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
 
     $resultId = $this->resultsRepository->insert(
-      array(
+      [
         'test_id' => $this->testRow->id,
-        'score' => round(($score / (float) $highScore) * 100, 2),
+        'score' => round(($totalScore / (float) $totalHighScore) * 100, 2),
         'email' => $email
-      )
+      ]
     );
 
-    // Save partial results foreach difficulty level
+    // Save partial results for each difficulty level
     foreach ($levels as $level) {
-      $this->levelsResultsRepository->insert(
-        array(
-          'result_id' => $resultId,
-          'level_id' => $level['level_id'],
-          'score' => round($level['score'] / (float) $levels[$question->level_id]['high_score'] * 100, 2)
-        )
-      );
+      $levelsResults[] = [
+        'result_id' => $resultId,
+        'level_id' => $level['id'],
+        'score' => round(($level['score'] / (float) $level['high_score']) * 100, 2)
+      ];
+    }
+
+    if (!empty($levelsResults)) {
+      $this->levelsResultsRepository->insert($levelsResults);
     }
 
     return $resultId;
