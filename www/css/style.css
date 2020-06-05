@@ -226,6 +226,7 @@ Home
   background: rgba(255, 255, 255, 0.7);
   padding: 10px 25px;
   color: #0c0c0c;
+  margin-top: -15px;
 }
 
 .home
@@ -241,6 +242,21 @@ Home
   background: url('../images/banner.jpg') no-repeat center center;
   background-size: cover;
 }
+
+.carousel-inner > .carousel-item > img
+{
+  display: block;
+  width: 100vw;
+  height: 365px;
+  object-fit: cover;
+}
+
+/*
+.carousel-inner > .carousel-item .home-text ul
+{
+  list-style-type: disc !important;
+}
+*/
 
 .home-content
 {
@@ -280,6 +296,15 @@ Home
 .home-button a:hover
 {
   color: #c0c0c0;
+}
+
+.home-text
+{
+  background: rgba(255, 255, 255, 0.7);
+  padding: 10px 25px;
+  color: #0c0c0c;
+  margin-top: 10px;
+  font-weight: 550;
 }
 
 /*********************************
