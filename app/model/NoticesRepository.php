@@ -12,6 +12,8 @@ use Nette\Database\Table\Selection;
  */
 class NoticesRepository extends Repository {
 
+  const ON_HOMEPAGE = 'on_homepage';
+
   /**
    * @var array
    */
@@ -32,6 +34,13 @@ class NoticesRepository extends Repository {
   public function findAllAndOrder ()
   {
     return $this->findAll()->order('updated_at DESC');
+  }
+
+  public function getHomepageNotices ()
+  {
+    return $this->findAll()->where(self::IS_PRESENT, 1)
+      ->where(self::ON_HOMEPAGE, 1)
+      ->order('updated_at DESC');
   }
 
 }

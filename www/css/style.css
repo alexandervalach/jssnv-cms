@@ -446,3 +446,7 @@ Courses
   font-size: 2em;
   text-align: center;
 }
+
+#page #primary #content article.row header {
+  margin-left: 16px;
+}

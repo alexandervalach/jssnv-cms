@@ -33,7 +33,7 @@ class EditNoticeFormFactory
    * @param callable $onSuccess
    * @return Form
    */
-  public function create(callable $onSuccess): Form
+  public function create (callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
 
@@ -41,10 +41,15 @@ class EditNoticeFormFactory
         ->setHtmlAttribute('placeholder','Otvorenie školského roka')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
+
     $form->addTextArea('content', 'Text')
         ->setHtmlAttribute('id', 'text-editor')
         ->addRule(Form::MAX_LENGTH, 'Text môže mať maximálne %value znakov.', 10000);
+
+    $form->addCheckbox('on_homepage', ' Na domovskej stránke');
+
     $form->addSubmit('save', 'Uložiť');
+
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-warning')
         ->setHtmlAttribute('data-dismiss', 'modal');
