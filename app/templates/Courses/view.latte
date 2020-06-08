@@ -3,11 +3,11 @@
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>Úrovne kurzov</h2>
+      <h2 n:block=title>{$course->label}</h2>
     </div>
-    <div class="float-right" n:if="$user->loggedIn">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationForm">
-        <i class="fas fa-plus"></i> Pridať
+    <div class="float-right">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseForm">
+        <i class="fas fa-plus"></i> Upraviť
       </button>
     </div>
   </header>
