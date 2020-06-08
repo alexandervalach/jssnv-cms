@@ -101,7 +101,8 @@
   -webkit-text-shadow: rgba(0,0,0,.01) 0 0 1px;
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
   box-sizing: border-box;
-  font-family: 'Montserrat', sans-serif;
+  /* font-family: 'Montserrat', sans-serif; */
+  font-family: 'Nunito';
 }
 
 #page h1 { font-size: 40px; }
@@ -235,6 +236,7 @@ Home
   height: 365px;
 }
 
+/*
 .home-background
 {
   width: 100%;
@@ -242,6 +244,7 @@ Home
   background: url('../images/banner.jpg') no-repeat center center;
   background-size: cover;
 }
+*/
 
 .carousel-inner > .carousel-item > img
 {
@@ -303,8 +306,8 @@ Home
   background: rgba(255, 255, 255, 0.7);
   padding: 10px 25px;
   color: #0c0c0c;
-  margin-top: 10px;
-  font-weight: 550;
+  margin-top: 12px;
+  font-weight: 600;
 }
 
 /*********************************
