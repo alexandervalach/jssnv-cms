@@ -248,4 +248,4 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_slovak_ci;
 
 
--- 2020-06-08 11:49:49
+-- 2020-06-08 11:49:49nature
