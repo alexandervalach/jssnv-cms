@@ -58,7 +58,7 @@ class CoursesPresenter extends BasePresenter
   {
     try {
       $this->guestRedirect();
-      $this['breadcrumb']->add('Kurzy', 'Courses:all');
+      $this['breadcrumb']->add('Kurzy');
     } catch (AbortException $e) {
 
     }

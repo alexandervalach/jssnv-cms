@@ -35,6 +35,8 @@ services:
     - App\Model\AlbumsRepository
     - App\Model\AnswersRepository
     - App\Model\ApplicationFormsRepository
+    - App\Model\BranchesRepository
+    - App\Model\BranchCoursesRepository
     - App\Model\ContentsRepository
     - App\Model\CourseLevelsRepository
     - App\Model\CoursesRepository

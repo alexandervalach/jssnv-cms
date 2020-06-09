@@ -1,0 +1,36 @@
+{block content}
+
+<div class="row">
+  <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="float-left">
+      <h2 n:block=title>Pobočky</h2>
+    </div>
+    <div class="float-right">
+      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#branchForm">
+        <i class="fas fa-plus"></i> Pridať
+      </button>
+    </div>
+  </header>
+  <div class="table-responsive" n:if="$branches->count() > 0">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Názov</th>
+          <th class="text-center">Akcie</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach $branches as $branch}
+          <tr>
+            <td>{$branch->label}</td>
+            <td class="text-center">
+              <a n:href="Branch:view, $branch->id" title="Upraviť pobočku">
+                <i class="fas fa-edit"></i>
+              </a>
+            </td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+  </div>
+</div>

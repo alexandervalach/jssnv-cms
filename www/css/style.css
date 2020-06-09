@@ -450,6 +450,10 @@ Courses
   text-align: center;
 }
 
+#page #primary #content {
+  min-height: 39vh;
+}
+
 #page #primary #content article.row header {
   margin-left: 16px;
 }
