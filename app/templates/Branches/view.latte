@@ -3,10 +3,10 @@
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>{$course->label}</h2>
+      <h2 n:block=title>{$branch->label}</h2>
     </div>
     <div class="float-right">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseForm">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#branchForm">
         <i class="fas fa-plus"></i> Upraviť
       </button>
     </div>
@@ -14,17 +14,17 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="courseForm" tabindex="-1" role="dialog" aria-labelledby="courseModalLabel" aria-hidden="true">
+<div class="modal fade" id="branchForm" tabindex="-1" role="dialog" aria-labelledby="branchModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="courseModalLabel">Upraviť kurz</h5>
+        <h5 class="modal-title" id="branchModalLabel">Upraviť pobočku</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        {control courseForm}
+        {control branchForm}
       </div>
     </div>
   </div>

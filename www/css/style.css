@@ -452,6 +452,7 @@ Courses
 
 #page #primary #content {
   min-height: 39vh;
+  padding: 10px 30px;
 }
 
 #page #primary #content article.row header {

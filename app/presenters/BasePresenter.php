@@ -34,6 +34,7 @@ abstract class BasePresenter extends Presenter
   const INFO = 'info';
   const IMAGE_FOLDER = 'images';
   const FILE_FOLDER = 'files';
+  const UNKNOWN_ERROR = 'Something went wrong';
 
   /** @var AlbumsRepository */
   protected $albumsRepository;

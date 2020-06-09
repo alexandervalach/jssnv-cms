@@ -31,6 +31,8 @@ class CoursesPresenter extends BasePresenter
   /** @var ActiveRow */
   private $courseRow;
 
+  const THEME_TITLE = 'Kurzy';
+
   public function actionView (int $id): void
   {
     $this->courseRow = $this->coursesRepository->findById($id);
@@ -41,7 +43,7 @@ class CoursesPresenter extends BasePresenter
 
     try {
       $this->guestRedirect();
-      $this['breadcrumb']->add('Kurzy', 'Courses:all');
+      $this['breadcrumb']->add(self::THEME_TITLE, $this->link('all'));
       $this['breadcrumb']->add($this->courseRow->label);
       $this['courseForm']->setDefaults($this->courseRow);
     } catch (AbortException $e) {
@@ -58,7 +60,7 @@ class CoursesPresenter extends BasePresenter
   {
     try {
       $this->guestRedirect();
-      $this['breadcrumb']->add('Kurzy');
+      $this['breadcrumb']->add(self::THEME_TITLE);
     } catch (AbortException $e) {
 
     }
@@ -88,8 +90,10 @@ class CoursesPresenter extends BasePresenter
     try {
       $this->guestRedirect();
       $this->coursesRepository->insert($values);
+      $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
+      $this->redirect('all');
     } catch (AbortException $e) {
-
+      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
     }
   }
 
@@ -98,8 +102,10 @@ class CoursesPresenter extends BasePresenter
     try {
       $this->guestRedirect();
       $this->courseRow->update($values);
+      $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+      $this->redirect('view', $this->courseRow->id);
     } catch (AbortException $e) {
-
+      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
     }
   }
 }

@@ -33,7 +33,7 @@ class BranchFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addText('label', 'Názov*')
+    $form->addText('label', 'Názov')
       ->setHtmlAttribute('placeholder','Spišská Nová Ves')
       ->setRequired()
       ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
