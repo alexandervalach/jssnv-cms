@@ -57,6 +57,7 @@ services:
     - App\Forms\AddImageContentFormFactory
     - App\Forms\BranchFormFactory
     - App\Forms\CourseFormFactory
+    - App\Forms\CourseLevelFormFactory
     - App\Forms\EditNoticeFormFactory
     - App\Forms\EditSlideFormFactory
     - App\Forms\EditUserFormFactory

@@ -6,9 +6,50 @@
       <h2 n:block=title>Úrovne kurzov</h2>
     </div>
     <div class="float-right" n:if="$user->loggedIn">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationForm">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseLevelForm">
         <i class="fas fa-plus"></i> Pridať
       </button>
     </div>
   </header>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="table-responsive" n:if="$courseLevels->count() > 0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Názov</th>
+            <th class="text-center">Akcie</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach $courseLevels as $level}
+            <tr>
+              <td>{$level->label}</td>
+              <td class="text-center">
+                <a n:href="view, $level->id" title="Upraviť názov úrovne">
+                  <i class="fas fa-edit"></i>
+                </a>
+              </td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="courseLevelForm" tabindex="-1" role="dialog" aria-labelledby="courseLevelModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="courseLevelModalLabel">Pridať kurz</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {control courseLevelForm}
+      </div>
+    </div>
+  </div>
 </div>
