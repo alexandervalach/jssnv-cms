@@ -8,7 +8,7 @@
 ******************************/
 
 #page {
-  margin-top: 75px;
+  margin-top: 50px;
 }
 
 #page main {
@@ -102,7 +102,7 @@
   text-shadow: rgba(0,0,0,.01) 0 0 1px;
   box-sizing: border-box;
   /* font-family: 'Montserrat', sans-serif; */
-  font-family: 'Nunito';
+  font-family: 'Nunito', serif;
 }
 
 #page h1 { font-size: 40px; }
@@ -154,6 +154,10 @@
   -webkit-box-shadow: 2px 0 22px -5px rgba(0,0,0,0.72);
   -moz-box-shadow: 2px 0 22px -5px rgba(0,0,0,0.72);
   box-shadow: 2px 0 22px -5px rgba(0,0,0,0.72);
+}
+
+#page .header nav {
+  height: 50px;
 }
 
 #page .header nav.navbar a {
