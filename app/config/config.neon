@@ -36,7 +36,7 @@ services:
     - App\Model\AnswersRepository
     - App\Model\ApplicationFormsRepository
     - App\Model\BranchesRepository
-    - App\Model\BranchCoursesRepository
+    - App\Model\BranchClassesRepository
     - App\Model\ContentsRepository
     - App\Model\CourseLevelsRepository
     - App\Model\CoursesRepository
