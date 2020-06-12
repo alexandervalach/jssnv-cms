@@ -37,7 +37,7 @@ class LevelFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addText('name', 'Názov*')
+    $form->addText('name', 'Názov')
         ->setHtmlAttribute('placeholder','Zo života školy')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);

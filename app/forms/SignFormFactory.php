@@ -40,11 +40,11 @@ class SignFormFactory {
   public function create(callable $onSuccess): Form
   {
     $form = new Form;
-    $form->addText('username', 'Používateľské meno*')
+    $form->addText('username', 'Používateľské meno')
         ->setRequired()
         ->setHtmlAttribute('autocomplete', 'username');
 
-    $form->addPassword('password', 'Heslo*')
+    $form->addPassword('password', 'Heslo')
         ->setRequired()
         ->setHtmlAttribute('autocomplete', 'current-password');
 

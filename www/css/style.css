@@ -462,3 +462,25 @@ Courses
 #page #primary #content article.row header {
   margin-left: 16px;
 }
+
+.form-consent small {
+  text-align: justify;
+}
+
+.form-consent label {
+  font-weight: bold;
+}
+
+.form-consent label input {
+  margin-right: 8px;
+}
+
+.form-group .required:after {
+  content:" *";
+  color: red;
+}
+
+.form-section {
+  margin-top: 30px;
+  margin-bottom: 15px;
+}

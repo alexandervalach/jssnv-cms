@@ -37,12 +37,12 @@ class PasswordFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addPassword('password', 'Heslo*')
+    $form->addPassword('password', 'Heslo')
         ->setHtmlAttribute('autocomplete', 'new-password')
         ->addRule(Form::FILLED, 'Heslo musí byť vyplnené.')
-        ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 30 znakov.', 30)
-        ->addRule(Form::MIN_LENGTH, 'Heslo musí mať minimálne 5 znakov.', 5);
-    $form->addPassword('password_again', 'Heslo znovu*')
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 30)
+        ->addRule(Form::MIN_LENGTH, '%label musí mať minimálne %value znakov.', 5);
+    $form->addPassword('password_again', 'Heslo znovu')
         ->setHtmlAttribute('autocomplete', 'new-password')
         ->addRule(Form::FILLED, 'Heslo znovu musí byť vyplnené.')
         ->addRule(Form::EQUAL, 'Heslá sa nezhodujú.', $form['password']);

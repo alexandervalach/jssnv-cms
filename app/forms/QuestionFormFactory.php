@@ -46,16 +46,19 @@ class QuestionFormFactory
     $form = $this->formFactory->create();
     $levels = $this->levelsRepository->getLevels();
 
-    $form->addText('label', 'Znenie otázky*')
+    $form->addText('label', 'Znenie otázky')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Otázka môže mať maximálne 255 znakov.', 255);
-    // $form->addHidden('test_id', $this->testRow);
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
+
     $form->addSelect('level_id', 'Úroveň*', $levels)
         ->setRequired();
+
     $form->addSubmit('save', 'Uložiť');
+
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-large btn-warning')
         ->setHtmlAttribute('data-dismiss', 'modal');
+
     FormHelper::setBootstrapFormRenderer($form);
 
     $form->onSuccess[] = function (Form $form, ArrayHash $values) use ($onSuccess) {

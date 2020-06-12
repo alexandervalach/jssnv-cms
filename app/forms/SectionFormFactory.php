@@ -44,31 +44,17 @@ class SectionFormFactory
     $sections = $this->sectionsRepository->fetchAll();
     $form = $this->formFactory->create();
 
-    $form->addText('name', 'Názov*')
+    $form->addText('name', 'Názov')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
 
     $form->addSelect('section_id', 'Sekcie', $sections);
 
-    /*
-    $form->addText('url', 'URL adresa');
-
-    $form->addCheckbox('home_url', ' URL na tejto stránke')
-        ->setDefaultValue(0);
-    */
-
-    $form->addText('order', 'Poradie*')
+    $form->addText('order', 'Poradie')
         ->setRequired()
         ->setHtmlType('number')
         ->setDefaultValue(50)
         ->addRule(Form::INTEGER, 'Poradie môže byť len celé číslo.');
-
-    /*
-    $form->addCheckbox('visible', ' Viditeľné v bočnom menu')
-        ->setDefaultValue(1);
-
-    $form->addCheckbox('sliding', ' Rolovacie menu');
-    */
 
     $form->addSubmit('save', 'Uložiť');
 

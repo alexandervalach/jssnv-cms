@@ -37,14 +37,14 @@ class UserFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addText('username', 'Používateľské meno*')
+    $form->addText('username', 'Používateľské meno')
         ->setHtmlAttribute('autocomplete', 'username')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Používateľské meno môže mať maximálne 50 znakov.', 50);
-    $form->addPassword('password', 'Heslo*')
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50);
+    $form->addPassword('password', 'Heslo')
         ->setHtmlAttribute('autocomplete', 'current-password')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Heslo môže mať maximálne 50 znakov.', 50);
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50);
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-warning')

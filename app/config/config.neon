@@ -36,7 +36,8 @@ services:
     - App\Model\AnswersRepository
     - App\Model\ApplicationFormsRepository
     - App\Model\BranchesRepository
-    - App\Model\BranchClassesRepository
+    - App\Model\BranchesClassesRepository
+    - App\Model\ClassesRepository
     - App\Model\ContentsRepository
     - App\Model\CourseLevelsRepository
     - App\Model\CoursesRepository
@@ -55,7 +56,9 @@ services:
     - App\Forms\AlbumFormFactory
     - App\Forms\AddFileContentFormFactory
     - App\Forms\AddImageContentFormFactory
+    - App\Forms\ApplicationFormFactory
     - App\Forms\BranchFormFactory
+    - App\Forms\ClassFormFactory
     - App\Forms\CourseFormFactory
     - App\Forms\CourseLevelFormFactory
     - App\Forms\EditNoticeFormFactory

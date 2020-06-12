@@ -37,7 +37,7 @@ class TextContentFormFactory
   public function create(callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
-    $form->addTextArea('text', 'Text*')
+    $form->addTextArea('text', 'Text')
         ->setHtmlAttribute('id', 'text-editor');
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')

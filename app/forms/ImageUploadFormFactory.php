@@ -37,7 +37,7 @@ class ImageUploadFormFactory
   public function create(callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
-    $form->addUpload('image', 'Obrázok*')
+    $form->addUpload('image', 'Obrázok')
         ->setRequired()
         ->addRule(Form::MIME_TYPE, 'Obrázok môže byť len vo formáte PNG, JPG, GIF, SVG', ImageHelper::IMAGE_MIME_TYPES)
         ->addRule(Form::MAX_FILE_SIZE, 'Obrázok môže mať veľkosť maximálne 2 MiB', 2 * 1024 * 1024);

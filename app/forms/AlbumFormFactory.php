@@ -37,10 +37,10 @@ class AlbumFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addText('label', 'Názov*')
+    $form->addText('label', 'Názov')
         ->setHtmlAttribute('placeholder','Zo života školy')
         ->setRequired()
-        ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
+        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
     $form->addSubmit('save', 'Uložiť');
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-warning')

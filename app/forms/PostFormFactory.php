@@ -43,7 +43,7 @@ class PostFormFactory
   {
     $form = $this->formFactory->create();
 
-    $form->addText('name', 'Názov*')
+    $form->addText('name', 'Názov')
         ->setRequired();
     $form->addTextArea('content', 'Obsah')
         ->setHtmlAttribute('id', 'ckeditor');

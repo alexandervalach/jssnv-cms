@@ -20,6 +20,7 @@ abstract class Repository {
   const USERNAME = 'username';
   const PRIORITY = 'order';
   const TEXT_COLUMN = 'text';
+  const LABEL = 'label';
 
   /** @var Nette\Database\Context */
   private $database;
@@ -66,6 +67,15 @@ abstract class Repository {
   public function findAll()
   {
     return $this->getTable()->where(self::IS_PRESENT, 1);
+  }
+
+  /**
+   * Return rows from table
+   * @return Nette\Database\Table\Selection
+   */
+  public function fetchAll()
+  {
+    return $this->findAll();
   }
 
   /**
