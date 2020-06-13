@@ -49,23 +49,29 @@
               <td>{$appForm->status_label}</td>
               <td class="text-center">
                 {if $appForm->status === 'pending'}
-                  <a n:href="view, $appForm->id">
+                  <a n:href="updateStatus, $appForm->id, 'finished'">
                     <i class="fa fa-check" aria-hidden="true"></i>
                   </a>
-                {else}
-                  <a n:href="view, $appForm->id">
+                {elseif $appForm->status === 'finished' || $appForm->status === 'cancelled'}
+                  <a n:href="updateStatus, $appForm->id, 'pending'">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                  </a>
+                {/if}
+              </td>
+              <td class="text-center">
+                {if $appForm->status === 'finished' || $appForm->status === 'pending' }
+                  <a n:href="updateStatus, $appForm->id, 'cancelled'">
                     <i class="fa fa-times" aria-hidden="true"></i>
+                  </a>
+                {elseif $appForm->status === 'cancelled'}
+                  <a n:href="updateStatus, $appForm->id, 'finished'">
+                    <i class="fa fa-check" aria-hidden="true"></i>
                   </a>
                 {/if}
               </td>
               <td class="text-center">
                 <a n:href="view, $appForm->id">
                   <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                </a>
-              </td>
-              <td class="text-center">
-                <a n:href="view, $appForm->id">
-                  <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>

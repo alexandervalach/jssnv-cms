@@ -40,6 +40,11 @@ class ApplicationFormsPresenter extends BasePresenter
    */
   private $applicationFormsRepository;
 
+  /**
+   * @var mixed|ActiveRow|null
+   */
+  private $applicationFormRow;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               BreadcrumbControl $breadcrumbControl,
@@ -77,6 +82,42 @@ class ApplicationFormsPresenter extends BasePresenter
   public function renderView (int $id): void
   {
 
+  }
+
+  public function actionRemove (int $id): void
+  {
+    $this->guestRedirect();
+    $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
+
+    if (!$this->applicationFormRow) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
+
+    $this->submittedRemoveApplicationForm();
+  }
+
+  public function actionUpdateStatus (int $id, string $status): void
+  {
+    $this->guestRedirect();
+    $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
+
+    if (!$this->applicationFormRow) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
+
+    $this->submittedUpdateStatusApplicationForm($status);
+  }
+
+  public function actionCancel (int $id): void
+  {
+    $this->guestRedirect();
+    $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
+
+    if (!$this->applicationFormRow) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
+
+    $this->submittedCancelApplicationForm();
   }
 
   public function actionAdd (int $id): void
@@ -124,5 +165,21 @@ class ApplicationFormsPresenter extends BasePresenter
     } catch (AbortException $e) {
 
     }
+  }
+
+  private function submittedUpdateStatusApplicationForm (string $status)
+  {
+    $this->guestRedirect();
+    $this->applicationFormRow->update([ 'status' => $status ]);
+    // $this->flashMessage(self::ITEM_UPDATED, self::INFO);
+    $this->redirect('all');
+  }
+
+  private function submittedRemoveApplicationForm ()
+  {
+    $this->guestRedirect();
+    $this->applicationFormsRepository->softDelete($this->applicationFormRow->id);
+    $this->flashMessage(self::ITEM_REMOVED, self::INFO);
+    $this->redirect('all');
   }
 }
