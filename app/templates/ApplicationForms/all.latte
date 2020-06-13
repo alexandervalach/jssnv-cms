@@ -12,22 +12,60 @@
         <thead>
           <tr>
             <th>Meno</th>
-            <th>Kurz</th>
-            <th>Úroveň</th>
+            <th class="text-center">Kurz</th>
+            <th class="text-center">Úroveň</th>
+            <th class="text-center">Pobočka</th>
+            <th>E-mail</th>
+            <th>Telefón</th>
             <th>Stav</th>
-            <th class="text-center">Akcie</th>
+            <th colspan="3" class="text-center">Akcie</th>
           </tr>
         </thead>
         <tbody>
           {foreach $applicationForms as $appForm}
-            <tr class="table-warning">
-              <td>{$appForm->name}</td>
-              <td>{$appForm->branch_class_id}</td>
-              <td>{$appForm->branch_class_id}</td>
-              <td>{$appForm->status}</td>
+            <tr n:class="$appForm->class">
+              <td>
+                {if $appForm->title_bn}{$appForm->title_bn}{/if}
+                {$appForm->name}
+                {if $appForm->title_an}, {$appForm->title_an}{/if}
+              </td>
               <td class="text-center">
-                <a n:href="view, $appForm->id" title="Vstúpiť do prihlášky">
+                <a n:href="Courses:view, $appForm->course_id">
+                  {$appForm->course_label}
+                </a>
+              </td>
+              <td class="text-center">
+                <a n:href="CourseLevels:view, $appForm->course_level_id">
+                  {$appForm->course_level_label}
+                </a>
+              </td>
+              <td class="text-center">
+                <a n:href="Branches:view, $appForm->branch_id">
+                  {$appForm->branch_label}
+                </a>
+              </td>
+              <td>{$appForm->email}</td>
+              <td>{$appForm->phone}</td>
+              <td>{$appForm->status_label}</td>
+              <td class="text-center">
+                {if $appForm->status === 'pending'}
+                  <a n:href="view, $appForm->id">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                  </a>
+                {else}
+                  <a n:href="view, $appForm->id">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                  </a>
+                {/if}
+              </td>
+              <td class="text-center">
+                <a n:href="view, $appForm->id">
                   <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </a>
+              </td>
+              <td class="text-center">
+                <a n:href="view, $appForm->id">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
               </td>
             </tr>

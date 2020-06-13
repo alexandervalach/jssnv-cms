@@ -7,6 +7,7 @@ namespace App\Presenters;
 use App\Components\BreadcrumbControl;
 use App\Forms\ApplicationFormFactory;
 use App\Forms\SearchFormFactory;
+use App\Helpers\ApplicationHelper;
 use App\Model\AlbumsRepository;
 use App\Model\ApplicationFormsRepository;
 use App\Model\BranchesRepository;
@@ -64,7 +65,8 @@ class ApplicationFormsPresenter extends BasePresenter
   public function renderAll (): void
   {
     $this['breadcrumb']->add('Prihlášky');
-    $this->template->applicationForms = $this->applicationFormsRepository->findAll();
+    $items = $this->applicationFormsRepository->fetchApplications();
+    $this->template->applicationForms = ApplicationHelper::setAppFormsStyle($items);
   }
 
   public function actionView (int $id): void
