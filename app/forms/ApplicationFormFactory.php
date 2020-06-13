@@ -8,7 +8,6 @@ use App\Helpers\FormHelper;
 use App\Model\BranchesClassesRepository;
 use Nette\Application\UI\Form;
 use Nette\SmartObject;
-use Nette\Utils\ArrayHash;
 
 class ApplicationFormFactory
 {
@@ -37,23 +36,14 @@ class ApplicationFormFactory
 
   /**
    * Creates and renders sign in form
+   * @param int $branchId
    * @param callable $onSuccess
    * @return Form
    */
   public function create(int $branchId, callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
-    $items = [
-      'Anglický jazyk' => [
-        '1/1' => '1. ročník',
-        '2/1' => '2. ročník'
-      ],
-      'Nemecký jazyk' => [
-        '1/1' => '1. ročník',
-        '2/1' => '2. ročník'
-      ]
-    ];
-
+    $classes = $this->branchClassesRepository->getForApplicationForm($branchId);
     $currentYear = date('Y');
     $lastYear =  date('Y',strtotime('-1 year'));
 
@@ -87,7 +77,7 @@ class ApplicationFormFactory
 
     // TODO: Check date HTML attribute
     $form->addText('birthdate', 'Dátum narodenia')
-      ->setHtmlAttribute('type', 'date')
+      ->setHtmlType('date')
       ->setHtmlAttribute('placeholder','2000-10-15')
       ->setRequired();
 
@@ -107,7 +97,7 @@ class ApplicationFormFactory
       ->setRequired();
 
     $form->addText('email', 'E-mail')
-      ->setHtmlAttribute('type', 'email')
+      ->setHtmlType('email')
       ->setHtmlAttribute('placeholder', 'js@jssnv.sk')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50)
       ->setRequired();
@@ -126,7 +116,7 @@ class ApplicationFormFactory
       ->setHtmlAttribute('placeholder', 'Anglický jazyk, 1. ročník')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255);
 
-    $form->addMultiSelect('branch_class_id', 'Prihlasujem sa do kurzu', $items)
+    $form->addMultiSelect('branch_class_id', 'Prihlasujem sa do kurzu', $classes)
       ->setHtmlAttribute('class', 'custom-select')
       ->setRequired();
 
@@ -141,7 +131,7 @@ class ApplicationFormFactory
 
     FormHelper::setBootstrapFormRenderer($form);
 
-    $form->onSuccess[] = function (Form $form, ArrayHash $values) use ($onSuccess) {
+    $form->onSuccess[] = function (Form $form, array $values) use ($onSuccess) {
       $onSuccess($form, $values);
     };
 

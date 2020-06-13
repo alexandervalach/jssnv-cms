@@ -38,13 +38,12 @@ class EditSlideFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('title', 'Názov')
-        ->setHtmlAttribute('placeholder','Anglický jazyk')
+        ->setHtmlAttribute('placeholder','Spustenie online prihlášok')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
 
     $form->addTextArea('message', 'Text')
-        ->setHtmlAttribute('placeholder', 'Pravidelné kurzy anglického jazyka')
-        ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 1000);
+        ->setHtmlAttribute('id', 'text-editor');
 
     $form->addText('link', 'Odkaz')
         ->setHtmlAttribute('placeholder', 'https://jssnv.sk')

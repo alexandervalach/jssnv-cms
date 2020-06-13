@@ -3,7 +3,7 @@
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>Kurzy</h2>
+      <h2 n:block=title>Slajdy</h2>
     </div>
     <div class="float-right" n:if="$user->loggedIn">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#slideForm">
@@ -26,10 +26,10 @@
 </div>
 <!-- Add Modal -->
 <div class="modal fade" id="slideForm" tabindex="-1" role="dialog" aria-labelledby="slideFormLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="slideFormLabel">Upraviť album</h5>
+        <h4 class="modal-title" id="slideFormLabel">Pridať nový slajd</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -40,3 +40,9 @@
     </div>
   </div>
 </div>
+
+{block scripts}
+  {include parent}
+  <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+  <script type="text/javascript" src="{$basePath}/js/ckeditor.init.js"></script>
+{/block}

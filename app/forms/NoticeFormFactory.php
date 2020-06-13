@@ -46,7 +46,7 @@ class NoticeFormFactory
         ->setHtmlAttribute('id', 'text-editor')
         ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 10000);
 
-    $form->addCheckbox('on_homepage', ' Na domovskej stránke');
+    $form->addCheckbox('on_homepage', ' Zobraziť na domovskej stránke');
 
     $form->addSubmit('save', 'Uložiť');
 

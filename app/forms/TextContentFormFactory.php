@@ -37,12 +37,16 @@ class TextContentFormFactory
   public function create(callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
+
     $form->addTextArea('text', 'Text')
         ->setHtmlAttribute('id', 'text-editor');
+
     $form->addSubmit('save', 'Uložiť');
+
     $form->addSubmit('cancel', 'Zrušiť')
         ->setHtmlAttribute('class', 'btn btn-large btn-warning')
         ->setHtmlAttribute('data-dismiss', 'modal');
+
     FormHelper::setBootstrapFormRenderer($form);
 
     $form->onSuccess[] = function (Form $form, ArrayHash $values) use ($onSuccess) {

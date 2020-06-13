@@ -8,6 +8,11 @@ class CoursesRepository extends Repository
 {
   public function getAll ()
   {
-    return $this->findAll()->order(self::LABEL)->fetchPairs(self::ID, self::LABEL);
+    return $this->findAll()->fetchPairs(self::ID, self::LABEL);
+  }
+
+  public function findAll()
+  {
+    return parent::findAll()->order(self::LABEL);
   }
 }

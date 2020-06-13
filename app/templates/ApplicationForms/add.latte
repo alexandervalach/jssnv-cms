@@ -14,120 +14,120 @@
       </button>
     </div>
   </header>
-  <main class="col-xs-12 col-sm-12 col-md-6 col-lg-6 clearfix">
+  <main class="row clearfix">
     <form n:name="applicationForm">
-      <div class="clearfix form-section">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 form-section">
         <h3>Osobné údaje</h3>
+        <div class="form-group">
+          <label n:name="name" class="required" />
+          {input name}
+        </div>
+        <div class="form-group">
+          {label title_bn /}
+          {input title_bn}
+        </div>
+        <div class="form-group">
+          {label title_an /}
+          {input title_an}
+        </div>
+        <div class="form-group">
+          <label n:name="birthdate" class="required" />
+          {input birthdate}
+        </div>
+        <div class="form-group">
+          <label n:name="birthplace" class="required" />
+          {input birthplace}
+        </div>
+        <div class="form-group">
+          <label n:name="id_number" class="required" />
+          {input id_number}
+        </div>
+        <div class="form-group">
+          <label n:name="nationality" class="required" />
+          {input nationality}
+        </div>
       </div>
-      <div class="form-group">
-        <label n:name="name" class="required" />
-        {input name}
-      </div>
-      <div class="form-group">
-        {label title_bn /}
-        {input title_bn}
-      </div>
-      <div class="form-group">
-        {label title_an /}
-        {input title_an}
-      </div>
-      <div class="form-group">
-        <label n:name="birthdate" class="required" />
-        {input birthdate}
-      </div>
-      <div class="form-group">
-        <label n:name="birthplace" class="required" />
-        {input birthplace}
-      </div>
-      <div class="form-group">
-        <label n:name="id_number" class="required" />
-        {input id_number}
-      </div>
-      <div class="form-group">
-        <label n:name="nationality" class="required" />
-        {input nationality}
-      </div>
-      <div class="clearfix form-section">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 form-section">
         <h3>Adresa trvalého bydliska</h3>
+        <div class="form-group">
+          <label n:name="street_address" class="required" />
+          {input street_address}
+        </div>
+        <div class="form-group">
+          <label n:name="city" class="required" />
+          {input city}
+        </div>
+        <div class="form-group">
+          <label n:name="zipcode" class="required" />
+          {input zipcode}
+        </div>
+        <div class="clearfix form-section">
+          <h3>Kontakt</h3>
+        </div>
+        <div class="form-group">
+          <label n:name="email" class="required" />
+          {input email}
+        </div>
+        <div class="form-group">
+          <label n:name="phone" class="required" />
+          {input phone}
+        </div>
       </div>
-      <div class="form-group">
-        <label n:name="street_address" class="required" />
-        {input street_address}
-      </div>
-      <div class="form-group">
-        <label n:name="city" class="required" />
-        {input city}
-      </div>
-      <div class="form-group">
-        <label n:name="zipcode" class="required" />
-        {input zipcode}
-      </div>
-      <div class="clearfix form-section">
-        <h3>Kontakt</h3>
-      </div>
-      <div class="form-group">
-        <label n:name="email" class="required" />
-        {input email}
-      </div>
-      <div class="form-group">
-        <label n:name="phone" class="required" />
-        {input phone}
-      </div>
-      <div class="clearfix form-section">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 form-section">
         <h3>Štúdium</h3>
+        <div class="form-group">
+          <label n:name="employment" class="required" />
+          {input employment}
+        </div>
+        <div class="form-group">
+          <label n:name="prev_course" class="required" />
+          {input prev_course}
+        </div>
+        <div class="form-group">
+          <label n:name="branch_class_id" class="required" />
+          {input branch_class_id}
+        </div>
       </div>
-      <div class="form-group">
-        <label n:name="employment" class="required" />
-        {input employment}
-      </div>
-      <div class="form-group">
-        <label n:name="prev_course" class="required" />
-        {input prev_course}
-      </div>
-      <div class="form-group">
-        <label n:name="branch_class_id" class="required" />
-        {input branch_class_id}
-      </div>
-      <div class="clearfix form-section">
+      <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5 form-section">
         <h3>Súhlas so spracovaním údajov</h3>
+        <div class="form-group form-consent">
+          <input n:name="consent_personal_data" />
+          <label n:name="consent_personal_data" class="required" />
+          <small class="form-text text-muted">
+            Súhlasím so spracovaním osobných údajov pre Jazykovú školu,
+            Javorová 16, Spišská Nová Ves,
+            IČO: 35538791 (ďalej len „prevádzkovateľ“)
+            Súhlas so spracovaním osobných údajov v zmysle čl. 6 ods. 1 písm.
+            a) Nariadenia EP a Rady EÚ č. 2016/679 o ochrane fyzických osôb
+            pri spracúvaní osobných údajov a o voľnom pohybe takýchto údajov,
+            ktorým sa zrušuje Smernica 95/46/ES
+            (Všeobecné nariadenie o ochrane údajov, ďalej len „Nariadenie GDPR“).
+          </small>
+        </div>
+        <div class="form-group form-consent">
+          {input consent_name}
+          {label consent_name /}
+          <small class="form-text text-muted">
+            Súhlasím so zverejnením svojho mena, priezviska a akademického titulu
+            na zozname poslucháčov prevádzkovateľa, ktorý bude zverejnený v septembri 2019
+            na www stránke školy za účelom informovania o prvom stretnutí a čase konania kurzov.
+          </small>
+        </div>
+        <div class="form-group form-consent">
+          {input consent_photo}
+          {label consent_photo /}
+          <small class="form-text text-muted">
+           Súhlasím so zverejňovaním svojich fotografií/
+           fotografií svojej dcéry/syna/videoprodukcie na účely dokumentujúce a 
+           propagujúce činnosť prevádzkovateľa, zverejnenia týchto fotografií
+           na www stránke prevádzkovateľa, nástenke prevádzkovateľa a 
+           v publikáciách vydávaných prevádzkovateľom.
+           Doba trvania súhlasu platí, pokiaľ trvá účel ich spracovania.
+           Dovtedy ho možno kedykoľvek písomne alebo elektronicky odvolať.
+          </small>
+        </div>
+        {input submit}
       </div>
-      <div class="form-group form-consent">
-        <input n:name="consent_personal_data" />
-        <label n:name="consent_personal_data" class="required" />
-        <small class="form-text text-muted">
-          Súhlasím so spracovaním osobných údajov pre Jazykovú školu,
-          Javorová 16, Spišská Nová Ves,
-          IČO: 35538791 (ďalej len „prevádzkovateľ“)
-          Súhlas so spracovaním osobných údajov v zmysle čl. 6 ods. 1 písm.
-          a) Nariadenia EP a Rady EÚ č. 2016/679 o ochrane fyzických osôb
-          pri spracúvaní osobných údajov a o voľnom pohybe takýchto údajov,
-          ktorým sa zrušuje Smernica 95/46/ES
-          (Všeobecné nariadenie o ochrane údajov, ďalej len „Nariadenie GDPR“).
-        </small>
-      </div>
-      <div class="form-group form-consent">
-        {input consent_name}
-        {label consent_name /}
-        <small class="form-text text-muted">
-          Súhlasím so zverejnením svojho mena, priezviska a akademického titulu
-          na zozname poslucháčov prevádzkovateľa, ktorý bude zverejnený v septembri 2019
-          na www stránke školy za účelom informovania o prvom stretnutí a čase konania kurzov.
-        </small>
-      </div>
-      <div class="form-group form-consent">
-        {input consent_photo}
-        {label consent_photo /}
-        <small class="form-text text-muted">
-         Súhlasím so zverejňovaním svojich fotografií/
-         fotografií svojej dcéry/syna/videoprodukcie na účely dokumentujúce a 
-         propagujúce činnosť prevádzkovateľa, zverejnenia týchto fotografií
-         na www stránke prevádzkovateľa, nástenke prevádzkovateľa a 
-         v publikáciách vydávaných prevádzkovateľom.
-         Doba trvania súhlasu platí, pokiaľ trvá účel ich spracovania.
-         Dovtedy ho možno kedykoľvek písomne alebo elektronicky odvolať.
-        </small>
-      </div>
-      {input submit}
     </form>
   </main>
 </div>

@@ -6,22 +6,34 @@
       <h2 n:block=title>Prihlášky</h2>
     </div>
   </header>
-  <main id="branches" class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-      <p>
-        Vyberte si pobočku, na ktorú chcete podať prihlášku.
-      </p>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="table-responsive" n:if="$applicationForms->count() > 0">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Meno</th>
+            <th>Kurz</th>
+            <th>Úroveň</th>
+            <th>Stav</th>
+            <th class="text-center">Akcie</th>
+          </tr>
+        </thead>
+        <tbody>
+          {foreach $applicationForms as $appForm}
+            <tr class="table-warning">
+              <td>{$appForm->name}</td>
+              <td>{$appForm->branch_class_id}</td>
+              <td>{$appForm->branch_class_id}</td>
+              <td>{$appForm->status}</td>
+              <td class="text-center">
+                <a n:href="view, $appForm->id" title="Vstúpiť do prihlášky">
+                  <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          {/foreach}
+        </tbody>
+      </table>
     </div>
-    {foreach $branches as $branch}
-      <figure class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-        <a n:href="ApplicationForms:add, $branch->id">
-          {var $file = $branch->thumbnail != NULL ? $branch->thumbnail : 'logo.svg'}
-          <img src="{$basePath}/{$imgFolder}/{$file}" alt="{$branch->thumbnail}" class="img-fluid img-thumbnail" />
-        </a>
-        <figcaption class="text-center">
-          <a n:href="ApplicationForms:add, $branch->id">{$branch->label}</a>
-        </figcaption>
-      </figure>
-    {/foreach}
-  </main>
+  </div>
 </div>

@@ -46,11 +46,10 @@ class SlideFormFactory
     $form->addUpload('image', 'Obrázok')
         ->setRequired()
         ->addRule(Form::MIME_TYPE, '%label môže byť len vo formáte PNG, JPG, GIF, SVG', ImageHelper::IMAGE_MIME_TYPES)
-        ->addRule(Form::MAX_FILE_SIZE,  '%label môže mať veľkosť len do 2 MiB', 2 * 1024 * 1024);
+        ->addRule(Form::MAX_FILE_SIZE,  '%label môže mať veľkosť len do 8 MiB', 8 * 1024 * 1024);
 
     $form->addTextArea('message', 'Text')
-        ->setHtmlAttribute('placeholder', 'Pravidelné kurzy anglického jazyka')
-        ->addRule(Form::MAX_LENGTH, '%label môže mať najviac %value znakov', 1000);
+        ->setHtmlAttribute('id', 'text-editor');
 
     $form->addText('link', 'Odkaz')
         ->setHtmlAttribute('placeholder', 'https://jssnv.sk')

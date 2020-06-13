@@ -88,7 +88,6 @@ class SlidesPresenter extends BasePresenter
     } catch (AbortException $e) {
 
     }
-    $this['breadcrumb']->add('Kurzy', 'Slides:all');
   }
 
   /**
@@ -96,6 +95,7 @@ class SlidesPresenter extends BasePresenter
    */
   public function renderAll(): void
   {
+    $this['breadcrumb']->add('Slajdy', 'Slides:all');
     $this->template->slides = $this->slidesRepository->findAll();
   }
 
@@ -112,14 +112,6 @@ class SlidesPresenter extends BasePresenter
     }
 
     $this['editForm']->setDefaults($this->slideRow);
-
-    try {
-      $this['breadcrumb']->add('Kurzy', $this->link('all'));
-    } catch (InvalidLinkException $e) {
-      $this->flashMessage($e->getMessage(), self::ERROR);
-    }
-
-    $this['breadcrumb']->add($this->slideRow->title);
   }
 
   /**
@@ -127,6 +119,13 @@ class SlidesPresenter extends BasePresenter
    */
   public function renderView(int $id): void
   {
+    try {
+      $this['breadcrumb']->add('Slajdy', $this->link('all'));
+    } catch (InvalidLinkException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
+    }
+
+    $this['breadcrumb']->add($this->slideRow->title);
     $this->template->slide = $this->slideRow;
   }
 

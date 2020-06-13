@@ -3,7 +3,7 @@
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>Pobočky</h2>
+      <h2 n:block=title>{if $user->loggedIn}Pobočky{else}Vyberte si pobočku{/if}</h2>
     </div>
     <div class="float-right">
       <button type="button" class="btn btn-success" data-toggle="modal" data-target="#branchForm">
@@ -11,6 +11,23 @@
       </button>
     </div>
   </header>
+  <main id="branches" class="row">
+    <div n:if="!$user->loggedIn" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <p>Vyberte si pobočku, na ktorú chcete podať prihlášku.</p>
+    </div>
+    {foreach $branches as $branch}
+      <figure class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+        <a n:href="ApplicationForms:add, $branch->id">
+          {var $file = $branch->thumbnail != NULL ? $branch->thumbnail : 'logo.svg'}
+          <img src="{$basePath}/{$imgFolder}/{$file}" alt="{$branch->thumbnail}" class="img-fluid img-thumbnail" />
+        </a>
+        <figcaption class="text-center">
+          <a n:href="ApplicationForms:add, $branch->id">{$branch->label}</a>
+        </figcaption>
+      </figure>
+    {/foreach}
+  </main>
+  {*
   <div class="table-responsive" n:if="$branches->count() > 0">
     <table class="table">
       <thead>
@@ -33,6 +50,7 @@
       </tbody>
     </table>
   </div>
+  *}
 </div>
 
 <!-- Modal -->

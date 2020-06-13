@@ -6,5 +6,8 @@ namespace App\Model;
 
 class BranchesRepository extends Repository
 {
-
+  public function findAll ()
+  {
+    return parent::findAll()->order(self::LABEL);
+  }
 }

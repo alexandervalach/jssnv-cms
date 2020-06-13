@@ -1,178 +1,20 @@
 {block banner}
   <!-- Home -->
-  <!--
-  <div class="home">
-    <div class="home-background"></div>
-    <div class="home-content">
-      <div class="row no-margin">
-        <div class="col text-center">
-          <h1 :block="title">
-            <span class="home-title">Jazyková škola v Spišskej Novej Vsi</span>
-          </h1>
-          <div class="home-button bg-primary">
-            <a n:href="Sections:view, 111">Prihlásiť sa na kurz</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  -->
   <div style="height: 365px">
     <div id="carouselHomeIndicators" class="carousel slide" data-ride="carousel" style="height: inherit">
       <ol class="carousel-indicators">
-        <li data-target="#carouselHomeIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselHomeIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselHomeIndicators" data-slide-to="2"></li>
-        <li data-target="#carouselHomeIndicators" data-slide-to="3"></li>
-        <li data-target="#carouselHomeIndicators" data-slide-to="4"></li>
-        <li data-target="#carouselHomeIndicators" data-slide-to="5"></li>
-        <li data-target="#carouselHomeIndicators" data-slide-to="6"></li>
-        <li data-target="#carouselHomeIndicators" data-slide-to="7"></li>
+        <li n:foreach="$slides as $slide" data-target="#carouselHomeIndicators"
+          data-slide-to="{$iterator->counter - 1}" class="{if $iterator->first}active{/if}"></li>
       </ol>
       <div class="carousel-inner" style="height: inherit">
-        <!-- First item -->
-        <!--
-        <div class="carousel-item active" style="height: inherit">
-          <img class="d-block" src="{$basePath}/images/banner-japan.jpg" alt="Priestory jazykovej školy v Spišskej Novej Vsi" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2><span class="home-title">Jazyková škola v Spišskej Novej Vsi</span></h2>
-            <div class="home-button bg-primary">
-              <a n:href="Sections:view, 111">Prihlásiť sa na kurz</a>
+        <div n:foreach="$slides as $slide" class="carousel-item {if $iterator->first}active{/if}" style="height: inherit">
+          <img class="d-block" src="{$basePath}/images/{$slide->img}" alt="{$slide->title}" style="width: 100%; height: inherit">
+          <div class="carousel-caption d-none d-md-block home-content">
+            <div class="home-title">
+              <h2>{$slide->title}</h2>
             </div>
-          </div>
-        </div>
-        -->
-        <!-- First item -->
-        <div class="carousel-item active" style="height: inherit">
-          <img class="d-block" src="{$basePath}/images/banner-japan.jpg" alt="Japonská záhrada" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2><span class="home-title">Jazyková škola v Spišskej Novej Vsi</span></h2>
             <div class="home-text">
-              <p>
-                Zapojte sa do našej <a href="https://www.facebook.com/Jazykov%C3%A1-%C5%A1kola-Javorov%C3%A1-16-552917364890997/" target="_blacnk">súťaže na FB</a> a vyhrajte jazykový kurz zdarma podľa vlastného výberu.
-              </p>
-              <p style="font-weight: bold">
-                Učenie je radosť. Radi (sa) učíme.
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Second item -->
-        <div class="carousel-item" style="height: inherit">
-          <img src="{$basePath}/images/banner-spain.jpg" alt="Panoráma mesta" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2>
-              <span class="home-title">Ponuka kurzov v školskom roku 2020/2021</span>
-            </h2>
-            <div class="home-text">
-              <p>
-                V školskom roku 2020/2021 ponúkame pre deti od 10 rokov, študentov a dospelých kurzy
-                <span style="font-weight: bold">angličtiny, nemčiny, japončiny, taliančiny, poľštiny, španielčiny, francúzštiny, ruštiny</span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Third item -->
-        <div class="carousel-item" style="height: inherit">
-          <img src="{$basePath}/images/banner-mountains.jpg" alt="Slnečné hory" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2>
-              <span class="home-title">Vyučovanie</span>
-            </h2>
-            <div class="home-text">
-              <p>
-                <ul>
-                  <li>Vyučovanie 2 x týždenne po 90 minút od septembra do júna
-                  <li>Bezkonkurenčné ceny – 120 € pre žiakov a študentov
-                      <ul>
-                        <li>30 € pre dôchodcov a ZŤP</li>
-                        <li>180 € pre dospelých</li>
-                      </ul>
-                  </li>
-                </ul>
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Fourth item -->
-        <div class="carousel-item" style="height: inherit">
-          <img src="{$basePath}/images/banner-slovak.jpg" alt="Les v jeseni" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2>
-              <span class="home-title">Dôvody, prečo si vybrať práve nás</span>
-            </h2>
-            <div class="home-text">
-              <p>
-                <ul>
-                  <li>Interaktívna výučba prispôsobená požiadavkám poslucháčov</li>
-                  <li>Príjemné prostredie</li>
-                  <li>Moderné technické vybavenie učební</li>
-                </ul>
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Fifth item -->
-        <div class="carousel-item" style="height: inherit">
-          <img src="{$basePath}/images/banner-german.jpg" alt="Most v Nemecku" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2>
-              <span class="home-title">Špeciálna ponuka</span>
-            </h2>
-            <div class="home-text">
-              <p>
-                <ul>
-                  <li>Prípravné kurzy na vykonanie základnej a všeobecnej štátnej jazykovej skúšky</li>
-                  <li>Kurzy angličtiny a nemčiny pre opatrovateľov a opatrovateľky</li>
-                  <li>Prípravné kurzy na vykonanie maturitnej skúšky z angličtiny, nemčiny, taliančiny, francúzštiny, španielčiny a ruštiny</li>
-                </ul>
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Sixth item -->
-        <div class="carousel-item" style="height: inherit">
-          <img src="{$basePath}/images/banner-poland.jpg" alt="Hrad v Poľsku" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2>
-              <span class="home-title">U nás navyše</span>
-            </h2>
-            <div class="home-text">
-              <p>
-                <ul>
-                  <li>Konverzačné kurzy podľa požiadaviek</li>
-                  <li>Obchodná poľština</li>
-                  <li>Kurzy pre podniky podľa požiadaviek</li>
-                  <li>Slovenčina pre cudzincov</li>
-                </ul>
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Seventh item -->
-        <div class="carousel-item" style="height: inherit">
-          <img src="{$basePath}/images/banner-gothic.jpg" alt="Meštiansky dom v Nemecku" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2>
-              <span class="home-title">Prihláste sa</span>
-            </h2>
-            <div class="home-text">
-              <p>
-                Pridajte sa k nám. Online prihlasovanie začína 15. júna 2020.
-                Vyskúšajte si svoju jazykovú úroveň <a n:href="Tests:all">v online teste</a>
-              </p>
-            </div>
-          </div>
-        </div>
-        <!-- Eighth item -->
-        <div class="carousel-item" style="height: inherit">
-          <img src="{$basePath}/images/banner-italy.jpg" alt="Taliansky vinič" style="width: 100%; height: inherit">
-          <div class="carousel-caption d-none d-md-block">
-            <h2>
-              <span class="home-title">V Smižanoch aj v Spišskom Podhradí</span>
-            </h2>
-            <div class="home-text">
-              <p>Prihlásiť sa môžete aj na kurzy angličtiny v našej pobočke v Smižanoch a na kurzy angličtiny a nemčiny v Spišskom Podhradí.</p>
+              {$slide->message|noescape}
             </div>
           </div>
         </div>
@@ -214,6 +56,7 @@
 </div>
 
 <!-- Languages -->
+{*
 <div class="language d-xs-none">
   <div class="container">
     <div class="row">
@@ -240,10 +83,10 @@
               {/foreach}
             </div>
           </div>
-          {*
+          <!--
           <div class="lang-nav lang-prev"><i class="fas fa-chevron-left" aria-hidden="true"></i></div>
           <div class="lang-nav lang-next"><i class="fas fa-chevron-right" aria-hidden="true"></i></div>
-          *}
+          -->
         </div>
       </div>
     </div>
@@ -253,5 +96,6 @@
 <div class="instructors">
 
 </div>
+*}
 
 {/block}

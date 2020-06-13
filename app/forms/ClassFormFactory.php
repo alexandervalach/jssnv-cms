@@ -62,7 +62,7 @@ class ClassFormFactory
         ->setPrompt('Vyberte kurz')
         ->setRequired();
 
-    $form->addSelect('course_level_id', 'Kurzy', $courseLevels)
+    $form->addSelect('course_level_id', 'Ročník / typ kurzu', $courseLevels)
       ->setPrompt('Vyberte úroveň kurzu')
       ->setRequired();
 

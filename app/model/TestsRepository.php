@@ -10,4 +10,9 @@ namespace App\Model;
  */
 class TestsRepository extends Repository {
 
+  public function findAll()
+  {
+    return parent::findAll()->order(self::LABEL);
+  }
+
 }

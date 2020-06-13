@@ -53,10 +53,28 @@ class ApplicationFormsPresenter extends BasePresenter
     $this->applicationFormFactory = $applicationFormFactory;
   }
 
+  public function actionAll (): void
+  {
+    try {
+      $this->guestRedirect();
+    } catch (AbortException $e) {
+    }
+  }
+
   public function renderAll (): void
   {
     $this['breadcrumb']->add('Prihlášky');
-    $this->template->branches = $this->branchesRepository->findAll();
+    $this->template->applicationForms = $this->applicationFormsRepository->findAll();
+  }
+
+  public function actionView (int $id): void
+  {
+
+  }
+
+  public function renderView (int $id): void
+  {
+
   }
 
   public function actionAdd (int $id): void
@@ -75,18 +93,32 @@ class ApplicationFormsPresenter extends BasePresenter
     $this->template->branch = $this->branchRow;
   }
 
+  public function renderSuccess (String $name): void
+  {
+    $this->template->name = $name;
+  }
+
   protected function createComponentApplicationForm (): Form
   {
-    return $this->applicationFormFactory->create($this->branchRow->id, function (Form $form, ArrayHash $values) {
+    return $this->applicationFormFactory->create($this->branchRow->id, function (Form $form, array $values) {
       $this->submittedApplicationForm($values);
     });
   }
 
-  public function submittedApplicationForm (ArrayHash $values): void
+  public function submittedApplicationForm (array $values): void
   {
-    $this->applicationFormsRepository->insert($values);
+    $data = [];
+
+    foreach ($values['branch_class_id'] as $classId) {
+      $appFormData = $values;
+      $appFormData['branch_class_id'] = $classId;
+      $data[] = $appFormData;
+    }
+
+    $this->applicationFormsRepository->insert($data);
+
     try {
-      $this->redirect('all');
+      $this->redirect('success', $values['name']);
     } catch (AbortException $e) {
 
     }
