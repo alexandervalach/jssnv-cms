@@ -45,6 +45,11 @@ class ApplicationFormsPresenter extends BasePresenter
    */
   private $applicationFormRow;
 
+  /**
+   * @var mixed
+   */
+  private $applicationForm;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               BreadcrumbControl $breadcrumbControl,
@@ -70,30 +75,25 @@ class ApplicationFormsPresenter extends BasePresenter
   public function renderAll (): void
   {
     $this['breadcrumb']->add('Prihlášky');
-    $items = $this->applicationFormsRepository->fetchApplications();
+    $items = $this->applicationFormsRepository->fetchAll();
     $this->template->applicationForms = ApplicationHelper::setAppFormsStyle($items);
   }
 
   public function actionView (int $id): void
   {
+    $this->guestRedirect();
+    $this->applicationForm = $this->applicationFormsRepository->fetch($id);
 
+    if (!$this->applicationForm) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
   }
 
   public function renderView (int $id): void
   {
-
-  }
-
-  public function actionRemove (int $id): void
-  {
-    $this->guestRedirect();
-    $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
-
-    if (!$this->applicationFormRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
-    }
-
-    $this->submittedRemoveApplicationForm();
+    $this['breadcrumb']->add('Prihlášky', $this->link('all'));
+    $this['breadcrumb']->add($this->applicationForm->name);
+    $this->template->appForm = ApplicationHelper::setAppFormStyle($this->applicationForm);
   }
 
   public function actionUpdateStatus (int $id, string $status): void
@@ -106,18 +106,6 @@ class ApplicationFormsPresenter extends BasePresenter
     }
 
     $this->submittedUpdateStatusApplicationForm($status);
-  }
-
-  public function actionCancel (int $id): void
-  {
-    $this->guestRedirect();
-    $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
-
-    if (!$this->applicationFormRow) {
-      throw new BadRequestException(self::ITEM_NOT_FOUND);
-    }
-
-    $this->submittedCancelApplicationForm();
   }
 
   public function actionAdd (int $id): void
@@ -161,7 +149,8 @@ class ApplicationFormsPresenter extends BasePresenter
     $this->applicationFormsRepository->insert($data);
 
     try {
-      $this->redirect('success', $values['name']);
+      $this->flashMessage('Prihláška bola úspešne podaná', self::SUCCESS);
+      $this->redirect('all');
     } catch (AbortException $e) {
 
     }
@@ -172,7 +161,12 @@ class ApplicationFormsPresenter extends BasePresenter
     $this->guestRedirect();
     $this->applicationFormRow->update([ 'status' => $status ]);
     // $this->flashMessage(self::ITEM_UPDATED, self::INFO);
-    $this->redirect('all');
+
+    if ($this->getParameter('id')) {
+      $this->redirect('view', $this->applicationFormRow->id);
+    } else {
+      $this->redirect('all');
+    }
   }
 
   private function submittedRemoveApplicationForm ()

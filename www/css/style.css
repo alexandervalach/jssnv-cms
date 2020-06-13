@@ -84,7 +84,7 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 99999;
+  z-index: 100;
   box-shadow: 0 5px 20px rgba(0,0,0,0.025);
   -webkit-transition: all 200ms ease;
   -moz-transition: all 200ms ease;
@@ -342,4 +342,8 @@ Courses
   -moz-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
   -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3) !important;
+}
+
+#applicantsData table tr td:nth-child(2) {
+  font-weight: bold;
 }

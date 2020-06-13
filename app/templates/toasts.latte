@@ -1,22 +1,22 @@
 <div n:if="$flashes != null" id="toasts" aria-live="polite" aria-atomic="true">
-  <div n:foreach="$flashes as $flash" class="toast bg-{$flash->type} text-light" style="position: absolute; top: 0; right: 0; z-index: 999999999">
+  <div n:foreach="$flashes as $flash" class="toast text-dark" style="width: 320px; position: absolute; top: 0; right: 0; z-index: 999999999">
     <div class="toast-header">
-      <strong class="mr-auto">
-          {if $flash->type === 'info'}
-        <i class="fas fa-info"></i> INFO
-          {elseif $flash->type === 'success'}
-        <i class="fas fa-check"></i> OK
-          {elseif $flash->type === 'danger'}
-        <i class="fas fa-exclamation"></i> CHYBA
-          {elseif $flash->type === 'warning'}
-        <i class="fas fa-exclamation-triangle"></i> POZOR
-          {/if}&nbsp;
+      <strong class="mr-auto text-{$flash->type}">
+        {if $flash->type === 'info'}
+          <i class="fas fa-info"></i> INFO
+        {elseif $flash->type === 'success'}
+          <i class="fas fa-check"></i> OK
+        {elseif $flash->type === 'danger'}
+          <i class="fas fa-exclamation"></i> CHYBA
+        {elseif $flash->type === 'warning'}
+          <i class="fas fa-exclamation-triangle"></i> POZOR
+        {/if}&nbsp;
       </strong>
       <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="toast-body">
+    <div class="toast-body text-{$flash->type}">
       {$flash->message}
     </div>
   </div>

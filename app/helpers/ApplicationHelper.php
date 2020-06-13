@@ -42,4 +42,22 @@ class ApplicationHelper {
     }
     return ArrayHash::from($appForms);
   }
+
+  public static function setAppFormStyle ($appForm)
+  {
+    if ((string) $appForm->status === (string) "pending") {
+      $appForm->class = 'bg-warning text-dark';
+      $appForm->status_label = 'Čakajúca';
+    } elseif ((string) $appForm->status === (string) "finished") {
+      $appForm->status_label = 'Vybavená';
+      $appForm->class = 'bg-primary text-white';
+    } elseif ((string) $appForm->status === (string) "cancelled") {
+      $appForm->status_label = 'Zrušená';
+      $appForm->class = 'bg-danger text-white';
+    } else {
+      $appForm->status_label = 'Archivovaná';
+      $appForm->class = 'bg-default text-dark';
+    }
+    return $appForm;
+  }
 }

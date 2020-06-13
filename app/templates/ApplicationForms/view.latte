@@ -1,1 +1,178 @@
 {block content}
+
+<header class="container-fluid">
+  <div class="float-left">
+    <h2 n:block=title>Prihláška poslucháča - {$appForm->status_label}</h2>
+  </div>
+  <div class="float-right" n:if="$user->loggedIn">
+    <a n:if="$appForm->status !== 'finished'" class="btn btn-primary text-white" n:href="updateStatus, $appForm->id, 'finished'">
+      <i class="fas fa-check" aria-hidden="true"></i> Vybaviť
+    </a>
+    <a n:if="$appForm->status !== 'pending'" class="btn btn-warning text-dark" n:href="updateStatus, $appForm->id, 'pending'">
+      <i class="fa fa-clock-o" aria-hidden="true"></i> Čakať
+    </a>
+    <a n:if="$appForm->status !== 'cancelled'" class="btn btn-danger text-white" n:href="updateStatus, $appForm->id, 'cancelled'">
+      <i class="fas fa-times" aria-hidden="true"></i> Zrušiť
+    </a>
+  </div>
+</header>
+<main id="applicantsData" class="container-fluid row clearfix">
+  <!-- Personal data -->
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+    <table class="table">
+      <thead n:class="$appForm->class">
+        <tr>
+          <th colspan="2">Osobné údaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Meno</td>
+          <td>
+            {if $appForm->title_bn}{$appForm->title_bn}{/if}
+            {$appForm->name}
+            {if $appForm->title_an}, {$appForm->title_an}{/if}
+          </td>
+        </tr>
+        <tr>
+          <td>Dátum narodenia</td>
+          <td>{$appForm->birthdate|date:'%d.%m.%Y'}</td>
+        </tr>
+        <tr>
+          <td>Miesto narodenia</td>
+          <td>{$appForm->birthplace}</td>
+        </tr>
+        <tr>
+          <td>Rodné číslo</td>
+          <td>{$appForm->id_number}</td>
+        </tr>
+        <tr>
+          <td>Národnosť</td>
+          <td>{$appForm->nationality}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Study information -->
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+    <table class="table">
+      <thead n:class="$appForm->class">
+        <tr>
+          <th colspan="2">Štúdium</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Prihláška na kurz</td>
+          <td>{$appForm->course_label}, {$appForm->course_level_label}</td>
+        </tr>
+        <tr>
+          <td>Pobočka</td>
+          <td>{$appForm->branch_label}</td>
+        </tr>
+        <tr>
+          <td>Zamestnanie</td>
+          <td>{$appForm->employment}</td>
+        </tr>
+        <tr>
+          <td>Absolvovaný kurz</td>
+          <td>{$appForm->prev_course}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Permanent address -->
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+    <table class="table">
+      <thead n:class="$appForm->class">
+        <tr>
+          <th colspan="2">Adresa trvalého bydliska</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ulica</td>
+          <td>{$appForm->street_address}</td>
+        </tr>
+        <tr>
+          <td>Mesto</td>
+          <td>{$appForm->city}</td>
+        </tr>
+        <tr>
+          <td>PSČ</td>
+          <td>{$appForm->zipcode}</td>
+        </tr>
+        <tr>
+          <td>Národnosť</td>
+          <td>{$appForm->nationality}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Contact -->
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+    <table class="table">
+      <thead n:class="$appForm->class">
+        <tr>
+          <th colspan="2">Kontakt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>E-mail</td>
+          <td>{$appForm->email}</td>
+        </tr>
+        <tr>
+          <td>Telefón</td>
+          <td>{$appForm->phone}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Consent -->
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
+    <table class="table">
+      <thead n:class="$appForm->class">
+        <tr>
+          <th colspan="2">Súhlas so spracovaním údajov</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Spracovanie osobných údajov</td>
+          <td>
+            {if $appForm->consent_personal_data}
+              <i class="fas fa-check" aria-hidden="true"></i>
+            {else}
+              <i class="fas fa-times" aria-hidden="true"></i>
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td>Zverejnenie v zozname poslucháčov</td>
+          <td>
+            {if $appForm->consent_name}
+              <i class="fas fa-check" aria-hidden="true"></i>
+            {else}
+              <i class="fas fa-times" aria-hidden="true"></i>
+            {/if}
+          </td>
+        </tr>
+        <tr>
+          <td>Zverejnenie fotografií</td>
+          <td>
+            {if $appForm->consent_photo}
+              <i class="fas fa-check" aria-hidden="true"></i>
+            {else}
+              <i class="fas fa-times" aria-hidden="true"></i>
+            {/if}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</main>

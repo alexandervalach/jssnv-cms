@@ -8,7 +8,7 @@
   </header>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="table-responsive" n:if="$applicationForms->count() > 0">
-      <table class="table">
+      <table id="applicationForms" class="table">
         <thead>
           <tr>
             <th>Meno</th>
@@ -18,7 +18,9 @@
             <th>E-mail</th>
             <th>Telefón</th>
             <th>Stav</th>
-            <th colspan="3" class="text-center">Akcie</th>
+            <th></th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -30,19 +32,13 @@
                 {if $appForm->title_an}, {$appForm->title_an}{/if}
               </td>
               <td class="text-center">
-                <a n:href="Courses:view, $appForm->course_id">
-                  {$appForm->course_label}
-                </a>
+                {$appForm->course_label}
               </td>
               <td class="text-center">
-                <a n:href="CourseLevels:view, $appForm->course_level_id">
-                  {$appForm->course_level_label}
-                </a>
+                {$appForm->course_level_label}
               </td>
               <td class="text-center">
-                <a n:href="Branches:view, $appForm->branch_id">
-                  {$appForm->branch_label}
-                </a>
+                {$appForm->branch_label}
               </td>
               <td>{$appForm->email}</td>
               <td>{$appForm->phone}</td>
@@ -81,3 +77,27 @@
     </div>
   </div>
 </div>
+{/block}
+
+{block styles}
+  {include parent}
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" type="text/css">
+{/block}
+
+{block scripts}
+  {include parent}
+  <script>
+    jQuery(document).ready(() => {
+      const tableId = '#applicationForms'
+      let table
+
+      if ( jQuery.fn.dataTable.isDataTable(tableId) ) {
+        table = jQuery(tableId).DataTable();
+      } else {
+        table = jQuery(tableId).DataTable({
+          'order': []
+        });
+      }
+    });
+  </script>
+{/block}
