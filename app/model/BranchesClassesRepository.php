@@ -28,19 +28,27 @@ class BranchesClassesRepository extends Repository
   }
 
   public function getForApplicationForm (int $branchId) {
-    $branchClasses = $this->findByValue('branch_id', $branchId);
+    $db = $this->getConnection();
+    return $db->query('SELECT bc.id, cr.label AS course_label, 
+      cl.label AS course_level_label, cr.id AS course_id 
+      FROM branches_classes AS bc
+      JOIN branches AS b ON b.id = bc.branch_id
+      JOIN classes AS c ON c.id = bc.class_id
+      JOIN courses AS cr ON c.course_id = cr.id
+      JOIN course_levels AS cl ON c.course_level_id = cl.id
+      WHERE bc.branch_id = ? AND bc.is_present = 1
+      ORDER BY cr.label, cl.label', $branchId);
+  }
+
+  public function fetchForApplicationForm (int $branchId) {
+    $branchClasses = $this->getForApplicationForm($branchId)->fetchAll();
     $res = [];
 
-    foreach ($branchClasses as $branchClass) {
-      $class = $branchClass->ref('classes', 'class_id');
-      $course = $class->ref('courses', 'course_id');
-      $courseLevel = $class->ref('course_levels', 'course_level_id');
-
-      if (empty($res[$course->label])) {
-        $res[$course->label] = [];
+    foreach ($branchClasses as $class) {
+      if (!array_key_exists($class->course_label, $res)) {
+        $res[$class->course_label] = [];
       }
-
-      $res[$course->label][$branchClass->id] = $courseLevel->label;
+      $res[$class->course_label][$class->id] = $class->course_level_label;
     }
 
     return $res;

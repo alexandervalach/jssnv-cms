@@ -10,6 +10,7 @@ use App\Forms\SearchFormFactory;
 use App\Helpers\ApplicationHelper;
 use App\Model\AlbumsRepository;
 use App\Model\ApplicationFormsRepository;
+use App\Model\BranchesClassesRepository;
 use App\Model\BranchesRepository;
 use App\Model\SectionsRepository;
 use Nette\Application\AbortException;
@@ -50,17 +51,29 @@ class ApplicationFormsPresenter extends BasePresenter
    */
   private $applicationForm;
 
+  /**
+   * @var BranchesClassesRepository
+   */
+  private $branchClassesRepository;
+
+  /**
+   * @var array|mixed
+   */
+  private $branchClasses;
+
   public function __construct(AlbumsRepository $albumsRepository,
                               SectionsRepository $sectionRepository,
                               BreadcrumbControl $breadcrumbControl,
                               SearchFormFactory $searchForm,
                               BranchesRepository $branchesRepository,
+                              BranchesClassesRepository $branchClassesRepository,
                               ApplicationFormsRepository $applicationFormsRepository,
                               ApplicationFormFactory $applicationFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchForm);
     $this->branchesRepository = $branchesRepository;
     $this->applicationFormsRepository = $applicationFormsRepository;
+    $this->branchClassesRepository = $branchClassesRepository;
     $this->applicationFormFactory = $applicationFormFactory;
   }
 
@@ -81,7 +94,11 @@ class ApplicationFormsPresenter extends BasePresenter
 
   public function actionView (int $id): void
   {
-    $this->guestRedirect();
+    try {
+      $this->guestRedirect();
+    } catch (AbortException $e) {
+    }
+
     $this->applicationForm = $this->applicationFormsRepository->fetch($id);
 
     if (!$this->applicationForm) {
@@ -98,7 +115,11 @@ class ApplicationFormsPresenter extends BasePresenter
 
   public function actionUpdateStatus (int $id, string $status): void
   {
-    $this->guestRedirect();
+    try {
+      $this->guestRedirect();
+    } catch (AbortException $e) {
+    }
+
     $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
 
     if (!$this->applicationFormRow) {
@@ -115,12 +136,16 @@ class ApplicationFormsPresenter extends BasePresenter
     if (!$this->branchRow) {
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
+
+    $this->branchClasses = $this->branchClassesRepository->fetchForApplicationForm($this->branchRow->id);
   }
 
   public function renderAdd (int $id): void
   {
     $this['breadcrumb']->add('Prihlášky', $this->link('ApplicationForms:all'));
     $this['breadcrumb']->add($this->branchRow->label);
+
+    $this->template->items = $this->branchClasses;
     $this->template->branch = $this->branchRow;
   }
 
@@ -131,16 +156,17 @@ class ApplicationFormsPresenter extends BasePresenter
 
   protected function createComponentApplicationForm (): Form
   {
-    return $this->applicationFormFactory->create($this->branchRow->id, function (Form $form, array $values) {
-      $this->submittedApplicationForm($values);
+    return $this->applicationFormFactory->create(function (Form $form, array $values) {
+      $classes = $form->getHttpData($form::DATA_TEXT | $form::DATA_KEYS, 'branch_class_id[]');
+      $this->submittedApplicationForm($values, $classes);
     });
   }
 
-  public function submittedApplicationForm (array $values): void
+  public function submittedApplicationForm (array $values, $classes): void
   {
     $data = [];
 
-    foreach ($values['branch_class_id'] as $classId) {
+    foreach ($classes as $classId) {
       $appFormData = $values;
       $appFormData['branch_class_id'] = $classId;
       $data[] = $appFormData;

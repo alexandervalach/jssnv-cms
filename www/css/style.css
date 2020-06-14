@@ -326,9 +326,9 @@ Courses
 #page #primary #content article.row header { margin-left: 16px }
 .form-consent small { text-align: justify }
 .form-consent label { font-weight: bold }
-.form-consent label input { margin-right: 8px }
+form label input[type="checkbox"] { margin-right: 8px !important }
 
-.form-group .required:after {
+.required:after {
   content:" *";
   color: red;
 }
@@ -346,4 +346,21 @@ Courses
 
 #applicantsData table tr td:nth-child(2) {
   font-weight: bold;
+}
+
+.form-control {
+  color: #0c0c0c !important;
+}
+
+.form-control::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: grey !important;
+  opacity: 1 !important; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: red;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+  color: red;
 }

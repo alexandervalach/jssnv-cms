@@ -1,3 +1,8 @@
+{*
+  @param $branch
+  @param $branchClasses
+*}
+
 {block content}
 
 <header class="container-fluid">
@@ -88,8 +93,8 @@
         {input prev_course}
       </div>
       <div class="form-group">
-        <label n:name="branch_class_id" class="required" />
-        {input branch_class_id}
+        <label n:name="note" />
+        {input note}
       </div>
     </div>
 
@@ -132,6 +137,40 @@
          Dovtedy ho možno kedykoľvek písomne alebo elektronicky odvolať.
         </small>
       </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 16px;">
+      <div id="accordion">
+        <h3>Ponuka kurzov</h3>
+        <p class="required">
+          Vyberte si z ponuky kurzov
+        </p>
+        {foreach $items as $courseLabel => $class}
+          <div class="card">
+            <a data-toggle="collapse" href="#collapse-{$iterator->counter}"
+               role="button" aria-expanded="false" aria-controls="collapse-{$iterator->counter}">
+              <div class="card-header text-dark" id="heading-{$iterator->counter}">
+                {$iterator->counter}. {$courseLabel}
+              </div>
+            </a>
+            <div id="collapse-{$iterator->counter}" class="collapse" aria-labelledby="heading-{$iterator->counter}"
+                 data-parent="#accordion">
+              <div class="card-body">
+                {var $parent = $iterator->counter}
+                <div n:foreach="$class as $classId => $levelLabel" class="form-check">
+                  <input class="form-check-input" name="branch_class_id[]" type="checkbox" value="{$classId}" id="check-{$parent}-{$iterator->counter}" />
+                  <label class="form-check-label" for="check-{$parent}-{$iterator->counter}">
+                    {$levelLabel}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        {/foreach}
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 16px;">
       {input submit}
     </div>
   </form>

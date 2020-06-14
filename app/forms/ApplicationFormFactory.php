@@ -29,23 +29,16 @@ class ApplicationFormFactory
     $this->branchClassesRepository = $branchClassesRepository;
   }
 
-   private function parseBranchClass (int $branchId)
-   {
-      $this->branchClassesRepository->getClasses($branchId);
-   }
-
   /**
    * Creates and renders sign in form
-   * @param int $branchId
    * @param callable $onSuccess
    * @return Form
    */
-  public function create(int $branchId, callable $onSuccess): Form
+  public function create(callable $onSuccess): Form
   {
     $form = $this->formFactory->create();
-    $classes = $this->branchClassesRepository->getForApplicationForm($branchId);
     $currentYear = date('Y');
-    $lastYear =  date('Y',strtotime('-1 year'));
+    $lastYear =  date('Y', strtotime('-1 year'));
 
     $form->addText('name', 'Meno a priezvisko')
       ->setHtmlAttribute('placeholder','Arnošt Kábel')
@@ -116,9 +109,11 @@ class ApplicationFormFactory
       ->setHtmlAttribute('placeholder', 'Anglický jazyk, 1. ročník')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255);
 
-    $form->addMultiSelect('branch_class_id', 'Prihlasujem sa do kurzu', $classes)
-      ->setHtmlAttribute('class', 'custom-select')
+    /*
+    $form->addCheckboxList('branch_class_id', 'Prihlasujem sa do kurzu', $classes)
+      // ->setHtmlAttribute('class', 'custom-select')
       ->setRequired();
+    */
 
     $form->addCheckbox('consent_personal_data', 'Spracovanie osobných údajov')
       ->setRequired();
@@ -127,7 +122,10 @@ class ApplicationFormFactory
 
     $form->addCheckbox('consent_photo', 'Zverejnenie fotografií');
 
-    $form->addSubmit('submit', 'Odoslať');
+    $form->addTextArea('note', 'Poznámka')
+      ->addRule(Form::MAX_LENGTH, '%label môže mať najviac %value znakov', 1000);
+
+    $form->addSubmit('submit', 'Odoslať prihlášku');
 
     FormHelper::setBootstrapFormRenderer($form);
 
