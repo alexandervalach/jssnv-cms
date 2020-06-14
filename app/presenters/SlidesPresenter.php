@@ -83,11 +83,7 @@ class SlidesPresenter extends BasePresenter
    */
   public function actionAll(): void
   {
-    try {
-      $this->guestRedirect();
-    } catch (AbortException $e) {
-
-    }
+    $this->guestRedirect();
   }
 
   /**

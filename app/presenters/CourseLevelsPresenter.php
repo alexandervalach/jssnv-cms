@@ -42,12 +42,8 @@ class CourseLevelsPresenter extends BasePresenter
 
   public function actionAll (): void
   {
-    try {
-      $this->guestRedirect();
-      $this['breadcrumb']->add(self::THEME_TITLE);
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this['breadcrumb']->add(self::THEME_TITLE);
   }
 
   public function renderAll (): void
@@ -63,12 +59,8 @@ class CourseLevelsPresenter extends BasePresenter
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
 
-    try {
-      $this->guestRedirect();
-      $this['courseLevelForm']->setDefaults($this->courseLevelRow);
-    } catch (AbortException $e) {
-      $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this['courseLevelForm']->setDefaults($this->courseLevelRow);
   }
 
   public function renderView (int $id): void
@@ -87,25 +79,17 @@ class CourseLevelsPresenter extends BasePresenter
 
   public function submittedAddForm (ArrayHash $values): void
   {
-    try {
-      $this->guestRedirect();
-      $this->courseLevelsRepository->insert($values);
-      $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
-      $this->redirect('all');
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this->courseLevelsRepository->insert($values);
+    $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
+    $this->redirect('all');
   }
 
   public function submittedEditForm (ArrayHash $values): void
   {
-    try {
-      $this->guestRedirect();
-      $this->courseLevelRow->update($values);
-      $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
-      $this->redirect('view', $this->courseLevelRow->id);
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this->courseLevelRow->update($values);
+    $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+    $this->redirect('view', $this->courseLevelRow->id);
   }
 }

@@ -41,14 +41,10 @@ class CoursesPresenter extends BasePresenter
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
 
-    try {
-      $this->guestRedirect();
-      $this['breadcrumb']->add(self::THEME_TITLE, $this->link('all'));
-      $this['breadcrumb']->add($this->courseRow->label);
-      $this['courseForm']->setDefaults($this->courseRow);
-    } catch (AbortException $e) {
-
-    }
+    $this->guestRedirect();
+    $this['breadcrumb']->add(self::THEME_TITLE, $this->link('all'));
+    $this['breadcrumb']->add($this->courseRow->label);
+    $this['courseForm']->setDefaults($this->courseRow);
   }
 
   public function renderView (int $id): void
@@ -58,12 +54,8 @@ class CoursesPresenter extends BasePresenter
 
   public function actionAll (): void
   {
-    try {
-      $this->guestRedirect();
-      $this['breadcrumb']->add(self::THEME_TITLE);
-    } catch (AbortException $e) {
-
-    }
+    $this->guestRedirect();
+    $this['breadcrumb']->add(self::THEME_TITLE);
   }
 
   public function renderAll (): void
@@ -87,25 +79,17 @@ class CoursesPresenter extends BasePresenter
 
   public function submittedAddForm (ArrayHash $values): void
   {
-    try {
-      $this->guestRedirect();
-      $this->coursesRepository->insert($values);
-      $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
-      $this->redirect('all');
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this->coursesRepository->insert($values);
+    $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
+    $this->redirect('all');
   }
 
   public function submittedEditForm (ArrayHash $values): void
   {
-    try {
-      $this->guestRedirect();
-      $this->courseRow->update($values);
-      $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
-      $this->redirect('view', $this->courseRow->id);
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this->courseRow->update($values);
+    $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+    $this->redirect('view', $this->courseRow->id);
   }
 }

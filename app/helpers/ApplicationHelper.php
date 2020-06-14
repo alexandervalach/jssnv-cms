@@ -60,4 +60,18 @@ class ApplicationHelper {
     }
     return $appForm;
   }
+
+  public static function parseName ($name, $titleBn = null, $titleAn = null) {
+    $finalName = $name;
+
+    if ($titleBn) {
+      $finalName .= $titleBn . ' ';
+    }
+
+    if ($titleAn) {
+      $finalName .= ', ' . $titleAn;
+    }
+
+    return $finalName;
+  }
 }

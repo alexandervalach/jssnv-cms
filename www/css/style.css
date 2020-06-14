@@ -328,7 +328,7 @@ Courses
 .form-consent label { font-weight: bold }
 form label input[type="checkbox"] { margin-right: 8px !important }
 
-.required:after {
+.form-group .required:after {
   content:" *";
   color: red;
 }

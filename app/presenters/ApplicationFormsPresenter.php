@@ -79,10 +79,7 @@ class ApplicationFormsPresenter extends BasePresenter
 
   public function actionAll (): void
   {
-    try {
-      $this->guestRedirect();
-    } catch (AbortException $e) {
-    }
+    $this->guestRedirect();
   }
 
   public function renderAll (): void
@@ -94,10 +91,7 @@ class ApplicationFormsPresenter extends BasePresenter
 
   public function actionView (int $id): void
   {
-    try {
-      $this->guestRedirect();
-    } catch (AbortException $e) {
-    }
+    $this->guestRedirect();
 
     $this->applicationForm = $this->applicationFormsRepository->fetch($id);
 
@@ -115,11 +109,7 @@ class ApplicationFormsPresenter extends BasePresenter
 
   public function actionUpdateStatus (int $id, string $status): void
   {
-    try {
-      $this->guestRedirect();
-    } catch (AbortException $e) {
-    }
-
+    $this->guestRedirect();
     $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
 
     if (!$this->applicationFormRow) {
@@ -173,13 +163,11 @@ class ApplicationFormsPresenter extends BasePresenter
     }
 
     $this->applicationFormsRepository->insert($data);
-
-    try {
-      $this->flashMessage('Prihláška bola úspešne podaná', self::SUCCESS);
-      $this->redirect('all');
-    } catch (AbortException $e) {
-
-    }
+    $this->flashMessage('Prihláška bola úspešne podaná', self::SUCCESS);
+    $this->redirect(
+      'success',
+      ApplicationHelper::parseName($values['name'], $values['title_bn'], $values['title_an'])
+    );
   }
 
   private function submittedUpdateStatusApplicationForm (string $status)

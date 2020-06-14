@@ -73,16 +73,12 @@ class BranchesPresenter extends BasePresenter
 
   public function actionAll (): void
   {
-    try {
-      $this->guestRedirect();
-      $this['breadcrumb']->add(self::THEME_TITLE);
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
   }
 
   public function renderAll (): void
   {
+    $this['breadcrumb']->add(self::THEME_TITLE);
     $this->template->branches = $this->branchesRepository->findAll();
   }
 
@@ -94,12 +90,8 @@ class BranchesPresenter extends BasePresenter
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
 
-    try {
-      $this->guestRedirect();
-      $this['branchForm']->setDefaults($this->branchRow);
-    } catch (AbortException $e) {
-      $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this['branchForm']->setDefaults($this->branchRow);
   }
 
   public function renderView (int $id): void
@@ -126,46 +118,34 @@ class BranchesPresenter extends BasePresenter
 
   public function submittedAddClassForm (ArrayHash $values): void
   {
-    try {
-      $this->guestRedirect();
-      $class = $this->classesRepository->insert($values);
+    $this->guestRedirect();
+    $class = $this->classesRepository->insert($values);
 
-      $this->branchesClassesRepository->insert(
-        [
-          'branch_id' => $this->branchRow->id,
-          'class_id' => $class->id
-        ]
-      );
+    $this->branchesClassesRepository->insert(
+      [
+        'branch_id' => $this->branchRow->id,
+        'class_id' => $class->id
+      ]
+    );
 
-      $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
-      $this->redirect('all');
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
+    $this->redirect('all');
   }
 
   public function submittedAddForm (ArrayHash $values): void
   {
-    try {
-      $this->guestRedirect();
-      $this->branchesRepository->insert($values);
-      $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
-      $this->redirect('all');
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this->branchesRepository->insert($values);
+    $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
+    $this->redirect('all');
   }
 
   public function submittedEditForm (ArrayHash $values): void
   {
-    try {
-      $this->guestRedirect();
-      $this->branchRow->update($values);
-      $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
-      $this->redirect('view', $this->branchRow->id);
-    } catch (AbortException $e) {
-      // $this->flashMessage(self::UNKNOWN_ERROR, self::ERROR);
-    }
+    $this->guestRedirect();
+    $this->branchRow->update($values);
+    $this->flashMessage(self::ITEM_UPDATED, self::SUCCESS);
+    $this->redirect('view', $this->branchRow->id);
   }
 
 }

@@ -175,4 +175,20 @@
       </tbody>
     </table>
   </div>
+
+  <!-- Note -->
+  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4" n:if="$appForm->note">
+    <table class="table">
+      <thead n:class="$appForm->class">
+        <tr>
+          <th>Poznámka</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{$appForm->note}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </main>
