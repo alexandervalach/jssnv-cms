@@ -117,7 +117,7 @@ class SectionsPresenter extends BasePresenter
   public function renderAll(): void
   {
     // Property $sections is inherited from parent
-    $this->template->sections = $this->sections;
+    $this->template->sections = $this->sectionsRepository->findAll();
   }
 
   public function actionView(int $id): void
@@ -221,7 +221,7 @@ class SectionsPresenter extends BasePresenter
    * @param ArrayHash $values
    * @throws AbortException
    */
-  private function submittedAddForm(ArrayHash $values): void
+  private function submittedAddForm (ArrayHash $values): void
   {
     $this->guestRedirect();
     $values->offsetSet('section_id', $values->section_id === 0 ? null : $values->section_id);
@@ -234,7 +234,7 @@ class SectionsPresenter extends BasePresenter
    * @param ArrayHash $values
    * @throws AbortException
    */
-  private function submittedEditForm(ArrayHash $values): void
+  private function submittedEditForm (ArrayHash $values): void
   {
     $this->guestRedirect();
     $values->section_id = $values->section_id === 0 ? null : $values->section_id;
