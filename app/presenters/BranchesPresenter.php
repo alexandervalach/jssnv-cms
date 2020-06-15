@@ -73,12 +73,17 @@ class BranchesPresenter extends BasePresenter
 
   public function actionAll (): void
   {
-    $this->guestRedirect();
+
   }
 
   public function renderAll (): void
   {
-    $this['breadcrumb']->add(self::THEME_TITLE);
+    if ($this->user->loggedIn) {
+      $this['breadcrumb']->add(self::THEME_TITLE);
+    } else {
+      $this['breadcrumb']->add('Výber pobočky');
+    }
+
     $this->template->branches = $this->branchesRepository->findAll();
   }
 
@@ -129,7 +134,7 @@ class BranchesPresenter extends BasePresenter
     );
 
     $this->flashMessage(self::ITEM_ADDED, self::SUCCESS);
-    $this->redirect('all');
+    $this->redirect('view', $this->branchRow->id);
   }
 
   public function submittedAddForm (ArrayHash $values): void

@@ -1,8 +1,16 @@
 {block content}
-<h1 n:block=title>Prihlásenie</h1>
 
-<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-  {control signInForm}
+<div class="row">
+  <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="float-left">
+      <h2 n:block=title>Prihlásenie</h2>
+    </div>
+  </header>
+  <main class="container-fluid">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      {control signInForm}
+    </div>
+  </main>
 </div>
     
 {* or use {include '../components/form.latte', form => signInForm} *}

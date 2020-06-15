@@ -5,7 +5,7 @@
     <div class="float-left">
       <h2 n:block=title>{if $user->loggedIn}Pobočky{else}Vyberte si pobočku{/if}</h2>
     </div>
-    <div class="float-right">
+    <div class="float-right" n:if="$user->loggedIn">
       <button type="button" class="btn btn-success" data-toggle="modal" data-target="#branchForm">
         <i class="fas fa-plus"></i> Pridať
       </button>
@@ -54,7 +54,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="branchForm" tabindex="-1" role="dialog" aria-labelledby="branchModalLabel" aria-hidden="true">
+<div n:if="$user->loggedIn" class="modal fade" id="branchForm" tabindex="-1" role="dialog" aria-labelledby="branchModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

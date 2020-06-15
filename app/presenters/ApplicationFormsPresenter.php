@@ -132,15 +132,16 @@ class ApplicationFormsPresenter extends BasePresenter
 
   public function renderAdd (int $id): void
   {
-    $this['breadcrumb']->add('Prihlášky', $this->link('ApplicationForms:all'));
+    $this['breadcrumb']->add('Výber pobočky', $this->link('Branches:all'));
     $this['breadcrumb']->add($this->branchRow->label);
 
     $this->template->items = $this->branchClasses;
     $this->template->branch = $this->branchRow;
   }
 
-  public function renderSuccess (String $name): void
+  public function renderSuccess (String $name, String $email): void
   {
+    $this->template->email = $email;
     $this->template->name = $name;
   }
 
@@ -166,7 +167,8 @@ class ApplicationFormsPresenter extends BasePresenter
     $this->flashMessage('Prihláška bola úspešne podaná', self::SUCCESS);
     $this->redirect(
       'success',
-      ApplicationHelper::parseName($values['name'], $values['title_bn'], $values['title_an'])
+      ApplicationHelper::parseName($values['name'], $values['title_bn'], $values['title_an']),
+      $values['email']
     );
   }
 

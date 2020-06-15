@@ -318,9 +318,9 @@ Courses
   text-align: center;
 }
 
-#page #primary #content {
-  min-height: 39vh;
-  padding: 32px;
+#page #primary #content main {
+  min-height: 40vh;
+  padding: 16px 18px;
 }
 
 #page #primary #content article.row header { margin-left: 16px }

@@ -65,7 +65,7 @@ class ApplicationHelper {
     $finalName = $name;
 
     if ($titleBn) {
-      $finalName .= $titleBn . ' ';
+      $finalName = $titleBn . ' ' . $finalName;
     }
 
     if ($titleAn) {
