@@ -103,7 +103,7 @@ class ApplicationFormsPresenter extends BasePresenter
   public function renderView (int $id): void
   {
     $this['breadcrumb']->add('Prihlášky', $this->link('all'));
-    $this['breadcrumb']->add($this->applicationForm->name);
+    $this['breadcrumb']->add(ApplicationHelper::parseName($this->applicationForm->name, $this->applicationForm->title_bn, $this->applicationForm->title_an));
     $this->template->appForm = ApplicationHelper::setAppFormStyle($this->applicationForm);
   }
 

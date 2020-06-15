@@ -94,24 +94,6 @@ abstract class BasePresenter extends Presenter
    */
   public function beforeRender()
   {
-    $sections = $this->sectionsRepository->findByParent(null);
-    $items = [];
-
-    foreach ($sections as $section) {
-      $items[$section->id]['subsections'] = $this->sectionsRepository->findByParent($section->id);
-      $items[$section->id]['id'] = $section->id;
-      $items[$section->id]['name'] = $section->name;
-      $items[$section->id]['url'] = $section->url;
-      $items[$section->id]['order'] = $section->order;
-      $items[$section->id]['sliding'] = $section->sliding;
-      $items[$section->id]['visible'] = $section->visible;
-      $items[$section->id]['on_homepage'] = $section->on_homepage;
-      $items[$section->id]['home_url'] = $section->home_url;
-    }
-
-    $this->sections = ArrayHash::from($items);
-
-    $this->template->menuSections = $this->sections;
     $this->template->imgFolder = self::IMAGE_FOLDER;
     $this->template->fileFolder = self::FILE_FOLDER;
   }
