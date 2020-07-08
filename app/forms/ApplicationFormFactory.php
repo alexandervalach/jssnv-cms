@@ -115,12 +115,14 @@ class ApplicationFormFactory
       ->setRequired();
     */
 
+    /*
     $form->addCheckbox('consent_personal_data', 'Spracovanie osobných údajov')
       ->setRequired();
 
     $form->addCheckbox('consent_name', 'Zverejnenie v zozname poslucháčov');
 
     $form->addCheckbox('consent_photo', 'Zverejnenie fotografií');
+    */
 
     $form->addTextArea('note', 'Poznámka')
       ->addRule(Form::MAX_LENGTH, '%label môže mať najviac %value znakov', 1000);
