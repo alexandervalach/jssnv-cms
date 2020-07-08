@@ -54,7 +54,7 @@ class FileHelper
       $pathInfo = pathinfo($baseName);
       $extension = strtolower($pathInfo['extension']);
       $fileName = $pathInfo['filename'];
-      $newName = $baseName . '.' . $extension;
+      $newName = $fileName . '.' . $extension;
 
       if (!$file->move(self::FILE_FOLDER . '/' . $newName)) {
         throw new IOException;
