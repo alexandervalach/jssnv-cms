@@ -138,6 +138,7 @@ class UsersPresenter extends BasePresenter
   {
     return $this->userFormFactory->create(function (Form $form, ArrayHash $values) {
       $this->guestRedirect();
+      $values->password = $this->passwords->hash($values->password);
       $this->usersRepository->insert($values);
       $this->flashMessage(self::USER_ADDED, self::SUCCESS);
       $this->redirect('all');
@@ -187,7 +188,7 @@ class UsersPresenter extends BasePresenter
   private function submittedPassworddForm(ArrayHash $values): void
   {
     $this->userIsAllowed($this->userRow->id, $this->user->roles[0], self::ROOT);
-    $this->userRow->update(array('password' => $this->passwords->hash($values->password)));
+    $this->userRow->update([ 'password' => $this->passwords->hash($values->password) ]);
     $this->flashMessage('Heslo bolo zmenené', self::SUCCESS);
     $this->redirect('view', $this->userRow->id);
   }
