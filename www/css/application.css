@@ -1,0 +1,34 @@
+.application {
+  font-family: "Times New Roman";
+  /* font-family: 'Nunito', serif; */
+  font-size: 12pt;
+  width: 100%;
+}
+
+h1, h2 { text-align: center; }
+h1 { font-size: 18pt; margin-bottom: 0 }
+h2 { font-size: 16pt; margin-top: 0 }
+
+.text-strong { font-weight: bold; }
+.text-justify { text-align: justify; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+
+.clear { clear: both; margin: 10px 0; }
+
+table { margin-bottom: 15px; width: 100% }
+.cell-spacing td { padding-right: 10px }
+.cell-spacing td:last-child { padding-right: 0 }
+
+.banner {
+  background: url('../images/banner-application-form.png') no-repeat top center;
+  height: 75px;
+  background-size: auto;
+}
+
+.img-center {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
+}

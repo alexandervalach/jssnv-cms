@@ -8,6 +8,7 @@ use App\Components\BreadcrumbControl;
 use App\Forms\ApplicationFormFactory;
 use App\Forms\SearchFormFactory;
 use App\Helpers\ApplicationHelper;
+use App\Helpers\PdfHelper;
 use App\Model\AlbumsRepository;
 use App\Model\ApplicationFormsRepository;
 use App\Model\BranchesClassesRepository;
@@ -17,10 +18,12 @@ use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Application\BadRequestException;
 use Nette\Database\Table\ActiveRow;
-use Nette\Utils\ArrayHash;
+use Mpdf\Mpdf;
 
 class ApplicationFormsPresenter extends BasePresenter
 {
+  const PDF_FILE_TEMPLATE = __DIR__ . '/../templates/ApplicationForms/pdf.latte';
+
   /**
    * @var BranchesRepository
    */
@@ -143,6 +146,30 @@ class ApplicationFormsPresenter extends BasePresenter
   {
     $this->template->email = $email;
     $this->template->name = $name;
+  }
+
+  /**
+   * Generates application form in PDF
+   * @param $id
+   * @throws BadRequestException|AbortException
+   */
+  public function handlePdf (int $id) {
+    /** @var ITemplate $template */
+    $template = $this->createTemplate();
+    $template->setFile(self::PDF_FILE_TEMPLATE);
+
+    if (!($this->applicationFormRow = $this->applicationFormsRepository->findById($id))) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
+
+    PdfHelper::fillTemplateWithData($template, $this->applicationFormRow);
+
+    $mPdf = new Mpdf();
+    $mPdf->WriteHTML(file_get_contents(__DIR__ . '/../../www/css/application.css'), 1);
+    $mPdf->WriteHTML($template, 2);
+    $mPdf->Output('Prihlaska_' . $this->applicationFormRow->name . '.pdf', 'D');
+
+    $this->terminate();
   }
 
   protected function createComponentApplicationForm (): Form

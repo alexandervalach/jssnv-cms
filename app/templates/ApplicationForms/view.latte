@@ -5,14 +5,17 @@
     <h2 n:block=title>Prihláška poslucháča - {$appForm->status_label}</h2>
   </div>
   <div class="float-right" n:if="$user->loggedIn">
+    <a class="btn btn-light" n:href="pdf!, $appForm->id">
+      <i class="fa fa-download" aria-hidden="true"></i> Stiahnuť PDF
+    </a>
     <a n:if="$appForm->status !== 'finished'" class="btn btn-primary text-white" n:href="updateStatus, $appForm->id, 'finished'">
-      <i class="fas fa-check" aria-hidden="true"></i> Vybaviť
+      <i class="fa fa-check" aria-hidden="true"></i> Vybaviť
     </a>
     <a n:if="$appForm->status !== 'pending'" class="btn btn-warning text-dark" n:href="updateStatus, $appForm->id, 'pending'">
       <i class="fa fa-clock-o" aria-hidden="true"></i> Čakať
     </a>
     <a n:if="$appForm->status !== 'cancelled'" class="btn btn-danger text-white" n:href="updateStatus, $appForm->id, 'cancelled'">
-      <i class="fas fa-times" aria-hidden="true"></i> Zrušiť
+      <i class="fa fa-times" aria-hidden="true"></i> Zrušiť
     </a>
   </div>
 </header>

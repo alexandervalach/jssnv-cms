@@ -74,4 +74,30 @@ class ApplicationHelper {
 
     return $finalName;
   }
+
+  public static function parseFullName (string $fullname) {
+    $names = explode(' ', $fullname);
+    return [
+      'fname' => $names[0],
+      'lname' => $names[1]
+    ];
+  }
+
+  public static function parseTitles (string $titleBn = null, string $titleAn = null) {
+    if (!$titleBn && !$titleAn) {
+      return '-';
+    }
+
+    $title = '';
+
+    if ($titleBn) {
+      $title .= $titleBn;
+    }
+
+    if ($title_an) {
+      $title .= ', ' . $titleAn;
+    }
+
+    return $title;
+  }
 }

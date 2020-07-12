@@ -1,0 +1,110 @@
+<div class="application-form">
+  <header>
+    <div class="banner">
+      <!--<img src="{$basePath}/images/banner-application-form.png" class="img-center"
+        alt="Logo jazykovej školy v Spišskej Novej Vsi" />-->
+    </div>
+    <div class="clear text-center">
+      0905 727 558, 0917 801 457, js@jssnv.sk, www.jssnv.sk
+    </div>
+  </header>
+
+  <main>
+    <div class="clear">
+      <h1>Prihláška na školský rok {$school_year}</h1>
+    </div>
+    <div class="clear" n:if="$branch_name">
+      <h2>Pobočka {$branch_name}</h2>
+    </div>
+    <div>
+      <table class="cell-spacing">
+        <tbody>
+          <tr>
+            <td>Priezvisko:</td>
+            <td class="text-strong">{$lname}</td>
+          </tr>
+          <tr>
+            <td>Meno:</td>
+            <td class="text-strong">{$fname}</td>
+          </tr>
+          <tr>
+            <td>Titul:</td>
+            <td class="text-strong">{$title}</td>
+          </tr>
+          <tr>
+            <td>Bydlisko:</td>
+            <td class="text-strong">{$address}</td>
+          </tr>
+          <tr>
+            <td>PSČ:</td>
+            <td class="text-strong">{$zipcode}</td>
+          </tr>
+          <tr>
+            <td>Dátum narodenia:</td>
+            <td class="text-strong">{$birthdate|date:'%d.%m.%Y'}</td>
+          </tr>
+          <tr>
+            <td>Miesto narodenia:</td>
+            <td class="text-strong">{$birthplace}</td>
+          </tr>
+          <tr>
+            <td>Rodné číslo:</td>
+            <td class="text-strong">{$id_number}</td>
+          </tr>
+          <tr>
+            <td>Národnosť:</td>
+            <td class="text-strong">{$nationality}</td>
+          </tr>
+          <tr>
+            <td>E-mail:</td>
+            <td class="text-strong">{$email}</td>
+          </tr>
+          <tr>
+            <td>Telefón:</td>
+            <td class="text-strong">{$phone}</td>
+          </tr>
+          <tr>
+            <td>Zamestnanie (žiaci a študenti: škola, ročník):</td>
+            <td class="text-strong">{$employment}</td>
+          </tr>
+          <tr>
+            <td>Absolvovaný kurz na JŠ v šk. roku {$prev_school_year}:</td>
+            <td class="text-strong">{$prev_course}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-strong text-center">
+      Prihlasujem sa do kurzu {$course_name}
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="text-justify">
+      Osobné údaje dotknutých osôb sa spracúvajú v súlade
+      s NARIADENÍM EURÓPSKEHO PARLAMENTU A RADY (EÚ) 2016/679 z 27. apríla 2016
+      o ochrane fyzických osôb pri spracúvaní osobných údajov a
+      o voľnom pohybe takýchto údajov, ktorým sa zrušuje smernica
+      95/46/ES (všeobecné nariadenie o ochrane údajov) a so zákonom č. 18/2018 Z. z.
+      o ochrane osobných údajov a o zmene a doplnení niektorých zákonov.
+      Informácie o spracúvaní osobných údajov prevádzkovateľom sú vám
+      plne k dispozícii na webovom sídle <a href="https://osobnyudaj.sk/informovanie" target="_blank">www.osobnyudaj.sk/informovanie</a>,
+      ako aj vo fyzickej podobe v sídle a na všetkých kontaktných miestach prevádzkovateľa.
+    </div>
+
+    <div class="clear"></div>
+
+    <div>
+      <table>
+        <tr>
+          <td class="text-left">
+            Spišská Nová Ves, dňa: <span class="text-strong">{$today}</span>
+          </td>
+          <td class="text-right">Podpis poslucháča (zákonného zástupcu): __________________</td>
+        </tr>
+      </table>
+    </div>
+  </main>
+
+</div>
