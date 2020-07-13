@@ -5,9 +5,26 @@
     <h2 n:block=title>Prihláška poslucháča - {$appForm->status_label}</h2>
   </div>
   <div class="float-right" n:if="$user->loggedIn">
-    <a class="btn btn-light" n:href="pdf!, $appForm->id">
-      <i class="fa fa-download" aria-hidden="true"></i> Stiahnuť PDF
-    </a>
+    {if $appForm->status === 'finished'}
+      <div class="btn-group" role="group">
+        <button id="btnGroupDrop1" type="button" class="btn btn-light dropdown-toggle"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-download" aria-hidden="true"></i> Stiahnuť
+        </button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <a class="dropdown-item" n:href="applicationExport!, $appForm->id">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Prihlášku
+          </a>
+          <a class="dropdown-item" n:href="decisionExport!, $appForm->id">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> Rozhodnutie
+          </a>
+        </div>
+      </div>
+    {else}
+      <a class="btn btn-light" n:href="applicationExport!, $appForm->id">
+        <i class="fa fa-download" aria-hidden="true"></i> Stiahnuť
+      </a>
+    {/if}
     <a n:if="$appForm->status !== 'finished'" class="btn btn-primary text-white" n:href="updateStatus, $appForm->id, 'finished'">
       <i class="fa fa-check" aria-hidden="true"></i> Vybaviť
     </a>

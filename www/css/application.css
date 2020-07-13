@@ -15,10 +15,10 @@ h2 { font-size: 16pt; margin-top: 0 }
 .text-left { text-align: left; }
 .text-center { text-align: center; }
 
-.clear { clear: both; margin: 10px 0; }
+.clear { clear: both; margin: 15px 0; }
 
-table { margin-bottom: 15px; width: 100% }
-.cell-spacing td { padding-right: 10px }
+table { margin-bottom: 15px; width: 100%; font-size: 12pt; text-align: left; }
+.cell-spacing td { padding-right: 5px }
 .cell-spacing td:last-child { padding-right: 0 }
 
 .banner {

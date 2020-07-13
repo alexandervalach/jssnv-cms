@@ -100,4 +100,20 @@ class ApplicationHelper {
 
     return $title;
   }
+
+  public static function getSchoolYear (string $delimiter = '/') {
+    return date('Y') . $delimiter . date('Y', strtotime('+1 year'));
+  }
+
+  public static function parseAddress (string $streetAddress, string $city) {
+    return $streetAddress . ', ' . $city;
+  }
+
+  public static function getPrevSchoolYear (string $delimiter = '/') {
+    return date('Y', strtotime('-1 year')) . $delimiter . date('Y');
+  }
+
+  public static function parseSignDate (string $date) {
+    return date('d.m.Y', strtotime($date));
+  }
 }

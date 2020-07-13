@@ -22,7 +22,8 @@ use Mpdf\Mpdf;
 
 class ApplicationFormsPresenter extends BasePresenter
 {
-  const PDF_FILE_TEMPLATE = __DIR__ . '/../templates/ApplicationForms/pdf.latte';
+  const APPLICATION_FILE_TEMPLATE = __DIR__ . '/../templates/Pdfs/application.latte';
+  const DECISION_FILE_TEMPLATE = __DIR__ . '/../templates/Pdfs/decision.latte';
 
   /**
    * @var BranchesRepository
@@ -153,16 +154,18 @@ class ApplicationFormsPresenter extends BasePresenter
    * @param $id
    * @throws BadRequestException|AbortException
    */
-  public function handlePdf (int $id) {
+  public function handleApplicationExport (int $id) {
+    $this->guestRedirect();
+
     /** @var ITemplate $template */
     $template = $this->createTemplate();
-    $template->setFile(self::PDF_FILE_TEMPLATE);
+    $template->setFile(self::APPLICATION_FILE_TEMPLATE);
 
     if (!($this->applicationFormRow = $this->applicationFormsRepository->findById($id))) {
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
 
-    PdfHelper::fillTemplateWithData($template, $this->applicationFormRow);
+    PdfHelper::fillApplicationTemplateWithData($template, $this->applicationFormRow);
 
     $mPdf = new Mpdf();
     $mPdf->WriteHTML(file_get_contents(__DIR__ . '/../../www/css/application.css'), 1);
@@ -171,6 +174,32 @@ class ApplicationFormsPresenter extends BasePresenter
 
     $this->terminate();
   }
+
+
+  /**
+   * Generates decision document in PDF
+   * @param $id
+   * @throws BadRequestException|AbortException
+   */
+  public function handleDecisionExport (int $id) {
+    /** @var ITemplate $template */
+    $template = $this->createTemplate();
+    $template->setFile(self::DECISION_FILE_TEMPLATE);
+
+    if (!($this->applicationFormRow = $this->applicationFormsRepository->findById($id))) {
+      throw new BadRequestException(self::ITEM_NOT_FOUND);
+    }
+
+    PdfHelper::fillDecisionTemplateWithData($template, $this->applicationFormRow);
+
+    $mPdf = new Mpdf();
+    $mPdf->WriteHTML(file_get_contents(__DIR__ . '/../../www/css/decisions.css'), 1);
+    $mPdf->WriteHTML($template, 2);
+    $mPdf->Output('Rozhodnutie_' . $this->applicationFormRow->name . '.pdf', 'D');
+
+    $this->terminate();
+  }
+
 
   protected function createComponentApplicationForm (): Form
   {

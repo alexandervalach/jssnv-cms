@@ -1,0 +1,23 @@
+.decision {
+  font-family: "Times New Roman";
+  font-size: 10pt;
+  width: 100%;
+}
+
+h1, h2 { text-align: center; }
+h1 { font-size: 10pt; margin-bottom: 0 }
+h2 { font-size: 10pt; margin-top: 0 }
+
+.text-strong { font-weight: bold; }
+.text-justify { text-align: justify; }
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-uppercase { text-transform: uppercase; }
+
+.clear { clear: both; margin: 15px 0; }
+.block { display: block }
+
+table { margin-bottom: 15px; width: 100%; font-size: 10pt; }
+.cell-spacing td { padding-right: 10px }
+.cell-spacing td:last-child { padding-right: 0 }
