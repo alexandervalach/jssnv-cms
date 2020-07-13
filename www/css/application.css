@@ -1,13 +1,13 @@
 .application {
   font-family: "Times New Roman";
   /* font-family: 'Nunito', serif; */
-  font-size: 12pt;
+  font-size: 10pt;
   width: 100%;
 }
 
 h1, h2 { text-align: center; }
-h1 { font-size: 18pt; margin-bottom: 0 }
-h2 { font-size: 16pt; margin-top: 0 }
+h1 { font-size: 16pt; margin-bottom: 0 }
+h2 { font-size: 14pt; margin-top: 0 }
 
 .text-strong { font-weight: bold; }
 .text-justify { text-align: justify; }
@@ -17,7 +17,7 @@ h2 { font-size: 16pt; margin-top: 0 }
 
 .clear { clear: both; margin: 15px 0; }
 
-table { margin-bottom: 15px; width: 100%; font-size: 12pt; text-align: left; }
+table { margin-bottom: 15px; width: 100%; font-size: 10pt; text-align: left; }
 .cell-spacing td { padding-right: 5px }
 .cell-spacing td:last-child { padding-right: 0 }
 

@@ -186,7 +186,9 @@ class ApplicationFormsPresenter extends BasePresenter
     $template = $this->createTemplate();
     $template->setFile(self::DECISION_FILE_TEMPLATE);
 
-    if (!($this->applicationFormRow = $this->applicationFormsRepository->findById($id))) {
+    $this->applicationFormRow = $this->applicationFormsRepository->findById($id);
+
+    if (!$this->applicationFormRow || $this->applicationFormRow->status !== 'finished') {
       throw new BadRequestException(self::ITEM_NOT_FOUND);
     }
 
