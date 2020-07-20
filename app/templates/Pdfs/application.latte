@@ -1,16 +1,13 @@
 <div class="application">
-  <header>
-    <div class="banner">
-      <!--<img src="{$basePath}/images/banner-application-form.png" class="img-center"
-        alt="Logo jazykovej školy v Spišskej Novej Vsi" />-->
-    </div>
+  <header style="margin-top: -75px">
+    <div class="banner"></div>
     <div class="clear text-center">
       0905 727 558, 0917 801 457, js@jssnv.sk, www.jssnv.sk
     </div>
   </header>
 
   <main>
-    <div class="clear">
+    <div>
       <h1>Prihláška na školský rok {$school_year}</h1>
     </div>
     <div class="clear" n:if="$branch_name">
@@ -20,56 +17,34 @@
       <table class="cell-spacing">
         <tbody>
           <tr>
-            <td>Priezvisko:</td>
-            <td class="text-strong">{$lname}</td>
+            <td>Priezvisko: <span class="text-strong">{$lname}</span></td>
+            <td>Meno: <span class="text-strong">{$fname}</span></td>
+            <td>Titul: <span class="text-strong">{$title}</span></td>
           </tr>
           <tr>
-            <td>Meno:</td>
-            <td class="text-strong">{$fname}</td>
+            <td colspan="2">Bydlisko: <span class="text-strong">{$address}</span></td>
+            <td>PSČ: <span class="text-strong">{$zipcode}</span></td>
           </tr>
           <tr>
-            <td>Titul:</td>
-            <td class="text-strong">{$title}</td>
+            <td>Dátum nar.: <span class="text-strong">{$birthdate|date:'%d.%m.%Y'}</span></td>
+            <td>Miesto nar.: <span class="text-strong">{$birthplace}</span></td>
+            <td>Rod. č.: <span class="text-strong">{$id_number}</span></td>
           </tr>
           <tr>
-            <td>Bydlisko:</td>
-            <td class="text-strong">{$address}</td>
+            <td>Národnosť: <span class="text-strong">{$nationality}</span></td>
+            <td>E-mail: <span class="text-strong">{$email}</span></td>
+            <td>Telefón: <span class="text-strong">{$phone}</span></td>
           </tr>
           <tr>
-            <td>PSČ:</td>
-            <td class="text-strong">{$zipcode}</td>
+            <td colspan="3">
+              Zamestnanie (žiaci a študenti: škola, ročník): <span class="text-strong">{$employment}</span>
+            </td>
           </tr>
           <tr>
-            <td>Dátum narodenia:</td>
-            <td class="text-strong">{$birthdate|date:'%d.%m.%Y'}</td>
-          </tr>
-          <tr>
-            <td>Miesto narodenia:</td>
-            <td class="text-strong">{$birthplace}</td>
-          </tr>
-          <tr>
-            <td>Rodné číslo:</td>
-            <td class="text-strong">{$id_number}</td>
-          </tr>
-          <tr>
-            <td>Národnosť:</td>
-            <td class="text-strong">{$nationality}</td>
-          </tr>
-          <tr>
-            <td>E-mail:</td>
-            <td class="text-strong">{$email}</td>
-          </tr>
-          <tr>
-            <td>Telefón:</td>
-            <td class="text-strong">{$phone}</td>
-          </tr>
-          <tr>
-            <td>Zamestnanie (žiaci a študenti: škola, ročník):</td>
-            <td class="text-strong">{$employment}</td>
-          </tr>
-          <tr>
-            <td>Absolvovaný kurz na JŠ v šk. roku {$prev_school_year}:</td>
-            <td class="text-strong">{$prev_course}</td>
+            <td colspan="3">
+              Absolvovaný kurz na JŠ v šk. roku {$prev_school_year}:
+              <span class="text-strong">{$prev_course}</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -77,8 +52,8 @@
 
     <div class="clear"></div>
 
-    <div class="text-strong text-center">
-      Prihlasujem sa do kurzu {$course_name}
+    <div class="text-center">
+      Prihlasujem sa do kurzu <span class="text-strong">{$course_name}</span>
     </div>
 
     <div class="clear"></div>
@@ -103,7 +78,7 @@
           <td class="text-left">
             Spišská Nová Ves, dňa: <span class="text-strong">{$sign_date}</span>
           </td>
-          <td class="text-right">............................</td>
+          <td class="text-right">{$placeholder}</td>
         </tr>
         <tr>
           <td colspan="2" class="text-right">Podpis poslucháča (zákonného zástupcu)</td>

@@ -9,6 +9,8 @@ use Nette\Database\Table\ActiveRow;
 
 class PdfHelper
 {
+  const PLACEHOLDER = '............................';
+
   public static function fillApplicationTemplateWithData (ITemplate $template, ActiveRow $applicationForm) {
     $fullname = ApplicationHelper::parseFullName($applicationForm->name);
     $branchClass = $applicationForm->ref('branches_classes', 'branch_class_id');
@@ -45,6 +47,7 @@ class PdfHelper
     $template->prev_course = $applicationForm->prev_course ? $applicationForm->prev_course : '-';
     $template->prev_school_year = ApplicationHelper::getPrevSchoolYear();
     $template->sign_date = ApplicationHelper::parseSignDate((string) $applicationForm->updated_at);
+    $template->placeholder = self::PLACEHOLDER;
   }
 
   public static function fillDecisionTemplateWithData (ITemplate $template, ActiveRow $applicationForm) {
@@ -66,7 +69,7 @@ class PdfHelper
       $template->class = $courseLevel->label;
     }
 
-    $template->decision_id = '12345678';
+    $template->placeholder = self::PLACEHOLDER;
     $template->year_id = ApplicationHelper::getSchoolYear('-');
     $template->today = date('d.m.Y');
     $template->fullname = $applicationForm->name;

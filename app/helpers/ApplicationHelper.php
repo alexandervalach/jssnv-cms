@@ -94,7 +94,7 @@ class ApplicationHelper {
       $title .= $titleBn;
     }
 
-    if ($title_an) {
+    if ($titleAn) {
       $title .= ', ' . $titleAn;
     }
 
