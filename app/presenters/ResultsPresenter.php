@@ -6,6 +6,7 @@ namespace App\Presenters;
 
 use App\Components\BreadcrumbControl;
 use App\Forms\SearchFormFactory;
+use App\Helpers\ResultsHelper;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
 use App\Model\ResultsRepository;
@@ -119,8 +120,10 @@ class ResultsPresenter extends BasePresenter
    */
   public function renderView (int $id): void
   {
+    $test = $this->resultRow->ref('tests', 'test_id');
     $this->template->result = $this->resultRow;
     $this->template->levels = $this->levelsResults;
-    $this->template->test = $this->resultRow->ref('tests', 'test_id');
+    $this->template->test = $test;
+    $this->template->recommendedLevel = ResultsHelper::getRecommendedLevel($this->resultRow->score, $test->label);
   }
 }

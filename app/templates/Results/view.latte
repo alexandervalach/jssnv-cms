@@ -58,6 +58,10 @@
             <h3 style="display: inline" class="{if $result->score >= 70}text-success{else}text-danger{/if}">
               {$result->score}%
             </h3>
+            <h3 style="margin: 10px 0">
+              Odporúčaný ročník:
+              <a n:href="Branches:all" target="_blank" title="Prihlásiť sa na kurz">{$recommendedLevel}</a>
+            </h3>
           </div>
           <div class="content-body row">
             <div n:if="!empty($levels)" class="table-responsive col-xs-12 col-sm-12 col-md-6 col-lg-4">
