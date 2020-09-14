@@ -7,6 +7,8 @@ namespace App\Presenters;
 use App\Components\BreadcrumbControl;
 use App\Forms\SearchFormFactory;
 use App\Forms\TextContentFormFactory;
+use App\Forms\FileUpdateFormFactory;
+use App\Helpers\FileHelper;
 use App\Model\AlbumsRepository;
 use App\Model\ContentsRepository;
 use App\Model\SectionsRepository;
@@ -34,6 +36,11 @@ class ContentsPresenter extends BasePresenter
   private $textContentFormFactory;
 
   /**
+   * @var FileUpdateFormFactory
+   */
+  private $fileUpdateFormFactory;
+
+  /**
    * @var ActiveRow|null
    */
   private $sectionRow;
@@ -46,11 +53,12 @@ class ContentsPresenter extends BasePresenter
    * @param SearchFormFactory $searchForm
    * @param ContentsRepository $contentsRepository
    */
-  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository, BreadcrumbControl $breadcrumbControl, SearchFormFactory $searchForm, ContentsRepository $contentsRepository, TextContentFormFactory $textContentFormFactory)
+  public function __construct(AlbumsRepository $albumsRepository, SectionsRepository $sectionRepository, BreadcrumbControl $breadcrumbControl, SearchFormFactory $searchForm, ContentsRepository $contentsRepository, TextContentFormFactory $textContentFormFactory, FileUpdateFormFactory $fileUpdateFormFactory)
   {
     parent::__construct($albumsRepository, $sectionRepository, $breadcrumbControl, $searchForm);
     $this->contentsRepository = $contentsRepository;
     $this->textContentFormFactory = $textContentFormFactory;
+    $this->fileUpdateFormFactory = $fileUpdateFormFactory;
   }
 
   /**
@@ -124,5 +132,75 @@ class ContentsPresenter extends BasePresenter
       $this->flashMessage(self::ITEM_UPDATED, self::INFO);
       $this->redirect('Sections:view', $this->contentRow->section_id);
     });
+  }
+
+  /**
+   * @param int $id
+   * @throws AbortException
+   * @throws BadRequestException
+   */
+  public function actionFile(int $id): void
+  {
+    $this->guestRedirect();
+    $this->contentRow = $this->contentsRepository->findById($id);
+
+    if (!$this->contentRow) {
+      $this->error(self::ITEM_NOT_FOUND);
+    }
+
+    $this->sectionRow = $this->sectionsRepository->findById((int) $this->contentRow->section_id);
+
+    if (!$this->sectionRow) {
+      $this->error(self::ITEM_NOT_FOUND);
+    }
+
+    $this['fileUpdateForm']->setDefaults($this->contentRow);
+  }
+
+  /**
+   * @param int $id
+   */
+  public function renderFile(int $id): void
+  {
+    $this->template->content = $this->contentRow;
+    $this->template->section = $this->sectionRow;
+  }
+
+  /**
+   * Generates update file form control
+   * @return Form
+   */
+  protected function createComponentFileUpdateForm(): Form
+  {
+    return $this->fileUpdateFormFactory->create(function (Form $form, ArrayHash $values) {
+      $this->submittedFileUpdateForm($values);
+    });
+  }
+
+  private function submittedFileUpdateForm(ArrayHash $values): void
+  {
+    try {
+      $fileData = FileHelper::uploadFile($values->file);
+    } catch (InvalidArgumentException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
+      $this->redirect('view', $this->sectionRow->id);
+    } catch (IOException $e) {
+      $this->flashMessage($e->getMessage(), self::ERROR);
+      $this->redirect('view', $this->sectionRow->id);
+    }
+
+    $data = [
+      'title' => $values->title,
+      'section_id' => $this->sectionRow->id,
+      'type' => ContentsRepository::$type['file']
+    ];
+
+    if ($fileData) {
+      $data['text'] = $fileData['file_name'];
+    }
+
+    $this->contentRow->update($data);
+    $this->flashMessage(self::ITEMS_ADDED, self::INFO);
+    $this->redirect('Sections:view', $this->sectionRow->id);
   }
 }

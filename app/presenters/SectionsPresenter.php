@@ -24,6 +24,7 @@ use Nette\Database\Table\GroupedSelection;
 use Nette\InvalidArgumentException;
 use Nette\IOException;
 use Nette\Utils\ArrayHash;
+use Nette\Utils\Random;
 
 /**
  * Class SectionsPresenter
@@ -154,6 +155,7 @@ class SectionsPresenter extends BasePresenter
   {
     $this->template->section = $this->sectionRow;
     $this->template->contents = $this->contents;
+    $this->template->magic_string = '_' . Random::generate(3) . '=' . Random::generate(3);
   }
 
   /**

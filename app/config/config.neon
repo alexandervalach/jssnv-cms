@@ -66,6 +66,7 @@ services:
     - App\Forms\EditUserFormFactory
     - App\Forms\FormFactory
     - App\Forms\FileUploadFormFactory
+    - App\Forms\FileUpdateFormFactory
     - App\Forms\FinishFormFactory
     - App\Forms\SearchFormFactory
     - App\Forms\SignFormFactory

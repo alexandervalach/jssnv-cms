@@ -8,6 +8,7 @@ use Nette\Application\BadRequestException;
 use Nette\InvalidArgumentException;
 use Nette\IOException;
 use Nette\Utils\Random;
+use Nette\Http\FileUpload;
 
 class FileHelper
 {
@@ -63,5 +64,39 @@ class FileHelper
       $names[] = [ 'title' => $fileName, 'base_name' => $baseName ];
     }
     return $names;
+  }
+
+  /**
+   * @param array $files
+   * @return array
+   */
+  public static function uploadFile(FileUpload $upload)
+  {
+    if (!$upload->hasFile()) {
+      return null;
+    }
+
+    if (!$upload->isOk()) {
+      throw new InvalidArgumentException;
+    }
+
+    $names = [];
+
+    $fileType = $upload->getContentType();
+
+    if (!in_array($fileType, self::FILE_MIME_TYPES)) {
+      throw new InvalidArgumentException;
+    }
+
+    $baseName = $upload->getSanitizedName();
+    $pathInfo = pathinfo($baseName);
+    $extension = strtolower($pathInfo['extension']);
+    $newName = $pathInfo['filename'] . '.' . $extension;
+
+    if (!$upload->move(self::FILE_FOLDER . '/' . $newName)) {
+      throw new IOException;
+    }
+
+    return [ 'title' => $pathInfo['filename'], 'file_name' => $newName ];
   }
 }

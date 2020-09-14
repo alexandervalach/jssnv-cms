@@ -131,7 +131,7 @@ class FilesPresenter extends BasePresenter
    */
   public function formCancelled(): void
   {
-    $this->redirect('Posts:view#primary', $this->fileRow->ref('posts', 'post_id'));
+    $this->redirect('Posts:view', $this->fileRow->ref('posts', 'post_id'));
   }
 
   /**
@@ -142,7 +142,7 @@ class FilesPresenter extends BasePresenter
     $this->guestRedirect();
     $id = $this->fileRow->ref('posts', 'post_id');
     $this->filesRepository->softDelete($this->fileRow);
-    $this->redirect('Posts:view#primary', $id);
+    $this->redirect('Posts:view', $id);
   }
 
 }
