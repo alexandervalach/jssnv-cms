@@ -60,12 +60,20 @@ html, body {
   font-family: 'Nunito', serif;
 }
 
+/*
 #page h1 { font-size: 42px; line-height: 70px }
 #page h2 { font-size: 33px; line-height: 57px }
 #page h3 { font-size: 26px; line-height: 47px }
 #page h4 { font-size: 20px; line-height: 38px }
 #page h5 { font-size: 16px; line-height: 32px }
+#page h6 { font-size: 13px; line-height: 28px }
+*/
+#page h1 { font-size: 33px; line-height: 57px }
+#page h2 { font-size: 26px; line-height: 47px }
+#page h3 { font-size: 20px; line-height: 38px }
+#page h4 { font-size: 16px; line-height: 32px }
 #page h5 { font-size: 13px; line-height: 28px }
+#page h6 { font-size: 13px; line-height: 28px }
 #page h1, #page h2, #page h3, #page h4, #page h5, #page h6
 {
   font-weight: 700;

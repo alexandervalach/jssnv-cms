@@ -38,7 +38,6 @@ class EditNoticeFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('title', 'Názov')
-        ->setHtmlAttribute('placeholder','Otvorenie školského roka')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
 

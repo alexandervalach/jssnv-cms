@@ -3,7 +3,7 @@
 <section id="notices" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="clearfix" style="margin: 15px 0">
     <div class="float-left">
-      <h2 n:block="title">Oznamy</h2>
+      <h1 n:block="title">Oznamy</h1>
     </div>
     <div class="float-right" style="margin-top: 20px" n:if="$user->loggedIn">
       <button type="button" class='btn btn-success' data-toggle="modal" data-target="#addModal">
@@ -16,7 +16,7 @@
       <div id="notice-{$notice->id}" class="alert alert-{$notice->type} row">
         <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-top: 10px">
           <div class="float-left">
-            <h3 class="text-{$notice->type}">{$notice->title}</h3>
+            <h2 class="text-{$notice->type}">{$notice->title}</h2>
           </div>
           <div class="float-right" n:if="$user->loggedIn">
             <a n:href="edit, $notice->id" class="text-{$notice->type}">

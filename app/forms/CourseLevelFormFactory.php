@@ -34,7 +34,6 @@ class CourseLevelFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('label', 'Názov')
-      ->setHtmlAttribute('placeholder','1. ročník, základný')
       ->setRequired()
       ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
     $form->addSubmit('save', 'Uložiť');

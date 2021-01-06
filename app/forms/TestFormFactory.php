@@ -38,7 +38,6 @@ class TestFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('label', 'Názov')
-        ->setHtmlAttribute('placeholder','Anglický jazyk')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, "%label môže mať maximálne %value znakov.", 255);
     $form->addSubmit('save', 'Uložiť');

@@ -34,7 +34,6 @@ class CourseFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('label', 'Názov')
-      ->setHtmlAttribute('placeholder','Anglický jazyk')
       ->setRequired()
       ->addRule(Form::MAX_LENGTH, 'Názov môže mať maximálne 255 znakov.', 255);
     $form->addSubmit('save', 'Uložiť');

@@ -2,7 +2,8 @@
 
 <section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="float-left">
-  	<h2 n:block="title">Testy</h2>
+  	<h1 n:block=title>Testy</h1>
+    <p n:block=description>Zoznam všetkých testov na stránke</p>
   </div>
   <div class="float-right" n:if="$user->loggedIn">
     <button type="button" class='btn btn-success' data-toggle="modal" data-target="#testForm">
@@ -42,7 +43,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="testFormLabel">Pridať test</h5>
+        <h2 class="modal-title" id="testFormLabel">Pridať test</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

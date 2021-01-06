@@ -2,7 +2,7 @@
 
 <header class="container-fluid">
   <div class="float-left">
-    <h2 n:block=title>Prihláška poslucháča - {$appForm->status_label}</h2>
+    <h1 n:block=title>Prihláška poslucháča - {$appForm->status_label}</h1>
   </div>
   <div class="float-right" n:if="$user->loggedIn">
     {if $appForm->status === 'finished'}

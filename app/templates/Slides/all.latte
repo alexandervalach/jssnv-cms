@@ -3,7 +3,8 @@
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>Slajdy</h2>
+      <h1 n:block=title>Slajdy</h1>
+      <p n:block=description>Zoznam všetkých slajdov s možnosťou úpravy</p>
     </div>
     <div class="float-right" n:if="$user->loggedIn">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#slideForm">
@@ -29,7 +30,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="slideFormLabel">Pridať nový slajd</h4>
+        <h2 class="modal-title" id="slideFormLabel">Pridať nový slajd</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

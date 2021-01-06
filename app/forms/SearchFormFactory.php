@@ -38,7 +38,6 @@ class SearchFormFactory
     $form = $this->formFactory->create();
 
     $label = $form->addText('expression', '')
-        ->setHtmlAttribute('placeholder','Hľadať')
         ->setHtmlAttribute('style', 'display: inline-block; width: 80%')
         ->addRule(Form::MAX_LENGTH, 'Hľadný výraz môže mať maximálne 255 znakov.', 255);
     $button = $form->addSubmit('search', 'H')

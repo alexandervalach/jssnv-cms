@@ -41,57 +41,46 @@ class ApplicationFormFactory
     $lastYear =  date('Y', strtotime('-1 year'));
 
     $form->addText('name', 'Meno a priezvisko')
-      ->setHtmlAttribute('placeholder','Arnošt Kábel')
       ->setRequired()
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255);
 
     $form->addText('title_bn', 'Titul pred menom')
-      ->setHtmlAttribute('placeholder', 'Ing.')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50);
 
     $form->addText('title_an', 'Titul za menom')
-      ->setHtmlAttribute('placeholder', 'PhD.')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50);
 
     $form->addText('street_address', 'Ulica')
-      ->setHtmlAttribute('placeholder','Javorová 16')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255)
       ->setRequired();
 
     $form->addText('city', 'Mesto')
-      ->setHtmlAttribute('placeholder','Spišská Nová Ves')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255)
       ->setRequired();
 
     $form->addText('zipcode', 'PSČ')
-      ->setHtmlAttribute('placeholder','05201')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 10)
       ->setRequired();
 
     // TODO: Check date HTML attribute
     $form->addText('birthdate', 'Dátum narodenia')
       ->setHtmlType('date')
-      ->setHtmlAttribute('placeholder','2000-10-15')
       ->setRequired();
 
     $form->addText('birthplace', 'Miesto narodenia')
-      ->setHtmlAttribute('placeholder','Spišská Nová Ves')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255)
       ->setRequired();
 
     $form->addText('id_number', 'Rodné číslo')
-      ->setHtmlAttribute('placeholder', 'ABCDEF/WXYZ')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 15)
       ->setRequired();
 
     $form->addText('nationality', 'Národnosť')
-      ->setHtmlAttribute('placeholder', 'slovenská')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50)
       ->setRequired();
 
     $form->addText('email', 'E-mail')
       ->setHtmlType('email')
-      ->setHtmlAttribute('placeholder', 'js@jssnv.sk')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50)
       ->setRequired();
 
@@ -101,7 +90,6 @@ class ApplicationFormFactory
       ->setRequired();
 
     $form->addText('employment', 'Zamestnanie (žiaci a študenti: škola, ročník)')
-      ->setHtmlAttribute('placeholder', 'Gymnázium Javorová, 4. ročník')
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255)
       ->setRequired();
 

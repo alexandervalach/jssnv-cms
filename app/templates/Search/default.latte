@@ -3,7 +3,8 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>Výsledky vyhľadávania</h2>
+      <h1 n:block=title>Výsledky vyhľadávania</h1>
+      <p n:block=description>Výsledky vyhľadávania pre výraz <strong>{$needle}</strong>.</p>
     </div>
   </div>
   <!-- Search results -->
@@ -11,17 +12,18 @@
     {foreach $results as $result}
       <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <article>
-          <header class="clearfix">
+          <header class="clearfix" style="margin-left: 18px">
             <a n:href="Sections:view, $result->section_id">
               {$result->section_name}
             </a>
           </header>
           <main class="clearfix">
-            {$result->text|noescape|truncate:300}
+            <!-- Strong is juts in case a strong text is truncated -->
+            {$result->text|noescape|truncate:300}</strong>
           </main>
           <footer class="clearfix">
             <div class="float-right">
-              {$result->updated_at}
+              {$result->updated_at|date:'%d.%m.%Y %H:%m'}
             </div>
           </footer>
         </article>

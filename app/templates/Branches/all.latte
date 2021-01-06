@@ -3,7 +3,7 @@
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>{if $user->loggedIn}Pobočky{else}Vyberte si pobočku{/if}</h2>
+      <h1 n:block=title>{if $user->loggedIn}Pobočky{else}Vyberte si pobočku{/if}</h1>
     </div>
     <div class="float-right" n:if="$user->loggedIn">
       <button type="button" class="btn btn-success" data-toggle="modal" data-target="#branchForm">

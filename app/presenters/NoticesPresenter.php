@@ -63,6 +63,14 @@ class NoticesPresenter extends BasePresenter
   /**
    *
    */
+  public function actionAll (): void
+  {
+    $this['breadcrumb']->add('Oznamy');
+  }
+
+  /**
+   *
+   */
   public function renderAll (): void
   {
     $this->template->notices = $this->noticesRepository->findAllAndOrder();
@@ -81,6 +89,9 @@ class NoticesPresenter extends BasePresenter
     if (!$this->noticeRow) {
       $this->error(self::ITEM_NOT_FOUND);
     }
+
+    $this['breadcrumb']->add('Oznamy', $this->link('Notices:all'));
+    $this['breadcrumb']->add($this->noticeRow->title);
 
     $this['editForm']->setDefaults($this->noticeRow);
   }

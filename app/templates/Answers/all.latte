@@ -2,7 +2,8 @@
 
 <section id="tests" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
   <div class="float-left">
-  	<h2 n:block="title">Otázka #{$question->id}</h2>
+  	<h1 n:block="title">Otázka #{$question->id}</h1>
+    <p n:block=description>Odpovede k otázke z testu</p>
   </div>
   <div class="float-right">
     <a n:href="Tests:view#question{$question->id}, $test->id" class='btn btn-warning'>

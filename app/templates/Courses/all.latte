@@ -3,7 +3,8 @@
 <div class="row">
   <header class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block=title>Kurzy</h2>
+      <h1 n:block=title>Kurzy</h1>
+      <p n:block=description>Zoznam všetkých kurzov</p>
     </div>
     <div class="float-right" n:if="$user->loggedIn">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#courseForm">
@@ -42,7 +43,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="courseModalLabel">Pridať kurz</h5>
+        <h2 class="modal-title" id="courseModalLabel">Pridať kurz</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

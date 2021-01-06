@@ -3,7 +3,7 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block="title">{$displayedUser->username}</h2>
+      <h1 n:block=title>{$displayedUser->username}</h1>
     </div>
     <div class="float-right">
       <button type="button" data-toggle="modal" data-target="#editModal" class="btn btn-success">
@@ -20,8 +20,8 @@
   <div class="clearfix">
     <div class="card" style="width: 18rem;">
       <div class="card-body">
-        <h5 class="card-title">{$displayedUser->username}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{$displayedUser->role}</h6>
+        <h2 class="card-title">{$displayedUser->username}</h2>
+        <h3 class="card-subtitle mb-2 text-muted">{$displayedUser->role}</h3>
         <p class="card-text">User's info</p>
       </div>
     </div>
@@ -32,7 +32,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="removeModalLabel">Odstrániť používateľa</h5>
+        <h2 class="modal-title" id="removeModalLabel">Odstrániť používateľa</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -51,7 +51,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="passwordModalLabel">Zmeniť heslo</h5>
+        <h2 class="modal-title" id="passwordModalLabel">Zmeniť heslo</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -67,7 +67,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">Upraviť používateľa</h5>
+        <h2 class="modal-title" id="editModalLabel">Upraviť používateľa</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

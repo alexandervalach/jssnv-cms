@@ -27,7 +27,6 @@ class SearchPresenter extends BasePresenter
    */
   private $results;
 
-
   /**
    * SearchPresenter constructor.
    * @param AlbumsRepository $albumsRepository
@@ -49,6 +48,7 @@ class SearchPresenter extends BasePresenter
   public function actionDefault (string $text = null): void
   {
     $this->results = $text ? $this->contentsRepository->findByText($text) : [];
+    $this['breadcrumb']->add('Výsledky vyhľadávania');
   }
 
   /**
@@ -58,5 +58,6 @@ class SearchPresenter extends BasePresenter
   public function renderDefault (string $text = null): void
   {
     $this->template->results = $this->results;
+    $this->template->needle = $text;
   }
 }

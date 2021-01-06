@@ -39,7 +39,6 @@ class SlideFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('title', 'Názov')
-        ->setHtmlAttribute('placeholder','Anglický jazyk')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
 
@@ -52,7 +51,6 @@ class SlideFormFactory
         ->setHtmlAttribute('id', 'text-editor');
 
     $form->addText('link', 'Odkaz')
-        ->setHtmlAttribute('placeholder', 'https://jssnv.sk')
         ->addRule(Form::MAX_LENGTH, '%label môže mať najviac %value znakov', 255);
 
     $form->addSubmit('save', 'Uložiť');

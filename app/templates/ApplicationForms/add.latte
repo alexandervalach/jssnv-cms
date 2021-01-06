@@ -7,7 +7,7 @@
 
 <header class="container-fluid">
   <div class="float-left">
-    <h2 n:block=title>Prihláška na štúdium na pobočke {$branch->label}</h2>
+    <h1 n:block=title>Prihláška na štúdium na pobočke {$branch->label}</h1>
   </div>
   <div class="float-right" n:if="$user->loggedIn">
     <a class="btn btn-success text-white" n:href="Branches:view, $branch->id">
@@ -22,7 +22,7 @@
   <form n:name="applicationForm" class="container-fluid row">
     <!-- Personal info -->
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <h3>Osobné údaje</h3>
+      <h2>Osobné údaje</h2>
       <div class="form-group">
         <label n:name="name" class="required" />
         {input name}
@@ -55,7 +55,7 @@
 
     <!-- Permanent address -->
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <h3>Adresa trvalého bydliska</h3>
+      <h2>Adresa trvalého bydliska</h2>
       <div class="form-group">
         <label n:name="street_address" class="required" />
         {input street_address}
@@ -69,7 +69,7 @@
         {input zipcode}
       </div>
       <div class="clearfix form-section">
-        <h3>Kontakt</h3>
+        <h2>Kontakt</h2>
       </div>
       <div class="form-group">
         <label n:name="email" class="required" />
@@ -83,7 +83,7 @@
 
     <!-- Study info -->
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <h3>Štúdium</h3>
+      <h2>Štúdium</h2>
       <div class="form-group">
         <label n:name="employment" class="required" />
         {input employment}
@@ -100,7 +100,7 @@
 
     <!-- Consent -->
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <h3>Súhlas so spracovaním údajov</h3>
+      <h2>Súhlas so spracovaním údajov</h2>
       <div class="form-group form-consent">
         <small class="form-text text-muted">
           Osobné údaje dotknutých osôb sa spracúvajú v súlade s NARIADENÍM
@@ -119,7 +119,7 @@
 
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="margin-top: 16px;">
       <div id="accordion">
-        <h3>Ponuka kurzov</h3>
+        <h2>Ponuka kurzov</h2>
         <p class="form-group">
           <span class="required">Vyberte si z ponuky kurzov</span>
         </p>

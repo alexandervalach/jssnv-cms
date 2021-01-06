@@ -79,9 +79,12 @@ abstract class BasePresenter extends Presenter
     parent::startup();
 
     if (!$this->user->isLoggedIn()) {
+      /*
+       * NOT IMPLEMENTED PROPERLY
       if ($this->user->getLogoutReason() === User::INACTIVITY) {
         $this->flashMessage('Boli ste odhlásený z dôvodu nečinnosti.', self::INFO);
       }
+      */
     }
 
     if (!$this->getUser()->isAllowed($this->name, $this->action)) {

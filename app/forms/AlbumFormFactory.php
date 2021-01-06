@@ -38,7 +38,6 @@ class AlbumFormFactory
     $form = $this->formFactory->create();
 
     $form->addText('label', 'Názov')
-        ->setHtmlAttribute('placeholder','Zo života školy')
         ->setRequired()
         ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov.', 255);
     $form->addSubmit('save', 'Uložiť');

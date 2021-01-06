@@ -3,7 +3,8 @@
 <div class="row">
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
     <div class="float-left">
-      <h2 n:block="title">{$slide->title}</h2>
+      <h1 n:block=title>{$slide->title}</h1>
+      <p n:block=description>Úprava konkrétneho slajdu</p>
     </div>
     <div class="float-right">
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModal">
@@ -23,7 +24,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">Upraviť kurz</h5>
+        <h2 class="modal-title" id="editModalLabel">Upraviť kurz</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -39,7 +40,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="removeModalLabel">Odstrániť kurz</h5>
+        <h2 class="modal-title" id="removeModalLabel">Odstrániť kurz</h2>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
