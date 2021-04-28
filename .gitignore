@@ -2,5 +2,7 @@
 /temp
 /app/config/config.local.neon
 /www/images/*
+!/www/images/ksk_logo.png
+!/www/images/logo.svg
 /www/files/*
 /vendor
