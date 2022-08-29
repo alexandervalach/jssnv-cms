@@ -267,6 +267,11 @@ class TestsPresenter extends BasePresenter
   {
     $postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+    if (empty(array_filter($postData))) {
+      $this->flashMessage('Vypln data', self::INFO);
+      return;
+    }
+
     if (isset($postData['url']) && !empty($postData['url'])) {
       $this->redirect('Homepage:');
     }

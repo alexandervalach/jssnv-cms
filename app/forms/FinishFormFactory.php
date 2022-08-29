@@ -39,7 +39,7 @@ class FinishFormFactory
     $form->addText('email', 'E-mail')
         ->addCondition(Form::EMAIL, true);
     $form->addText('url', 'Mňam, mňam, toto vyplní len robot')
-        ->setHtmlAttribute('style', 'opacity: 0; display: inline')
+        ->setHtmlAttribute('style', 'opacity: 0; display: none')
         ->setDefaultValue('');
     $form->addSubmit('finish', 'Ukončiť test');
     FormHelper::setBootstrapFormRenderer($form);
