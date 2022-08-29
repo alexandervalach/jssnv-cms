@@ -297,6 +297,6 @@ class TestsPresenter extends BasePresenter
       $this->levelsResultsRepository->insert($levelsResults);
     }
 
-    $this->redirect('Results:view', $resultRow);
+    $this->redirect('Results:view', $resultRow->id);
   }
 }
