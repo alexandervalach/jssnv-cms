@@ -168,7 +168,8 @@ class TestsPresenter extends BasePresenter
     $this['testForm']->setDefaults($this->testRow);
     $this['breadcrumb']->add('Testy', $this->link('all'));
     $this['breadcrumb']->add($this->testRow->label);
-    $this->levelsQuestions = TestHelper::cookLevelsQuestions( $this->questionsRepository->findQuestions((int)$this->testRow->id) );
+    $this->questions = $this->questionsRepository->findQuestions((int)$this->testRow->id);
+    $this->levelsQuestions = TestHelper::cookLevelsQuestions( $this->questions );
   }
 
   /**
@@ -275,13 +276,27 @@ class TestsPresenter extends BasePresenter
       $this->redirect('Homepage:');
     }
 
-    $resultId = TestHelper::evaluateTest($postData);
+    $result = TestHelper::evaluateTest($this->questions, $postData);
 
-    if ($resultId == 0) {
-      $this->flashMessage('Vypln data', self::INFO);
+    if ($result->total_score == 0) {
+      $this->flashMessage('Vyplňte správne aspoň jednu odpoveď, inak sa výsledok nezaznamená', self::INFO);
       $this->redirect('Tests:run', $this->testRow->id);
     }
 
-    $this->redirect('Results:view', $resultId);
+    $resultRow = $this->resultsRepository->insert(
+      [
+        'test_id' => $this->testRow->id,
+        'score' => $result->total_score,
+        'email' => $result->email
+      ]
+    );
+
+    $levelsResults = TestHelper::cookLevelsResults($result->levels, $resultRow->id);
+
+    if (!empty($levelsResults)) {
+      $this->levelsResultsRepository->insert($levelsResults);
+    }
+
+    $this->redirect('Results:view', $resultRow);
   }
 }

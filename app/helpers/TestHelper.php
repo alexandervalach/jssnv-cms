@@ -23,7 +23,7 @@ class TestHelper {
    * @param $postData
    * @return bool|int|ActiveRow
    */
-  public static function evaluateTest ($postData)
+  public static function evaluateTest ($questions, $postData)
   {
     $levels = [];
     $levelsResults = [];
@@ -31,7 +31,7 @@ class TestHelper {
     $totalScore = 0;
 
     // Value initialization
-    foreach ($this->questions as $question) {
+    foreach ($questions as $question) {
       if (empty($levels[$question->level_id])) {
         $levels[$question->level_id] = [
           'id' => $question->level_id,
@@ -42,13 +42,13 @@ class TestHelper {
     }
 
     // Get high score value (total and per level) and correct answers
-  	foreach ($this->questions as $question) {
+  	foreach ($questions as $question) {
       $levels[$question->level_id]['high_score'] += $question->value;
       $answer[$question->id] = $question->related('answers')->where('correct', 1)->fetch();
       $totalHighScore += $question->value;
   	}
 
-  	foreach ($this->questions as $question) {
+  	foreach ($questions as $question) {
   	  // Check if there is an answer for question
       if (!(array_key_exists('question' . $question->id, $postData))) {
         continue;
@@ -61,33 +61,11 @@ class TestHelper {
       }
     }
 
-    $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
-    $totalScore = round(($totalScore / (float) $totalHighScore) * 100, 2);
-
-    if ($totalScore == 0) { return 0; }
-
-    $result = $this->resultsRepository->insert(
-      [
-        'test_id' => $this->testRow->id,
-        'score' => $totalScore,
-        'email' => $email
-      ]
-    );
-
-    // Save partial results for each difficulty level
-    foreach ($levels as $level) {
-      $levelsResults[] = [
-        'result_id' => $result->id,
-        'level_id' => $level['id'],
-        'score' => round(($level['score'] / (float) $level['high_score']) * 100, 2)
-      ];
-    }
-
-    if (!empty($levelsResults)) {
-      $this->levelsResultsRepository->insert($levelsResults);
-    }
-
-    return $result->id;
+    return ArrayHash::from([
+      'total_score' => round(($totalScore / (float) $totalHighScore) * 100, 2),
+      'email' => array_key_exists('email', $postData) ? $postData['email'] : 'anonym',
+      'levels' => $levels
+    ]);
   }
 
   /**
@@ -104,10 +82,6 @@ class TestHelper {
         'label' => $question->label,
         'answers' => self::cookAnswers($question)
       ];
-    }
-
-    foreach ($cookedLevels as $cookedLevel) {
-      shuffle($cookedLevel['questions']);
     }
 
     return ArrayHash::from($cookedLevels);
@@ -157,5 +131,22 @@ class TestHelper {
     }
 
     return $cookedLevelsQuestions;
+  }
+
+  /**
+   * Render partial results values
+   */
+  public static function cookLevelsResults ($levels, $resultId) {
+    $levelsResults = [];
+
+    foreach ($levels as $level) {
+      $levelsResults[] = [
+        'result_id' => $resultId,
+        'level_id' => $level['id'],
+        'score' => round(($level['score'] / (float) $level['high_score']) * 100, 2)
+      ];
+    }
+
+    return $levelsResults;
   }
 }
