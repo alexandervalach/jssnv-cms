@@ -267,17 +267,18 @@ class TestsPresenter extends BasePresenter
   {
     $postData = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-    if (empty(array_filter($postData))) {
-      $this->flashMessage('Vypln data', self::INFO);
-      return;
-    }
-
     if (isset($postData['url']) && !empty($postData['url'])) {
       $this->redirect('Homepage:');
     }
 
-    $result = $this->evaluateTest($postData);
-    $this->redirect('Results:view', $result->id);
+    $resultId = $this->evaluateTest($postData);
+
+    if ($resultId == 0) {
+      $this->flashMessage('Vypln data', self::INFO);
+      $this->redirect('Tests:run', $this->testRow->id);
+    }
+
+    $this->redirect('Results:view', $resultId);
   }
 
   /**
@@ -323,11 +324,14 @@ class TestsPresenter extends BasePresenter
     }
 
     $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
+    $totalScore = round(($totalScore / (float) $totalHighScore) * 100, 2);
 
-    $resultId = $this->resultsRepository->insert(
+    if ($totalScore == 0) { return 0; }
+
+    $result = $this->resultsRepository->insert(
       [
         'test_id' => $this->testRow->id,
-        'score' => round(($totalScore / (float) $totalHighScore) * 100, 2),
+        'score' => $totalScore,
         'email' => $email
       ]
     );
@@ -335,7 +339,7 @@ class TestsPresenter extends BasePresenter
     // Save partial results for each difficulty level
     foreach ($levels as $level) {
       $levelsResults[] = [
-        'result_id' => $resultId,
+        'result_id' => $result->id,
         'level_id' => $level['id'],
         'score' => round(($level['score'] / (float) $level['high_score']) * 100, 2)
       ];
@@ -345,6 +349,6 @@ class TestsPresenter extends BasePresenter
       $this->levelsResultsRepository->insert($levelsResults);
     }
 
-    return $resultId;
+    return $result->id;
   }
 }
