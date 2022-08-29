@@ -76,19 +76,16 @@
 			</div>
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-				{if $questions->count() > 0}
-        {var $prev = null}
+				{if $levelsQuestions->count() > 0}
 					{form finishForm}
-						{foreach $questions as $question}
-              {if $prev !== $question->level_id && $question->level_id != null}
-                <h2>{$question->ref('levels', 'level_id')->label}</h2>
-              {/if}
+						{foreach $levelsQuestions as $level}
+              <h2>{$level->label}</h2>
+              {foreach $level->questions as $question}
 							<div class="card" style="width: 100%; margin: 20px 0">
 							  <div class="card-body">
 							    <h3 class="card-title">{$iterator->counter}. {$question->label}</h3>
-							    {var $answers = $question->related('answers')}
 									<ol style="list-style-type: upper-alpha">
-										{foreach $answers as $answer}
+										{foreach $question->answers as $answer}
 											<li class="card-text">
 												<input type="radio" name="question{$question->id}" id="frm-finishForm-question{$question->id}" value="{$answer->id}" />
 												<label for="frm-finishForm-question{$question->id}">{$answer->label}</label>
@@ -97,7 +94,7 @@
 									</ol>
 							  </div>
 							</div>
-              {var $prev = $question->level_id}
+              {/foreach}
 						{/foreach}
 
 						<div class="float-left">
@@ -141,7 +138,7 @@
                 <p>
                   Test je možné kedykoľvek
                   <a href="#" data-toggle="modal" data-target="#finish">ukončiť</a>
-                  aj keď ešte nie sú zodpovedané všetky otázky.
+                  aj keď ešte nie sú zodpovedané všetky otázky. Výsledku testu nie sú zaznamenané v prípade nulového skóre.
                 </p>
               </div>
             </nav>

@@ -10,6 +10,7 @@ use App\Forms\ModalRemoveFormFactory;
 use App\Forms\QuestionFormFactory;
 use App\Forms\SearchFormFactory;
 use App\Forms\TestFormFactory;
+use App\Helpers\TestHelper;
 use App\Model\AlbumsRepository;
 use App\Model\LevelsResultsRepository;
 use App\Model\QuestionsRepository;
@@ -35,6 +36,9 @@ class TestsPresenter extends BasePresenter
 
   /** @var Selection **/
   private $questions;
+
+  /** @var ArrayHash **/
+  private $levelsQuestions;
 
   /**
    * @var TestsRepository
@@ -132,7 +136,7 @@ class TestsPresenter extends BasePresenter
       throw new BadRequestException(self::TEST_NOT_FOUND);
     }
 
-    $this->questions = $this->questionsRepository->findQuestions((int)$this->testRow->id);
+    $this->questions = $this->questionsRepository->findQuestions((int) $this->testRow->id);
     $this['testForm']->setDefaults($this->testRow);
     $this['breadcrumb']->add('Testy', $this->link('Tests:all'));
     $this['breadcrumb']->add($this->testRow->label);
@@ -164,7 +168,7 @@ class TestsPresenter extends BasePresenter
     $this['testForm']->setDefaults($this->testRow);
     $this['breadcrumb']->add('Testy', $this->link('all'));
     $this['breadcrumb']->add($this->testRow->label);
-    $this->questions = $this->questionsRepository->findQuestions((int)$this->testRow->id);
+    $this->levelsQuestions = TestHelper::cookLevelsQuestions( $this->questionsRepository->findQuestions((int)$this->testRow->id) );
   }
 
   /**
@@ -174,7 +178,7 @@ class TestsPresenter extends BasePresenter
   public function renderRun (int $id): void
   {
     $this->template->test = $this->testRow;
-    $this->template->questions = $this->questions;
+    $this->template->levelsQuestions = $this->levelsQuestions;
   }
 
   /**
@@ -271,7 +275,7 @@ class TestsPresenter extends BasePresenter
       $this->redirect('Homepage:');
     }
 
-    $resultId = $this->evaluateTest($postData);
+    $resultId = TestHelper::evaluateTest($postData);
 
     if ($resultId == 0) {
       $this->flashMessage('Vypln data', self::INFO);
@@ -279,76 +283,5 @@ class TestsPresenter extends BasePresenter
     }
 
     $this->redirect('Results:view', $resultId);
-  }
-
-  /**
-   * @param $postData
-   * @return bool|int|ActiveRow
-   */
-  protected function evaluateTest ($postData)
-  {
-    $levels = [];
-    $levelsResults = [];
-    $totalHighScore = 0;
-    $totalScore = 0;
-
-    // Value initialization
-    foreach ($this->questions as $question) {
-      if (empty($levels[$question->level_id])) {
-        $levels[$question->level_id] = [
-          'id' => $question->level_id,
-          'score' => 0,
-          'high_score' => 0
-        ];
-      }
-    }
-
-    // Get high score value (total and per level) and correct answers
-  	foreach ($this->questions as $question) {
-      $levels[$question->level_id]['high_score'] += $question->value;
-      $answer[$question->id] = $question->related('answers')->where('correct', 1)->fetch();
-      $totalHighScore += $question->value;
-  	}
-
-  	foreach ($this->questions as $question) {
-  	  // Check if there is an answer for question
-      if (!(array_key_exists('question' . $question->id, $postData))) {
-        continue;
-      }
-
-      // Check if question correct
-      if ((float) $postData['question' . $question->id] === (float) $answer[$question->id]->id) {
-        $levels[$question->level_id]['score'] += $question->value;
-        $totalScore += $question->value;
-      }
-    }
-
-    $email = array_key_exists('email', $postData) ? $postData['email'] : 'anonym';
-    $totalScore = round(($totalScore / (float) $totalHighScore) * 100, 2);
-
-    if ($totalScore == 0) { return 0; }
-
-    $result = $this->resultsRepository->insert(
-      [
-        'test_id' => $this->testRow->id,
-        'score' => $totalScore,
-        'email' => $email
-      ]
-    );
-
-    // Save partial results for each difficulty level
-    foreach ($levels as $level) {
-      $levelsResults[] = [
-        'result_id' => $result->id,
-        'level_id' => $level['id'],
-        'score' => round(($level['score'] / (float) $level['high_score']) * 100, 2)
-      ];
-    }
-
-    if (!empty($levelsResults)) {
-      $this->levelsResultsRepository->insert($levelsResults);
-    }
-
-    return $result->id;
   }
 }
