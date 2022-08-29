@@ -124,6 +124,6 @@ class ResultsPresenter extends BasePresenter
     $this->template->result = $this->resultRow;
     $this->template->levels = $this->levelsResults;
     $this->template->test = $test;
-    $this->template->recommendedLevel = ResultsHelper::getRecommendedLevel($this->resultRow->score, $test->label);
+    $this->template->recommendedLevel = ResultsHelper::getRecommendedLevel($this->resultRow->score, $test->label, $this->levelsResults);
   }
 }
