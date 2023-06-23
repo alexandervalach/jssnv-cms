@@ -39,6 +39,7 @@ class ApplicationFormFactory
     $form = $this->formFactory->create();
     $currentYear = date('Y');
     $lastYear =  date('Y', strtotime('-1 year'));
+    $nextYear = date('Y', strtotime('+1 year'));
 
     $form->addText('name', 'Meno a priezvisko')
       ->setRequired()
@@ -89,7 +90,7 @@ class ApplicationFormFactory
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 50)
       ->setRequired();
 
-    $form->addText('employment', 'Zamestnanie (žiaci a študenti: škola, ročník)')
+    $form->addText('employment', 'Zamestnanie (žiaci a študenti: škola, ročník) v školskom roku ' . $currentYear . '/' . $nextYear)
       ->addRule(Form::MAX_LENGTH, '%label môže mať maximálne %value znakov', 255)
       ->setRequired();
 
